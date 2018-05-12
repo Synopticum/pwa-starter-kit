@@ -29,9 +29,9 @@ export const navigate = (path) => (dispatch) => {
 const loadPage = (page) => async (dispatch) => {
   switch(page) {
     case 'view1':
-      await import('../components/my-view1.js');
+      await import('../components/u-map/u-map.js');
       // Put code here that you want it to run every time when
-      // navigate to view1 page and my-view1.js is loaded
+      // navigate to view1 page and u-map.js is loaded
       break;
     case 'view2':
       await import('../components/my-view2.js');
