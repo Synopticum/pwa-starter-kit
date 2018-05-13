@@ -1,20 +1,11 @@
 const db  = require('./db');
 const fastify = require('fastify')();
-const ObjectModel = require('./db/object.model');
+const routes = require('./routes');
 
 fastify.use(require('cors')());
 
-fastify.get('/api/objects/coordinates/paths', async (request, reply) => {
-    reply.type('application/json').code(200);
-    const paths = await ObjectModel.find({ type: 'path' });
-    return paths;
-});
-
-fastify.get('/api/objects/coordinates/circles', async (request, reply) => {
-    reply.type('application/json').code(200);
-    const circles = await ObjectModel.find({ type: 'circle' }).select({ '_id': 0, 'type': 0});
-    return circles;
-});
+fastify.get('/api/objects/coordinates/paths', routes.getPaths);
+fastify.get('/api/objects/coordinates/circles', routes.getCircles);
 
 fastify.listen(3000, '127.0.0.1', function (err) {
     if (err) throw err;
