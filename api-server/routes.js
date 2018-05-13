@@ -21,8 +21,17 @@ async function getObjectsByCoordinates(request, reply) {
     }
 }
 
+function getNormalizeCss(req, reply) {
+    reply.sendFile('normalize.css/normalize.css')
+}
+
 module.exports = {
-    getPaths,
-    getCircles,
-    getObjectsByCoordinates
+    dynamic: {
+        getPaths,
+        getCircles,
+        getObjectsByCoordinates
+    },
+    static: {
+        getNormalizeCss
+    }
 };
