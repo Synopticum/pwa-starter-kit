@@ -171,10 +171,10 @@ class UMap extends PageViewElement {
     }
 
     async _drawCircles() {
-        // const circlesJson = await fetch('http://localhost:3000/api/objects/coordinates/circles');
-        // const circles = await circlesJson.json();
+        const circlesJson = await fetch('http://localhost:3000/api/objects/coordinates/circles');
+        const circles = await circlesJson.json();
 
-        [].forEach(item => {
+        circles.forEach(item => {
             L.circle(item.coordinates[0], {
                 color: this.objectFillColor,
                 weight: this.objectStrokeWidth,
