@@ -12,7 +12,17 @@ async function getCircles(request, reply) {
     return circles;
 }
 
+async function getObjectsByCoordinates(request, reply) {
+    if (request.query && request.query.coordinates) {
+        reply.type('application/json').code(200);
+        const coordinates = JSON.parse(request.query.coordinates);
+        const objects = await controllers.getObjectsByCoordinates(coordinates);
+        return objects;
+    }
+}
+
 module.exports = {
     getPaths,
-    getCircles
+    getCircles,
+    getObjectsByCoordinates
 };
