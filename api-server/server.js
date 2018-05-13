@@ -6,10 +6,11 @@ const routes = require('./routes');
 fastify.use(require('cors')());
 
 fastify.register(require('fastify-static'), {
-    root: path.join(__dirname, '../node_modules'),
+    root: path.join(__dirname, '../'),
     prefix: '/public/', // optional: default '/'
 });
 
+fastify.get('/login', routes.static.getLoginPage);
 fastify.get('/static/normalize.css', routes.static.getNormalizeCss);
 
 fastify.get('/api/objects/coordinates/paths', routes.dynamic.getPaths);

@@ -22,7 +22,11 @@ async function getObjectsByCoordinates(request, reply) {
 }
 
 function getNormalizeCss(req, reply) {
-    reply.sendFile('normalize.css/normalize.css')
+    reply.sendFile('node_modules/normalize.css/normalize.css');
+}
+
+function getLoginPage(req, reply) {
+    reply.sendFile('static/login/index.html');
 }
 
 module.exports = {
@@ -32,6 +36,7 @@ module.exports = {
         getObjectsByCoordinates
     },
     static: {
+        getLoginPage,
         getNormalizeCss
     }
 };
