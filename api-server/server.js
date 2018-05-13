@@ -1,21 +1,19 @@
+const db  = require('./db');
 const fastify = require('fastify')();
-const path = require('path');
-
-fastify.register(require('fastify-static'), {
-    root: path.join(__dirname, 'mock'),
-    prefix: '/api-server/',
-});
+const ObjectModel = require('./db/object.model');
 
 fastify.get('/api/objects/coordinates/paths', async (request, reply) => {
     reply.header('Access-Control-Allow-Origin', '*');
     reply.type('application/json').code(200);
-    reply.sendFile('paths.json');
+    const paths = await ObjectModel.find({ type: 'path' });
+    return paths;
 });
 
 fastify.get('/api/objects/coordinates/circles', async (request, reply) => {
     reply.header('Access-Control-Allow-Origin', '*');
     reply.type('application/json').code(200);
-    reply.sendFile('circles.json');
+    const circles = await ObjectModel.find({ type: 'circle' }).select({ '_id': 0, 'type': 0});
+    return circles;
 });
 
 fastify.listen(3000, '127.0.0.1', function (err) {
