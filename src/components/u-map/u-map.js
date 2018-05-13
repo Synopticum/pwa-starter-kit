@@ -157,10 +157,10 @@ class UMap extends PageViewElement {
     }
 
     async _drawPaths() {
-        // const pathsJson = await fetch('http://localhost:3000/api/objects/coordinates/paths');
-        // const paths = await pathsJson.json();
+        const pathsJson = await fetch('http://localhost:3000/api/objects/coordinates/paths');
+        const paths = await pathsJson.json();
 
-        [].forEach(item => {
+        paths.forEach(item => {
             L.polygon(item.coordinates, {
                 color: this.objectFillColor,
                 weight: this.objectStrokeWidth
