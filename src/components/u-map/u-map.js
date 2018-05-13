@@ -107,6 +107,11 @@ class UMap extends PageViewElement {
         this.init();
     }
 
+    disconnectedCallback() {
+        super.disconnectedCallback();
+        UMap.deleteMap();
+    }
+
     init() {
         this._createMap();
         this._setDefaultSettings();
@@ -119,7 +124,16 @@ class UMap extends PageViewElement {
     }
 
     _createMap() {
+        // create and attach map container
+        let div = document.createElement('div');
+        div.setAttribute('id', 'map');
+        document.querySelector('body').appendChild(div);
+
         this.map = L.map('map', {});
+    }
+
+    static deleteMap() {
+        document.querySelector('#map').remove();
     }
 
     _setDefaultSettings() {
@@ -223,4 +237,4 @@ class UMap extends PageViewElement {
     }
 }
 
-window.customElements.define('my-view1', UMap);
+window.customElements.define('u-map', UMap);

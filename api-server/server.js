@@ -6,7 +6,7 @@ const serveStatic = require('serve-static');
 
 fastify.use(require('cors')());
 
-fastify.use('/', serveStatic(path.join(__dirname, '../build/es6-bundled')));
+fastify.use('*', serveStatic(path.join(__dirname, '../build/es6-bundled')));
 fastify.use('/service-worker.js', serveStatic(path.join(__dirname, '../service-worker.js'), {'index': ['service-worker.js']}));
 fastify.use('/node_modules/leaflet', serveStatic(path.join(__dirname, '../node_modules/leaflet')));
 fastify.use('/node_modules/normalize.css', serveStatic(path.join(__dirname, '../node_modules/normalize.css')));
