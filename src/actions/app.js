@@ -31,7 +31,7 @@ const loadPage = (page) => async (dispatch) => {
         case 'login':
             await import('../components/u-login/u-login.js');
             break;
-        case 'map':
+        case 'letsrock':
             await import('../components/u-map/u-map.js');
             // Put code here that you want it to run every time when
             // navigate to view1 page and u-map.js is loaded

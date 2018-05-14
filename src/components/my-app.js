@@ -71,7 +71,7 @@ class MyApp extends connect(store)(LitElement) {
     <app-header condenses reveals effects="waterfall">
       <!-- This gets hidden on a small screen-->
       <nav class="toolbar-list">
-        <a selected?="${_page === 'map'}" href="/map">View One</a>
+        <a selected?="${_page === 'letsrock'}" href="/letsrock">View One</a>
         <a selected?="${_page === 'view2'}" href="/view2">View Two</a>
         <a selected?="${_page === 'login'}" href="/login">Login</a>
         <a selected?="${_page === 'view3'}" href="/view3">View Three</a>
@@ -82,25 +82,21 @@ class MyApp extends connect(store)(LitElement) {
     <app-drawer opened="${_drawerOpened}"
         on-opened-changed="${e => store.dispatch(updateDrawerState(e.target.opened))}">
       <nav class="drawer-list">
-        <a selected?="${_page === 'map'}" href="/map">View One</a>
+        <a selected?="${_page === 'letsrock'}" href="/letsrock">Let's rock</a>
         <a selected?="${_page === 'view2'}" href="/view2">View Two</a>
         <a selected?="${_page === 'login'}" href="/login">Login</a>
-        <a selected?="${_page === 'view3'}" href="/login">View Three</a>
+        <a selected?="${_page === 'view3'}" href="/view3">View Three</a>
       </nav>
     </app-drawer>
 
     <!-- Main content -->
     <main class="main-content">
-      <u-map class="page" active?="${_page === 'map'}"></u-map>
+      <u-map class="page" active?="${_page === 'letsrock'}"></u-map>
       <my-view2 class="page" active?="${_page === 'view2'}"></my-view2>
-      <my-view3 class="page" active?="${_page === 'view3'}"></my-view3>
       <u-login class="page" active?="${_page === 'login'}"></u-login>
+      <my-view3 class="page" active?="${_page === 'view3'}"></my-view3>
       <my-view404 class="page" active?="${_page === 'view404'}"></my-view404>
     </main>
-
-    <footer>
-      <p>Made with &lt;3 by the Polymer team.</p>
-    </footer>
 
     <snack-bar active?="${_snackbarOpened}">
         You are now ${_offline ? 'offline' : 'online'}.</snack-bar>

@@ -16,7 +16,7 @@ import { connect } from 'pwa-helpers/connect-mixin.js';
 class ULogin extends PageViewElement {
     _render(props) {
         return html`
-            <a href="/map">Login</a>
+            <a href="https://oauth.vk.com/authorize?client_id=4447151&display=page&redirect_uri=http://localhost:8081/letsrock&scope=friends&response_type=token&v=5.74">Login</a>
         `;
     }
 }
