@@ -1,22 +1,66 @@
 const db  = require('./db');
-const fastify = require('fastify')();
-const path = require('path');
+const Fastify = require('fastify');
 const routes = require('./routes');
-const serveStatic = require('serve-static');
 
-fastify.use(require('cors')());
+function build (opts) {
+    const fastify = Fastify(opts);
 
-fastify.use('*', serveStatic(path.join(__dirname, '../build/es6-bundled')));
-fastify.use('/service-worker.js', serveStatic(path.join(__dirname, '../service-worker.js'), {'index': ['service-worker.js']}));
-fastify.use('/node_modules/leaflet', serveStatic(path.join(__dirname, '../node_modules/leaflet')));
-fastify.use('/node_modules/normalize.css', serveStatic(path.join(__dirname, '../node_modules/normalize.css')));
-fastify.use('/node_modules/@webcomponents/webcomponentsjs', serveStatic(path.join(__dirname, '../node_modules/@webcomponents/webcomponentsjs')));
+    fastify
+        .use(require('cors')())
+        .register(require('fastify-auth'))
+        .after(getRoutes);
 
-fastify.get('/api/objects/coordinates/paths', routes.dynamic.getPaths);
-fastify.get('/api/objects/coordinates/circles', routes.dynamic.getCircles);
-fastify.get('/api/objects', routes.dynamic.getObjectsByCoordinates);
+    fastify.decorate('verifyVkAuth', verifyVkAuth);
 
-fastify.listen(3000, '127.0.0.1', function (err) {
-    if (err) throw err;
-    console.log(`server listening on ${fastify.server.address().port}`)
-});
+    function verifyVkAuth (request, reply, done) {
+        done();
+    }
+
+    function getRoutes() {
+        // static
+        fastify.use('*', routes.getApp);
+        fastify.use('/service-worker.js', routes.getSW);
+        fastify.use('/node_modules/leaflet', routes.getLeaflet);
+        fastify.use('/node_modules/normalize.css', routes.getNormalizeCss);
+        fastify.use('/node_modules/@webcomponents/webcomponentsjs', routes.getWebComponents);
+
+        // api
+        fastify.route({
+            method: 'GET',
+            url: '/api/objects/coordinates/paths',
+            beforeHandler: fastify.auth([fastify.verifyVkAuth]),
+            handler: routes.getPaths
+        });
+
+        fastify.route({
+            method: 'GET',
+            url: '/api/objects/coordinates/circles',
+            beforeHandler: fastify.auth([fastify.verifyVkAuth]),
+            handler: routes.getCircles
+        });
+
+        fastify.route({
+            method: 'GET',
+            url: '/api/objects',
+            beforeHandler: fastify.auth([fastify.verifyVkAuth]),
+            handler: routes.getObjectsByCoordinates
+        });
+    }
+
+    return fastify;
+}
+
+if (require.main === module) {
+    const fastify = build({
+        // logger: {
+        //     level: 'info'
+        // }
+    });
+
+    fastify.listen(3000, err => {
+        if (err) throw err;
+        console.log(`Server listenting at http://localhost:${fastify.server.address().port}`)
+    })
+}
+
+module.exports = build;
