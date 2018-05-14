@@ -8,11 +8,11 @@
  subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
 
-import {html} from '@polymer/lit-element';
+import {LitElement, html} from '@polymer/lit-element';
 import {SharedStyles} from '../shared-styles.js';
-import {PageViewElement} from '../page-view-element.js';
+import {LeafletStyles} from '../wrappers/leaflet/leaflet.css';
 
-class UMap extends PageViewElement {
+class UMap extends LitElement {
 
     static get properties() {
         return {
@@ -57,9 +57,44 @@ class UMap extends PageViewElement {
     _render(props) {
         return html`              
             ${SharedStyles}
+            ${LeafletStyles}
             <style>
             :host {
                 box-sizing: border-box;
+            }
+
+            #map {
+                cursor: default;
+                position: fixed;
+                left: 0;
+                top: 0;
+                width: 100vw;
+                height: 100vh;
+                background-color: #000000;
+            }
+
+            #map::before {
+                content: '';
+                pointer-events: none;
+                position: fixed;
+                left: 0;
+                top: 0;
+                width: 100vw;
+                height: 100vh;
+                z-index: 500;
+                box-shadow: inset 0 0 200px rgba(0,0,0,0.9);
+            }
+
+            .leaflet-interactive {
+                opacity: 0;
+            }
+
+            .leaflet-interactive:hover {
+                opacity: 1;
+            }
+
+            .leaflet-control-container {
+                z-index: 200;
             }
         
             #map-overlay,
@@ -82,6 +117,7 @@ class UMap extends PageViewElement {
             }
             </style>
               
+            <div id="map"></div>  
             <div id="map-overlay"></div>
             <div id="map-shadow"></div>
     `;
@@ -99,17 +135,11 @@ class UMap extends PageViewElement {
         this.objectFillColor = '#ffc600';
         this.objectStrokeWidth = 2;
         this.__currentObject = [];
-
     }
 
-    connectedCallback() {
-        super.connectedCallback();
+    _firstRendered() {
+        super._firstRendered();
         this.init();
-    }
-
-    disconnectedCallback() {
-        super.disconnectedCallback();
-        UMap.deleteMap();
     }
 
     init() {
@@ -125,11 +155,8 @@ class UMap extends PageViewElement {
 
     _createMap() {
         // create and attach map container
-        let div = document.createElement('div');
-        div.setAttribute('id', 'map');
-        document.querySelector('body').appendChild(div);
-
-        this.map = L.map('map', {});
+        let map = this.shadowRoot.querySelector('#map');
+        this.map = L.map(map, {});
     }
 
     static deleteMap() {
