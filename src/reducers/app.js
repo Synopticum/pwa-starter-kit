@@ -9,7 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { UPDATE_PAGE, UPDATE_OFFLINE,
-         OPEN_SNACKBAR, CLOSE_SNACKBAR, UPDATE_DRAWER_STATE, AUTHENTICATE } from '../actions/app.js';
+         OPEN_SNACKBAR, CLOSE_SNACKBAR, UPDATE_DRAWER_STATE } from '../actions/app.js';
 
 const app = (state = {drawerOpened: false}, action) => {
   switch (action.type) {
@@ -37,11 +37,6 @@ const app = (state = {drawerOpened: false}, action) => {
       return {
         ...state,
         snackbarOpened: false
-      };
-    case AUTHENTICATE:
-      return {
-        ...state,
-        accessToken: action.accessToken
       };
     default:
       return state;

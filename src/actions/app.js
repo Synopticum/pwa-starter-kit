@@ -13,7 +13,6 @@ export const UPDATE_OFFLINE = 'UPDATE_OFFLINE';
 export const UPDATE_DRAWER_STATE = 'UPDATE_DRAWER_STATE';
 export const OPEN_SNACKBAR = 'OPEN_SNACKBAR';
 export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR';
-export const AUTHENTICATE = 'AUTHENTICATE';
 
 export const navigate = (path) => (dispatch) => {
     // Extract the page name from path.
@@ -49,14 +48,14 @@ const loadPage = (page) => async (dispatch) => {
     }
 
     dispatch(updatePage(page));
-}
+};
 
 const updatePage = (page) => {
     return {
         type: UPDATE_PAGE,
         page
     };
-}
+};
 
 let snackbarTimer;
 
@@ -67,13 +66,6 @@ export const showSnackbar = () => (dispatch) => {
     clearTimeout(snackbarTimer);
     snackbarTimer = setTimeout(() =>
         dispatch({type: CLOSE_SNACKBAR}), 3000);
-};
-
-export const authenticate = (accessToken) => (dispatch) => {
-    dispatch({
-        type: AUTHENTICATE,
-        accessToken
-    });
 };
 
 export const updateOffline = (offline) => (dispatch, getState) => {
@@ -91,7 +83,7 @@ export const updateLayout = (wide) => (dispatch, getState) => {
     if (getState().app.drawerOpened) {
         dispatch(updateDrawerState(false));
     }
-}
+};
 
 export const updateDrawerState = (opened) => (dispatch, getState) => {
     if (getState().app.drawerOpened !== opened) {
@@ -100,4 +92,4 @@ export const updateDrawerState = (opened) => (dispatch, getState) => {
             opened
         });
     }
-}
+};

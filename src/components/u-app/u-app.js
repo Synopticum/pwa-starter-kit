@@ -26,10 +26,10 @@ import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
 import { updateMetadata } from 'pwa-helpers/metadata.js';
 
 import { store } from '../../store.js';
-import { navigate, updateOffline, updateDrawerState, updateLayout, authenticate } from '../../actions/app.js';
+import { navigate, updateOffline, updateDrawerState, updateLayout } from '../../actions/app.js';
 
 class UApp extends connect(store)(LitElement) {
-  _render({appTitle, authenticated, _page, _drawerOpened, _snackbarOpened, _offline, _accessToken}) {
+  _render({appTitle, _page, _drawerOpened, _snackbarOpened, _offline}) {
     // Anything that's related to rendering should be done in here.
     return html`
     <style>
@@ -100,7 +100,7 @@ class UApp extends connect(store)(LitElement) {
 
     <!-- Main content -->
     <main class="main-content">
-      <u-map class="page" authenticated="${Boolean(_accessToken)}" active?="${_page === 'letsrock'}"></u-map>
+      <u-map class="page" active?="${_page === 'letsrock'}"></u-map>
       <my-view2 class="page" active?="${_page === 'view2'}"></my-view2>
       <u-login class="page" active?="${_page === 'login'}"></u-login>
       <my-view3 class="page" active?="${_page === 'view3'}"></my-view3>
@@ -115,12 +115,10 @@ class UApp extends connect(store)(LitElement) {
   static get properties() {
     return {
       appTitle: String,
-      authenticated: Boolean,
       _page: String,
       _drawerOpened: Boolean,
       _snackbarOpened: Boolean,
-      _offline: Boolean,
-      _accessToken: String
+      _offline: Boolean
     }
   }
 
@@ -132,7 +130,7 @@ class UApp extends connect(store)(LitElement) {
   }
 
   _firstRendered() {
-    this.checkAuth();
+    this.setAccessToken();
     installRouter((location) => {
       store.dispatch(navigate(window.decodeURIComponent(location.pathname)))
     });
@@ -157,13 +155,11 @@ class UApp extends connect(store)(LitElement) {
     this._offline = state.app.offline;
     this._snackbarOpened = state.app.snackbarOpened;
     this._drawerOpened = state.app.drawerOpened;
-    this._accessToken = state.app.accessToken;
   }
 
-  checkAuth() {
-    let accessToken = localStorage.access_token ? localStorage.access_token : this.getAccessToken();
-    if (accessToken) {
-        store.dispatch(authenticate(accessToken));
+  setAccessToken() {
+    if (!localStorage.access_token) {
+        localStorage.access_token = this.getAccessToken();
     }
   }
 

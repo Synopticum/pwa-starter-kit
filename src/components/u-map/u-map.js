@@ -16,8 +16,6 @@ class UMap extends LitElement {
 
     static get properties() {
         return {
-            authenticated: Boolean,
-
             map: {
                 type: Object
             },
@@ -56,7 +54,7 @@ class UMap extends LitElement {
         };
     }
 
-    _render({ authenticated }) {
+    _render(props) {
         return html`              
             ${SharedStyles}
             ${LeafletStyles}
@@ -119,11 +117,9 @@ class UMap extends LitElement {
             }
             </style>
               
-            <div hidden="${!authenticated}">
-                <div id="map"></div>  
-                <div id="map-overlay"></div>
-                <div id="map-shadow"></div>
-            </div>
+            <div id="map"></div>  
+            <div id="map-overlay"></div>
+            <div id="map-shadow"></div>
     `;
     }
 
@@ -141,6 +137,14 @@ class UMap extends LitElement {
         this.__currentObject = [];
     }
 
+    connectedCallback() {
+        super.connectedCallback();
+        if (!localStorage.access_token) {
+            alert('Auth error');
+            throw Error('no');
+        }
+    }
+
     _firstRendered() {
         super._firstRendered();
         this.init();
@@ -153,8 +157,6 @@ class UMap extends LitElement {
         this._initializeTiles();
         this._setListeners();
         this._drawObjects();
-
-        // console.log(this.__coordsToPoints([[67.03,4.70], [67.53,5.58], [67.03,6.72], [66.25,6.24]], true));
     }
 
     _createMap() {
@@ -202,30 +204,38 @@ class UMap extends LitElement {
     }
 
     async _drawPaths() {
-        const pathsJson = await fetch('http://localhost:3000/api/objects/coordinates/paths');
-        const paths = await pathsJson.json();
+        let response = await fetch('http://localhost:3000/api/objects/coordinates/paths');
+        if (response.ok) {
+            const paths = await response.json();
 
-        paths.forEach(item => {
-            L.polygon(item.coordinates, {
-                color: this.objectFillColor,
-                weight: this.objectStrokeWidth
-            })
-                .on('click', this._handleObjectClick)
-                .addTo(this.map)
-        });
+            paths.forEach(item => {
+                L.polygon(item.coordinates, {
+                    color: this.objectFillColor,
+                    weight: this.objectStrokeWidth
+                })
+                    .on('click', this._handleObjectClick)
+                    .addTo(this.map)
+            });
+        } else {
+            window.location.href = '/login';
+        }
     }
 
     async _drawCircles() {
-        const circlesJson = await fetch('http://localhost:3000/api/objects/coordinates/circles');
-        const circles = await circlesJson.json();
+        let response = await fetch('http://localhost:3000/api/objects/coordinates/circles');
+        if (response.ok) {
+            const circles = await response.json();
 
-        circles.forEach(item => {
-            L.circle(item.coordinates[0], {
-                color: this.objectFillColor,
-                weight: this.objectStrokeWidth,
-                radius: item.coordinates[1] })
-                .addTo(this.map);
-        });
+            circles.forEach(item => {
+                L.circle(item.coordinates[0], {
+                    color: this.objectFillColor,
+                    weight: this.objectStrokeWidth,
+                    radius: item.coordinates[1] })
+                    .addTo(this.map);
+            });
+        } else {
+            window.location.href = '/login';
+        }
     }
 
     static _triggerResize() {
