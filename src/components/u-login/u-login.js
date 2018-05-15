@@ -26,7 +26,7 @@ class ULogin extends LitElement {
                   background-size: cover;
                 }
                 
-                button {
+                .explore {
                   position: fixed;
                   right: 30px;
                   top: 30px;
@@ -35,6 +35,7 @@ class ULogin extends LitElement {
                   font-family: 'PT Serif', Helvetica, 'Times New Roman', serif;
                   font-size: 18px;
                   background: none;
+                  text-decoration: none;
                   color: white;
                   outline: none;
                   border: none;
@@ -45,7 +46,7 @@ class ULogin extends LitElement {
                   transition: .01s .23s ease-out all;
                   overflow: hidden;
                 }
-                button::before {
+                .explore::before {
                   content: '';
                   position: absolute;
                   left: 0;
@@ -56,7 +57,7 @@ class ULogin extends LitElement {
                   z-index: -1;
                   transition: .3s ease-in all;
                 }
-                button::after {
+                .explore::after {
                   content: '';
                   position: absolute;
                   left: -5%;
@@ -67,24 +68,24 @@ class ULogin extends LitElement {
                   z-index: -1;
                   transition: .4s .02s ease-in all;
                 }
-                button:hover {
+                .explore:hover {
                   cursor: pointer;
                   color: transparent;
                 }
-                button:hover::before {
+                .explore:hover::before {
                   left: 100%;
                   width: 25%;
                 }
-                button:hover::after {
+                .explore:hover::after {
                   left: 100%;
                   width: 70%;
                 }
-                button:hover .icon-right.after::after {
-                  left: -90px;
+                .explore:hover .icon-right.after::after {
+                  left: -105px;
                   color: white;
                   transition: .2s .2s ease all;
                 }
-                button:hover .icon-right.after::before {
+                .explore:hover .icon-right.after::before {
                   left: -104px;
                   top: 14px;
                   opacity: 0.2;
@@ -93,7 +94,7 @@ class ULogin extends LitElement {
                 
                 .icon-right {
                   position: absolute;
-                  top: 0;
+                  top: -3px;
                   right: 0;
                 }
                 .icon-right::after {
@@ -119,9 +120,14 @@ class ULogin extends LitElement {
                   transition: .2s ease-in all;
                 }
                 
+                .title {
+                  display: flex;
+                  align-items: center;
+                }
+                
                 img {
                     position: relative;
-                    top: 3px;
+                    top: 1px;
                     margin-left: 10px;
                 }
                 
@@ -141,10 +147,12 @@ class ULogin extends LitElement {
                 }
             </style>
             
-            <button class="explore">Войти через <img src="static/images/vk_logo.svg" alt=""><span class="icon-right"></span><span class="icon-right after"></span></button>
+            <a href="https://oauth.vk.com/authorize?client_id=4447151&display=page&redirect_uri=http://localhost:8081/letsrock&scope=friends&response_type=token&v=5.74" class="explore">
+                <span class="title">Войти через </span>
+                <img src="static/images/vk_logo.svg" alt="">
+                <span class="icon-right"></span><span class="icon-right after"></span>
+            </a>
             <a class="copyright" href="http://user-experience.ru" target="_blank">Сделано с ♥ Студия Сергея Новикова</a>
-
-            <a href="https://oauth.vk.com/authorize?client_id=4447151&display=page&redirect_uri=http://localhost:8081/letsrock&scope=friends&response_type=token&v=5.74">Login</a>
         `;
     }
 }
