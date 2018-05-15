@@ -1,6 +1,6 @@
 {
   "/": {
-    "src/components/my-app.js": {
+    "src/components/u-app/u-app.js": {
       "type": "script",
       "weight": 1
     },
@@ -14,7 +14,7 @@
     }
   },
   "/view1": {
-    "src/components/my-app.js": {
+    "src/components/u-app/u-app.js": {
       "type": "script",
       "weight": 1
     },

@@ -16,8 +16,8 @@ import '@polymer/app-layout/app-scroll-effects/effects/waterfall.js';
 import '@polymer/app-layout/app-toolbar/app-toolbar.js';
 import { setPassiveTouchGestures } from '@polymer/polymer/lib/utils/settings.js';
 
-import { menuIcon } from './my-icons.js';
-import './snack-bar.js';
+import { menuIcon } from '../my-icons.js';
+import '../snack-bar.js';
 
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { installRouter } from 'pwa-helpers/router.js';
@@ -25,10 +25,10 @@ import { installOfflineWatcher } from 'pwa-helpers/network.js';
 import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
 import { updateMetadata } from 'pwa-helpers/metadata.js';
 
-import { store } from '../store.js';
-import { navigate, updateOffline, updateDrawerState, updateLayout, authenticate } from '../actions/app.js';
+import { store } from '../../store.js';
+import { navigate, updateOffline, updateDrawerState, updateLayout, authenticate } from '../../actions/app.js';
 
-class MyApp extends connect(store)(LitElement) {
+class UApp extends connect(store)(LitElement) {
   _render({appTitle, authenticated, _page, _drawerOpened, _snackbarOpened, _offline, _accessToken}) {
     // Anything that's related to rendering should be done in here.
     return html`
@@ -185,4 +185,4 @@ class MyApp extends connect(store)(LitElement) {
   }
 }
 
-window.customElements.define('my-app', MyApp);
+window.customElements.define('u-app', UApp);
