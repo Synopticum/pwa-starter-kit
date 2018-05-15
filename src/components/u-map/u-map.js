@@ -16,6 +16,8 @@ class UMap extends LitElement {
 
     static get properties() {
         return {
+            authenticated: Boolean,
+
             map: {
                 type: Object
             },
@@ -54,7 +56,7 @@ class UMap extends LitElement {
         };
     }
 
-    _render(props) {
+    _render({ authenticated }) {
         return html`              
             ${SharedStyles}
             ${LeafletStyles}
@@ -117,9 +119,11 @@ class UMap extends LitElement {
             }
             </style>
               
-            <div id="map"></div>  
-            <div id="map-overlay"></div>
-            <div id="map-shadow"></div>
+            <div hidden="${!authenticated}">
+                <div id="map"></div>  
+                <div id="map-overlay"></div>
+                <div id="map-shadow"></div>
+            </div>
     `;
     }
 

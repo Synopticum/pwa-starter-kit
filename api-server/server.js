@@ -13,6 +13,7 @@ function build (opts) {
     fastify.decorate('verifyVkAuth', verifyVkAuth);
 
     function verifyVkAuth (request, reply, done) {
+        // https://api.vk.com/method/users.get?access_token=55096e8e471c8a2f85638d937c85d256a665157370266e44858bce489f510ee111e49bbbf49e6294851b2&v=5.74
         done();
     }
 

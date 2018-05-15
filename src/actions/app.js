@@ -13,6 +13,7 @@ export const UPDATE_OFFLINE = 'UPDATE_OFFLINE';
 export const UPDATE_DRAWER_STATE = 'UPDATE_DRAWER_STATE';
 export const OPEN_SNACKBAR = 'OPEN_SNACKBAR';
 export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR';
+export const AUTHENTICATE = 'AUTHENTICATE';
 
 export const navigate = (path) => (dispatch) => {
     // Extract the page name from path.
@@ -66,6 +67,13 @@ export const showSnackbar = () => (dispatch) => {
     clearTimeout(snackbarTimer);
     snackbarTimer = setTimeout(() =>
         dispatch({type: CLOSE_SNACKBAR}), 3000);
+};
+
+export const authenticate = (accessToken) => (dispatch) => {
+    dispatch({
+        type: AUTHENTICATE,
+        accessToken
+    });
 };
 
 export const updateOffline = (offline) => (dispatch, getState) => {
