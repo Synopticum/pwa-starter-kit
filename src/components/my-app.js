@@ -54,7 +54,6 @@ class MyApp extends connect(store)(LitElement) {
       }
 
       .main-content {
-        padding-top: 64px;
         min-height: 100vh;
       }
 
@@ -64,6 +63,16 @@ class MyApp extends connect(store)(LitElement) {
 
       .page[active] {
         display: block;
+      }
+      
+      .toolbar-list {
+        position: fixed;
+        left: 0;
+        top: 0;
+      }
+      
+      .toolbar-list a {
+        color: #ffffff;
       }
     </style>
 

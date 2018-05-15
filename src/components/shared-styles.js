@@ -11,10 +11,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 import { html } from '@polymer/lit-element';
 
 export const SharedStyles = html`
-<style>
+<style>    
   :host {
     display: block;
     box-sizing: border-box;
+    font-family: 'PT Serif', Helvetica, 'Times New Roman', serif;
   }
 
   section {
