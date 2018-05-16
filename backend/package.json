@@ -9,5 +9,9 @@
     "mongoose": "^5.1.0",
     "node-fetch": "^2.1.2",
     "serve-static": "^1.13.2"
+  },
+  "scripts": {
+    "microservice": "fastify",
+    "start": "fastify start index.js"
   }
 }

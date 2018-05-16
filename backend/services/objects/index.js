@@ -1,22 +1,28 @@
 const ObjectModel = require('../../db/object.model');
 
-async function getPathsCoordinates() {
-    const paths = await ObjectModel.find({ type: 'path' });
-    return paths;
+module.exports = async function (fastify, opts) {
+  fastify
+    .register(registerRoutes);
 }
 
-async function getCirclesCoordinates() {
-    const circles = await ObjectModel.find({ type: 'circle' }).select({ '_id': 0, 'type': 0});
-    return circles;
-}
+async function registerRoutes(fastify, opts) {
+  fastify.route({
+    method: 'GET',
+    url: '/objects',
+    beforeHandler: fastify.auth([fastify.verifyVkAuth]),
+    handler: async function(request, reply) {
+      if (request.query && request.query.coordinates) {
+        reply.type('application/json').code(200);
+        const coordinates = JSON.parse(request.query.coordinates);
+        const objects = await getObjectsByCoordinates(coordinates);
+        return objects;
+      }
+    }
+  });
 
-async function getObjectsByCoordinates(coordinates) {
+  async function getObjectsByCoordinates(coordinates) {
     const objects = await ObjectModel.findOne({ coordinates });
     return objects;
-}
+  }
 
-module.exports = {
-    getPathsCoordinates,
-    getCirclesCoordinates,
-    getObjectsByCoordinates
-};
+}
