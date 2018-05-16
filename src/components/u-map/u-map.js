@@ -256,7 +256,9 @@ class UMap extends LitElement {
         });
 
         fetch(`http://localhost:3000/api/objects?coordinates=${JSON.stringify(coordinates)}`, {
-            method: 'get'
+            headers: {
+                'vk-access-token': localStorage.access_token
+            }
         }).then(function(response) {
             return response.json();
         }).then(function(data) {
