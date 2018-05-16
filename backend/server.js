@@ -26,13 +26,6 @@ function build (opts) {
     }
 
     function getRoutes() {
-        // static
-        fastify.use('*', routes.getApp);
-        fastify.use('/service-worker.js', routes.getSW);
-        fastify.use('/node_modules/leaflet', routes.getLeaflet);
-        fastify.use('/node_modules/normalize.css', routes.getNormalizeCss);
-        fastify.use('/node_modules/@webcomponents/webcomponentsjs', routes.getWebComponents);
-
         // api
         fastify.route({
             method: 'GET',
