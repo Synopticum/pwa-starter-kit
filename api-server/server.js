@@ -1,5 +1,6 @@
 const db  = require('./db');
 const Fastify = require('fastify');
+const fetch = require('node-fetch');
 const routes = require('./routes');
 
 function build (opts) {
@@ -12,9 +13,16 @@ function build (opts) {
 
     fastify.decorate('verifyVkAuth', verifyVkAuth);
 
-    function verifyVkAuth (request, reply, done) {
-        // https://api.vk.com/method/users.get?access_token=55096e8e471c8a2f85638d937c85d256a665157370266e44858bce489f510ee111e49bbbf49e6294851b2&v=5.74
-        done();
+    async function verifyVkAuth(request, reply, done) {
+        let accessToken = request.headers['vk-access-token'];
+        let response = await fetch(`https://api.vk.com/method/users.get?access_token=${accessToken}&v=5.74`);
+        let json = await response.json();
+
+        if (!json.error) {
+            done();
+        } else {
+            done(new Error('Unauthorized'));
+        }
     }
 
     function getRoutes() {

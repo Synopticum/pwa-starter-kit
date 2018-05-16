@@ -137,26 +137,24 @@ class UMap extends LitElement {
         this.__currentObject = [];
     }
 
-    connectedCallback() {
-        super.connectedCallback();
-        if (!localStorage.access_token) {
-            alert('Auth error');
-            throw Error('no');
-        }
-    }
-
     _firstRendered() {
         super._firstRendered();
         this.init();
     }
 
     init() {
-        this._createMap();
-        this._setDefaultSettings();
-        this._setMaxBounds();
-        this._initializeTiles();
-        this._setListeners();
-        this._drawObjects();
+        if (!localStorage.access_token) {
+            alert('Auth error');
+            window.location.href = '/login';
+
+        } else {
+            this._createMap();
+            this._setDefaultSettings();
+            this._setMaxBounds();
+            this._initializeTiles();
+            this._setListeners();
+            this._drawObjects();
+        }
     }
 
     _createMap() {
@@ -204,7 +202,11 @@ class UMap extends LitElement {
     }
 
     async _drawPaths() {
-        let response = await fetch('http://localhost:3000/api/objects/coordinates/paths');
+        let response = await fetch('http://localhost:3000/api/objects/coordinates/paths', {
+            headers: {
+                'vk-access-token': localStorage.access_token
+            }
+        });
         if (response.ok) {
             const paths = await response.json();
 
@@ -222,7 +224,11 @@ class UMap extends LitElement {
     }
 
     async _drawCircles() {
-        let response = await fetch('http://localhost:3000/api/objects/coordinates/circles');
+        let response = await fetch('http://localhost:3000/api/objects/coordinates/circles', {
+            headers: {
+                'vk-access-token': localStorage.access_token
+            }
+        });
         if (response.ok) {
             const circles = await response.json();
 
