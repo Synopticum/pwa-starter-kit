@@ -1,10 +1,5 @@
-# Start dev build
+# How to start
 - `mongod --dbpath ~/Desktop/projects/urussu/db/`
-- `cd /api-server && node server.js`
-- `npm start`
-- go to `http://127.0.0.1:8081/`
-
-# Start prod build
-- `mongod --dbpath ~/Desktop/projects/urussu/db/`
-- `cd /api-server && node server.js`
-- go to `http://127.0.0.1:3000/`
+- `cd /backend && npm start -- --port 3000`
+- `cd /frontend && polymer serve`
+- go to `http://localhost:8081/`
