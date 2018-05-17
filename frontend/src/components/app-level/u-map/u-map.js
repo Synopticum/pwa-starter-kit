@@ -9,7 +9,7 @@
  */
 
 import {LitElement, html} from '@polymer/lit-element';
-import {SharedStyles} from '../shared-styles.js';
+import {SharedStyles} from '../../shared-styles.js';
 import {LeafletStyles} from '../wrappers/leaflet/leaflet.css';
 
 class UMap extends LitElement {
@@ -183,7 +183,7 @@ class UMap extends LitElement {
     }
 
     _initializeTiles() {
-        L.tileLayer('http://127.0.0.1:8081/src/components/u-map/images/tiles/{z}/{x}/{y}.jpg', {
+        L.tileLayer('http://127.0.0.1:8081/src/components/app-level/u-map/images/tiles/{z}/{x}/{y}.jpg', {
             minZoom: this.minZoom,
             maxZoom: this.maxZoom,
             bounds: this._getBounds(),

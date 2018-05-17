@@ -9,8 +9,8 @@
  */
 
 import {LitElement, html} from '@polymer/lit-element';
-import {PageViewElement} from '../page-view-element.js';
-import {SharedStyles} from '../shared-styles.js';
+import {PageViewElement} from '../../reusable/page-view-element.js';
+import {SharedStyles} from '../../shared-styles.js';
 import {connect} from 'pwa-helpers/connect-mixin.js';
 
 class ULogin extends LitElement {

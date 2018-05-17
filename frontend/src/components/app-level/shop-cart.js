@@ -11,19 +11,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 import { LitElement, html } from '@polymer/lit-element';
 
 import { connect } from 'pwa-helpers/connect-mixin.js';
-import './shop-item.js';
+import '../reusable/shop-item.js';
 
 // This element is connected to the redux store.
-import { store } from '../store.js';
-import { removeFromCart } from '../actions/shop.js';
-import { cartItemsSelector, cartTotalSelector } from '../reducers/shop.js';
-import { removeFromCartIcon } from './my-icons.js';
-import { ButtonSharedStyles } from './button-shared-styles.js';
+import { store } from '../../store.js';
+import { removeFromCart } from '../../actions/shop.js';
+import { cartItemsSelector, cartTotalSelector } from '../../reducers/shop.js';
 
 class ShopCart extends connect(store)(LitElement) {
   _render({_items, _total}) {
     return html`
-      ${ButtonSharedStyles}
       <style>
         :host { display: block; }
       </style>
@@ -36,7 +33,7 @@ class ShopCart extends connect(store)(LitElement) {
                 on-click="${(e) => store.dispatch(removeFromCart(e.currentTarget.dataset['index']))}"
                 data-index$="${item.id}"
                 title="Remove from cart">
-              ${removeFromCartIcon}
+              Remove
             </button>
           </div>
         `

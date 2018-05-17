@@ -9,19 +9,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { html } from '@polymer/lit-element';
-import { PageViewElement } from './page-view-element.js';
-import { SharedStyles } from './shared-styles.js';
+import { PageViewElement } from '../reusable/page-view-element.js';
+import { SharedStyles } from '../shared-styles.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
-import './counter-element.js';
+import '../reusable/counter-element.js';
 
 // This element is connected to the redux store.
-import { store } from '../store.js';
+import { store } from '../../store.js';
 
 // These are the actions needed by this element.
-import { increment, decrement } from '../actions/counter.js';
+import { increment, decrement } from '../../actions/counter.js';
 
 // We are lazy loading its reducer.
-import counter from '../reducers/counter.js';
+import counter from '../../reducers/counter.js';
 store.addReducers({
   counter
 });

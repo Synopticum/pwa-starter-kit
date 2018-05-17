@@ -9,18 +9,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { html } from '@polymer/lit-element';
+import { PageViewElement } from './page-view-element.js';
+import { SharedStyles } from '../shared-styles.js';
 
-export const ButtonSharedStyles = html`
-<style>
-  button {
-    font-size: inherit;
-    vertical-align: middle;
-    background: transparent;
-    border: none;
-    cursor: pointer;
+class MyView404 extends PageViewElement {
+  _render(props) {
+    return html`
+      ${SharedStyles}
+      <section>
+        <h2>Oops! You hit a 404</h2>
+        <p>The page you're looking for doesn't seem to exist. Head back
+           <a href="/">home</a> and try again?
+        </p>
+      </section>
+    `
   }
-  button:hover svg {
-    fill: var(--app-primary-color);
-  }
-</style>
-`;
+}
+
+window.customElements.define('my-view404', MyView404);

@@ -28,22 +28,22 @@ export const navigate = (path) => (dispatch) => {
 const loadPage = (page) => async (dispatch) => {
     switch (page) {
         case 'login':
-            await import('../components/u-login/u-login.js');
+            await import('../components/app-level/u-login/u-login.js');
             break;
         case 'letsrock':
-            await import('../components/u-map/u-map.js');
+            await import('../components/app-level/u-map/u-map.js');
             // Put code here that you want it to run every time when
             // navigate to view1 page and u-map.js is loaded
             break;
         case 'view2':
-            await import('../components/my-view2.js');
+            await import('../components/app-level/my-view2.js');
             break;
         case 'view3':
-            await import('../components/my-view3.js');
+            await import('../components/app-level/my-view3.js');
             break;
         default:
             page = 'view404';
-            await import('../components/my-view404.js');
+            await import('../components/reusable/my-view404.js');
     }
 
     dispatch(updatePage(page));

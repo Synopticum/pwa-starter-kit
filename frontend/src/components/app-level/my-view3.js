@@ -9,21 +9,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { html } from '@polymer/lit-element';
-import { PageViewElement } from './page-view-element.js';
-import { SharedStyles } from './shared-styles.js';
-import { ButtonSharedStyles } from './button-shared-styles.js';
+import { PageViewElement } from '../reusable/page-view-element.js';
+import { SharedStyles } from '../shared-styles.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import './shop-products.js';
 import './shop-cart.js';
 
 // This element is connected to the redux store.
-import { store } from '../store.js';
+import { store } from '../../store.js';
 
 // These are the actions needed by this element.
-import { checkout } from '../actions/shop.js';
+import { checkout } from '../../actions/shop.js';
 
 // We are lazy loading its reducer.
-import shop, { cartQuantitySelector } from '../reducers/shop.js';
+import shop, { cartQuantitySelector } from '../../reducers/shop.js';
 store.addReducers({
   shop
 });
@@ -32,7 +31,6 @@ class MyView3 extends connect(store)(PageViewElement) {
   _render({_quantity, _error}) {
     return html`
       ${SharedStyles}
-      ${ButtonSharedStyles}
       <style>
         /* Add more specificity (.checkout) to workaround an issue in lit-element:
            https://github.com/PolymerLabs/lit-element/issues/34 */
