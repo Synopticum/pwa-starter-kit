@@ -14,19 +14,15 @@ import '@polymer/app-layout/app-drawer/app-drawer.js';
 import '@polymer/app-layout/app-header/app-header.js';
 import '@polymer/app-layout/app-scroll-effects/effects/waterfall.js';
 import '@polymer/app-layout/app-toolbar/app-toolbar.js';
-import { setPassiveTouchGestures } from '@polymer/polymer/lib/utils/settings.js';
 
-import { menuIcon } from '../my-icons.js';
 import '../snack-bar.js';
 
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { installRouter } from 'pwa-helpers/router.js';
-import { installOfflineWatcher } from 'pwa-helpers/network.js';
-import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
 import { updateMetadata } from 'pwa-helpers/metadata.js';
 
 import { store } from '../../store.js';
-import { navigate, updateOffline, updateLayout } from '../../actions/app.js';
+import { navigate } from '../../actions/app.js';
 
 class UApp extends connect(store)(LitElement) {
   _render({appTitle, _page, _drawerOpened, _snackbarOpened, _offline}) {
@@ -113,9 +109,6 @@ class UApp extends connect(store)(LitElement) {
 
   constructor() {
     super();
-    // To force all event listeners for gestures to be passive.
-    // See https://www.polymer-project.org/2.0/docs/devguide/gesture-events#use-passive-gesture-listeners
-    setPassiveTouchGestures(true);
   }
 
   _firstRendered() {
@@ -123,9 +116,6 @@ class UApp extends connect(store)(LitElement) {
     installRouter((location) => {
       store.dispatch(navigate(window.decodeURIComponent(location.pathname)))
     });
-    installOfflineWatcher((offline) => store.dispatch(updateOffline(offline)));
-    installMediaQueryWatcher(`(min-width: 460px)`,
-        (matches) => store.dispatch(updateLayout(matches)));
   }
 
   _didRender(properties, changeList) {
