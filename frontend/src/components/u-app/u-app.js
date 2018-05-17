@@ -26,7 +26,7 @@ import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
 import { updateMetadata } from 'pwa-helpers/metadata.js';
 
 import { store } from '../../store.js';
-import { navigate, updateOffline, updateDrawerState, updateLayout } from '../../actions/app.js';
+import { navigate, updateOffline, updateLayout } from '../../actions/app.js';
 
 class UApp extends connect(store)(LitElement) {
   _render({appTitle, _page, _drawerOpened, _snackbarOpened, _offline}) {
@@ -86,17 +86,6 @@ class UApp extends connect(store)(LitElement) {
         <a selected?="${_page === 'view3'}" href="/view3">View Three</a>
       </nav>
     </app-header>
-
-    <!-- Drawer content -->
-    <app-drawer opened="${_drawerOpened}"
-        on-opened-changed="${e => store.dispatch(updateDrawerState(e.target.opened))}">
-      <nav class="drawer-list">
-        <a selected?="${_page === 'letsrock'}" href="/letsrock">Let's rock</a>
-        <a selected?="${_page === 'view2'}" href="/view2">View Two</a>
-        <a selected?="${_page === 'login'}" href="/login">Login</a>
-        <a selected?="${_page === 'view3'}" href="/view3">View Three</a>
-      </nav>
-    </app-drawer>
 
     <!-- Main content -->
     <main class="main-content">
