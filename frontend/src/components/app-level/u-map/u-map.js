@@ -10,7 +10,6 @@
 
 import {LitElement, html} from '@polymer/lit-element';
 import {SharedStyles} from '../../shared-styles.js';
-import {LeafletStyles} from '../wrappers/leaflet/leaflet.css';
 
 class UMap extends LitElement {
 
@@ -57,69 +56,11 @@ class UMap extends LitElement {
     _render(props) {
         return html`              
             ${SharedStyles}
-            ${LeafletStyles}
             <style>
             :host {
                 box-sizing: border-box;
             }
-
-            #map {
-                cursor: default;
-                position: fixed;
-                left: 0;
-                top: 0;
-                width: 100vw;
-                height: 100vh;
-                background-color: #000000;
-            }
-
-            #map::before {
-                content: '';
-                pointer-events: none;
-                position: fixed;
-                left: 0;
-                top: 0;
-                width: 100vw;
-                height: 100vh;
-                z-index: 500;
-                box-shadow: inset 0 0 200px rgba(0,0,0,0.9);
-            }
-
-            .leaflet-interactive {
-                opacity: 0;
-            }
-
-            .leaflet-interactive:hover {
-                opacity: 1;
-            }
-
-            .leaflet-control-container {
-                z-index: 200;
-            }
-        
-            #map-overlay,
-            #map-shadow {
-                pointer-events: none;
-                position: fixed;
-                left: 0;
-                top: 0;
-                width: 100vw;
-                height: 100vh;
-                z-index: 100;
-            }
-        
-            #map-overlay {
-                opacity: .05;
-                background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADAQMAAABs5if8AAAABlBMVEUAAAD///+l2Z/dAAAAAXRSTlMAQObYZgAAAA5JREFUCNdjeMDQwNAAAAZmAeFpNQSMAAAAAElFTkSuQmCC');
-            }
-        
-            #map-shadow {
-            }
             </style>
-              
-            <div id="map"></div>  
-            <div id="map-overlay"></div>
-            <div id="map-shadow"></div>
     `;
     }
 
@@ -158,13 +99,7 @@ class UMap extends LitElement {
     }
 
     _createMap() {
-        // create and attach map container
-        let map = this.shadowRoot.querySelector('#map');
-        this.map = L.map(map, {});
-    }
-
-    static deleteMap() {
-        document.querySelector('#map').remove();
+        this.map = L.map('map', {});
     }
 
     _setDefaultSettings() {
