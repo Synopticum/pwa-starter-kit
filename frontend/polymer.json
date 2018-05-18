@@ -1,6 +1,6 @@
 {
   "entrypoint": "index.html",
-  "shell": "src/components/u-app/u-app.js",
+  "shell": "src/components/app-level/u-app/u-app.js",
   "sources": [
     "static/images/**/*"
   ],
