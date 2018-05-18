@@ -30,16 +30,31 @@ const loadPage = (page) => async (dispatch) => {
         case 'login':
             await import('../components/app-level/u-login/u-login.js');
             break;
-        case 'letsrock':
+        case '★':
             await import('../components/app-level/u-map/u-map.js');
             // Put code here that you want it to run every time when
             // navigate to view1 page and u-map.js is loaded
             break;
-        case 'view2':
-            await import('../components/app-level/my-view2.js');
+        case 'U★R★U★S★S★I★N★K★A':
+            await import('../components/app-level/u-urussinka/u-urussinka.js');
             break;
-        case 'view3':
-            await import('../components/app-level/my-view3.js');
+        case 'C★H★E★K★A★V★O':
+            await import('../components/app-level/u-chekavo/u-chekavo.js');
+            break;
+        case 'O★T★A★K★U★J':
+            await import('../components/app-level/u-otakuj/u-otakuj.js');
+            break;
+        case 'P★E★C★H★A★L':
+            await import('../components/app-level/u-pechal/u-pechal.js');
+            break;
+        case 'C★H★O★P★O★C★H★O★M':
+            await import('../components/app-level/u-chopochom/u-chopochom.js');
+            break;
+        case 'P★O★E★D★U':
+            await import('../components/app-level/u-poedu/u-poedu.js');
+            break;
+        case 'U★D★O★L★I':
+            await import('../components/app-level/u-udoli/u-udoli.js');
             break;
         default:
             page = 'view404';

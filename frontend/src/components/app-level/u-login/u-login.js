@@ -147,7 +147,7 @@ class ULogin extends LitElement {
                 }
             </style>
             
-            <a href="https://oauth.vk.com/authorize?client_id=4447151&display=page&redirect_uri=http://localhost:8081/letsrock&scope=friends&response_type=token&v=5.74" class="explore">
+            <a href="https://oauth.vk.com/authorize?client_id=4447151&display=page&redirect_uri=http://localhost:8081/k/a/r/t/a&scope=friends&response_type=token&v=5.74" class="explore">
                 <span class="title">Войти через </span>
                 <img src="static/images/vk_logo.svg" alt="">
                 <span class="icon-right"></span><span class="icon-right after"></span>

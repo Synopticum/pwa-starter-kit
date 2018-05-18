@@ -12,47 +12,5 @@
       "type": "script",
       "weight": 1
     }
-  },
-  "/view1": {
-    "src/components/app-level/u-app/u-app.js": {
-      "type": "script",
-      "weight": 1
-    },
-    "src/components/u-map/u-map.js": {
-      "type": "script",
-      "weight": 1
-    },
-    "node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js": {
-      "type": "script",
-      "weight": 1
-    }
-  },
-  "/view2": {
-    "src/components/app-level/my-app.js": {
-      "type": "script",
-      "weight": 1
-    },
-    "src/components/app-level/my-view2.js": {
-      "type": "script",
-      "weight": 1
-    },
-    "node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js": {
-      "type": "script",
-      "weight": 1
-    }
-  },
-  "/view3": {
-    "src/components/app-level/u-app.js": {
-      "type": "script",
-      "weight": 1
-    },
-    "src/components/app-level/my-view3.js": {
-      "type": "script",
-      "weight": 1
-    },
-    "node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js": {
-      "type": "script",
-      "weight": 1
-    }
   }
 }

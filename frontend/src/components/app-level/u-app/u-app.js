@@ -68,27 +68,41 @@ class UApp extends connect(store)(LitElement) {
       }
       
       .toolbar-list a {
-        color: #ffffff;
+        color: #f00;
+        margin: 0 10px;
+        text-decoration: none;
       }
     </style>
 
     <!-- Header -->
-    <app-header condenses reveals effects="waterfall">
+    <app-header>
       <!-- This gets hidden on a small screen-->
       <nav class="toolbar-list">
-        <a selected?="${_page === 'letsrock'}" href="/letsrock">View One</a>
-        <a selected?="${_page === 'view2'}" href="/view2">View Two</a>
-        <a selected?="${_page === 'login'}" href="/login">Login</a>
-        <a selected?="${_page === 'view3'}" href="/view3">View Three</a>
+        <a selected?="${_page === '★'}" href="★">★</a>
+        
+        <a selected?="${_page === 'U★R★U★S★S★I★N★K★A'}" href="U★R★U★S★S★I★N★K★A">Уруссинская новь</a>
+        <a selected?="${_page === 'C★H★E★K★A★V★O'}" href="C★H★E★K★A★V★O">Чекаво</a>
+        <a selected?="${_page === 'O★T★A★K★U★J'}" href="O★T★A★K★U★J">Отакуй</a>
+        <a selected?="${_page === 'P★E★C★H★A★L'}" href="P★E★C★H★A★L">Печаль</a>
+        <a selected?="${_page === 'C★H★O★P★O★C★H★O★M'}" href="C★H★O★P★O★C★H★O★M">Чопочом</a>
+        <a selected?="${_page === 'P★O★E★D★U'}" href="P★O★E★D★U">Поеду</a>
+        <a selected?="${_page === 'U★D★O★L★I'}" href="U★D★O★L★I">Удоли</a>
       </nav>
     </app-header>
 
     <!-- Main content -->
     <main class="main-content">
-      <u-map class="page" active?="${_page === 'letsrock'}"></u-map>
-      <my-view2 class="page" active?="${_page === 'view2'}"></my-view2>
       <u-login class="page" active?="${_page === 'login'}"></u-login>
-      <my-view3 class="page" active?="${_page === 'view3'}"></my-view3>
+      <u-map class="page" active?="${_page === '★'}"></u-map>
+      
+      <u-urussinka class="page" active?="${_page === 'U★R★U★S★S★I★N★K★A'}"></u-urussinka>
+      <u-chekavo class="page" active?="${_page === 'C★H★E★K★A★V★O'}"></u-chekavo>
+      <u-otakuj class="page" active?="${_page === 'O★T★A★K★U★J'}"></u-otakuj>
+      <u-pechal class="page" active?="${_page === 'P★E★C★H★A★L'}"></u-pechal>
+      <u-chopochom class="page" active?="${_page === 'C★H★O★P★O★C★H★O★M'}"></u-chopochom>
+      <u-poedu class="page" active?="${_page === 'P★O★E★D★U'}"></u-poedu>
+      <u-udoli class="page" active?="${_page === 'U★D★O★L★I'}"></u-udoli>
+      
       <my-view404 class="page" active?="${_page === 'view404'}"></my-view404>
     </main>
 
