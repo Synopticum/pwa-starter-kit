@@ -10,9 +10,19 @@
 
 import { html } from '@polymer/lit-element';
 import { SharedStyles } from '../../shared-styles.js';
-import { PageViewElement } from '../../reusable/page-view-element'
+import { PageViewElement } from '../../reusable/page-view-element';
 
-class UChekavo extends PageViewElement {
+import { store } from '../../../store.js';
+import { connect } from 'pwa-helpers/connect-mixin.js';
+
+import { activateMap } from '../../../actions/map.js';
+import map from '../../../reducers/map.js';
+store.addReducers({
+  map
+});
+
+class UChekavo extends connect(store)(PageViewElement) {
+
   _render(props) {
     return html`
       ${SharedStyles}
@@ -20,6 +30,10 @@ class UChekavo extends PageViewElement {
         <h2>Chekavo</h2>
       </section>
     `
+  }
+
+  _stateChanged() {
+
   }
 }
 

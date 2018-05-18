@@ -30,8 +30,15 @@ class UApp extends connect(store)(LitElement) {
     return html`
     <style>
       :host {
-        --app-drawer-width: 256px;
         display: block;
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 999;
+        
+        --app-drawer-width: 256px;
 
         --app-primary-color: #E91E63;
         --app-secondary-color: #293237;
@@ -65,6 +72,7 @@ class UApp extends connect(store)(LitElement) {
         position: fixed;
         left: 0;
         top: 0;
+        z-index: 50;
       }
       
       .toolbar-list a {
@@ -93,7 +101,7 @@ class UApp extends connect(store)(LitElement) {
     <!-- Main content -->
     <main class="main-content">
       <u-login class="page" active?="${_page === 'login'}"></u-login>
-      <u-map class="page" active?="${_page === '★'}"></u-map>
+      <u-map class="page" active?="${_page !== 'login'}"></u-map>
       
       <u-urussinka class="page" active?="${_page === 'U★R★U★S★S★I★N★K★A'}"></u-urussinka>
       <u-chekavo class="page" active?="${_page === 'C★H★E★K★A★V★O'}"></u-chekavo>

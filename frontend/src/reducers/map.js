@@ -8,17 +8,17 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-export const INCREMENT = 'INCREMENT';
-export const DECREMENT = 'DECREMENT';
+import { ACTIVATE_MAP } from '../actions/map.js';
 
-export const increment = () => {
-  return {
-    type: INCREMENT
-  };
-};
+const map = (state = { active: false }, action) => {
+  switch (action.type) {
+    case ACTIVATE_MAP:
+      return {
+        active: true
+      };
+    default:
+      return state;
+  }
+}
 
-export const decrement = () => {
-  return {
-    type: DECREMENT
-  };
-};
+export default map;
