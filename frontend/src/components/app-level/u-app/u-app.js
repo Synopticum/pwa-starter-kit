@@ -37,6 +37,7 @@ class UApp extends connect(store)(LitElement) {
         width: 100vw;
         height: 100vh;
         z-index: 999;
+        pointer-events: none;
         
         --app-drawer-width: 256px;
 
@@ -59,6 +60,10 @@ class UApp extends connect(store)(LitElement) {
       .main-content {
         min-height: 100vh;
       }
+      
+      .pages {
+        pointer-events: all;
+      }
 
       .page {
         display: none;
@@ -73,6 +78,7 @@ class UApp extends connect(store)(LitElement) {
         left: 0;
         top: 0;
         z-index: 50;
+        pointer-events: all;
       }
       
       .toolbar-list a {
@@ -103,13 +109,15 @@ class UApp extends connect(store)(LitElement) {
       <u-login class="page" active?="${_page === 'login'}"></u-login>
       <u-map class="page" active?="${_page !== 'login'}"></u-map>
       
-      <u-urussinka class="page" active?="${_page === 'U★R★U★S★S★I★N★K★A'}"></u-urussinka>
-      <u-chekavo class="page" active?="${_page === 'C★H★E★K★A★V★O'}"></u-chekavo>
-      <u-otakuj class="page" active?="${_page === 'O★T★A★K★U★J'}"></u-otakuj>
-      <u-pechal class="page" active?="${_page === 'P★E★C★H★A★L'}"></u-pechal>
-      <u-chopochom class="page" active?="${_page === 'C★H★O★P★O★C★H★O★M'}"></u-chopochom>
-      <u-poedu class="page" active?="${_page === 'P★O★E★D★U'}"></u-poedu>
-      <u-udoli class="page" active?="${_page === 'U★D★O★L★I'}"></u-udoli>
+      <div class="pages">
+        <u-urussinka class="page" active?="${_page === 'U★R★U★S★S★I★N★K★A'}"></u-urussinka>
+        <u-chekavo class="page" active?="${_page === 'C★H★E★K★A★V★O'}"></u-chekavo>
+        <u-otakuj class="page" active?="${_page === 'O★T★A★K★U★J'}"></u-otakuj>
+        <u-pechal class="page" active?="${_page === 'P★E★C★H★A★L'}"></u-pechal>
+        <u-chopochom class="page" active?="${_page === 'C★H★O★P★O★C★H★O★M'}"></u-chopochom>
+        <u-poedu class="page" active?="${_page === 'P★O★E★D★U'}"></u-poedu>
+        <u-udoli class="page" active?="${_page === 'U★D★O★L★I'}"></u-udoli>
+      </div>
       
       <my-view404 class="page" active?="${_page === 'view404'}"></my-view404>
     </main>
