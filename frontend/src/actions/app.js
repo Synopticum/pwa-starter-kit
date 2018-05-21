@@ -43,7 +43,7 @@ const loadPage = (page) => async (dispatch) => {
             await import('../components/app-level/u-map/u-map.js');
             await import('../components/app-level/u-chekavo/u-chekavo.js');
             break;
-        case 'O★T★A★K★U★J':
+        case 'O★T★O★K★U★J':
             await import('../components/app-level/u-map/u-map.js');
             await import('../components/app-level/u-otakuj/u-otakuj.js');
             break;

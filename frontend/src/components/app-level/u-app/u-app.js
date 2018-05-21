@@ -61,46 +61,124 @@ class UApp extends connect(store)(LitElement) {
         min-height: 100vh;
       }
       
+      app-header {
+        display: none;
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 50;
+        pointer-events: all;
+      }
+      
+      app-header::before {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        opacity: .6;
+        background: url('../../../../static/images/clouds65.jpg') no-repeat 50% 50%;
+      }
+      
+      app-header[active] {
+        display: block;
+      }
+      
       .pages {
         pointer-events: all;
       }
 
       .page {
         display: none;
+        position: relative;
+        z-index: 100;
       }
 
       .page[active] {
         display: block;
+        pointer-events: all;
       }
       
       .toolbar-list {
         position: fixed;
         left: 0;
         top: 0;
-        z-index: 50;
-        pointer-events: all;
+        width: 100vw;
+        height: 100vh;
+        z-index: 100;
+      }
+      
+      .toolbar-list::before {
+        content: '';
       }
       
       .toolbar-list a {
+        position: absolute;
+        left: 50%;
+        top: 50%;
         color: #f00;
         margin: 0 10px;
         text-decoration: none;
+        outline: none;
+        width: 200px;
+        height: 150px;
+      }
+      
+      .toolbar-list a.urussinka {
+        width: 285px;
+        height: 285px;
+        transform: translate(-50%, calc(-50% - 100px));
+        font-size: 0;
+        text-align: center;
+      }
+      
+      .chekavo {
+        transform: translate(calc(-50% - 192px), calc(-50% - 179px));
+      }
+      
+      .pechal {
+        transform: translate(calc(-50% - 158px), calc(-50% + 125px));
+      }
+      
+      .chopochom {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(calc(-50% - -206px), calc(-50% + -121px));
+      }
+      
+      .udoli {
+        transform: translate(calc(-50% - -98px), calc(-50% + 146px));
+      }
+      
+      .poedu {
+        transform: translate(calc(-50% - -288px), calc(-50% + 48px));
+      }
+      
+      .otokuj {
+        transform: translate(calc(-49% - 312px), calc(-50% + -18px));
       }
     </style>
 
     <!-- Header -->
-    <app-header>
+    <app-header active?="${_page !== 'login'}">
       <!-- This gets hidden on a small screen-->
       <nav class="toolbar-list">
         <a selected?="${_page === '★'}" href="★">★</a>
         
-        <a selected?="${_page === 'U★R★U★S★S★I★N★K★A'}" href="U★R★U★S★S★I★N★K★A">Уруссинская новь</a>
-        <a selected?="${_page === 'C★H★E★K★A★V★O'}" href="C★H★E★K★A★V★O">Чекаво</a>
-        <a selected?="${_page === 'O★T★A★K★U★J'}" href="O★T★A★K★U★J">Отакуй</a>
-        <a selected?="${_page === 'P★E★C★H★A★L'}" href="P★E★C★H★A★L">Печаль</a>
-        <a selected?="${_page === 'C★H★O★P★O★C★H★O★M'}" href="C★H★O★P★O★C★H★O★M">Чопочом</a>
-        <a selected?="${_page === 'P★O★E★D★U'}" href="P★O★E★D★U">Поеду</a>
-        <a selected?="${_page === 'U★D★O★L★I'}" href="U★D★O★L★I">Удоли</a>
+        <a selected?="${_page === 'U★R★U★S★S★I★N★K★A'}" href="U★R★U★S★S★I★N★K★A" class="urussinka">
+            <img src="static/images/mainmenu/news.svg">
+            <img src="static/images/mainmenu/title.svg" width="282" height="69">
+        </a>
+        
+        <a selected?="${_page === 'C★H★E★K★A★V★O'}" href="C★H★E★K★A★V★O" class="chekavo"><img src="static/images/mainmenu/chekavo.svg"></a>        
+        <a selected?="${_page === 'O★T★O★K★U★J'}" href="O★T★O★K★U★J" class="otokuj"><img src="static/images/mainmenu/otokuj.svg"></a>        
+        <a selected?="${_page === 'P★E★C★H★A★L'}" href="P★E★C★H★A★L" class="pechal"><img src="static/images/mainmenu/pechal.svg"></a>        
+        <a selected?="${_page === 'C★H★O★P★O★C★H★O★M'}" href="C★H★O★P★O★C★H★O★M" class="chopochom"><img src="static/images/mainmenu/chopochom.svg"></a>
+        <a selected?="${_page === 'P★O★E★D★U'}" href="P★O★E★D★U" class="poedu"><img src="static/images/mainmenu/poedu.svg"></a>
+        <a selected?="${_page === 'U★D★O★L★I'}" href="U★D★O★L★I" class="udoli"><img src="static/images/mainmenu/udoli.svg"></a>
       </nav>
     </app-header>
 
@@ -112,7 +190,7 @@ class UApp extends connect(store)(LitElement) {
       <div class="pages">
         <u-urussinka class="page" active?="${_page === 'U★R★U★S★S★I★N★K★A'}"></u-urussinka>
         <u-chekavo class="page" active?="${_page === 'C★H★E★K★A★V★O'}"></u-chekavo>
-        <u-otakuj class="page" active?="${_page === 'O★T★A★K★U★J'}"></u-otakuj>
+        <u-otakuj class="page" active?="${_page === 'O★T★O★K★U★J'}"></u-otakuj>
         <u-pechal class="page" active?="${_page === 'P★E★C★H★A★L'}"></u-pechal>
         <u-chopochom class="page" active?="${_page === 'C★H★O★P★O★C★H★O★M'}"></u-chopochom>
         <u-poedu class="page" active?="${_page === 'P★O★E★D★U'}"></u-poedu>
@@ -124,6 +202,16 @@ class UApp extends connect(store)(LitElement) {
 
     <snack-bar active?="${_snackbarOpened}">
         You are now ${_offline ? 'offline' : 'online'}.</snack-bar>
+    
+    <!-- clip paths for menu items -->
+    <svg width="0" height="0">
+        <defs>
+            <clipPath id="chekavo">
+                <path id="chekavo" transform="scale(1.2)"
+                      d="M163.3,112.12c9.83-13.64,2.9-38.95-3.9-58.06-4.93-13.83-11.42-23.17-19-29.36A46.5,46.5,0,0,0,124,16.19a74.54,74.54,0,0,0-20.86-2.67C77.61,13.14,72.32,2.57,52.16.3,41.2-.94,32.84,1.72,27.53,7.69c-3.27,3.68-5.39,8.63-6.23,14.7a114.29,114.29,0,0,1-2.67,15.25A85.23,85.23,0,0,1,14.86,49C12.55,54.6,9.59,60.44,5.73,68c-7.28,14.27-11.22,41.2,11,57.82,7.91,5.64,17.48,5.86,27.8,4.23,16.71-2.65,35.35-10.14,52-7.3C116.53,126.16,145.49,139.85,163.3,112.12Z"/>
+            </clipPath>
+        </defs>
+    </svg>
     `;
   }
 
