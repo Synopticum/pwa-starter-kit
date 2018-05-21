@@ -126,39 +126,56 @@ class UApp extends connect(store)(LitElement) {
         height: 150px;
       }
       
+      .toolbar-list a img {
+        transition: transform .2s;
+        will-change: transform;
+      }
+      
+      .toolbar-list a:hover img {
+        transform: scale(1.1);
+      }
+      
       .toolbar-list a.urussinka {
         width: 285px;
         height: 285px;
-        transform: translate(-50%, calc(-50% - 100px));
+        transform: translate(calc(-50% - 20px), calc(-50% - 100px));
         font-size: 0;
         text-align: center;
       }
       
+      .toolbar-list a.urussinka img,
+      .toolbar-list a.urussinka:hover img {
+        will-change: inherit;
+        filter: none;
+        transition: none;
+        transform: none;
+      }
+      
       .chekavo {
-        transform: translate(calc(-50% - 192px), calc(-50% - 179px));
+        transform: translate(calc(-50% - 212px), calc(-50% - 179px));
       }
       
       .pechal {
-        transform: translate(calc(-50% - 158px), calc(-50% + 125px));
+        transform: translate(calc(-50% - 178px), calc(-50% + 125px));
       }
       
       .chopochom {
         position: absolute;
         left: 50%;
         top: 50%;
-        transform: translate(calc(-50% - -206px), calc(-50% + -121px));
+        transform: translate(calc(-50% + 226px), calc(-50% + -121px));
       }
       
       .udoli {
-        transform: translate(calc(-50% - -98px), calc(-50% + 146px));
+        transform: translate(calc(-50% + 88px), calc(-50% + 146px));
       }
       
       .poedu {
-        transform: translate(calc(-50% - -288px), calc(-50% + 48px));
+        transform: translate(calc(-50% + 308px), calc(-50% + 48px));
       }
       
       .otokuj {
-        transform: translate(calc(-49% - 312px), calc(-50% + -18px));
+        transform: translate(calc(-49% - 332px), calc(-50% + -18px));
       }
     </style>
 
@@ -169,7 +186,7 @@ class UApp extends connect(store)(LitElement) {
         <a selected?="${_page === '★'}" href="★">★</a>
         
         <a selected?="${_page === 'U★R★U★S★S★I★N★K★A'}" href="U★R★U★S★S★I★N★K★A" class="urussinka">
-            <img src="static/images/mainmenu/news.svg">
+            <img src="static/images/mainmenu/news.svg" width="153" height="214">
             <img src="static/images/mainmenu/title.svg" width="282" height="69">
         </a>
         
