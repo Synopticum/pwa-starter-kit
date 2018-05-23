@@ -77,8 +77,8 @@ class UApp extends connect(store)(LitElement) {
         bottom: 130px;
         transform: translate(-50%,0);
         z-index: 100;
-        width: 1000px;
-        height: 500px;
+        width: 700px;
+        height: 400px;
         background-color: #ffffff;
         border-radius: 5px;
       }
@@ -252,31 +252,45 @@ class UApp extends connect(store)(LitElement) {
       }
       
       .header.header--regular .menu__item--chekavo {
+        transform: skew(-.112rad);
         background: url('../../../../static/images/mainmenu/chekavo.svg') no-repeat -22px -25px #fbe9bc;
         background-size: 200%;
       }
       
       .header.header--regular .menu__item--otokuj {
+        transform: skew(-.112rad);
         background: url('../../../../static/images/mainmenu/otokuj.svg') no-repeat -22px -20px #b2b2b2;
         background-size: 200%;
       }
       
       .header.header--regular .menu__item--pechal {
+        transform: skew(-.112rad);
         background: url('../../../../static/images/mainmenu/pechal.svg') no-repeat -22px -20px #274264;
         background-size: 200%;
       }
       
+      .header.header--regular .menu__item--urussinka {
+        position: relative;
+        top: -100px;
+        width: 190px;
+        text-align: center;
+        font-size: 0;
+      }
+      
       .header.header--regular .menu__item--chopochom {
+        transform: skew(.112rad);
         background: url('../../../../static/images/mainmenu/chopochom.svg') no-repeat -25px -23px #502717;
         background-size: 200%;
       }
       
       .header.header--regular .menu__item--poedu {
+        transform: skew(.112rad);
         background: url('../../../../static/images/mainmenu/poedu.svg') no-repeat -16px -21px #101010;
         background-size: 200%;
       }
       
       .header.header--regular .menu__item--udoli {
+        transform: skew(.112rad);
         background: url('../../../../static/images/mainmenu/udoli.svg') no-repeat -22px -25px #dfe0df;
         background-size: 200%;
       }
@@ -288,7 +302,7 @@ class UApp extends connect(store)(LitElement) {
         <a selected?="${_page === '★'}" href="★">★</a>
         
         <a selected?="${_page === 'U★R★U★S★S★I★N★K★A'}" href="U★R★U★S★S★I★N★K★A" class="menu__item menu__item--urussinka">
-            <img src="static/images/mainmenu/news.svg" width="153" height="214">
+            <img src="static/images/mainmenu/news.svg" width="153" height="214"><br>
             <img src="static/images/mainmenu/title.svg" width="282" height="69">
         </a>
         
@@ -307,7 +321,10 @@ class UApp extends connect(store)(LitElement) {
           <a selected?="${_page === 'C★H★E★K★A★V★O'}" href="C★H★E★K★A★V★O" class="menu__item menu__item--chekavo"></a>
           <a selected?="${_page === 'O★T★O★K★U★J'}" href="O★T★O★K★U★J" class="menu__item menu__item--otokuj"></a>
           <a selected?="${_page === 'P★E★C★H★A★L'}" href="P★E★C★H★A★L" class="menu__item menu__item--pechal"></a>
-          <a selected?="${_page === 'U★R★U★S★S★I★N★K★A'}" href="U★R★U★S★S★I★N★K★A" class="menu__item menu__item--urussinka"></a>
+          <a selected?="${_page === 'U★R★U★S★S★I★N★K★A'}" href="U★R★U★S★S★I★N★K★A" class="menu__item menu__item--urussinka">
+            <img src="static/images/mainmenu/news.svg" width="100" height="140"><br>
+            <img src="static/images/mainmenu/title.svg" width="180" height="44">
+          </a>
           <a selected?="${_page === 'C★H★O★P★O★C★H★O★M'}" href="C★H★O★P★O★C★H★O★M" class="menu__item menu__item--chopochom"></a>
           <a selected?="${_page === 'P★O★E★D★U'}" href="P★O★E★D★U" class="menu__item menu__item--poedu"></a>
           <a selected?="${_page === 'U★D★O★L★I'}" href="U★D★O★L★I" class="menu__item menu__item--udoli"></a>
