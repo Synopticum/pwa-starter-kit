@@ -16,9 +16,9 @@ class UOtakuj extends PageViewElement {
   _render(props) {
     return html`
       ${SharedStyles}
-      <section>
-        <h2>Otakuj</h2>
-      </section>
+      <div class="asd">
+        Otakuj
+      </div>
     `
   }
 }

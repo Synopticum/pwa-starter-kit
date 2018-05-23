@@ -56,13 +56,16 @@ class UApp extends connect(store)(LitElement) {
         --app-drawer-text-color: var(--app-light-text-color);
         --app-drawer-selected-color: #78909C;
       }
+  
+      [hidden] {
+        display: none !important;
+      }
 
       .main-content {
         min-height: 100vh;
       }
       
-      app-header {
-        display: none;
+      .header.header--primary {
         position: fixed;
         left: 0;
         top: 0;
@@ -72,7 +75,8 @@ class UApp extends connect(store)(LitElement) {
         pointer-events: all;
       }
       
-      app-header::before {
+      .header.header--primary::before,
+      .header.header--regular::before {
         position: fixed;
         left: 0;
         top: 0;
@@ -82,8 +86,13 @@ class UApp extends connect(store)(LitElement) {
         background: url('../../../../static/images/clouds65.jpg') no-repeat 50% 50%;
       }
       
-      app-header[active] {
-        display: block;
+      .header.header--regular::before {
+        transition: opacity ease .6s;
+        opacity: 0;
+      }
+      
+      .header.header--regular:hover::before {
+        opacity: .6;
       }
       
       .pages {
@@ -101,7 +110,8 @@ class UApp extends connect(store)(LitElement) {
         pointer-events: all;
       }
       
-      .toolbar-list {
+      /* menu for primary page */
+      .header.header--primary .menu {
         position: fixed;
         left: 0;
         top: 0;
@@ -110,11 +120,7 @@ class UApp extends connect(store)(LitElement) {
         z-index: 100;
       }
       
-      .toolbar-list::before {
-        content: '';
-      }
-      
-      .toolbar-list a {
+      .header.header--primary .menu__item {
         position: absolute;
         left: 50%;
         top: 50%;
@@ -126,16 +132,16 @@ class UApp extends connect(store)(LitElement) {
         height: 150px;
       }
       
-      .toolbar-list a img {
+      .header.header--primary .menu__item img {
         transition: transform .2s;
         will-change: transform;
       }
       
-      .toolbar-list a:hover img {
+      .header.header--primary .menu__item:hover img {
         transform: scale(1.1);
       }
       
-      .toolbar-list a.urussinka {
+      .header.header--primary .menu__item--urussinka {
         width: 285px;
         height: 285px;
         transform: translate(calc(-50% - 20px), calc(-50% - 100px));
@@ -143,60 +149,157 @@ class UApp extends connect(store)(LitElement) {
         text-align: center;
       }
       
-      .toolbar-list a.urussinka img,
-      .toolbar-list a.urussinka:hover img {
+      .header.header--primary .menu__item--urussinka img,
+      .header.header--primary .menu__item--urussinka:hover img {
         will-change: inherit;
         filter: none;
         transition: none;
         transform: none;
       }
       
-      .chekavo {
+      .header.header--primary .menu__item--chekavo {
         transform: translate(calc(-50% - 212px), calc(-50% - 179px));
       }
       
-      .pechal {
+      .header.header--primary .menu__item--pechal {
         transform: translate(calc(-50% - 178px), calc(-50% + 125px));
       }
       
-      .chopochom {
+      .header.header--primary .menu__item--chopochom {
         position: absolute;
         left: 50%;
         top: 50%;
         transform: translate(calc(-50% + 226px), calc(-50% + -121px));
       }
       
-      .udoli {
+      .header.header--primary .menu__item--udoli {
         transform: translate(calc(-50% + 88px), calc(-50% + 146px));
       }
       
-      .poedu {
+      .header.header--primary .menu__item--poedu {
         transform: translate(calc(-50% + 308px), calc(-50% + 48px));
       }
       
-      .otokuj {
+      .header.header--primary .menu__item--otokuj {
         transform: translate(calc(-49% - 332px), calc(-50% + -18px));
+      }
+      
+      /* menu for regular pages */
+      .header.header--regular {
+        pointer-events: all;
+        opacity: .75;
+        transition: .3s;
+        will-change: opacity;
+      }
+      
+      .header.header--regular:hover {
+        opacity: 1;
+      }
+      
+      .header.header--regular .menu {
+        position: fixed;
+        left: 50%;
+        bottom: 25px;
+        z-index: 150;
+        transform: translate(-50%,0);
+        display: flex;
+        justify-content: center;
+        padding: 5px 0;
+        border-radius: 5px;
+      }
+      
+      .header.header--regular .menu__item {
+        position: relative;
+        z-index: 20;
+        display: block;
+        width: 70px;
+        height: 70px;
+        margin: 0 3px;
+        border-radius: 5px;
+        filter: grayscale(100%);
+        transition: filter .2s;
+        border: 3px solid transparent;
+      }
+      
+      .header.header--regular .menu:hover .menu__item {
+        filter: grayscale(80%);
+      }
+      
+      .header.header--regular .menu__item:hover,
+      .header.header--regular .menu__item[selected] {
+        filter: grayscale(80%);
+      }
+      
+      .header.header--regular .menu:hover .menu__item:hover,
+      .header.header--regular .menu:hover .menu__item[selected] {
+        filter: grayscale(0);
+      }
+      
+      .header.header--regular .menu__item[selected] {
+        border-color: yellow;
+      }
+      
+      .header.header--regular .menu__item--chekavo {
+        background: url('../../../../static/images/mainmenu/chekavo.svg') no-repeat -22px -25px #fbe9bc;
+        background-size: 200%;
+      }
+      
+      .header.header--regular .menu__item--otokuj {
+        background: url('../../../../static/images/mainmenu/otokuj.svg') no-repeat -22px -20px #b2b2b2;
+        background-size: 200%;
+      }
+      
+      .header.header--regular .menu__item--pechal {
+        background: url('../../../../static/images/mainmenu/pechal.svg') no-repeat -22px -20px #274264;
+        background-size: 200%;
+      }
+      
+      .header.header--regular .menu__item--chopochom {
+        background: url('../../../../static/images/mainmenu/chopochom.svg') no-repeat -25px -23px #502717;
+        background-size: 200%;
+      }
+      
+      .header.header--regular .menu__item--poedu {
+        background: url('../../../../static/images/mainmenu/poedu.svg') no-repeat -16px -21px #101010;
+        background-size: 200%;
+      }
+      
+      .header.header--regular .menu__item--udoli {
+        background: url('../../../../static/images/mainmenu/udoli.svg') no-repeat -22px -25px #dfe0df;
+        background-size: 200%;
       }
     </style>
 
-    <!-- Header -->
-    <app-header active?="${_page !== 'login'}">
-      <!-- This gets hidden on a small screen-->
-      <nav class="toolbar-list">
+    <!-- main menu for primary page -->
+    <app-header class="header header--primary" hidden?="${_page === 'login' || _page !== '★'}">
+      <nav class="menu">
         <a selected?="${_page === '★'}" href="★">★</a>
         
-        <a selected?="${_page === 'U★R★U★S★S★I★N★K★A'}" href="U★R★U★S★S★I★N★K★A" class="urussinka">
+        <a selected?="${_page === 'U★R★U★S★S★I★N★K★A'}" href="U★R★U★S★S★I★N★K★A" class="menu__item menu__item--urussinka">
             <img src="static/images/mainmenu/news.svg" width="153" height="214">
             <img src="static/images/mainmenu/title.svg" width="282" height="69">
         </a>
         
-        <a selected?="${_page === 'C★H★E★K★A★V★O'}" href="C★H★E★K★A★V★O" class="chekavo"><img src="static/images/mainmenu/chekavo.svg"></a>        
-        <a selected?="${_page === 'O★T★O★K★U★J'}" href="O★T★O★K★U★J" class="otokuj"><img src="static/images/mainmenu/otokuj.svg"></a>        
-        <a selected?="${_page === 'P★E★C★H★A★L'}" href="P★E★C★H★A★L" class="pechal"><img src="static/images/mainmenu/pechal.svg"></a>        
-        <a selected?="${_page === 'C★H★O★P★O★C★H★O★M'}" href="C★H★O★P★O★C★H★O★M" class="chopochom"><img src="static/images/mainmenu/chopochom.svg"></a>
-        <a selected?="${_page === 'P★O★E★D★U'}" href="P★O★E★D★U" class="poedu"><img src="static/images/mainmenu/poedu.svg"></a>
-        <a selected?="${_page === 'U★D★O★L★I'}" href="U★D★O★L★I" class="udoli"><img src="static/images/mainmenu/udoli.svg"></a>
+        <a selected?="${_page === 'C★H★E★K★A★V★O'}" href="C★H★E★K★A★V★O" class="menu__item menu__item--chekavo"><img src="static/images/mainmenu/chekavo.svg"></a>
+        <a selected?="${_page === 'O★T★O★K★U★J'}" href="O★T★O★K★U★J" class="menu__item menu__item--otokuj"><img src="static/images/mainmenu/otokuj.svg"></a>
+        <a selected?="${_page === 'P★E★C★H★A★L'}" href="P★E★C★H★A★L" class="menu__item menu__item--pechal"><img src="static/images/mainmenu/pechal.svg"></a>
+        <a selected?="${_page === 'C★H★O★P★O★C★H★O★M'}" href="C★H★O★P★O★C★H★O★M" class="menu__item menu__item--chopochom"><img src="static/images/mainmenu/chopochom.svg"></a>
+        <a selected?="${_page === 'P★O★E★D★U'}" href="P★O★E★D★U" class="menu__item menu__item--poedu"><img src="static/images/mainmenu/poedu.svg"></a>
+        <a selected?="${_page === 'U★D★O★L★I'}" href="U★D★O★L★I" class="menu__item menu__item--udoli"><img src="static/images/mainmenu/udoli.svg"></a>
       </nav>
+    </app-header>
+    
+    <!-- main menu for regular pages -->
+    <app-header class="header header--regular" hidden?="${_page === 'login' || _page === '★'}">
+        <nav class="menu">
+          <a selected?="${_page === 'C★H★E★K★A★V★O'}" href="C★H★E★K★A★V★O" class="menu__item menu__item--chekavo"></a>
+          <a selected?="${_page === 'O★T★O★K★U★J'}" href="O★T★O★K★U★J" class="menu__item menu__item--otokuj"></a>
+          <a selected?="${_page === 'P★E★C★H★A★L'}" href="P★E★C★H★A★L" class="menu__item menu__item--pechal"></a>
+          <a selected?="${_page === 'U★R★U★S★S★I★N★K★A'}" href="U★R★U★S★S★I★N★K★A" class="menu__item menu__item--urussinka"></a>
+          <a selected?="${_page === 'C★H★O★P★O★C★H★O★M'}" href="C★H★O★P★O★C★H★O★M" class="menu__item menu__item--chopochom"></a>
+          <a selected?="${_page === 'P★O★E★D★U'}" href="P★O★E★D★U" class="menu__item menu__item--poedu"></a>
+          <a selected?="${_page === 'U★D★O★L★I'}" href="U★D★O★L★I" class="menu__item menu__item--udoli"></a>
+        </nav>
     </app-header>
 
     <!-- Main content -->

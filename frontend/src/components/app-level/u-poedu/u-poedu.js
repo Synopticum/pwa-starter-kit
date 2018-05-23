@@ -16,9 +16,9 @@ class UPoedu extends PageViewElement {
   _render(props) {
     return html`
       ${SharedStyles}
-      <section>
-        <h2>Poedu</h2>
-      </section>
+      <div class="asd">
+        Poedu
+      </div>
     `
   }
 }

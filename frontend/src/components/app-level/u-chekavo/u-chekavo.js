@@ -26,9 +26,15 @@ class UChekavo extends connect(store)(PageViewElement) {
   _render(props) {
     return html`
       ${SharedStyles}
-      <section>
-        <h2>Chekavo</h2>
-      </section>
+      
+      <style>
+        :host {
+        }
+      </style>
+      
+      <div class="asd">
+        Chekavo
+      </div>
     `
   }
 

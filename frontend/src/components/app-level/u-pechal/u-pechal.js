@@ -16,9 +16,9 @@ class UPechal extends PageViewElement {
   _render(props) {
     return html`
       ${SharedStyles}
-      <section>
-        <h2>Zhaloby</h2>
-      </section>
+      <div class="asd">
+        Pechal
+      </div>
     `
   }
 }

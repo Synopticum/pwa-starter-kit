@@ -16,44 +16,9 @@ class UUdoli extends PageViewElement {
   _render(props) {
     return html`
       ${SharedStyles}
-      
-      <style>
-        :host {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 100vw;
-            height: 100vh;
-        }
-        
-        .clouds {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 100vw;
-            height: 100vh;
-            background: url('../../../../static/images/clouds65.jpg') no-repeat 50% 50%;
-            opacity: .6;
-            z-index: 5;
-        }
-        
-        main {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 10;
-        }
-      </style>
-      
-      <div class="clouds"></div>
-      
-      <main>      
-        <section>
-          <h2>Udoli</h2>
-        </section>
-      </main>
+      <div class="asd">
+        Udoli
+      </div>
     `
   }
 }

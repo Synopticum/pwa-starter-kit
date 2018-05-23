@@ -16,9 +16,9 @@ class UChopochom extends PageViewElement {
   _render(props) {
     return html`
       ${SharedStyles}
-      <section>
-        <h2>Chopochom</h2>
-      </section>
+      <div class="asd">
+        Chopochom
+      </div>
     `
   }
 }
