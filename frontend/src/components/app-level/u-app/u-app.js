@@ -62,7 +62,30 @@ class UApp extends connect(store)(LitElement) {
       }
 
       .main-content {
+        display: none;
         min-height: 100vh;
+      }
+      
+      .pages {
+        pointer-events: all;
+      }
+
+      .page {
+        display: none;
+        position: fixed;
+        left: 50%;
+        bottom: 130px;
+        transform: translate(-50%,0);
+        z-index: 100;
+        width: 1000px;
+        height: 500px;
+        background-color: #ffffff;
+        border-radius: 5px;
+      }
+
+      .page[active] {
+        display: block;
+        pointer-events: all;
       }
       
       .header.header--primary {
@@ -93,21 +116,6 @@ class UApp extends connect(store)(LitElement) {
       
       .header.header--regular:hover::before {
         opacity: .6;
-      }
-      
-      .pages {
-        pointer-events: all;
-      }
-
-      .page {
-        display: none;
-        position: relative;
-        z-index: 100;
-      }
-
-      .page[active] {
-        display: block;
-        pointer-events: all;
       }
       
       /* menu for primary page */
@@ -194,6 +202,10 @@ class UApp extends connect(store)(LitElement) {
       
       .header.header--regular:hover {
         opacity: 1;
+      }
+      
+      .header.header--regular:hover + .main-content {
+        display: block;
       }
       
       .header.header--regular .menu {
