@@ -26,6 +26,22 @@ export const navigate = (path) => (dispatch) => {
 };
 
 const loadPage = (page) => async (dispatch) => {
+    if ([
+      'login',
+      '★',
+      'U★R★U★S★S★I★N★K★A',
+      'C★H★E★K★A★V★O',
+      'O★T★O★K★U★J',
+      'P★E★C★H★A★L',
+      'C★H★O★P★O★C★H★O★M',
+      'P★O★E★D★U',
+      'U★D★O★L★I'
+    ].indexOf(page) === -1) {
+      page = 'view404';
+    }
+
+    dispatch(updatePage(page));
+
     switch (page) {
         case 'login':
             await import('../components/app-level/u-login/u-login.js');
@@ -33,7 +49,7 @@ const loadPage = (page) => async (dispatch) => {
         case '★':
             await import('../components/app-level/u-map/u-map.js');
             // Put code here that you want it to run every time when
-            // navigate to view1 page and u-map.js is loaded
+            // navigate to ★ and u-map.js is loaded
             break;
         case 'U★R★U★S★S★I★N★K★A':
             await import('../components/app-level/u-map/u-map.js');
@@ -64,7 +80,6 @@ const loadPage = (page) => async (dispatch) => {
             await import('../components/app-level/u-udoli/u-udoli.js');
             break;
         default:
-            page = 'view404';
             await import('../components/reusable/my-view404.js');
     }
 
