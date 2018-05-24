@@ -28,6 +28,6 @@
     "polyserve": "^0.27.0",
     "prpl-server": "^1.1.0",
     "renamer": "^0.6.1",
-    "replace": "^0.3.0"
+    "replace": "^1.0.0"
   }
 }
