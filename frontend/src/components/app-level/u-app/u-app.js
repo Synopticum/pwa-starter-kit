@@ -9,14 +9,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { LitElement, html } from '@polymer/lit-element';
-
-import '@polymer/app-layout/app-drawer/app-drawer.js';
-import '@polymer/app-layout/app-header/app-header.js';
-import '@polymer/app-layout/app-scroll-effects/effects/waterfall.js';
-import '@polymer/app-layout/app-toolbar/app-toolbar.js';
+import { SharedStyles } from '../../shared-styles.js';
 import '../u-mainmenu/u-mainmenu';
-
-import '../../reusable/snack-bar';
 
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { installRouter } from 'pwa-helpers/router.js';
@@ -26,114 +20,73 @@ import { store } from '../../../store.js';
 import { navigate } from '../../../actions/app.js';
 
 class UApp extends connect(store)(LitElement) {
-  _render({appTitle, _page, _drawerOpened, _snackbarOpened, _offline}) {
-    // Anything that's related to rendering should be done in here.
+  _render({ appTitle, _page }) {
     return html`
-    <style>
-      :host {
-        display: block;
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 100vw;
-        height: 100vh;
-        z-index: 999;
-        pointer-events: none;
+      ${SharedStyles}
+      
+      <style>
+        :host {
+          display: block;
+          position: fixed;
+          left: 0;
+          top: 0;
+          width: 100vw;
+          height: 100vh;
+          z-index: 999;
+          pointer-events: none;
+        }
         
-        --app-drawer-width: 256px;
-
-        --app-primary-color: #E91E63;
-        --app-secondary-color: #293237;
-        --app-dark-text-color: var(--app-secondary-color);
-        --app-light-text-color: white;
-        --app-section-even-color: #f7f7f7;
-        --app-section-odd-color: white;
-
-        --app-header-background-color: white;
-        --app-header-text-color: var(--app-dark-text-color);
-        --app-header-selected-color: var(--app-primary-color);
-
-        --app-drawer-background-color: var(--app-secondary-color);
-        --app-drawer-text-color: var(--app-light-text-color);
-        --app-drawer-selected-color: #78909C;
-      }
+        u-login {
+          position: fixed;
+          left: 0;
+          top: 0;
+          width: 100vw;
+          height: 100vh;
+          pointer-events: all;
+        }
+        
+        /* for all pages except login */
+        .app u-login,
+        .app .page {
+          display: none;
+        }
+        
+        .app .page {
+          display: none;
+        }
+        
+        u-mainmenu:hover + .app .page[active] {
+          display: block;
+        }
+      </style>
   
-      [hidden] {
-        display: none !important;
-      }
-      
-      .main-content--login u-login {
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 100vw;
-        height: 100vh;
-        pointer-events: all;
-      }
-      
-      .main-content--regular u-login {
-        display: none;
-      }
-      
-      .main-content--regular .page {
-        display: none;
-        position: fixed;
-        left: 50%;
-        bottom: 130px;
-        transform: translate(-50%,0);
-        z-index: 100;
-        width: 700px;
-        height: 400px;
-        background-color: #ffffff;
-        border-radius: 5px;
-        pointer-events: all;
-      }
-      
-      .main-content--regular .page[active] {
-      }
-      
-      u-mainmenu:hover + .main-content--regular .page[active] {
-        display: block;
-      }
-      
-      .pages {
-        pointer-events: all;
-      }
-    </style>
-
-    <!-- main menu for primary page -->
-    <u-mainmenu hidden?="${_page === 'login'}"></u-mainmenu>
-
-    <!-- Main content -->
-    <main class$="${_page === 'login' ? 'main-content main-content--login' : 'main-content main-content--regular'}">
-      <u-login class="page" active?="${_page === 'login'}"></u-login>
-      <u-map class="page" active?="${_page !== 'login'}"></u-map>
-      
-      <div class="pages">
-        <u-urussinka class="page" active?="${_page === 'U★R★U★S★S★I★N★K★A'}"></u-urussinka>
-        <u-chekavo class="page" active?="${_page === 'C★H★E★K★A★V★O'}"></u-chekavo>
-        <u-otakuj class="page" active?="${_page === 'O★T★O★K★U★J'}"></u-otakuj>
-        <u-pechal class="page" active?="${_page === 'P★E★C★H★A★L'}"></u-pechal>
-        <u-chopochom class="page" active?="${_page === 'C★H★O★P★O★C★H★O★M'}"></u-chopochom>
-        <u-poedu class="page" active?="${_page === 'P★O★E★D★U'}"></u-poedu>
-        <u-udoli class="page" active?="${_page === 'U★D★O★L★I'}"></u-udoli>
-      </div>
-      
-      <my-view404 class="page" active?="${_page === 'view404'}"></my-view404>
-    </main>
-
-    <snack-bar active?="${_snackbarOpened}">
-        You are now ${_offline ? 'offline' : 'online'}.</snack-bar>
+      <!-- main menu for primary page -->
+      <u-mainmenu hidden?="${_page === 'login'}"></u-mainmenu>
+  
+      <!-- Main content -->
+      <main class$="${_page === 'login' ? 'login' : 'app'}">
+        <u-login active?="${_page === 'login'}"></u-login>
+        <u-map active?="${_page !== 'login'}"></u-map>
+        
+        <div class="pages">
+          <u-urussinka class="page" active?="${_page === 'U★R★U★S★S★I★N★K★A'}"></u-urussinka>
+          <u-chekavo class="page" active?="${_page === 'C★H★E★K★A★V★O'}"></u-chekavo>
+          <u-otakuj class="page" active?="${_page === 'O★T★O★K★U★J'}"></u-otakuj>
+          <u-pechal class="page" active?="${_page === 'P★E★C★H★A★L'}"></u-pechal>
+          <u-chopochom class="page" active?="${_page === 'C★H★O★P★O★C★H★O★M'}"></u-chopochom>
+          <u-poedu class="page" active?="${_page === 'P★O★E★D★U'}"></u-poedu>
+          <u-udoli class="page" active?="${_page === 'U★D★O★L★I'}"></u-udoli>
+        </div>
+        
+        <my-view404 class="page" active?="${_page === 'view404'}"></my-view404>
+      </main>
     `;
   }
 
   static get properties() {
     return {
       appTitle: String,
-      _page: String,
-      _drawerOpened: Boolean,
-      _snackbarOpened: Boolean,
-      _offline: Boolean
+      _page: String
     }
   }
 
@@ -161,9 +114,6 @@ class UApp extends connect(store)(LitElement) {
 
   _stateChanged(state) {
     this._page = state.app.page;
-    this._offline = state.app.offline;
-    this._snackbarOpened = state.app.snackbarOpened;
-    this._drawerOpened = state.app.drawerOpened;
   }
 
   async authorize() {
