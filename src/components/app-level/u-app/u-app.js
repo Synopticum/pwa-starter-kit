@@ -76,9 +76,9 @@ class UApp extends connect(store)(LitElement) {
           <u-poedu class="page" active?="${_page === 'P★O★E★D★U'}"></u-poedu>
           <u-udoli class="page" active?="${_page === 'U★D★O★L★I'}"></u-udoli>
         </div>
-        
-        <my-view404 class="page" active?="${_page === 'view404'}"></my-view404>
       </main>
+        
+      <my-view404 active?="${_page === 'view404'}"></my-view404>
     `;
   }
 

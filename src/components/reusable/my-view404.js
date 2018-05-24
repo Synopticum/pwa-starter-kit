@@ -16,11 +16,27 @@ class MyView404 extends PageViewElement {
   _render(props) {
     return html`
       ${SharedStyles}
+      
+      <style>
+        :host {
+          position: fixed;
+          left: 50%;
+          bottom: 130px;
+          transform: translate(-50%,0);
+          z-index: 100;
+          width: 700px;
+          height: 400px;
+          background-color: #ffffff;
+          border-radius: 5px;
+          pointer-events: all;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      </style>
+      
       <section>
-        <h2>Oops! You hit a 404</h2>
-        <p>The page you're looking for doesn't seem to exist. Head back
-           <a href="/">home</a> and try again?
-        </p>
+        <h2>Потрачено!</h2>
       </section>
     `
   }
