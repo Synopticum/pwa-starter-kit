@@ -28,11 +28,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <base href="/">
 
     <link rel="icon" href="static/images/favicon.ico">
-
-    <!-- See https://goo.gl/OOhYW5 -->
     <link rel="manifest" href="manifest.json">
-
     <link href="https://fonts.googleapis.com/css?family=PT+Serif" rel="stylesheet">
+    <link rel="stylesheet" href="static/styles/entry.css">
 
     <script>
       // Load and register pre-caching Service Worker
@@ -44,75 +42,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       //   });
       // }
 
-      // Redux assumes `process.env.NODE_ENV` exists in the ES module build.
-      // https://github.com/reactjs/redux/issues/2907
       window.process = { env: { NODE_ENV: 'production' } };
     </script>
-
-    <!-- Add any global styles for body, document, etc. -->
-    <style>
-      body {
-        margin: 0;
-        /* This is a font-stack that tries to use the system-default sans-serifs first */
-        font-family: 'PT Serif', Helvetica, 'Times New Roman', serif;
-        line-height: 1.5;
-        min-height: 100vh;
-        -webkit-font-smoothing: antialiased;
-      }
-
-      #map {
-        cursor: move;
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 100vw;
-        height: 100vh;
-        background-color: #000000;
-      }
-
-      #map::before {
-        content: '';
-        pointer-events: none;
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 100vw;
-        height: 100vh;
-        z-index: 500;
-        box-shadow: inset 0 0 200px rgba(0,0,0,0.9);
-      }
-
-      .leaflet-interactive {
-        opacity: 0;
-      }
-
-      .leaflet-interactive:hover {
-        opacity: 1;
-      }
-
-      .leaflet-control-container {
-        z-index: 200;
-      }
-
-      #map-overlay,
-      #map-shadow {
-        pointer-events: none;
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 100vw;
-        height: 100vh;
-        z-index: 100;
-      }
-
-      #map-overlay {
-        opacity: .05;
-        background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADAQMAAABs5if8AAAABlBMVEUAAAD///+l2Z/dAAAAAXRSTlMAQObYZgAAAA5JREFUCNdjeMDQwNAAAAZmAeFpNQSMAAAAAElFTkSuQmCC');
-      }
-
-      #map-shadow {
-      }
-    </style>
   </head>
   <body>
     <u-app appTitle="www.u-r-u-s-s-u.com"></u-app>

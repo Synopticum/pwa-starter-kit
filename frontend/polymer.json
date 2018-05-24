@@ -2,7 +2,8 @@
   "entrypoint": "index.html",
   "shell": "src/components/app-level/u-app/u-app.js",
   "sources": [
-    "static/images/**/*"
+    "static/images/**/*",
+    "static/styles/**/*"
   ],
   "extraDependencies": [
     "manifest.json",
