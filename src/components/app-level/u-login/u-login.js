@@ -8,20 +8,36 @@
  subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
 
-import {LitElement, html} from '@polymer/lit-element';
-import {PageViewElement} from '../../reusable/page-view-element.js';
-import {SharedStyles} from '../../shared-styles.js';
-import {connect} from 'pwa-helpers/connect-mixin.js';
+import { LitElement, html } from '@polymer/lit-element'
+import { PageViewElement } from '../../reusable/page-view-element.js'
+import { SharedStyles } from '../../shared-styles.js'
+import { connect } from 'pwa-helpers/connect-mixin.js'
+import { store } from '../../../store'
 
-class ULogin extends LitElement {
-    _render(props) {
-        return html`
+class ULogin extends connect(store)(LitElement) {
+
+  static get properties () {
+    return {
+      _page: String
+    }
+  }
+
+  _shouldRender(_props, _changedProps, _prevProps) {
+    return _props._page === 'login';
+  }
+
+  _render(props) {
+    return html`
             <style>
                 ${SharedStyles}
                 
                 :host {
+                  position: fixed;
+                  left: 0;
+                  top: 0;
                   width: 100vw;
                   height: 100vh;
+                  pointer-events: all;
                   background: url('../../../static/images/background.jpg') no-repeat 50% 50%;
                   background-size: cover;
                 }
@@ -152,9 +168,14 @@ class ULogin extends LitElement {
                 <img src="static/images/vk_logo.svg" alt="">
                 <span class="icon-right"></span><span class="icon-right after"></span>
             </a>
+            
             <a class="copyright" href="http://user-experience.ru" target="_blank">Сделано с ♥ Студия Сергея Новикова</a>
-        `;
-    }
+        `
+  }
+
+  _stateChanged(state) {
+    this._page = state.app.page
+  }
 }
 
-window.customElements.define('u-login', ULogin);
+window.customElements.define('u-login', ULogin)

@@ -36,46 +36,28 @@ class UApp extends connect(store)(LitElement) {
           pointer-events: none;
         }
         
-        u-login {
-          position: fixed;
-          left: 0;
-          top: 0;
-          width: 100vw;
-          height: 100vh;
-          pointer-events: all;
-        }
-        
-        /* for all pages except login */
-        .app u-login,
-        .app .page {
+        .pages .page {
           display: none;
         }
         
-        .app .page {
-          display: none;
-        }
-        
-        u-mainmenu:hover + .app .page[active] {
+        .mainmenu:hover + .pages .page[active] {
           display: block;
         }
       </style>
+      
+      <u-map active?="${_page !== 'login'}"></u-map>     
   
-      <u-mainmenu></u-mainmenu>
+      <u-login></u-login>
+      <u-mainmenu class="mainmenu"></u-mainmenu>  
   
-      <!-- Main content -->
-      <main class$="${_page === 'login' ? 'login' : 'app'}">
-        <u-login></u-login>
-        <u-map active?="${_page !== 'login'}"></u-map>
-        
-        <div class="pages">
-          <u-urussinka class="page" active?="${_page === 'U★R★U★S★S★I★N★K★A'}"></u-urussinka>
-          <u-chekavo class="page" active?="${_page === 'C★H★E★K★A★V★O'}"></u-chekavo>
-          <u-otakuj class="page" active?="${_page === 'O★T★O★K★U★J'}"></u-otakuj>
-          <u-pechal class="page" active?="${_page === 'P★E★C★H★A★L'}"></u-pechal>
-          <u-chopochom class="page" active?="${_page === 'C★H★O★P★O★C★H★O★M'}"></u-chopochom>
-          <u-poedu class="page" active?="${_page === 'P★O★E★D★U'}"></u-poedu>
-          <u-udoli class="page" active?="${_page === 'U★D★O★L★I'}"></u-udoli>
-        </div>
+      <main class="pages">       
+        <u-urussinka class="page" active?="${_page === 'U★R★U★S★S★I★N★K★A'}"></u-urussinka>
+        <u-chekavo class="page" active?="${_page === 'C★H★E★K★A★V★O'}"></u-chekavo>
+        <u-otakuj class="page" active?="${_page === 'O★T★O★K★U★J'}"></u-otakuj>
+        <u-pechal class="page" active?="${_page === 'P★E★C★H★A★L'}"></u-pechal>
+        <u-chopochom class="page" active?="${_page === 'C★H★O★P★O★C★H★O★M'}"></u-chopochom>
+        <u-poedu class="page" active?="${_page === 'P★O★E★D★U'}"></u-poedu>
+        <u-udoli class="page" active?="${_page === 'U★D★O★L★I'}"></u-udoli>
       </main>
         
       <my-view404 active?="${_page === 'view404'}"></my-view404>
