@@ -32,7 +32,7 @@ const loadPage = (page) => async (dispatch) => {
       'U★R★U★S★S★I★N★K★A',
       'C★H★E★K★A★V★O',
       'O★T★O★K★U★J',
-      'P★E★C★H★A★L',
+      'C★H★O★M★U',
       'C★H★O★P★O★C★H★O★M',
       'P★O★E★D★U',
       'U★D★O★L★I'
@@ -63,9 +63,9 @@ const loadPage = (page) => async (dispatch) => {
             await import('../components/app-level/u-map/u-map.js');
             await import('../components/app-level/u-otakuj/u-otakuj.js');
             break;
-        case 'P★E★C★H★A★L':
+        case 'C★H★O★M★U':
             await import('../components/app-level/u-map/u-map.js');
-            await import('../components/app-level/u-pechal/u-pechal.js');
+            await import('../components/app-level/u-chomu/u-chomu.js');
             break;
         case 'C★H★O★P★O★C★H★O★M':
             await import('../components/app-level/u-map/u-map.js');

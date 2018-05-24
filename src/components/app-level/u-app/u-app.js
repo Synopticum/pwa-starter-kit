@@ -54,7 +54,7 @@ class UApp extends connect(store)(LitElement) {
         <u-urussinka class="page" active?="${_page === 'U★R★U★S★S★I★N★K★A'}"></u-urussinka>
         <u-chekavo class="page" active?="${_page === 'C★H★E★K★A★V★O'}"></u-chekavo>
         <u-otakuj class="page" active?="${_page === 'O★T★O★K★U★J'}"></u-otakuj>
-        <u-pechal class="page" active?="${_page === 'P★E★C★H★A★L'}"></u-pechal>
+        <u-chomu class="page" active?="${_page === 'C★H★O★M★U'}"></u-chomu>
         <u-chopochom class="page" active?="${_page === 'C★H★O★P★O★C★H★O★M'}"></u-chopochom>
         <u-poedu class="page" active?="${_page === 'P★O★E★D★U'}"></u-poedu>
         <u-udoli class="page" active?="${_page === 'U★D★O★L★I'}"></u-udoli>

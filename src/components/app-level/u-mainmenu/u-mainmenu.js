@@ -108,9 +108,9 @@ class UMainMenu extends connect(store)(LitElement) {
           background-size: 200%;
         }
         
-        .menu__item--pechal {
+        .menu__item--chomu {
           transform: skew(-.112rad);
-          background: url('../../../../static/images/mainmenu/pechal.svg') no-repeat -22px -20px #274264;
+          background: url('../../../../static/images/mainmenu/chomu.svg') no-repeat -22px -20px #274264;
           background-size: 200%;
         }
         
@@ -144,7 +144,7 @@ class UMainMenu extends connect(store)(LitElement) {
       <nav class="menu">
         <a selected?="${_page === 'C★H★E★K★A★V★O'}" href="C★H★E★K★A★V★O" class="menu__item menu__item--chekavo"></a>
         <a selected?="${_page === 'O★T★O★K★U★J'}" href="O★T★O★K★U★J" class="menu__item menu__item--otokuj"></a>
-        <a selected?="${_page === 'P★E★C★H★A★L'}" href="P★E★C★H★A★L" class="menu__item menu__item--pechal"></a>
+        <a selected?="${_page === 'C★H★O★M★U'}" href="C★H★O★M★U" class="menu__item menu__item--chomu"></a>
         <a selected?="${_page === 'U★R★U★S★S★I★N★K★A'}" href="U★R★U★S★S★I★N★K★A" class="menu__item menu__item--urussinka">
           <img src="static/images/mainmenu/news.svg" width="100" height="140"><br>
           <img src="static/images/mainmenu/title.svg" width="180" height="44">
