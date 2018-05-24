@@ -22,6 +22,10 @@ class UMainMenu extends connect(store)(LitElement) {
     }
   }
 
+  _shouldRender(_props, _changedProps, _prevProps) {
+    return _props._page !== undefined && _props._page !== 'login' && _props._page !== 'view404';
+  }
+
   _render({ _page }) {
     return html`
       ${SharedStyles}

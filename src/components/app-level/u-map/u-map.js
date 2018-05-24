@@ -15,41 +15,15 @@ class UMap extends LitElement {
 
     static get properties() {
         return {
-            map: {
-                type: Object
-            },
-
-            minZoom: {
-                type: Number
-            },
-
-            maxZoom: {
-                type: Number
-            },
-
-            maxBounds: {
-                type: Array
-            },
-
-            mapWidth: {
-                type: Number
-            },
-
-            mapHeight: {
-                type: Number
-            },
-
-            objectFillColor: {
-                type: String
-            },
-
-            objectStrokeWidth: {
-                type: Number
-            },
-
-            __currentObject: {
-                type: Array
-            }
+            map: Object,
+            minZoom: Number,
+            maxZoom: Number,
+            maxBounds: Array,
+            mapWidth: Number,
+            mapHeight: Number,
+            objectFillColor: String,
+            objectStrokeWidth: Number,
+            __currentObject: Array
         };
     }
 

@@ -60,12 +60,11 @@ class UApp extends connect(store)(LitElement) {
         }
       </style>
   
-      <!-- main menu for primary page -->
-      <u-mainmenu hidden?="${_page === 'login'}"></u-mainmenu>
+      <u-mainmenu></u-mainmenu>
   
       <!-- Main content -->
       <main class$="${_page === 'login' ? 'login' : 'app'}">
-        <u-login active?="${_page === 'login'}"></u-login>
+        <u-login></u-login>
         <u-map active?="${_page !== 'login'}"></u-map>
         
         <div class="pages">
