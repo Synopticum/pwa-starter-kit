@@ -60,17 +60,21 @@ class UApp extends connect(store)(LitElement) {
       [hidden] {
         display: none !important;
       }
-
-      .main-content {
-        display: none;
-        min-height: 100vh;
-      }
       
-      .pages {
+      .main-content--login u-login {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
         pointer-events: all;
       }
-
-      .page {
+      
+      .main-content--regular u-login {
+        display: none;
+      }
+      
+      .main-content--regular .page {
         display: none;
         position: fixed;
         left: 50%;
@@ -81,11 +85,24 @@ class UApp extends connect(store)(LitElement) {
         height: 400px;
         background-color: #ffffff;
         border-radius: 5px;
+        pointer-events: all;
+      }
+      
+      .main-content--regular .page[active] {
+      }
+      
+      .header.header--regular:hover + .main-content--regular .page[active] {
+        display: block;
+      }
+      
+      .pages {
+        pointer-events: all;
+      }
+
+      .page {
       }
 
       .page[active] {
-        display: block;
-        pointer-events: all;
       }
       
       .header.header--primary {
@@ -195,17 +212,8 @@ class UApp extends connect(store)(LitElement) {
       /* menu for regular pages */
       .header.header--regular {
         pointer-events: all;
-        opacity: .75;
         transition: .3s;
         will-change: opacity;
-      }
-      
-      .header.header--regular:hover {
-        opacity: 1;
-      }
-      
-      .header.header--regular:hover + .main-content {
-        display: block;
       }
       
       .header.header--regular .menu {
@@ -332,7 +340,7 @@ class UApp extends connect(store)(LitElement) {
     </app-header>
 
     <!-- Main content -->
-    <main class="main-content">
+    <main class$="${_page === 'login' ? 'main-content main-content--login' : 'main-content main-content--regular'}">
       <u-login class="page" active?="${_page === 'login'}"></u-login>
       <u-map class="page" active?="${_page !== 'login'}"></u-map>
       
