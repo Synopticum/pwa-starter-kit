@@ -8,18 +8,18 @@
  subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
 
-import { LitElement, html } from '@polymer/lit-element'
-import { PageViewElement } from '../../reusable/page-view-element.js'
-import { SharedStyles } from '../../shared-styles.js'
-import { connect } from 'pwa-helpers/connect-mixin.js'
-import { store } from '../../../store'
+import { LitElement, html } from '@polymer/lit-element';
+import { PageViewElement } from '../../reusable/page-view-element.js';
+import { SharedStyles } from '../../shared-styles.js';
+import { connect } from 'pwa-helpers/connect-mixin.js';
+import { store } from '../../../store';
 
 class ULogin extends connect(store)(LitElement) {
 
-  static get properties () {
+  static get properties() {
     return {
       _page: String
-    }
+    };
   }
 
   _shouldRender(_props, _changedProps, _prevProps) {
@@ -170,12 +170,12 @@ class ULogin extends connect(store)(LitElement) {
             </a>
             
             <a class="copyright" href="http://user-experience.ru" target="_blank">Сделано с ♥ Студия Сергея Новикова</a>
-        `
+        `;
   }
 
   _stateChanged(state) {
-    this._page = state.app.page
+    this._page = state.app.page;
   }
 }
 
-window.customElements.define('u-login', ULogin)
+window.customElements.define('u-login', ULogin);

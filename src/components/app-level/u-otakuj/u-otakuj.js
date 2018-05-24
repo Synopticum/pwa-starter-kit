@@ -10,7 +10,7 @@
 
 import { html } from '@polymer/lit-element';
 import { SharedStyles } from '../../shared-styles.js';
-import { PageViewElement } from '../../reusable/page-view-element'
+import { PageViewElement } from '../../reusable/page-view-element';
 
 class UOtakuj extends PageViewElement {
   _render(props) {
@@ -35,7 +35,7 @@ class UOtakuj extends PageViewElement {
       <div class="asd">
         Otakuj
       </div>
-    `
+    `;
   }
 }
 

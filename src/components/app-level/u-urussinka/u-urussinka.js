@@ -10,7 +10,7 @@
 
 import { html } from '@polymer/lit-element';
 import { SharedStyles } from '../../shared-styles.js';
-import { PageViewElement } from '../../reusable/page-view-element'
+import { PageViewElement } from '../../reusable/page-view-element';
 
 class UUrussinka extends PageViewElement {
   _render(props) {
@@ -35,7 +35,7 @@ class UUrussinka extends PageViewElement {
       <section>
         <h2>Urussinskaja Novj</h2>
       </section>
-    `
+    `;
   }
 }
 

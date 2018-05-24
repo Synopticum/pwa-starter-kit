@@ -17,6 +17,7 @@ import { connect } from 'pwa-helpers/connect-mixin.js';
 
 import { activateMap } from '../../../actions/map.js';
 import map from '../../../reducers/map.js';
+
 store.addReducers({
   map
 });
@@ -45,7 +46,7 @@ class UChekavo extends connect(store)(PageViewElement) {
       <div class="asd">
         Chekavo
       </div>
-    `
+    `;
   }
 
   _stateChanged() {

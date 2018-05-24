@@ -19,7 +19,7 @@ class UMainMenu extends connect(store)(LitElement) {
   static get properties() {
     return {
       _page: String
-    }
+    };
   }
 
   _shouldRender(_props, _changedProps, _prevProps) {
@@ -153,7 +153,7 @@ class UMainMenu extends connect(store)(LitElement) {
         <a selected?="${_page === 'P★O★E★D★U'}" href="P★O★E★D★U" class="menu__item menu__item--poedu"></a>
         <a selected?="${_page === 'U★D★O★L★I'}" href="U★D★O★L★I" class="menu__item menu__item--udoli"></a>
       </nav>
-    `
+    `;
   }
 
   _stateChanged(state) {

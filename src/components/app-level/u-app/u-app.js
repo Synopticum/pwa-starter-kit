@@ -1,12 +1,12 @@
 /**
-@license
-Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/
+ @license
+ Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
+ This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+ The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+ The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+ Code distributed by Google as part of the polymer project is also
+ subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+ */
 
 import { LitElement, html } from '@polymer/lit-element';
 import { SharedStyles } from '../../shared-styles.js';
@@ -68,7 +68,7 @@ class UApp extends connect(store)(LitElement) {
     return {
       appTitle: String,
       _page: String
-    }
+    };
   }
 
   constructor() {
@@ -78,7 +78,7 @@ class UApp extends connect(store)(LitElement) {
   _firstRendered() {
     this.authorize();
     installRouter((location) => {
-      store.dispatch(navigate(window.decodeURIComponent(location.pathname)))
+      store.dispatch(navigate(window.decodeURIComponent(location.pathname)));
     });
   }
 
@@ -86,9 +86,9 @@ class UApp extends connect(store)(LitElement) {
     if ('_page' in changeList) {
       const pageTitle = properties.appTitle + ' - ' + changeList._page;
       updateMetadata({
-          title: pageTitle,
-          description: pageTitle
-          // This object also takes an image property, that points to an img src.
+        title: pageTitle,
+        description: pageTitle
+        // This object also takes an image property, that points to an img src.
       });
     }
   }
@@ -98,7 +98,7 @@ class UApp extends connect(store)(LitElement) {
   }
 
   async authorize() {
-     await this.checkAccessToken();
+    await this.checkAccessToken();
   }
 
   async checkAccessToken() {
@@ -137,7 +137,7 @@ class UApp extends connect(store)(LitElement) {
 
     hash.split('&').map(hk => {
       let temp = hk.split('=');
-      params[temp[0]] = temp[1]
+      params[temp[0]] = temp[1];
     });
 
     if (!params || !params.access_token) {
