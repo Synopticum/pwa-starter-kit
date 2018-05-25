@@ -45,7 +45,7 @@ class UMainMenu extends connect(store)(LitElement) {
           background: url('../../../../static/images/clouds65.jpg') no-repeat 50% 50%;
           transition: opacity ease .6s;
           will-change: opacity;
-          opacity: 0;
+          opacity: .2;
           pointer-events: none;
         }
         
@@ -65,6 +65,23 @@ class UMainMenu extends connect(store)(LitElement) {
           border-radius: 5px;
         }
         
+        .menu::before {
+          pointer-events: none;
+          content: '';
+          position: absolute;
+          left: -60px;
+          top: -115px;
+          width: 800px;
+          height: 334px;
+          background: url('../../../../static/images/mainmenu/cloud.png') no-repeat;
+          opacity: 1;
+          transition: opacity .6s;
+        }
+        
+        .menu:hover::before {
+          opacity: 0;
+        }
+        
         .menu__item {
           position: relative;
           z-index: 20;
@@ -72,46 +89,33 @@ class UMainMenu extends connect(store)(LitElement) {
           width: 70px;
           height: 70px;
           margin: 0 3px;
-          border-radius: 5px;
-          filter: grayscale(100%);
-          transition: filter .2s;
+          border-radius: 7px;
           border: 3px solid transparent;
         }
         
-        .menu:hover .menu__item {
-          filter: grayscale(80%);
-        }
-        
-        .menu__item:hover,
         .menu__item[selected] {
-          filter: grayscale(80%);
-        }
-        
-        .menu:hover .menu__item:hover,
-        .menu:hover .menu__item[selected] {
-          filter: grayscale(0);
-        }
-        
-        .menu__item[selected] {
-          border-color: yellow;
+          border-color: white;
         }
         
         .menu__item--chekavo {
           transform: skew(-.112rad);
           background: url('../../../../static/images/mainmenu/chekavo.svg') no-repeat -22px -25px #fbe9bc;
           background-size: 200%;
+          background-clip: content-box;
         }
         
         .menu__item--otokuj {
           transform: skew(-.112rad);
           background: url('../../../../static/images/mainmenu/otokuj.svg') no-repeat -22px -20px #b2b2b2;
           background-size: 200%;
+          background-clip: content-box;
         }
         
         .menu__item--chomu {
           transform: skew(-.112rad);
           background: url('../../../../static/images/mainmenu/chomu.svg') no-repeat -22px -20px #274264;
           background-size: 200%;
+          background-clip: content-box;
         }
         
         .menu__item--urussinka {
@@ -121,23 +125,29 @@ class UMainMenu extends connect(store)(LitElement) {
           text-align: center;
           font-size: 0;
         }
+        .menu__item--urussinka[selected] {
+          border-color: transparent;
+        }
         
         .menu__item--chopochom {
           transform: skew(.112rad);
-          background: url('../../../../static/images/mainmenu/chopochom.svg') no-repeat -25px -23px #502717;
+          background: url('../../../../static/images/mainmenu/chopochom.svg') no-repeat -25px -23px;
           background-size: 200%;
+          background-clip: content-box;
         }
         
         .menu__item--poedu {
           transform: skew(.112rad);
           background: url('../../../../static/images/mainmenu/poedu.svg') no-repeat -16px -21px #101010;
           background-size: 200%;
+          background-clip: content-box;
         }
         
         .menu__item--udoli {
           transform: skew(.112rad);
           background: url('../../../../static/images/mainmenu/udoli.svg') no-repeat -22px -25px #dfe0df;
           background-size: 200%;
+          background-clip: content-box;
         }
       </style>
       
