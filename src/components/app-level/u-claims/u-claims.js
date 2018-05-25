@@ -12,7 +12,7 @@ import { html } from '@polymer/lit-element';
 import { SharedStyles } from '../../shared-styles.js';
 import { PageViewElement } from '../../reusable/page-view-element';
 
-class UChopochom extends PageViewElement {
+class UClaims extends PageViewElement {
   _render(props) {
     return html`
       ${SharedStyles}
@@ -33,10 +33,10 @@ class UChopochom extends PageViewElement {
       </style>
       
       <div class="asd">
-        Chopochom
+        Chomu
       </div>
     `;
   }
 }
 
-window.customElements.define('u-chopochom', UChopochom);
+window.customElements.define('u-claims', UClaims);

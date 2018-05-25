@@ -97,71 +97,71 @@ class UMainMenu extends connect(store)(LitElement) {
           border-color: white;
         }
         
-        .menu__item--chekavo {
+        .menu__item--ads {
           transform: skew(-.112rad);
-          background: url('../../../../static/images/mainmenu/chekavo.svg') no-repeat -22px -25px #fbe9bc;
+          background: url('../../../../static/images/mainmenu/ads.svg') no-repeat -22px -25px #fbe9bc;
           background-size: 200%;
           background-clip: content-box;
         }
         
-        .menu__item--otokuj {
+        .menu__item--ideas {
           transform: skew(-.112rad);
-          background: url('../../../../static/images/mainmenu/otokuj.svg') no-repeat -22px -20px #b2b2b2;
+          background: url('../../../../static/images/mainmenu/ideas.svg') no-repeat -22px -20px #b2b2b2;
           background-size: 200%;
           background-clip: content-box;
         }
         
-        .menu__item--chomu {
+        .menu__item--claims {
           transform: skew(-.112rad);
-          background: url('../../../../static/images/mainmenu/chomu.svg') no-repeat -22px -20px #274264;
+          background: url('../../../../static/images/mainmenu/claims.svg') no-repeat -22px -20px #274264;
           background-size: 200%;
           background-clip: content-box;
         }
         
-        .menu__item--urussinka {
+        .menu__item--news {
           position: relative;
           top: -100px;
           width: 190px;
           text-align: center;
           font-size: 0;
         }
-        .menu__item--urussinka[selected] {
+        .menu__item--news[selected] {
           border-color: transparent;
         }
         
-        .menu__item--chopochom {
+        .menu__item--sale {
           transform: skew(.112rad);
-          background: url('../../../../static/images/mainmenu/chopochom.svg') no-repeat -25px -23px;
+          background: url('../../../../static/images/mainmenu/sale.svg') no-repeat -25px -23px;
           background-size: 200%;
           background-clip: content-box;
         }
         
-        .menu__item--poedu {
+        .menu__item--rides {
           transform: skew(.112rad);
-          background: url('../../../../static/images/mainmenu/poedu.svg') no-repeat -16px -21px #101010;
+          background: url('../../../../static/images/mainmenu/rides.svg') no-repeat -16px -21px #101010;
           background-size: 200%;
           background-clip: content-box;
         }
         
-        .menu__item--udoli {
+        .menu__item--anonymous {
           transform: skew(.112rad);
-          background: url('../../../../static/images/mainmenu/udoli.svg') no-repeat -22px -25px #dfe0df;
+          background: url('../../../../static/images/mainmenu/anonymous.svg') no-repeat -22px -25px #dfe0df;
           background-size: 200%;
           background-clip: content-box;
         }
       </style>
       
       <nav class="menu">
-        <a selected?="${_page === 'C★H★E★K★A★V★O'}" href="C★H★E★K★A★V★O" class="menu__item menu__item--chekavo"></a>
-        <a selected?="${_page === 'O★T★O★K★U★J'}" href="O★T★O★K★U★J" class="menu__item menu__item--otokuj"></a>
-        <a selected?="${_page === 'C★H★O★M★U'}" href="C★H★O★M★U" class="menu__item menu__item--chomu"></a>
-        <a selected?="${_page === 'U★R★U★S★S★I★N★K★A'}" href="U★R★U★S★S★I★N★K★A" class="menu__item menu__item--urussinka">
+        <a selected?="${_page === 'C★H★E★K★A★V★O'}" href="C★H★E★K★A★V★O" class="menu__item menu__item--ads"></a>
+        <a selected?="${_page === 'O★T★O★K★U★J'}" href="O★T★O★K★U★J" class="menu__item menu__item--ideas"></a>
+        <a selected?="${_page === 'C★H★O★M★U'}" href="C★H★O★M★U" class="menu__item menu__item--claims"></a>
+        <a selected?="${_page === 'U★R★U★S★S★I★N★K★A'}" href="U★R★U★S★S★I★N★K★A" class="menu__item menu__item--news">
           <img src="static/images/mainmenu/news.svg" width="100" height="140"><br>
           <img src="static/images/mainmenu/title.svg" width="180" height="44">
         </a>
-        <a selected?="${_page === 'C★H★O★P★O★C★H★O★M'}" href="C★H★O★P★O★C★H★O★M" class="menu__item menu__item--chopochom"></a>
-        <a selected?="${_page === 'P★O★E★D★U'}" href="P★O★E★D★U" class="menu__item menu__item--poedu"></a>
-        <a selected?="${_page === 'U★D★O★L★I'}" href="U★D★O★L★I" class="menu__item menu__item--udoli"></a>
+        <a selected?="${_page === 'C★H★O★P★O★C★H★O★M'}" href="C★H★O★P★O★C★H★O★M" class="menu__item menu__item--sale"></a>
+        <a selected?="${_page === 'P★O★E★D★U'}" href="P★O★E★D★U" class="menu__item menu__item--rides"></a>
+        <a selected?="${_page === 'U★D★O★L★I'}" href="U★D★O★L★I" class="menu__item menu__item--anonymous"></a>
       </nav>
     `;
   }

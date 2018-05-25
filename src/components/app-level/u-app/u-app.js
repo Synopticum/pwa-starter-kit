@@ -51,13 +51,13 @@ class UApp extends connect(store)(LitElement) {
       <u-mainmenu class="mainmenu"></u-mainmenu>  
   
       <main class="pages">       
-        <u-urussinka class="page" active?="${_page === 'U★R★U★S★S★I★N★K★A'}"></u-urussinka>
-        <u-chekavo class="page" active?="${_page === 'C★H★E★K★A★V★O'}"></u-chekavo>
-        <u-otakuj class="page" active?="${_page === 'O★T★O★K★U★J'}"></u-otakuj>
-        <u-chomu class="page" active?="${_page === 'C★H★O★M★U'}"></u-chomu>
-        <u-chopochom class="page" active?="${_page === 'C★H★O★P★O★C★H★O★M'}"></u-chopochom>
-        <u-poedu class="page" active?="${_page === 'P★O★E★D★U'}"></u-poedu>
-        <u-udoli class="page" active?="${_page === 'U★D★O★L★I'}"></u-udoli>
+        <u-news class="page" active?="${_page === 'U★R★U★S★S★I★N★K★A'}"></u-news>
+        <u-ads class="page" active?="${_page === 'C★H★E★K★A★V★O'}"></u-ads>
+        <u-ideas class="page" active?="${_page === 'O★T★O★K★U★J'}"></u-ideas>
+        <u-claims class="page" active?="${_page === 'C★H★O★M★U'}"></u-claims>
+        <u-sale class="page" active?="${_page === 'C★H★O★P★O★C★H★O★M'}"></u-sale>
+        <u-rides class="page" active?="${_page === 'P★O★E★D★U'}"></u-rides>
+        <u-anonymous class="page" active?="${_page === 'U★D★O★L★I'}"></u-anonymous>
       </main>
         
       <my-view404 active?="${_page === 'view404'}"></my-view404>

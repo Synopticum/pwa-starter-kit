@@ -12,18 +12,7 @@ import { html } from '@polymer/lit-element';
 import { SharedStyles } from '../../shared-styles.js';
 import { PageViewElement } from '../../reusable/page-view-element';
 
-import { store } from '../../../store.js';
-import { connect } from 'pwa-helpers/connect-mixin.js';
-
-import { activateMap } from '../../../actions/map.js';
-import map from '../../../reducers/map.js';
-
-store.addReducers({
-  map
-});
-
-class UChekavo extends connect(store)(PageViewElement) {
-
+class URides extends PageViewElement {
   _render(props) {
     return html`
       ${SharedStyles}
@@ -44,14 +33,10 @@ class UChekavo extends connect(store)(PageViewElement) {
       </style>
       
       <div class="asd">
-        Chekavo
+        Poedu
       </div>
     `;
   }
-
-  _stateChanged() {
-
-  }
 }
 
-window.customElements.define('u-chekavo', UChekavo);
+window.customElements.define('u-rides', URides);

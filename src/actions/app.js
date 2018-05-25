@@ -53,31 +53,31 @@ const loadPage = (page) => async (dispatch) => {
             break;
         case 'U★R★U★S★S★I★N★K★A':
             await import('../components/app-level/u-map/u-map.js');
-            await import('../components/app-level/u-urussinka/u-urussinka.js');
+            await import('../components/app-level/u-news/u-news.js');
             break;
         case 'C★H★E★K★A★V★O':
             await import('../components/app-level/u-map/u-map.js');
-            await import('../components/app-level/u-chekavo/u-chekavo.js');
+            await import('../components/app-level/u-ads/u-ads.js');
             break;
         case 'O★T★O★K★U★J':
             await import('../components/app-level/u-map/u-map.js');
-            await import('../components/app-level/u-otakuj/u-otakuj.js');
+            await import('../components/app-level/u-ideas/u-ideas.js');
             break;
         case 'C★H★O★M★U':
             await import('../components/app-level/u-map/u-map.js');
-            await import('../components/app-level/u-chomu/u-chomu.js');
+            await import('../components/app-level/u-claims/u-claims.js');
             break;
         case 'C★H★O★P★O★C★H★O★M':
             await import('../components/app-level/u-map/u-map.js');
-            await import('../components/app-level/u-chopochom/u-chopochom.js');
+            await import('../components/app-level/u-sale/u-sale.js');
             break;
         case 'P★O★E★D★U':
             await import('../components/app-level/u-map/u-map.js');
-            await import('../components/app-level/u-poedu/u-poedu.js');
+            await import('../components/app-level/u-rides/u-rides.js');
             break;
         case 'U★D★O★L★I':
             await import('../components/app-level/u-map/u-map.js');
-            await import('../components/app-level/u-udoli/u-udoli.js');
+            await import('../components/app-level/u-anonymous/u-anonymous.js');
             break;
         default:
             await import('../components/reusable/my-view404.js');

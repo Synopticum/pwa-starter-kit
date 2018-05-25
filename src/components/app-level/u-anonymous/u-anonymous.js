@@ -12,7 +12,7 @@ import { html } from '@polymer/lit-element';
 import { SharedStyles } from '../../shared-styles.js';
 import { PageViewElement } from '../../reusable/page-view-element';
 
-class UOtakuj extends PageViewElement {
+class UAnonymous extends PageViewElement {
   _render(props) {
     return html`
       ${SharedStyles}
@@ -33,10 +33,10 @@ class UOtakuj extends PageViewElement {
       </style>
       
       <div class="asd">
-        Otakuj
+        Udoli
       </div>
     `;
   }
 }
 
-window.customElements.define('u-otakuj', UOtakuj);
+window.customElements.define('u-anonymous', UAnonymous);

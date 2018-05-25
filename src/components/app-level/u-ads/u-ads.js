@@ -12,7 +12,18 @@ import { html } from '@polymer/lit-element';
 import { SharedStyles } from '../../shared-styles.js';
 import { PageViewElement } from '../../reusable/page-view-element';
 
-class UUdoli extends PageViewElement {
+import { store } from '../../../store.js';
+import { connect } from 'pwa-helpers/connect-mixin.js';
+
+import { activateMap } from '../../../actions/map.js';
+import map from '../../../reducers/map.js';
+
+store.addReducers({
+  map
+});
+
+class UAds extends connect(store)(PageViewElement) {
+
   _render(props) {
     return html`
       ${SharedStyles}
@@ -33,10 +44,14 @@ class UUdoli extends PageViewElement {
       </style>
       
       <div class="asd">
-        Udoli
+        Chekavo
       </div>
     `;
   }
+
+  _stateChanged() {
+
+  }
 }
 
-window.customElements.define('u-udoli', UUdoli);
+window.customElements.define('u-ads', UAds);
