@@ -18,21 +18,17 @@ class USale extends PageViewElement {
       ${SharedStyles}
       
       <style>
-        :host {
-          position: fixed;
-          left: 50%;
-          bottom: 130px;
-          transform: translate(-50%,0);
-          z-index: 100;
-          width: 700px;
-          height: 400px;
-          background-color: #ffffff;
-          border-radius: 5px;
-          pointer-events: all;
+        .sale {
+            width: 90%;
+            max-width: 1000px;
+            height: 400px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            pointer-events: all;
         }
       </style>
       
-      <div class="asd">
+      <div class="sale">
         Chopochom
       </div>
     `;

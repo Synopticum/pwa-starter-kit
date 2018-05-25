@@ -38,10 +38,16 @@ class UApp extends connect(store)(LitElement) {
         
         .pages .page {
           display: none;
+          position: relative;
+          z-index: 100;
+          width: 100vw;
+          height: 100vh;
+          align-items: center;
+          justify-content: center;
         }
         
         .mainmenu[page-active] + .pages .page[active] {
-          display: block;
+          display: flex;
         }
       </style>
       
