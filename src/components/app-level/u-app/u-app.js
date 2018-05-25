@@ -40,7 +40,7 @@ class UApp extends connect(store)(LitElement) {
           display: none;
         }
         
-        .mainmenu:hover + .pages .page[active] {
+        .mainmenu[page-active] + .pages .page[active] {
           display: block;
         }
       </style>
@@ -48,7 +48,7 @@ class UApp extends connect(store)(LitElement) {
       <u-map active?="${_page !== 'login'}"></u-map>     
   
       <u-login></u-login>
-      <u-mainmenu class="mainmenu"></u-mainmenu>  
+      <u-mainmenu class="mainmenu" page-active?="${this._isPageActive}"></u-mainmenu>  
   
       <main class="pages">       
         <u-news class="page" active?="${_page === 'U★R★U★S★S★I★N★K★A'}"></u-news>
@@ -146,6 +146,10 @@ class UApp extends connect(store)(LitElement) {
 
     localStorage.access_token = params.access_token;
     return params.access_token;
+  }
+
+  get _isPageActive() {
+    return (this._page !== 'login' && this._page !== 'view404' && this._page !== '★');
   }
 }
 

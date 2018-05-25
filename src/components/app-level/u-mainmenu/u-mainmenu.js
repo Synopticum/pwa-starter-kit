@@ -49,7 +49,7 @@ class UMainMenu extends connect(store)(LitElement) {
           pointer-events: none;
         }
         
-        :host(:hover)::before {
+        :host([page-active])::before {
           opacity: .6;
         }
         
@@ -76,10 +76,6 @@ class UMainMenu extends connect(store)(LitElement) {
           background: url('../../../../static/images/mainmenu/cloud.png') no-repeat;
           opacity: 1;
           transition: opacity .6s;
-        }
-        
-        .menu:hover::before {
-          opacity: 0;
         }
         
         .menu__item {
