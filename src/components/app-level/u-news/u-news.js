@@ -11,9 +11,25 @@
 import { html } from '@polymer/lit-element';
 import { SharedStyles } from '../../shared-styles.js';
 import { PageViewElement } from '../../reusable/page-view-element';
+import { connect } from 'pwa-helpers/connect-mixin';
 
-class UNews extends PageViewElement {
-  _render(props) {
+import { store } from '../../../store';
+import { getAllNews } from '../../../actions/news.js';
+
+import news from '../../../reducers/news.js';
+store.addReducers({
+  news
+});
+
+class UNews extends connect(store)(PageViewElement) {
+
+  static get properties() {
+    return {
+      news: Array
+    };
+  }
+
+  _render({ news }) {
     return html`
       ${SharedStyles}
       
@@ -29,9 +45,17 @@ class UNews extends PageViewElement {
       </style>
       
       <div class="news">
-        Urussinka
+        ${news}
       </div>
     `;
+  }
+
+  _firstRendered() {
+    store.dispatch(getAllNews());
+  }
+
+  _stateChanged(state) {
+    this.news = state.news.all;
   }
 }
 
