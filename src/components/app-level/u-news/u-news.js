@@ -9,6 +9,7 @@
  */
 
 import { html } from '@polymer/lit-element';
+import { repeat } from 'lit-html/lib/repeat';
 import { SharedStyles } from '../../shared-styles.js';
 import { PageViewElement } from '../../reusable/page-view-element';
 import { connect } from 'pwa-helpers/connect-mixin';
@@ -41,11 +42,26 @@ class UNews extends connect(store)(PageViewElement) {
             background-color: #ffffff;
             border-radius: 5px;
             pointer-events: all;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .news__item {
+            padding: 10px 0;
+            border-bottom: 1px solid #ccc;
+        }
+        
+        .news__link {
+            text-align: right;
         }
       </style>
       
       <div class="news">
-        ${news}
+          ${repeat(news, (i) => i.id, (i, index) => html`
+            <div class="news__item">
+                <div class="news__text">${i.text}</div>
+                <div class="news__link"><a href$="${i.link}" target="_blank">Поподробнее</a></div>
+            </div>`)}
       </div>
     `;
   }
