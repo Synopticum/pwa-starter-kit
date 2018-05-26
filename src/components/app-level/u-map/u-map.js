@@ -63,10 +63,10 @@ class UMap extends LitElement {
 
   _firstRendered() {
     super._firstRendered();
-    this.init();
+    this.init().catch(e => { throw new Error(e) });
   }
 
-  init() {
+  async init() {
     if (!localStorage.access_token) {
       alert('Auth error');
       window.location.href = '/login';
@@ -77,7 +77,7 @@ class UMap extends LitElement {
       this._setMaxBounds();
       this._initializeTiles();
       this._setListeners();
-      this._drawObjects();
+      await this._drawObjects();
     }
   }
 
