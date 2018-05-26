@@ -23,11 +23,27 @@ class UMap extends LitElement {
       mapHeight: Number,
       objectFillColor: String,
       objectStrokeWidth: Number,
+      _objectHoverTimeOut: Number,
       __currentObject: Array
     };
   }
 
   _render(props) {
+    return html`
+      ${SharedStyles}
+      
+      <style>
+        :host {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+        }
+      </style>
+      
+      <u-object></u-object>
+    `;
   }
 
   constructor() {
