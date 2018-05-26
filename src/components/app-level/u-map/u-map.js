@@ -41,6 +41,7 @@ class UMap extends LitElement {
     this.mapHeight = 4000;
     this.objectFillColor = '#ffc600';
     this.objectStrokeWidth = 2;
+    this._objectHoverTimeOut = null;
     this.__currentObject = [];
   }
 
@@ -108,6 +109,7 @@ class UMap extends LitElement {
         'vk-access-token': localStorage.access_token
       }
     });
+
     if (response.ok) {
       const paths = await response.json();
 
@@ -116,6 +118,8 @@ class UMap extends LitElement {
           color: this.objectFillColor,
           weight: this.objectStrokeWidth
         })
+          .on('mouseover', this._handleObjectMouseOver)
+          .on('mouseout', this._handleObjectMouseOut)
           .on('click', this._handleObjectClick)
           .addTo(this.map);
       });
@@ -146,26 +150,28 @@ class UMap extends LitElement {
     }
   }
 
-  static _triggerResize() {
-    window.dispatchEvent(new Event('resize'));
+  _handleObjectMouseOver(e) {
+    this._objectHoverTimeOut = setTimeout(() => {
+      let latLngs = e.target.getLatLngs()[0];
+
+      UMap._getItemByLatLngs(latLngs)
+        .then(function (data) {
+          console.log(data);
+        });
+    }, 1000);
+  }
+
+  _handleObjectMouseOut() {
+    clearTimeout(this._objectHoverTimeOut);
   }
 
   _handleObjectClick(e) {
     let latLngs = e.target.getLatLngs()[0];
 
-    let coordinates = latLngs.map(item => {
-      return [item.lat, item.lng];
-    });
-
-    fetch(`http://localhost:3000/api/objects?coordinates=${JSON.stringify(coordinates)}`, {
-      headers: {
-        'vk-access-token': localStorage.access_token
-      }
-    }).then(function (response) {
-      return response.json();
-    }).then(function (data) {
-      console.log(data);
-    });
+    UMap._getItemByLatLngs(latLngs)
+      .then(function (data) {
+        console.log(data);
+      });
   }
 
   __getCoordinates(e) {
@@ -185,6 +191,24 @@ class UMap extends LitElement {
       console.log(path);
       this.__currentObject = [];
     }
+  }
+
+  static _triggerResize() {
+    window.dispatchEvent(new Event('resize'));
+  }
+
+  static async _getItemByLatLngs(latLngs) {
+    let coordinates = latLngs.map(item => {
+      return [item.lat, item.lng];
+    });
+
+    let response = await fetch(`http://localhost:3000/api/objects?coordinates=${JSON.stringify(coordinates)}`, {
+      headers: {
+        'vk-access-token': localStorage.access_token
+      }
+    });
+
+    return await response.json();
   }
 }
 
