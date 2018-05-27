@@ -13,7 +13,7 @@ import { SharedStyles } from '../../shared-styles.js';
 import { connect } from 'pwa-helpers/connect-mixin';
 
 import { store } from '../../../store';
-import { showObjectTooltip } from '../../../actions/map.js';
+import { showObjectTooltip, hideObjectTooltip } from '../../../actions/map.js';
 
 import map from '../../../reducers/map.js';
 store.addReducers({
@@ -33,12 +33,13 @@ class UMap extends connect(store)(LitElement) {
       objectFillColor: String,
       objectStrokeWidth: Number,
       _objectHoverTimeOut: Number,
+      _isTooltipVisible: Boolean,
+      _objectTooltip: Object,
       __currentObject: Array,
-      objectTooltip: Object
     };
   }
 
-  _render({ objectTooltip }) {
+  _render({ _isTooltipVisible, _objectTooltip }) {
     return html`
       ${SharedStyles}
       
@@ -52,7 +53,7 @@ class UMap extends connect(store)(LitElement) {
         }
       </style>
       
-      <u-object>${objectTooltip ? objectTooltip._id : ''}</u-object>
+      <u-object hidden?="${!_isTooltipVisible}">${_objectTooltip ? _objectTooltip._id : ''}</u-object>
     `;
   }
 
@@ -77,7 +78,8 @@ class UMap extends connect(store)(LitElement) {
   }
 
   _stateChanged(state) {
-    this.objectTooltip = state.map.objectTooltip;
+    this._isTooltipVisible = state.map.isTooltipVisible;
+    this._objectTooltip = state.map.objectTooltip;
   }
 
   async init() {
@@ -148,8 +150,8 @@ class UMap extends connect(store)(LitElement) {
           color: this.objectFillColor,
           weight: this.objectStrokeWidth
         })
-          .on('mouseover', this._handleObjectMouseOver)
-          .on('mouseout', this._handleObjectMouseOut)
+          .on('mouseover', this._showObjectTooltip)
+          .on('mouseout', this._hideObjectTooltip)
           .on('click', this._handleObjectClick)
           .addTo(this.map);
       });
@@ -180,15 +182,16 @@ class UMap extends connect(store)(LitElement) {
     }
   }
 
-  _handleObjectMouseOver(e) {
+  _showObjectTooltip(e) {
     this._objectHoverTimeOut = setTimeout(() => {
       let latLngs = e.target.getLatLngs()[0];
       store.dispatch(showObjectTooltip(latLngs));
     }, 1000);
   }
 
-  _handleObjectMouseOut() {
+  _hideObjectTooltip() {
     clearTimeout(this._objectHoverTimeOut);
+    store.dispatch(hideObjectTooltip());
   }
 
   _handleObjectClick(e) {

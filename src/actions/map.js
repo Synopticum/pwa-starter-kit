@@ -1,4 +1,5 @@
 export const SHOW_OBJECT_TOOLTIP = 'SHOW_OBJECT_TOOLTIP';
+export const HIDE_OBJECT_TOOLTIP = 'HIDE_OBJECT_TOOLTIP';
 
 export const showObjectTooltip = (latLngs) => async (dispatch, getState) => {
   const object = await _getObjectByLatLngs(latLngs);
@@ -7,6 +8,12 @@ export const showObjectTooltip = (latLngs) => async (dispatch, getState) => {
     type: SHOW_OBJECT_TOOLTIP,
     objectTooltip: object
   });
+};
+
+export const hideObjectTooltip = (dispatch, getState) => {
+  return {
+    type: HIDE_OBJECT_TOOLTIP
+  }
 };
 
 async function _getObjectByLatLngs(latLngs) {
