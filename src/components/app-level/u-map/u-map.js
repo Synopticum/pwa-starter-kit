@@ -179,6 +179,8 @@ class UMap extends connect(store)(LitElement) {
           weight: this.objectStrokeWidth,
           radius: item.coordinates[1]
         })
+          .on('mouseover', this._showObjectTooltip)
+          .on('mouseout', this._hideObjectTooltip)
           .addTo(this.map);
       });
     } else {
@@ -188,13 +190,25 @@ class UMap extends connect(store)(LitElement) {
 
   _showObjectTooltip(e) {
     this._objectHoverTimeOut = setTimeout(() => {
-      let latLngs = e.target.getLatLngs()[0];
+      let type = e.target.getRadius ? 'circle' : 'path';
+      let coordinates;
+
+      switch (type) {
+        case 'circle':
+          coordinates = [[e.target.getLatLng().lat, e.target.getLatLng().lng], e.target.getRadius()];
+          break;
+
+        case 'path':
+          coordinates = e.target.getLatLngs()[0].map(item => [item.lat, item.lng]);
+          break;
+      }
+
       let position = {
         x: e.containerPoint.x,
         y: e.containerPoint.y
       };
 
-      store.dispatch(showObjectTooltip(latLngs, position));
+      store.dispatch(showObjectTooltip(coordinates, position));
     }, 1000);
   }
 
