@@ -8,17 +8,18 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { ACTIVATE_MAP } from '../actions/map.js';
+import { SHOW_OBJECT_TOOLTIP } from '../actions/map.js';
 
-const map = (state = { active: false }, action) => {
+const map = (state = { objectTooltip: null }, action) => {
   switch (action.type) {
-    case ACTIVATE_MAP:
+    case SHOW_OBJECT_TOOLTIP:
       return {
-        active: true
+        ...state,
+        objectTooltip: action.objectTooltip
       };
     default:
       return state;
   }
-}
+};
 
 export default map;

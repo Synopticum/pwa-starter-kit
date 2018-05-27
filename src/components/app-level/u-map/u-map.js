@@ -10,8 +10,17 @@
 
 import { LitElement, html } from '@polymer/lit-element';
 import { SharedStyles } from '../../shared-styles.js';
+import { connect } from 'pwa-helpers/connect-mixin';
 
-class UMap extends LitElement {
+import { store } from '../../../store';
+import { showObjectTooltip } from '../../../actions/map.js';
+
+import map from '../../../reducers/map.js';
+store.addReducers({
+  map
+});
+
+class UMap extends connect(store)(LitElement) {
 
   static get properties() {
     return {
@@ -24,11 +33,12 @@ class UMap extends LitElement {
       objectFillColor: String,
       objectStrokeWidth: Number,
       _objectHoverTimeOut: Number,
-      __currentObject: Array
+      __currentObject: Array,
+      objectTooltip: Object
     };
   }
 
-  _render(props) {
+  _render({ objectTooltip }) {
     return html`
       ${SharedStyles}
       
@@ -42,7 +52,7 @@ class UMap extends LitElement {
         }
       </style>
       
-      <u-object></u-object>
+      <u-object>${objectTooltip ? objectTooltip._id : ''}</u-object>
     `;
   }
 
@@ -64,6 +74,10 @@ class UMap extends LitElement {
   _firstRendered() {
     super._firstRendered();
     this.init().catch(e => { throw new Error(e) });
+  }
+
+  _stateChanged(state) {
+    this.objectTooltip = state.map.objectTooltip;
   }
 
   async init() {
@@ -169,11 +183,7 @@ class UMap extends LitElement {
   _handleObjectMouseOver(e) {
     this._objectHoverTimeOut = setTimeout(() => {
       let latLngs = e.target.getLatLngs()[0];
-
-      UMap._getItemByLatLngs(latLngs)
-        .then(function (data) {
-          console.log(data);
-        });
+      store.dispatch(showObjectTooltip(latLngs));
     }, 1000);
   }
 
@@ -184,10 +194,10 @@ class UMap extends LitElement {
   _handleObjectClick(e) {
     let latLngs = e.target.getLatLngs()[0];
 
-    UMap._getItemByLatLngs(latLngs)
-      .then(function (data) {
-        console.log(data);
-      });
+    // UMap._getItemByLatLngs(latLngs)
+    //   .then(function (data) {
+    //     console.log(data);
+    //   });
   }
 
   __getCoordinates(e) {
@@ -211,20 +221,6 @@ class UMap extends LitElement {
 
   static _triggerResize() {
     window.dispatchEvent(new Event('resize'));
-  }
-
-  static async _getItemByLatLngs(latLngs) {
-    let coordinates = latLngs.map(item => {
-      return [item.lat, item.lng];
-    });
-
-    let response = await fetch(`http://localhost:3000/api/objects?coordinates=${JSON.stringify(coordinates)}`, {
-      headers: {
-        'vk-access-token': localStorage.access_token
-      }
-    });
-
-    return await response.json();
   }
 }
 

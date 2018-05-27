@@ -1,17 +1,24 @@
-/**
-@license
-Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/
+export const SHOW_OBJECT_TOOLTIP = 'SHOW_OBJECT_TOOLTIP';
 
-export const ACTIVATE_MAP = 'ACTIVATE_MAP';
+export const showObjectTooltip = (latLngs) => async (dispatch, getState) => {
+  const object = await _getObjectByLatLngs(latLngs);
 
-export const activateMap = () => {
-  return {
-    type: ACTIVATE_MAP
-  };
+  dispatch({
+    type: SHOW_OBJECT_TOOLTIP,
+    objectTooltip: object
+  });
 };
+
+async function _getObjectByLatLngs(latLngs) {
+  let coordinates = latLngs.map(item => {
+    return [item.lat, item.lng];
+  });
+
+  let response = await fetch(`http://localhost:3000/api/objects?coordinates=${JSON.stringify(coordinates)}`, {
+    headers: {
+      'vk-access-token': localStorage.access_token
+    }
+  });
+
+  return await response.json();
+}
