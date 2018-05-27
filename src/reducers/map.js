@@ -10,13 +10,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { SHOW_OBJECT_TOOLTIP, HIDE_OBJECT_TOOLTIP } from '../actions/map.js';
 
-const map = (state = { objectTooltip: null }, action) => {
+const map = (state = { objectTooltip: null, position: {} }, action) => {
   switch (action.type) {
     case SHOW_OBJECT_TOOLTIP:
       return {
         ...state,
         isTooltipVisible: Boolean(action.objectTooltip),
-        objectTooltip: action.objectTooltip
+        objectTooltip: action.objectTooltip,
+        position: action.position
       };
 
     case HIDE_OBJECT_TOOLTIP:

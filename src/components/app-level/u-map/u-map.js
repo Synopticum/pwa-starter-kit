@@ -35,19 +35,21 @@ class UMap extends connect(store)(LitElement) {
       _objectHoverTimeOut: Number,
       _isTooltipVisible: Boolean,
       _objectTooltip: Object,
+      _objectTooltipPositionX: Number,
+      _objectTooltipPositionY: Number,
       __currentObject: Array,
     };
   }
 
-  _render({ _isTooltipVisible, _objectTooltip }) {
+  _render({ _isTooltipVisible, _objectTooltip, _objectTooltipPositionX, _objectTooltipPositionY }) {
     return html`
       ${SharedStyles}
       
       <style>
         :host {
             position: fixed;
-            left: 0;
-            top: 0;
+            left: ${_objectTooltipPositionX}px;
+            top: calc(${_objectTooltipPositionY}px - 100px);
             width: 100vw;
             height: 100vh;
         }
@@ -80,6 +82,8 @@ class UMap extends connect(store)(LitElement) {
   _stateChanged(state) {
     this._isTooltipVisible = state.map.isTooltipVisible;
     this._objectTooltip = state.map.objectTooltip;
+    this._objectTooltipPositionX = state.map.position.x;
+    this._objectTooltipPositionY = state.map.position.y;
   }
 
   async init() {
@@ -185,7 +189,12 @@ class UMap extends connect(store)(LitElement) {
   _showObjectTooltip(e) {
     this._objectHoverTimeOut = setTimeout(() => {
       let latLngs = e.target.getLatLngs()[0];
-      store.dispatch(showObjectTooltip(latLngs));
+      let position = {
+        x: e.containerPoint.x,
+        y: e.containerPoint.y
+      };
+
+      store.dispatch(showObjectTooltip(latLngs, position));
     }, 1000);
   }
 
