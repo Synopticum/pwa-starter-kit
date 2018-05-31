@@ -55,17 +55,28 @@ class UMap extends connect(store)(LitElement) {
       
       <style>
         :host {
-            position: fixed;
-            left: ${_objectTooltipPositionX}px;
-            top: calc(${_objectTooltipPositionY}px - 100px);
             width: 100vw;
             height: 100vh;
             z-index: 200;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .tooltip-position {
+            position: fixed;
+            left: ${_objectTooltipPositionX}px;
+            top: calc(${_objectTooltipPositionY}px - 100px);
         }
       </style>
       
-      <u-object-tooltip hidden?="${!_isTooltipVisible}">${_objectTooltip ? _objectTooltip._id : ''}</u-object-tooltip>
-      <u-object-info hidden?="${!_isInfoVisible}">${_objectInfo ? _objectInfo._id : ''}</u-object-info>
+      <u-object-tooltip class="tooltip-position" hidden?="${!_isTooltipVisible}">
+        ${_objectTooltip ? _objectTooltip._id : ''}
+      </u-object-tooltip>
+      
+      <u-object-info hidden?="${!_isInfoVisible}">
+        ${_objectInfo ? _objectInfo._id : ''}
+      </u-object-info>
     `;
   }
 

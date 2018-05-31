@@ -16,16 +16,19 @@ class UObjectInfo extends LitElement {
       ${SharedStyles}
       <style>
         :host {
-            position: fixed;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%,-50%);
-            width: 200px;
-            height: 200px;
+            width: 900px;
+            height: 600px;
             background-color: #ffffff;
             border: 1px solid green;
             z-index: 200;
             pointer-events: all;
+            transform: scale(1);
+            transition: transform .3s;
+        }
+        
+        :host([hidden]) {
+            display: block !important;
+            transform: scale(0);
         }
         
         .close {
