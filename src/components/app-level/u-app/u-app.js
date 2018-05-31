@@ -36,29 +36,38 @@ class UApp extends connect(store)(LitElement) {
           pointer-events: none;
         }
         
+        .pages {
+          position: fixed;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+        }
+        
         .pages .page {
           display: none;
           position: relative;
-          z-index: 100;
-          width: 100vw;
-          height: 100vh;
+          width: 100%;
+          height: 100%;
           align-items: center;
           justify-content: center;
         }
         
-        .mainmenu[page-active] + .pages .page[active] {
+        .mainmenu[page-active] ~ .page[active] {
           display: flex;
         }
       </style>
       
       <u-map active?="${_page !== 'login'}"></u-map>     
   
-      <u-login></u-login>
-      <u-success></u-success>
-      
-      <u-mainmenu class="mainmenu" page-active?="${this._isPageActive}"></u-mainmenu>  
+      <div class="login">
+        <u-login></u-login>
+        <u-success></u-success>
+      </div>
   
-      <main class="pages">       
+      <main class="pages">
+        <u-mainmenu class="mainmenu" page-active?="${this._isPageActive}"></u-mainmenu>
+        
         <u-news class="page" active?="${_page === 'U★R★U★S★S★I★N★K★A'}"></u-news>
         <u-ads class="page" active?="${_page === 'C★H★E★K★A★V★O'}"></u-ads>
         <u-ideas class="page" active?="${_page === 'O★T★O★K★U★J'}"></u-ideas>
