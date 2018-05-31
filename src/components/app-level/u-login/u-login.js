@@ -8,8 +8,8 @@
  subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
 
+import { ENV } from '../../../constants';
 import { LitElement, html } from '@polymer/lit-element';
-import { PageViewElement } from '../../reusable/page-view-element.js';
 import { SharedStyles } from '../../shared-styles.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from '../../../store';
@@ -163,7 +163,7 @@ class ULogin extends connect(store)(LitElement) {
                 }
             </style>
             
-            <a href="https://oauth.vk.com/authorize?client_id=4447151&display=page&redirect_uri=http://localhost:8081/success&scope=friends&response_type=token&v=5.74" class="explore" on-click="${this.test}">
+            <a href="https://oauth.vk.com/authorize?client_id=4447151&display=page&redirect_uri=${ENV.static.dev}/success&scope=friends&response_type=token&v=5.74" class="explore" on-click="${this.test}">
                 <span class="title">Войти через </span>
                 <img src="static/images/vk_logo.svg" alt="">
                 <span class="icon-right"></span><span class="icon-right after"></span>

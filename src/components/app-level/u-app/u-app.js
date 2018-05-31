@@ -8,6 +8,7 @@
  subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
 
+import { ENV } from '../../../constants';
 import { LitElement, html } from '@polymer/lit-element';
 import { SharedStyles } from '../../shared-styles.js';
 import '../u-mainmenu/u-mainmenu';
@@ -138,7 +139,7 @@ class UApp extends connect(store)(LitElement) {
       const headers = new Headers();
       headers.append('vk-access-token', localStorage.access_token);
 
-      let response = await fetch(`http://localhost:3000/api/login/check`, { headers });
+      let response = await fetch(`${ENV.api.dev}/api/login/check`, { headers });
       let json = await response.json();
       let isTokenValid = !json.error;
 

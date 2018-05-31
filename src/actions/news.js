@@ -1,7 +1,8 @@
+import { ENV } from '../constants';
 export const GET_ALL_NEWS = 'GET_ALL_NEWS';
 
 export const getAllNews = () => async (dispatch, getState) => {
-  const response = await fetch('http://localhost:3000/api/news');
+  const response = await fetch(`${ENV.api.dev}/api/news`);
   const all = await response.json();
 
   dispatch({

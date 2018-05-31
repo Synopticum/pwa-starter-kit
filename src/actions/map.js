@@ -1,3 +1,5 @@
+import { ENV } from '../constants';
+
 export const SHOW_OBJECT_TOOLTIP = 'SHOW_OBJECT_TOOLTIP';
 export const HIDE_OBJECT_TOOLTIP = 'HIDE_OBJECT_TOOLTIP';
 export const SHOW_OBJECT_INFO = 'SHOW_OBJECT_INFO';
@@ -35,7 +37,7 @@ export const hideObjectInfo = (dispatch, getState) => {
 };
 
 async function _getObjectByCoordinates(coordinates) {
-  let response = await fetch(`http://localhost:3000/api/objects?coordinates=${JSON.stringify(coordinates)}`, {
+  let response = await fetch(`${ENV.api.dev}/api/objects?coordinates=${JSON.stringify(coordinates)}`, {
     headers: {
       'vk-access-token': localStorage.access_token
     }

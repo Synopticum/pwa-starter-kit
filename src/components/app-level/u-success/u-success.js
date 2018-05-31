@@ -8,6 +8,7 @@
  subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
 
+import { ENV } from '../../../constants';
 import { html, LitElement } from '@polymer/lit-element';
 
 class USuccess extends LitElement {
@@ -36,7 +37,7 @@ class USuccess extends LitElement {
   _firstRendered() {
     // redirect if needed
     if (window.opener && (window.opener.location.pathname.includes('login') || window.opener.location.pathname === '/')) {
-      window.opener.location.href = 'http://localhost:8081/★';
+      window.opener.location.href = ENV.static.dev;
       window.close();
     }
   }

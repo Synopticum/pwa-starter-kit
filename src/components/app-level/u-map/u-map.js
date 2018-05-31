@@ -7,7 +7,7 @@
  Code distributed by Google as part of the polymer project is also
  subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
-
+import { ENV } from '../../../constants';
 import { LitElement, html } from '@polymer/lit-element';
 import { SharedStyles } from '../../shared-styles.js';
 import { connect } from 'pwa-helpers/connect-mixin';
@@ -154,7 +154,7 @@ class UMap extends connect(store)(LitElement) {
   }
 
   async _drawPaths() {
-    let response = await fetch('http://localhost:3000/api/objects/coordinates/paths', {
+    let response = await fetch(`${ENV.api.dev}/api/objects/coordinates/paths`, {
       headers: {
         'vk-access-token': localStorage.access_token
       }
@@ -179,7 +179,7 @@ class UMap extends connect(store)(LitElement) {
   }
 
   async _drawCircles() {
-    let response = await fetch('http://localhost:3000/api/objects/coordinates/circles', {
+    let response = await fetch(`${ENV.api.dev}/api/objects/coordinates/circles`, {
       headers: {
         'vk-access-token': localStorage.access_token
       }
