@@ -68,7 +68,7 @@ class UApp extends connect(store)(LitElement) {
         <u-anonymous class="page" active?="${_page === 'U★D★O★L★I'}"></u-anonymous>
       </main>
         
-      <my-view404 active?="${_page === 'view404'}"></my-view404>
+      <u-404 active?="${_page === '404'}"></u-404>
     `;
   }
 
@@ -157,7 +157,7 @@ class UApp extends connect(store)(LitElement) {
   }
 
   get _isPageActive() {
-    return (this._page !== 'login' && this._page !== 'view404' && this._page !== '★');
+    return (this._page !== 'login' && this._page !== '404' && this._page !== '★');
   }
 }
 

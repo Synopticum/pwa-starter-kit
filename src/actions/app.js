@@ -32,7 +32,7 @@ const loadPage = (page) => async (dispatch) => {
       'P★O★E★D★U',
       'U★D★O★L★I'
     ].indexOf(page) === -1) {
-      page = 'view404';
+      page = '404';
     }
 
     dispatch(updatePage(page));
@@ -79,7 +79,7 @@ const loadPage = (page) => async (dispatch) => {
             await import('../components/app-level/u-anonymous/u-anonymous.js');
             break;
         default:
-            await import('../components/reusable/my-view404.js');
+            await import('../components/reusable/u-404.js');
     }
 
     dispatch(updatePage(page));
