@@ -8,7 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { SHOW_OBJECT_TOOLTIP, HIDE_OBJECT_TOOLTIP } from '../actions/map.js';
+import { SHOW_OBJECT_TOOLTIP, HIDE_OBJECT_TOOLTIP, SHOW_OBJECT_INFO, HIDE_OBJECT_INFO } from '../actions/map.js';
 
 const map = (state = { objectTooltip: null, position: {} }, action) => {
   switch (action.type) {
@@ -24,6 +24,19 @@ const map = (state = { objectTooltip: null, position: {} }, action) => {
       return {
         ...state,
         isTooltipVisible: false
+      };
+
+    case SHOW_OBJECT_INFO:
+      return {
+        ...state,
+        isInfoVisible: Boolean(action.objectInfo),
+        objectInfo: action.objectInfo
+      };
+
+    case HIDE_OBJECT_INFO:
+      return {
+        ...state,
+        isInfoVisible: false
       };
 
     default:

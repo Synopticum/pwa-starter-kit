@@ -13,7 +13,7 @@ import { SharedStyles } from '../../shared-styles.js';
 import { connect } from 'pwa-helpers/connect-mixin';
 
 import { store } from '../../../store';
-import { showObjectTooltip, hideObjectTooltip } from '../../../actions/map.js';
+import { showObjectTooltip, hideObjectTooltip, showObjectInfo, hideObjectInfo } from '../../../actions/map.js';
 
 import map from '../../../reducers/map.js';
 store.addReducers({
@@ -32,16 +32,24 @@ class UMap extends connect(store)(LitElement) {
       mapHeight: Number,
       objectFillColor: String,
       objectStrokeWidth: Number,
+
       _objectHoverTimeOut: Number,
       _isTooltipVisible: Boolean,
       _objectTooltip: Object,
       _objectTooltipPositionX: Number,
       _objectTooltipPositionY: Number,
+
+      _isInfoVisible: Boolean,
+      _objectInfo: Object,
+
       __currentObject: Array,
     };
   }
 
-  _render({ _isTooltipVisible, _objectTooltip, _objectTooltipPositionX, _objectTooltipPositionY }) {
+  _render({
+            _isTooltipVisible, _objectTooltip, _objectTooltipPositionX, _objectTooltipPositionY,
+            _isInfoVisible, _objectInfo
+  }) {
     return html`
       ${SharedStyles}
       
@@ -53,9 +61,19 @@ class UMap extends connect(store)(LitElement) {
             width: 100vw;
             height: 100vh;
         }
+        
+        .test {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #ff0000;
+        }
       </style>
       
       <u-object hidden?="${!_isTooltipVisible}">${_objectTooltip ? _objectTooltip._id : ''}</u-object>
+      <div class="test" hidden?="${!_isInfoVisible}">${_objectInfo}</div>
     `;
   }
 
@@ -84,6 +102,9 @@ class UMap extends connect(store)(LitElement) {
     this._objectTooltip = state.map.objectTooltip;
     this._objectTooltipPositionX = state.map.position.x;
     this._objectTooltipPositionY = state.map.position.y;
+
+    this._isInfoVisible = state.map.isInfoVisible;
+    this._objectInfo = state.map.objectInfo;
   }
 
   async init() {
@@ -156,7 +177,7 @@ class UMap extends connect(store)(LitElement) {
         })
           .on('mouseover', this._showObjectTooltip)
           .on('mouseout', this._hideObjectTooltip)
-          .on('click', this._handleObjectClick)
+          .on('click', this._showObjectInfo)
           .addTo(this.map);
       });
     } else {
@@ -190,23 +211,8 @@ class UMap extends connect(store)(LitElement) {
 
   _showObjectTooltip(e) {
     this._objectHoverTimeOut = setTimeout(() => {
-      let type = e.target.getRadius ? 'circle' : 'path';
-      let coordinates;
-
-      switch (type) {
-        case 'circle':
-          coordinates = [[e.target.getLatLng().lat, e.target.getLatLng().lng], e.target.getRadius()];
-          break;
-
-        case 'path':
-          coordinates = e.target.getLatLngs()[0].map(item => [item.lat, item.lng]);
-          break;
-      }
-
-      let position = {
-        x: e.containerPoint.x,
-        y: e.containerPoint.y
-      };
+      let coordinates = UMap._getObjectCoordinates(e.target);
+      let position = { x: e.containerPoint.x, y: e.containerPoint.y };
 
       store.dispatch(showObjectTooltip(coordinates, position));
     }, 1000);
@@ -217,13 +223,26 @@ class UMap extends connect(store)(LitElement) {
     store.dispatch(hideObjectTooltip());
   }
 
-  _handleObjectClick(e) {
-    let latLngs = e.target.getLatLngs()[0];
+  _showObjectInfo(e) {
+    let coordinates = UMap._getObjectCoordinates(e.target);
 
-    // UMap._getItemByLatLngs(latLngs)
-    //   .then(function (data) {
-    //     console.log(data);
-    //   });
+    store.dispatch(showObjectInfo(coordinates));
+  }
+
+  _hideObjectInfo() {
+    store.dispatch(hideObjectInfo());
+  }
+
+  static _getObjectCoordinates(target) {
+    let type = target.getRadius ? 'circle' : 'path';
+
+    switch (type) {
+      case 'circle':
+        return [[target.getLatLng().lat, target.getLatLng().lng], target.getRadius()];
+
+      case 'path':
+        return target.getLatLngs()[0].map(item => [item.lat, item.lng]);
+    }
   }
 
   __getCoordinates(e) {
