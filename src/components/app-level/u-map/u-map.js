@@ -72,7 +72,7 @@ class UMap extends connect(store)(LitElement) {
         }
       </style>
       
-      <u-object hidden?="${!_isTooltipVisible}">${_objectTooltip ? _objectTooltip._id : ''}</u-object>
+      <u-object-tooltip hidden?="${!_isTooltipVisible}">${_objectTooltip ? _objectTooltip._id : ''}</u-object-tooltip>
       <div class="test" hidden?="${!_isInfoVisible}">${_objectInfo}</div>
     `;
   }

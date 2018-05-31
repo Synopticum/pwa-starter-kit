@@ -1,7 +1,7 @@
 import { html, LitElement } from '@polymer/lit-element';
 import { SharedStyles } from '../../shared-styles.js';
 
-class UObject extends LitElement {
+class UObjectTooltip extends LitElement {
   _render(props) {
     return html`
       ${SharedStyles}
@@ -20,4 +20,4 @@ class UObject extends LitElement {
   }
 }
 
-window.customElements.define('u-object', UObject);
+window.customElements.define('u-object-tooltip', UObjectTooltip);
