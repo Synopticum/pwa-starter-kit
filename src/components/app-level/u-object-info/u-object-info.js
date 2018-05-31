@@ -10,7 +10,7 @@ store.addReducers({
   map
 });
 
-class UObjectInfo extends LitElement {
+class UObjectInfo extends connect(store)(LitElement) {
   _render(props) {
     return html`
       ${SharedStyles}
@@ -52,6 +52,8 @@ class UObjectInfo extends LitElement {
   static close() {
     store.dispatch(hideObjectInfo());
   }
+
+  _stateChanged() {}
 }
 
 window.customElements.define('u-object-info', UObjectInfo);

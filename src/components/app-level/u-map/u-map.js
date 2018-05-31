@@ -36,8 +36,6 @@ class UMap extends connect(store)(LitElement) {
       _objectHoverTimeOut: Number,
       _isTooltipVisible: Boolean,
       _objectTooltip: Object,
-      _objectTooltipPositionX: Number,
-      _objectTooltipPositionY: Number,
 
       _isInfoVisible: Boolean,
       _objectInfo: Object,
@@ -62,15 +60,9 @@ class UMap extends connect(store)(LitElement) {
             justify-content: center;
             align-items: center;
         }
-        
-        .tooltip-position {
-            position: fixed;
-            left: ${_objectTooltipPositionX}px;
-            top: calc(${_objectTooltipPositionY}px - 100px);
-        }
       </style>
       
-      <u-object-tooltip class="tooltip-position" hidden?="${!_isTooltipVisible}">
+      <u-object-tooltip x="${_objectTooltipPositionX}" y="${_objectTooltipPositionY}" hidden?="${!_isTooltipVisible}">
         ${_objectTooltip ? _objectTooltip._id : ''}
       </u-object-tooltip>
       
@@ -103,8 +95,6 @@ class UMap extends connect(store)(LitElement) {
   _stateChanged(state) {
     this._isTooltipVisible = state.map.isTooltipVisible;
     this._objectTooltip = state.map.objectTooltip;
-    this._objectTooltipPositionX = state.map.position.x;
-    this._objectTooltipPositionY = state.map.position.y;
 
     this._isInfoVisible = state.map.isInfoVisible;
     this._objectInfo = state.map.objectInfo;
