@@ -89,7 +89,7 @@ class UMap extends connect(store)(LitElement) {
   async init() {
     if (!localStorage.access_token) {
       alert('Auth error');
-      window.location.href = '/login';
+      window.location.href = '/login?unauthorized';
 
     } else {
       this._createMap();
