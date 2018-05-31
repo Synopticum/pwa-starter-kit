@@ -47,6 +47,7 @@ const loadPage = (page) => async (dispatch) => {
         case '★':
             await import('../components/app-level/u-map/u-map.js');
             await import('../components/app-level/u-object-tooltip/u-object-tooltip.js');
+            await import('../components/app-level/u-object-info/u-object-info.js');
             // Put code here that you want it to run every time when
             // navigate to ★ and u-map.js is loaded
             break;

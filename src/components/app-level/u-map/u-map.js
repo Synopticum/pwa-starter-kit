@@ -60,20 +60,12 @@ class UMap extends connect(store)(LitElement) {
             top: calc(${_objectTooltipPositionY}px - 100px);
             width: 100vw;
             height: 100vh;
-        }
-        
-        .test {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: #ff0000;
+            z-index: 200;
         }
       </style>
       
       <u-object-tooltip hidden?="${!_isTooltipVisible}">${_objectTooltip ? _objectTooltip._id : ''}</u-object-tooltip>
-      <div class="test" hidden?="${!_isInfoVisible}">${_objectInfo}</div>
+      <u-object-info hidden?="${!_isInfoVisible}">${_objectInfo ? _objectInfo._id : ''}</u-object-info>
     `;
   }
 
