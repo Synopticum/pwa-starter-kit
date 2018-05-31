@@ -14,6 +14,7 @@ class UObjectInfo extends LitElement {
             width: 200px;
             height: 200px;
             background-color: #ffffff;
+            border: 1px solid green;
             z-index: 200;
         }
       </style>

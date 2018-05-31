@@ -7,9 +7,12 @@ class UObjectTooltip extends LitElement {
       ${SharedStyles}
       <style>
         :host {
+            position: fixed;
             width: 100px;
             height: 100px;
             background-color: #ffffff;
+            z-index: 300;
+            border: 1px solid blue;
         }
       </style>
       
