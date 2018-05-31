@@ -163,7 +163,7 @@ class ULogin extends connect(store)(LitElement) {
                 }
             </style>
             
-            <a href="https://oauth.vk.com/authorize?client_id=4447151&display=page&redirect_uri=http://localhost:8081/★&scope=friends&response_type=token&v=5.74" class="explore">
+            <a href="https://oauth.vk.com/authorize?client_id=4447151&display=page&redirect_uri=http://localhost:8081/success&scope=friends&response_type=token&v=5.74" class="explore" on-click="${this.test}">
                 <span class="title">Войти через </span>
                 <img src="static/images/vk_logo.svg" alt="">
                 <span class="icon-right"></span><span class="icon-right after"></span>
@@ -175,6 +175,19 @@ class ULogin extends connect(store)(LitElement) {
 
   _stateChanged(state) {
     this._page = state.app.page;
+  }
+
+  test(e) {
+    e.preventDefault();
+    window.open(this.href, 'targetWindow',
+      `toolbar=no,
+       location=no,
+       status=no,
+       menubar=no,
+       scrollbars=no,
+       resizable=no,
+       width=700,
+       height=420`);
   }
 }
 

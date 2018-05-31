@@ -28,6 +28,7 @@ export const navigate = (path) => (dispatch) => {
 const loadPage = (page) => async (dispatch) => {
     if ([
       'login',
+      'success',
       '★',
       'U★R★U★S★S★I★N★K★A',
       'C★H★E★K★A★V★O',
@@ -45,6 +46,9 @@ const loadPage = (page) => async (dispatch) => {
     switch (page) {
         case 'login':
             await import('../components/app-level/u-login/u-login.js');
+            break;
+        case 'success':
+            await import('../components/app-level/u-success/u-success.js');
             break;
         case '★':
             await import('../components/app-level/u-map/u-map.js');

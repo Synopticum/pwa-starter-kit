@@ -54,6 +54,8 @@ class UApp extends connect(store)(LitElement) {
       <u-map active?="${_page !== 'login'}"></u-map>     
   
       <u-login></u-login>
+      <u-success></u-success>
+      
       <u-mainmenu class="mainmenu" page-active?="${this._isPageActive}"></u-mainmenu>  
   
       <main class="pages">       
