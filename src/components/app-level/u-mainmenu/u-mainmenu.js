@@ -149,7 +149,7 @@ class UMainMenu extends connect(store)(LitElement) {
       
       <nav class="menu">
         <a selected?="${_page === 'C★H★E★K★A★V★O'}" href="C★H★E★K★A★V★O" class="menu__item menu__item--ads"></a>
-        <a selected?="${_page === 'O★T★O★K★U★J'}" href="O★T★O★K★U★J" class="menu__item menu__item--ideas"></a>
+        <a selected?="${_page === 'Z★A★P★I★L★I'}" href="Z★A★P★I★L★I" class="menu__item menu__item--ideas"></a>
         <a selected?="${_page === 'C★H★O★M★U'}" href="C★H★O★M★U" class="menu__item menu__item--claims"></a>
         <a selected?="${_page === 'U★R★U★S★S★I★N★K★A'}" href="U★R★U★S★S★I★N★K★A" class="menu__item menu__item--news">
           <img src="static/images/mainmenu/news.svg" width="100" height="140"><br>

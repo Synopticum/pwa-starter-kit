@@ -21,7 +21,7 @@ import { store } from '../../../store.js';
 import { navigate } from '../../../actions/app.js';
 
 class UApp extends connect(store)(LitElement) {
-  _render({ appTitle, _page }) {
+  _render({ appTitle, pageTitle, _page }) {
     return html`
       ${SharedStyles}
       
@@ -71,7 +71,7 @@ class UApp extends connect(store)(LitElement) {
         
         <u-news class="page" active?="${_page === 'U★R★U★S★S★I★N★K★A'}"></u-news>
         <u-ads class="page" active?="${_page === 'C★H★E★K★A★V★O'}"></u-ads>
-        <u-ideas class="page" active?="${_page === 'O★T★O★K★U★J'}"></u-ideas>
+        <u-ideas class="page" active?="${_page === 'Z★A★P★I★L★I'}"></u-ideas>
         <u-claims class="page" active?="${_page === 'C★H★O★M★U'}"></u-claims>
         <u-sale class="page" active?="${_page === 'C★H★O★P★O★C★H★O★M'}"></u-sale>
         <u-rides class="page" active?="${_page === 'P★O★E★D★U'}"></u-rides>
@@ -85,13 +85,14 @@ class UApp extends connect(store)(LitElement) {
   static get properties() {
     return {
       appTitle: String,
+      pageTitle: String,
       _page: String
     };
   }
 
   constructor() {
     super();
-    this.appTitle = this.getAppTitle();
+    this.appTitle = UApp.getAppTitle();
   }
 
   _firstRendered() {
@@ -103,7 +104,7 @@ class UApp extends connect(store)(LitElement) {
 
   _didRender(properties, changeList) {
     if ('_page' in changeList) {
-      const pageTitle = properties.appTitle + ' / ' + changeList._page;
+      const pageTitle = properties.appTitle + ' / ' + this.pageTitle;
       updateMetadata({
         title: pageTitle,
         description: pageTitle
@@ -114,6 +115,7 @@ class UApp extends connect(store)(LitElement) {
 
   _stateChanged(state) {
     this._page = state.app.page;
+    this.pageTitle = state.app.pageTitle;
   }
 
   async authorize() {
@@ -171,8 +173,8 @@ class UApp extends connect(store)(LitElement) {
     return (this._page !== 'login' && this._page !== '404' && this._page !== '★');
   }
 
-  getAppTitle() {
-    let items = ['Уруссы', 'Уссурийск', 'Уруссняк', 'В Уруссах', 'С Уруссов', ''];
+  static getAppTitle() {
+    let items = ['Уруссы', 'Уссурийск', 'Уруссняк', 'В Уруссах', 'С Уруссов'];
     return items[Math.floor(Math.random()*items.length)];
   }
 }

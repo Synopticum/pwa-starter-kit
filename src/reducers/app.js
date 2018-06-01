@@ -10,12 +10,13 @@
 
 import { UPDATE_PAGE } from '../actions/app.js';
 
-const app = (state = { drawerOpened: false }, action) => {
+const app = (state = {}, action) => {
   switch (action.type) {
     case UPDATE_PAGE:
       return {
         ...state,
-        page: action.page
+        page: action.page,
+        pageTitle: action.pageTitle
       };
     default:
       return state;

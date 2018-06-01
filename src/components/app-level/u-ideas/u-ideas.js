@@ -29,7 +29,7 @@ class UIdeas extends PageViewElement {
       </style>
       
       <div class="ideas">
-        Otakuj
+        Z★A★P★I★L★I
       </div>
     `;
   }

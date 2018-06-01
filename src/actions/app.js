@@ -26,7 +26,7 @@ const loadPage = (page) => async (dispatch) => {
       '★',
       'U★R★U★S★S★I★N★K★A',
       'C★H★E★K★A★V★O',
-      'O★T★O★K★U★J',
+      'Z★A★P★I★L★I',
       'C★H★O★M★U',
       'C★H★O★P★O★C★H★O★M',
       'P★O★E★D★U',
@@ -59,7 +59,7 @@ const loadPage = (page) => async (dispatch) => {
             await import('../components/app-level/u-map/u-map.js');
             await import('../components/app-level/u-ads/u-ads.js');
             break;
-        case 'O★T★O★K★U★J':
+        case 'Z★A★P★I★L★I':
             await import('../components/app-level/u-map/u-map.js');
             await import('../components/app-level/u-ideas/u-ideas.js');
             break;
@@ -82,13 +82,24 @@ const loadPage = (page) => async (dispatch) => {
         default:
             await import('../components/reusable/u-404.js');
     }
-
-    dispatch(updatePage(page));
 };
+
+let pageTitles = new Map();
+pageTitles.set('login', 'ч0ткий? заходи');
+pageTitles.set('success', 'Успех');
+pageTitles.set('★', 'План');
+pageTitles.set('U★R★U★S★S★I★N★K★A', 'Уруссинка');
+pageTitles.set('C★H★E★K★A★V★O', 'Чёкаво');
+pageTitles.set('Z★A★P★I★L★I', 'Запили');
+pageTitles.set('C★H★O★M★U', 'Чому');
+pageTitles.set('C★H★O★P★O★C★H★O★M', 'Чопочом');
+pageTitles.set('P★O★E★D★U', 'Поеду');
+pageTitles.set('U★D★O★L★I', 'Удоли');
 
 const updatePage = (page) => {
     return {
         type: UPDATE_PAGE,
-        page
+        page,
+        pageTitle: pageTitles.get(page)
     };
 };
