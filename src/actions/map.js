@@ -4,13 +4,15 @@ export const SHOW_OBJECT_TOOLTIP = 'SHOW_OBJECT_TOOLTIP';
 export const HIDE_OBJECT_TOOLTIP = 'HIDE_OBJECT_TOOLTIP';
 export const SHOW_OBJECT_INFO = 'SHOW_OBJECT_INFO';
 export const HIDE_OBJECT_INFO = 'HIDE_OBJECT_INFO';
+export const SHOW_OBJECT_EDITOR = 'SHOW_OBJECT_EDITOR';
+export const HIDE_OBJECT_EDITOR = 'HIDE_OBJECT_EDITOR';
 
 export const showObjectTooltip = (coordinates, position) => async (dispatch, getState) => {
   const object = await _getObjectByCoordinates(coordinates);
 
   dispatch({
     type: SHOW_OBJECT_TOOLTIP,
-    objectTooltip: object,
+    object,
     position
   });
 };
@@ -26,13 +28,28 @@ export const showObjectInfo = (coordinates) => async (dispatch, getState) => {
 
   dispatch({
     type: SHOW_OBJECT_INFO,
-    objectInfo: object
+    object
   });
 };
 
 export const hideObjectInfo = (dispatch, getState) => {
   return {
     type: HIDE_OBJECT_INFO
+  }
+};
+
+export const showObjectEditor = (coordinates) => async (dispatch, getState) => {
+  const object = await _getObjectByCoordinates(coordinates);
+
+  dispatch({
+    type: SHOW_OBJECT_EDITOR,
+    object
+  });
+};
+
+export const hideObjectEditor = (dispatch, getState) => {
+  return {
+    type: HIDE_OBJECT_EDITOR
   }
 };
 

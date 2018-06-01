@@ -13,7 +13,13 @@ import { SharedStyles } from '../../shared-styles.js';
 import { connect } from 'pwa-helpers/connect-mixin';
 
 import { store } from '../../../store';
-import { showObjectTooltip, hideObjectTooltip, showObjectInfo, hideObjectInfo } from '../../../actions/map.js';
+import {
+  showObjectTooltip,
+  hideObjectTooltip,
+  showObjectInfo,
+  hideObjectInfo,
+  showObjectEditor,
+  hideObjectEditor } from '../../../actions/map.js';
 
 import map from '../../../reducers/map.js';
 store.addReducers({
@@ -33,20 +39,20 @@ class UMap extends connect(store)(LitElement) {
       objectFillColor: String,
       objectStrokeWidth: Number,
 
-      _objectHoverTimeOut: Number,
+      _object: Object,
       _isTooltipVisible: Boolean,
-      _objectTooltip: Object,
-
+      _isEditorVisible: Boolean,
       _isInfoVisible: Boolean,
-      _objectInfo: Object,
+      _objectHoverTimeOut: Number,
 
       __currentObject: Array,
     };
   }
 
   _render({
-            _isTooltipVisible, _objectTooltip, _objectTooltipPositionX, _objectTooltipPositionY,
-            _isInfoVisible, _objectInfo
+            _isTooltipVisible, _isInfoVisible, _isEditorVisible,
+            _objectTooltipPositionX, _objectTooltipPositionY,
+            _object
   }) {
     return html`
       ${SharedStyles}
@@ -60,15 +66,26 @@ class UMap extends connect(store)(LitElement) {
             justify-content: center;
             align-items: center;
         }
+        
+        .editor {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #ff0000;
+        }
       </style>
       
       <u-object-tooltip x="${_objectTooltipPositionX}" y="${_objectTooltipPositionY}" hidden?="${!_isTooltipVisible}">
-        ${_objectTooltip ? _objectTooltip._id : ''}
+        ${_object ? _object._id : ''}
       </u-object-tooltip>
       
       <u-object-info hidden?="${!_isInfoVisible}">
-        ${_objectInfo ? _objectInfo._id : ''}
+        ${_object ? _object._id : ''}
       </u-object-info>
+      
+      <div class="editor" hidden?="${!_isEditorVisible}">${_object ? _object._id : ''}</div>
     `;
   }
 
@@ -93,11 +110,10 @@ class UMap extends connect(store)(LitElement) {
   }
 
   _stateChanged(state) {
+    this._object = state.map.object;
     this._isTooltipVisible = state.map.isTooltipVisible;
-    this._objectTooltip = state.map.objectTooltip;
-
     this._isInfoVisible = state.map.isInfoVisible;
-    this._objectInfo = state.map.objectInfo;
+    this._isEditorVisible = state.map.isEditorVisible;
   }
 
   async init() {
@@ -228,8 +244,7 @@ class UMap extends connect(store)(LitElement) {
 
   _showObjectInfo(e) {
     let coordinates = UMap._getObjectCoordinates(e.target);
-
-    store.dispatch(showObjectInfo(coordinates));
+    e.originalEvent.altKey ? store.dispatch(showObjectEditor(coordinates)) : store.dispatch(showObjectInfo(coordinates));
   }
 
   _hideObjectInfo() {
