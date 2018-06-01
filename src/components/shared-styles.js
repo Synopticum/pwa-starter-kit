@@ -25,5 +25,23 @@ export const SharedStyles = html`
   [hidden] {
     display: none;
   }
+  
+  input, textarea {
+    font-family: 'PT Serif', Helvetica, 'Times New Roman', serif;
+    font-size: 18px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    outline: none;
+    resize: none;
+  }
+  input:focus, textarea:focus {
+    border-color: #000;
+  }
+  input:valid, textarea:valid {
+    border-color: #00bb00;
+  }
+  input:invalid, textarea:invalid {
+    border-color: #bb0000;
+  }
 </style>
 `;
