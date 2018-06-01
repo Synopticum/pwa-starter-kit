@@ -135,7 +135,7 @@ class UMap extends connect(store)(LitElement) {
   }
 
   _initializeTiles() {
-    L.tileLayer('http://127.0.0.1:8081/src/components/app-level/u-map/images/tiles/{z}/{x}/{y}.jpg', {
+    L.tileLayer(`${ENV.static.dev}/static/images/tiles/{z}/{x}/{y}.jpg`, {
       minZoom: this.minZoom,
       maxZoom: this.maxZoom,
       bounds: this._getBounds(),
