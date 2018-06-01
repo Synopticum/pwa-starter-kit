@@ -7,10 +7,10 @@
   ],
   "license": "BSD-3-Clause",
   "scripts": {
-    "start": "polymer serve",
+    "start": "node ./env.js && polymer serve",
     "build": "npm run build:prpl-server && npm run build:static",
     "build:prpl-server": "polymer build --auto-base-path && rm -rf server/build && mv build server/ && renamer --find node_modules --replace node_assets 'server/build/**' && replace node_modules node_assets server/build -r -s",
-    "build:static": "polymer build",
+    "build:static": "node ./env.js && polymer build",
     "serve:prpl-server": "prpl-server --root server/build",
     "serve:static": "polymer serve --port 5000 build/esm-bundled"
   },

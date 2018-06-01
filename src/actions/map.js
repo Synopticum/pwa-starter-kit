@@ -37,7 +37,7 @@ export const hideObjectInfo = (dispatch, getState) => {
 };
 
 async function _getObjectByCoordinates(coordinates) {
-  let response = await fetch(`${ENV.api.dev}/api/objects?coordinates=${JSON.stringify(coordinates)}`, {
+  let response = await fetch(`${ENV.api}/api/objects?coordinates=${JSON.stringify(coordinates)}`, {
     headers: {
       'vk-access-token': localStorage.access_token
     }

@@ -135,7 +135,7 @@ class UMap extends connect(store)(LitElement) {
   }
 
   _initializeTiles() {
-    L.tileLayer(`${ENV.static.dev}/static/images/tiles/{z}/{x}/{y}.jpg`, {
+    L.tileLayer(`${ENV.static}/static/images/tiles/{z}/{x}/{y}.jpg`, {
       minZoom: this.minZoom,
       maxZoom: this.maxZoom,
       bounds: this._getBounds(),
@@ -154,7 +154,7 @@ class UMap extends connect(store)(LitElement) {
   }
 
   async _drawPaths() {
-    let response = await fetch(`${ENV.api.dev}/api/objects/coordinates/paths`, {
+    let response = await fetch(`${ENV.api}/api/objects/coordinates/paths`, {
       headers: {
         'vk-access-token': localStorage.access_token
       }
@@ -179,7 +179,7 @@ class UMap extends connect(store)(LitElement) {
   }
 
   async _drawCircles() {
-    let response = await fetch(`${ENV.api.dev}/api/objects/coordinates/circles`, {
+    let response = await fetch(`${ENV.api}/api/objects/coordinates/circles`, {
       headers: {
         'vk-access-token': localStorage.access_token
       }

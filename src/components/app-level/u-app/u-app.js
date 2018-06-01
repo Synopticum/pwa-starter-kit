@@ -139,7 +139,7 @@ class UApp extends connect(store)(LitElement) {
       const headers = new Headers();
       headers.append('vk-access-token', localStorage.access_token);
 
-      let response = await fetch(`${ENV.api.dev}/api/login/check`, { headers });
+      let response = await fetch(`${ENV.api}/api/login/check`, { headers });
       let json = await response.json();
       let isTokenValid = !json.error;
 
