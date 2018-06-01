@@ -229,11 +229,23 @@ class UMap extends connect(store)(LitElement) {
     let html = document.querySelector('html');
     let x;
     let y;
+    let origin;
 
     html.clientWidth/2 < mouseX ? x = mouseX - 310 : x = mouseX;
     html.clientHeight/2 < mouseY ? y = mouseY - 160 : y = mouseY;
 
-    return { x, y };
+    // calculate transform-origin
+    if (html.clientWidth/2 < mouseX && html.clientHeight/2 < mouseY) {
+      origin = 'bottom right';
+    } else if (html.clientWidth/2 < mouseX && html.clientHeight/2 >= mouseY) {
+      origin = 'top right';
+    } else if (html.clientWidth/2 >= mouseX && html.clientHeight/2 < mouseY) {
+      origin = 'bottom left';
+    } else if (html.clientWidth/2 >= mouseX && html.clientHeight/2 >= mouseY) {
+      origin = 'top left';
+    }
+
+    return { x, y, origin };
   }
 
   _showObjectInfo(e) {

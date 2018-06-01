@@ -14,10 +14,11 @@ class UObjectTooltip extends connect(store)(LitElement) {
     return {
       _positionX: Number,
       _positionY: Number,
+      _origin: String
     };
   }
 
-  _render({ _positionX, _positionY }) {
+  _render({ _positionX, _positionY, _origin }) {
     return html`
       ${SharedStyles}
       <style>
@@ -32,6 +33,7 @@ class UObjectTooltip extends connect(store)(LitElement) {
             border: 1px solid blue;
             transform: scale(1);
             transition: transform .3s;
+            transform-origin: ${_origin};
         }
         
         :host([hidden]) {
@@ -49,6 +51,7 @@ class UObjectTooltip extends connect(store)(LitElement) {
   _stateChanged(state) {
     this._positionX = state.map.position.x;
     this._positionY = state.map.position.y;
+    this._origin = state.map.position.origin;
   }
 }
 
