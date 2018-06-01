@@ -19,6 +19,7 @@ import { updateMetadata } from 'pwa-helpers/metadata.js';
 
 import { store } from '../../../store.js';
 import { navigate } from '../../../actions/app.js';
+import { hideObjectTooltip, hideObjectInfo, hideObjectEditor } from '../../../actions/map';
 
 class UApp extends connect(store)(LitElement) {
   _render({ appTitle, pageTitle, _page }) {
@@ -98,6 +99,9 @@ class UApp extends connect(store)(LitElement) {
   _firstRendered() {
     this.authorize();
     installRouter((location) => {
+      store.dispatch(hideObjectTooltip());
+      store.dispatch(hideObjectInfo());
+      store.dispatch(hideObjectEditor());
       store.dispatch(navigate(window.decodeURIComponent(location.pathname)));
     });
   }
