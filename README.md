@@ -1,5 +1,6 @@
-# How to start
-- `mongod --dbpath ~/Desktop/projects/urussu/db/`
-- `cd /backend && npm start -- --port 3000`
-- `cd /frontend && polymer serve`
-- go to `http://localhost:8081/`
+# How to start DEV
+- `uenv=dev npm start`
+
+# How to build PROD
+- `uenv=prod npm run build:static`
+- (optionally) `npm run serve:static`
