@@ -11,7 +11,14 @@ store.addReducers({
 });
 
 class UObjectEditor extends connect(store)(LitElement) {
-  _render(props) {
+
+  static get properties() {
+    return {
+      _object: String
+    };
+  }
+
+  _render({ _object }) {
     return html`
       ${SharedStyles}
       <style>
@@ -46,16 +53,23 @@ class UObjectEditor extends connect(store)(LitElement) {
       
       <div class="object">
         <div class="close" on-click="${UObjectEditor.close}"></div>
-        <slot></slot>
+        ${_object._id}
       </div> 
     `
+  }
+
+  constructor() {
+    super();
+    this._object = {};
+  }
+
+  _stateChanged(state) {
+    this._object = state.map.object;
   }
 
   static close() {
     store.dispatch(hideObjectEditor());
   }
-
-  _stateChanged() {}
 }
 
 window.customElements.define('u-object-editor', UObjectEditor);

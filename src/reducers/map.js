@@ -16,12 +16,12 @@ import {
   SHOW_OBJECT_EDITOR,
   HIDE_OBJECT_EDITOR } from '../actions/map.js';
 
-const map = (state = { objectTooltip: null, position: {} }, action) => {
+const map = (state = { object: {}, position: {}, isTooltipVisible: false, isInfoVisible: false, isEditorVisible: false }, action) => {
   switch (action.type) {
     case SHOW_OBJECT_TOOLTIP:
       return {
         ...state,
-        isTooltipVisible: Boolean(action.object),
+        isTooltipVisible: true,
         object: action.object,
         position: action.position
       };
@@ -35,7 +35,7 @@ const map = (state = { objectTooltip: null, position: {} }, action) => {
     case SHOW_OBJECT_INFO:
       return {
         ...state,
-        isInfoVisible: Boolean(action.object),
+        isInfoVisible: true,
         object: action.object
       };
 
@@ -48,7 +48,7 @@ const map = (state = { objectTooltip: null, position: {} }, action) => {
     case SHOW_OBJECT_EDITOR:
       return {
         ...state,
-        isEditorVisible: Boolean(action.object),
+        isEditorVisible: true,
         object: action.object
       };
 

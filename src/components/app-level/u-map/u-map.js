@@ -76,9 +76,7 @@ class UMap extends connect(store)(LitElement) {
         ${_object ? _object._id : ''}
       </u-object-info>
       
-      <u-object-editor hidden?="${!_isEditorVisible}">
-        ${_object ? _object._id : ''}
-      </u-object-editor>
+      <u-object-editor hidden?="${!_isEditorVisible}"></u-object-editor>
     `;
   }
 
@@ -93,7 +91,9 @@ class UMap extends connect(store)(LitElement) {
     this.mapHeight = 4000;
     this.objectFillColor = '#ffc600';
     this.objectStrokeWidth = 2;
+
     this._objectHoverTimeOut = null;
+
     this.__currentObject = [];
   }
 
@@ -212,12 +212,16 @@ class UMap extends connect(store)(LitElement) {
   }
 
   _showObjectTooltip(e) {
-    this._objectHoverTimeOut = setTimeout(() => {
-      let coordinates = UMap._getObjectCoordinates(e.target);
-      let position = UMap._calculateTooltipPosition(e.containerPoint.x, e.containerPoint.y);
+    let state = store.getState();
 
-      store.dispatch(showObjectTooltip(coordinates, position));
-    }, 1000);
+    if (!state.map.isEditorVisible && !state.map.isInfoVisible) {
+      this._objectHoverTimeOut = setTimeout(() => {
+        let coordinates = UMap._getObjectCoordinates(e.target);
+        let position = UMap._calculateTooltipPosition(e.containerPoint.x, e.containerPoint.y);
+
+        store.dispatch(showObjectTooltip(coordinates, position));
+      }, 1000);
+    }
   }
 
   _hideObjectTooltip() {
