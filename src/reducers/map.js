@@ -14,9 +14,18 @@ import {
   SHOW_OBJECT_INFO,
   HIDE_OBJECT_INFO,
   SHOW_OBJECT_EDITOR,
-  HIDE_OBJECT_EDITOR } from '../actions/map.js';
+  HIDE_OBJECT_EDITOR,
+  SAVE_OBJECT_SUCCEED,
+  SAVE_OBJECT_FAILED } from '../actions/map.js';
 
-const map = (state = { object: {}, position: {}, isTooltipVisible: false, isInfoVisible: false, isEditorVisible: false }, action) => {
+const map = (state = {
+  object: {},
+  position: {},
+  isTooltipVisible: false,
+  isInfoVisible: false,
+  isEditorVisible: false,
+  saveState: 'untouched'
+}, action) => {
   switch (action.type) {
     case SHOW_OBJECT_TOOLTIP:
       return {
@@ -56,6 +65,18 @@ const map = (state = { object: {}, position: {}, isTooltipVisible: false, isInfo
       return {
         ...state,
         isEditorVisible: false
+      };
+
+    case SAVE_OBJECT_SUCCEED:
+      return {
+        ...state,
+        saveState: 'succeed'
+      };
+
+    case SAVE_OBJECT_FAILED:
+      return {
+        ...state,
+        saveState: 'failed'
       };
 
     default:

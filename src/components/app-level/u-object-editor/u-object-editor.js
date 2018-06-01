@@ -2,8 +2,9 @@ import { html, LitElement } from '@polymer/lit-element';
 import { SharedStyles } from '../../shared-styles.js';
 import { connect } from 'pwa-helpers/connect-mixin';
 
+import { ENV } from '../../../constants';
 import { store } from '../../../store';
-import { hideObjectEditor } from '../../../actions/map.js';
+import { hideObjectEditor, saveObject } from '../../../actions/map.js';
 
 import map from '../../../reducers/map.js';
 store.addReducers({
@@ -14,11 +15,12 @@ class UObjectEditor extends connect(store)(LitElement) {
 
   static get properties() {
     return {
-      _object: String
+      _object: Object,
+      _saveState: String
     };
   }
 
-  _render({ _object }) {
+  _render({ _object, _saveState }) {
     return html`
       ${SharedStyles}
       <style>
@@ -83,13 +85,17 @@ class UObjectEditor extends connect(store)(LitElement) {
         <div class="close" on-click="${UObjectEditor.close}"></div>
         
         <form>
-            <input type="text" placeholder="Название объекта" required><br>
-            <input type="text" placeholder="Адрес объекта" required><br>
-            <textarea placeholder="Краткое описание" maxlength="200" required></textarea><br>
-            <textarea placeholder="Полное описание"></textarea><br>
+            <input id="object-name" type="text" placeholder="Название объекта" required><br>
+            <input id="object-address" type="text" placeholder="Адрес объекта" required><br>
+            <textarea id="object-short-description" placeholder="Краткое описание" maxlength="200" required></textarea><br>
+            <textarea id="object-full-description" placeholder="Полное описание"></textarea><br>
             
             <button class="submit" type="submit" on-click="${this.submit.bind(this)}"></button>
         </form>
+        
+        <div class="zxvczxcv">
+            ${_saveState}
+        </div>
       </div> 
     `
   }
@@ -99,8 +105,18 @@ class UObjectEditor extends connect(store)(LitElement) {
     this._object = {};
   }
 
+  _firstRendered() {
+    // create references to the inputs
+    this._form = this.shadowRoot.querySelector('form');
+    this._objectName = this.shadowRoot.querySelector('#object-name');
+    this._objectAddress = this.shadowRoot.querySelector('#object-address');
+    this._objectShortDescription = this.shadowRoot.querySelector('#object-short-description');
+    this._objectFullDescription = this.shadowRoot.querySelector('#object-full-description');
+  }
+
   _stateChanged(state) {
     this._object = state.map.object;
+    this._saveState = state.map.saveState;
   }
 
   static close() {
@@ -108,14 +124,21 @@ class UObjectEditor extends connect(store)(LitElement) {
   }
 
   submit(e) {
-    let form = this.shadowRoot.querySelector('form');
+    e.preventDefault();
 
-    if (form.checkValidity()) {
-      alert('submitted!');
+    if (this._object._id && this._form.checkValidity()) {
+      let object = {
+        id: this._object._id,
+        name: this._objectName.value,
+        address: this._objectAddress.value,
+        shortDescription: this._objectShortDescription.value,
+        fullDescription: this._objectFullDescription.value
+      };
+
+      store.dispatch(saveObject(object));
     } else {
       alert('error!');
     }
-    e.preventDefault();
   }
 }
 

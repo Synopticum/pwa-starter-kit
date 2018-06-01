@@ -6,6 +6,8 @@ export const SHOW_OBJECT_INFO = 'SHOW_OBJECT_INFO';
 export const HIDE_OBJECT_INFO = 'HIDE_OBJECT_INFO';
 export const SHOW_OBJECT_EDITOR = 'SHOW_OBJECT_EDITOR';
 export const HIDE_OBJECT_EDITOR = 'HIDE_OBJECT_EDITOR';
+export const SAVE_OBJECT_SUCCEED = 'SAVE_OBJECT_SUCCEED';
+export const SAVE_OBJECT_FAILED = 'SAVE_OBJECT_FAILED';
 
 export const showObjectTooltip = (coordinates, position) => async (dispatch, getState) => {
   const object = await _getObjectByCoordinates(coordinates);
@@ -50,6 +52,28 @@ export const showObjectEditor = (coordinates) => async (dispatch, getState) => {
 export const hideObjectEditor = (dispatch, getState) => {
   return {
     type: HIDE_OBJECT_EDITOR
+  }
+};
+
+export const saveObject = (object) => async (dispatch, getState) => {
+  try {
+    let response = await fetch(`${ENV.api}/api/objects/object`, {
+      method: 'PUT',
+      body: JSON.stringify(object),
+      headers: {
+        'Content-Type': 'application/json',
+        'vk-access-token': localStorage.access_token
+      }
+    });
+
+    if (!response.ok) {
+      return dispatch({ type: SAVE_OBJECT_FAILED });
+    }
+
+    dispatch({ type: SAVE_OBJECT_SUCCEED });
+  } catch(e) {
+    console.error(e);
+    dispatch({ type: SAVE_OBJECT_FAILED });
   }
 };
 
