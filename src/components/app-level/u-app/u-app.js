@@ -91,6 +91,7 @@ class UApp extends connect(store)(LitElement) {
 
   constructor() {
     super();
+    this.appTitle = this.getAppTitle();
   }
 
   _firstRendered() {
@@ -102,7 +103,7 @@ class UApp extends connect(store)(LitElement) {
 
   _didRender(properties, changeList) {
     if ('_page' in changeList) {
-      const pageTitle = properties.appTitle + ' - ' + changeList._page;
+      const pageTitle = properties.appTitle + ' / ' + changeList._page;
       updateMetadata({
         title: pageTitle,
         description: pageTitle
@@ -168,6 +169,11 @@ class UApp extends connect(store)(LitElement) {
 
   get _isPageActive() {
     return (this._page !== 'login' && this._page !== '404' && this._page !== '★');
+  }
+
+  getAppTitle() {
+    let items = ['Уруссы', 'Уссурийск', 'Уруссняк', 'В Уруссах', 'С Уруссов', ''];
+    return items[Math.floor(Math.random()*items.length)];
   }
 }
 
