@@ -37,7 +37,7 @@ class USuccess extends LitElement {
   _firstRendered() {
     // redirect if needed
     if (window.opener && (window.opener.location.pathname.includes('login') || window.opener.location.pathname === '/')) {
-      window.opener.location.href = ENV.static;
+      window.opener.location.href = `${ENV.static}/★`;
       window.close();
     }
   }
