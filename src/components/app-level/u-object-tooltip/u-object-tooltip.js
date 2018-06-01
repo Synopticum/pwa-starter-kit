@@ -24,12 +24,19 @@ class UObjectTooltip extends connect(store)(LitElement) {
         :host {
             position: fixed;
             left: ${_positionX}px;
-            top: calc(${_positionY}px - 100px);
-            width: 100px;
-            height: 100px;
+            top: ${_positionY}px;
+            min-width: 300px;
+            min-height: 150px;
             background-color: #ffffff;
             z-index: 200;
             border: 1px solid blue;
+            transform: scale(1);
+            transition: transform .3s;
+        }
+        
+        :host([hidden]) {
+            display: block !important;
+            transform: scale(0);
         }
       </style>
       

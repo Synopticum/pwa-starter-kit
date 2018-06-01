@@ -205,7 +205,7 @@ class UMap extends connect(store)(LitElement) {
   _showObjectTooltip(e) {
     this._objectHoverTimeOut = setTimeout(() => {
       let coordinates = UMap._getObjectCoordinates(e.target);
-      let position = { x: e.containerPoint.x, y: e.containerPoint.y };
+      let position = UMap._calculateTooltipPosition(e.containerPoint.x, e.containerPoint.y);
 
       store.dispatch(showObjectTooltip(coordinates, position));
     }, 1000);
@@ -214,6 +214,16 @@ class UMap extends connect(store)(LitElement) {
   _hideObjectTooltip() {
     clearTimeout(this._objectHoverTimeOut);
     store.dispatch(hideObjectTooltip());
+  }
+
+  static _calculateTooltipPosition(mouseX, mouseY) {
+    let html = document.querySelector('html');
+    let x;
+    let y;
+
+    html.clientWidth/2 < mouseX ? x = mouseX - 310 : x = mouseX;
+    html.clientHeight/2 < mouseY ? y = mouseY - 160 : y = mouseY;
+    return { x, y }
   }
 
   _showObjectInfo(e) {
