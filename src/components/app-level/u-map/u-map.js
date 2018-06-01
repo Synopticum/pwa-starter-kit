@@ -66,18 +66,9 @@ class UMap extends connect(store)(LitElement) {
             justify-content: center;
             align-items: center;
         }
-        
-        .editor {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: #ff0000;
-        }
       </style>
       
-      <u-object-tooltip x="${_objectTooltipPositionX}" y="${_objectTooltipPositionY}" hidden?="${!_isTooltipVisible}">
+      <u-object-tooltip hidden?="${!_isTooltipVisible}" x="${_objectTooltipPositionX}" y="${_objectTooltipPositionY}">
         ${_object ? _object._id : ''}
       </u-object-tooltip>
       
@@ -85,7 +76,9 @@ class UMap extends connect(store)(LitElement) {
         ${_object ? _object._id : ''}
       </u-object-info>
       
-      <div class="editor" hidden?="${!_isEditorVisible}">${_object ? _object._id : ''}</div>
+      <u-object-editor hidden?="${!_isEditorVisible}">
+        ${_object ? _object._id : ''}
+      </u-object-editor>
     `;
   }
 
@@ -239,16 +232,20 @@ class UMap extends connect(store)(LitElement) {
 
     html.clientWidth/2 < mouseX ? x = mouseX - 310 : x = mouseX;
     html.clientHeight/2 < mouseY ? y = mouseY - 160 : y = mouseY;
-    return { x, y }
+
+    return { x, y };
   }
 
   _showObjectInfo(e) {
     let coordinates = UMap._getObjectCoordinates(e.target);
-    e.originalEvent.altKey ? store.dispatch(showObjectEditor(coordinates)) : store.dispatch(showObjectInfo(coordinates));
-  }
 
-  _hideObjectInfo() {
-    store.dispatch(hideObjectInfo());
+    if (e.originalEvent.altKey) {
+      store.dispatch(hideObjectInfo());
+      store.dispatch(showObjectEditor(coordinates))
+    } else {
+      store.dispatch(hideObjectEditor());
+      store.dispatch(showObjectInfo(coordinates));
+    }
   }
 
   static _getObjectCoordinates(target) {

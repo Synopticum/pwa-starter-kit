@@ -3,14 +3,14 @@ import { SharedStyles } from '../../shared-styles.js';
 import { connect } from 'pwa-helpers/connect-mixin';
 
 import { store } from '../../../store';
-import { hideObjectInfo } from '../../../actions/map.js';
+import { hideObjectEditor } from '../../../actions/map.js';
 
 import map from '../../../reducers/map.js';
 store.addReducers({
   map
 });
 
-class UObjectInfo extends connect(store)(LitElement) {
+class UObjectEditor extends connect(store)(LitElement) {
   _render(props) {
     return html`
       ${SharedStyles}
@@ -18,7 +18,7 @@ class UObjectInfo extends connect(store)(LitElement) {
         :host {
             width: 900px;
             height: 600px;
-            background-color: #ffffff;
+            background-color: #faa;
             border: 1px solid green;
             z-index: 200;
             pointer-events: all;
@@ -45,17 +45,17 @@ class UObjectInfo extends connect(store)(LitElement) {
       </style>
       
       <div class="object">
-        <div class="close" on-click="${UObjectInfo.close}"></div>
+        <div class="close" on-click="${UObjectEditor.close}"></div>
         <slot></slot>
       </div> 
     `
   }
 
   static close() {
-    store.dispatch(hideObjectInfo());
+    store.dispatch(hideObjectEditor());
   }
 
   _stateChanged() {}
 }
 
-window.customElements.define('u-object-info', UObjectInfo);
+window.customElements.define('u-object-editor', UObjectEditor);
