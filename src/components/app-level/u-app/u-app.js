@@ -60,12 +60,7 @@ class UApp extends connect(store)(LitElement) {
         }
       </style>
       
-      <u-map active?="${_page !== 'login'}"></u-map>     
-  
-      <div class="login">
-        <u-login></u-login>
-        <u-success></u-success>
-      </div>
+      <u-map active></u-map>   
   
       <main class="pages">
         <u-mainmenu class="mainmenu" page-active?="${this._isPageActive}"></u-mainmenu>
@@ -120,6 +115,11 @@ class UApp extends connect(store)(LitElement) {
   _stateChanged(state) {
     this._page = state.app.page;
     this.pageTitle = state.app.pageTitle;
+
+    if (window.opener && this._page === 'success') {
+      window.opener.location.reload();
+      window.close();
+    }
   }
 
   async authorize() {

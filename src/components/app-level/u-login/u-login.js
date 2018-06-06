@@ -22,10 +22,6 @@ class ULogin extends connect(store)(LitElement) {
     };
   }
 
-  _shouldRender(_props, _changedProps, _prevProps) {
-    return _props._page === 'login';
-  }
-
   _render(props) {
     return html`
             <style>
