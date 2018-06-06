@@ -38,10 +38,10 @@ const loadPage = (page) => async (dispatch) => {
 
     switch (page) {
         case '/':
-            await import('../components/app-level/u-map/u-map.js');
-            await import('../components/app-level/u-object-tooltip/u-object-tooltip.js');
-            await import('../components/app-level/u-object-info/u-object-info.js');
-            await import('../components/app-level/u-object-editor/u-object-editor.js');
+            import('../components/app-level/u-map/u-map.js');
+            import('../components/app-level/u-object-tooltip/u-object-tooltip.js');
+            import('../components/app-level/u-object-info/u-object-info.js');
+            import('../components/app-level/u-object-editor/u-object-editor.js');
             // Put code here that you want it to run every time when
             // navigate to / and u-map.js is loaded
             break;
@@ -49,47 +49,47 @@ const loadPage = (page) => async (dispatch) => {
           // do nothing
           break;
         case 'U★R★U★S★S★I★N★K★A':
-            await import('../components/app-level/u-map/u-map.js');
-            await import('../components/app-level/u-news/u-news.js');
+            import('../components/app-level/u-map/u-map.js');
+            import('../components/app-level/u-news/u-news.js');
             break;
         case 'C★H★E★K★A★V★O':
-            await import('../components/app-level/u-map/u-map.js');
-            await import('../components/app-level/u-ads/u-ads.js');
+            import('../components/app-level/u-map/u-map.js');
+            import('../components/app-level/u-ads/u-ads.js');
             break;
         case 'Z★A★P★I★L★I':
-            await import('../components/app-level/u-map/u-map.js');
-            await import('../components/app-level/u-ideas/u-ideas.js');
+            import('../components/app-level/u-map/u-map.js');
+            import('../components/app-level/u-ideas/u-ideas.js');
             break;
         case 'C★H★O★M★U':
-            await import('../components/app-level/u-map/u-map.js');
-            await import('../components/app-level/u-claims/u-claims.js');
+            import('../components/app-level/u-map/u-map.js');
+            import('../components/app-level/u-claims/u-claims.js');
             break;
         case 'C★H★O★P★O★C★H★O★M':
-            await import('../components/app-level/u-map/u-map.js');
-            await import('../components/app-level/u-sale/u-sale.js');
+            import('../components/app-level/u-map/u-map.js');
+            import('../components/app-level/u-sale/u-sale.js');
             break;
         case 'P★O★E★D★U':
-            await import('../components/app-level/u-map/u-map.js');
-            await import('../components/app-level/u-rides/u-rides.js');
+            import('../components/app-level/u-map/u-map.js');
+            import('../components/app-level/u-rides/u-rides.js');
             break;
         case 'U★D★O★L★I':
-            await import('../components/app-level/u-map/u-map.js');
-            await import('../components/app-level/u-anonymous/u-anonymous.js');
+            import('../components/app-level/u-map/u-map.js');
+            import('../components/app-level/u-anonymous/u-anonymous.js');
             break;
         default:
-            await import('../components/reusable/u-404.js');
+            import('../components/reusable/u-404.js');
     }
 };
 
 let pageTitles = new Map();
-pageTitles.set('/', 'План');
-pageTitles.set('U★R★U★S★S★I★N★K★A', 'Уруссинка');
-pageTitles.set('C★H★E★K★A★V★O', 'Чёкаво');
-pageTitles.set('Z★A★P★I★L★I', 'Запили');
-pageTitles.set('C★H★O★M★U', 'Чому');
-pageTitles.set('C★H★O★P★O★C★H★O★M', 'Чопочом');
-pageTitles.set('P★O★E★D★U', 'Поеду');
-pageTitles.set('U★D★O★L★I', 'Удоли');
+    pageTitles.set('/', 'План');
+    pageTitles.set('U★R★U★S★S★I★N★K★A', 'Уруссинка');
+    pageTitles.set('C★H★E★K★A★V★O', 'Чёкаво');
+    pageTitles.set('Z★A★P★I★L★I', 'Запили');
+    pageTitles.set('C★H★O★M★U', 'Чому');
+    pageTitles.set('C★H★O★P★O★C★H★O★M', 'Чопочом');
+    pageTitles.set('P★O★E★D★U', 'Поеду');
+    pageTitles.set('U★D★O★L★I', 'Удоли');
 
 const updatePage = (page) => {
     return {
