@@ -92,9 +92,6 @@ class UApp extends connect(store)(LitElement) {
 
   _firstRendered() {
     installRouter((location) => {
-      store.dispatch(hideObjectTooltip());
-      store.dispatch(hideObjectInfo());
-      store.dispatch(hideObjectEditor());
       store.dispatch(navigate(window.decodeURIComponent(location.pathname)));
     });
   }

@@ -9,6 +9,7 @@
  */
 
 export const UPDATE_PAGE = 'UPDATE_PAGE';
+import { hideObjectInfo, hideObjectEditor } from './map';
 
 export const navigate = (path) => (dispatch) => {
     // Extract the page name from path.
@@ -33,6 +34,9 @@ const loadPage = (page) => async (dispatch) => {
     ].indexOf(page) === -1) {
       page = '404';
     }
+
+    dispatch(hideObjectInfo());
+    dispatch(hideObjectEditor());
 
     dispatch(updatePage(page));
 
