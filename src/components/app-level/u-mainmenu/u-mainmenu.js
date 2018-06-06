@@ -51,6 +51,7 @@ class UMainMenu extends connect(store)(LitElement) {
         
         :host([page-active])::before {
           opacity: .6;
+          pointer-events: all;
         }
         
         .menu {

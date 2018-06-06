@@ -121,7 +121,7 @@ class UApp extends connect(store)(LitElement) {
   }
 
   get _isPageActive() {
-    return (this._page !== 'login' && this._page !== '404' && this._page !== '★');
+    return (this._page !== 'login' && this._page !== '404' && this._page !== '/');
   }
 
   static getAppTitle() {
