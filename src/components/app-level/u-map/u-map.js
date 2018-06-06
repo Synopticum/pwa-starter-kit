@@ -110,18 +110,12 @@ class UMap extends connect(store)(LitElement) {
   }
 
   async init() {
-    if (!localStorage.access_token) {
-      alert('Auth error');
-      window.location.href = '/login?unauthorized';
-
-    } else {
-      this._createMap();
-      this._setDefaultSettings();
-      this._setMaxBounds();
-      this._initializeTiles();
-      this._setListeners();
-      await this._drawObjects();
-    }
+    this._createMap();
+    this._setDefaultSettings();
+    this._setMaxBounds();
+    this._initializeTiles();
+    this._setListeners();
+    await this._drawObjects();
   }
 
   _createMap() {

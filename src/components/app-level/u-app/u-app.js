@@ -8,7 +8,6 @@
  subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
 
-import { ENV } from '../../../../constants';
 import { LitElement, html } from '@polymer/lit-element';
 import { SharedStyles } from '../../shared-styles.js';
 import '../u-mainmenu/u-mainmenu';
@@ -92,7 +91,6 @@ class UApp extends connect(store)(LitElement) {
   }
 
   _firstRendered() {
-    this.authorize();
     installRouter((location) => {
       store.dispatch(hideObjectTooltip());
       store.dispatch(hideObjectInfo());
@@ -120,57 +118,6 @@ class UApp extends connect(store)(LitElement) {
       window.opener.location.reload();
       window.close();
     }
-  }
-
-  async authorize() {
-    await this.checkAccessToken();
-  }
-
-  async checkAccessToken() {
-    if (await UApp.isAccessTokenValid()) {
-      // check an existing access token
-      console.log('Successful authentication');
-    } else {
-      // try to get a new access token from the redirect query string
-      localStorage.access_token = await this.extractAccessTokenFromHash();
-      if (await UApp.isAccessTokenValid(localStorage.access_token)) {
-        console.log('Successful authentication');
-      } else {
-        console.error('Access token is invalid');
-      }
-    }
-  }
-
-  static async isAccessTokenValid() {
-    if (localStorage.access_token) {
-      const headers = new Headers();
-      headers.append('vk-access-token', localStorage.access_token);
-
-      let response = await fetch(`${ENV.api}/api/login/check`, { headers });
-      let json = await response.json();
-      let isTokenValid = !json.error;
-
-      return isTokenValid;
-    }
-
-    return false;
-  }
-
-  async extractAccessTokenFromHash() {
-    let hash = window.location.hash.substring(1);
-    let params = {};
-
-    hash.split('&').map(hk => {
-      let temp = hk.split('=');
-      params[temp[0]] = temp[1];
-    });
-
-    if (!params || !params.access_token) {
-      return '';
-    }
-
-    localStorage.access_token = params.access_token;
-    return params.access_token;
   }
 
   get _isPageActive() {
