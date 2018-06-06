@@ -1,4 +1,4 @@
-import { ENV } from '../constants';
+import { ENV } from '../../constants';
 
 export const SHOW_OBJECT_TOOLTIP = 'SHOW_OBJECT_TOOLTIP';
 export const HIDE_OBJECT_TOOLTIP = 'HIDE_OBJECT_TOOLTIP';

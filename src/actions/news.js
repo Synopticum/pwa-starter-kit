@@ -1,4 +1,4 @@
-import { ENV } from '../constants';
+import { ENV } from '../../constants';
 export const GET_ALL_NEWS = 'GET_ALL_NEWS';
 
 export const getAllNews = () => async (dispatch, getState) => {

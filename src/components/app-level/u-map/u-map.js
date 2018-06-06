@@ -7,7 +7,7 @@
  Code distributed by Google as part of the polymer project is also
  subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
-import { ENV } from '../../../constants';
+import { ENV } from '../../../../constants';
 import { LitElement, html } from '@polymer/lit-element';
 import { SharedStyles } from '../../shared-styles.js';
 import { connect } from 'pwa-helpers/connect-mixin';

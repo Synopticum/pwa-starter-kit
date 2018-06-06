@@ -14,13 +14,8 @@ const ENV = {
 };
 
 let config = `export const ENV = { api: '${ENV.api[env]}', static: '${ENV.static[env]}' };`;
+let files = ["./constants.js", "./src/constants.js"];
 
-fs.writeFile("./src/constants.js", config, 'utf8', function (err) {
-  if (err) {
-    return console.log(err);
-  }
-
-  console.log(`
----- API server is ${ENV.api[env]}, static server is ${ENV.static[env]}
-  `);
+files.forEach(file => {
+  fs.writeFileSync(file, config, 'utf8');
 });

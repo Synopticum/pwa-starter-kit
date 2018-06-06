@@ -9,24 +9,14 @@
  */
 
 import { ENV } from '../../../constants';
-import { LitElement, html } from '@polymer/lit-element';
-import { SharedStyles } from '../../shared-styles.js';
-import { connect } from 'pwa-helpers/connect-mixin.js';
-import { store } from '../../../store';
 
-class ULogin extends connect(store)(LitElement) {
+class ULogin extends HTMLElement {
+  constructor() {
+    super();
+    let shadow = this.attachShadow({mode: 'open'});
 
-  static get properties() {
-    return {
-      _page: String
-    };
-  }
-
-  _render(props) {
-    return html`
-            <style>
-                ${SharedStyles}
-                
+    shadow.innerHTML = `
+            <style>                
                 :host {
                   position: fixed;
                   left: 0;
@@ -159,7 +149,7 @@ class ULogin extends connect(store)(LitElement) {
                 }
             </style>
             
-            <a href="https://oauth.vk.com/authorize?client_id=4447151&display=page&redirect_uri=${ENV.static}/success&scope=friends&response_type=token&v=5.74" class="explore" on-click="${this.test}">
+            <a href="https://oauth.vk.com/authorize?client_id=4447151&display=page&redirect_uri=${ENV.static}/success&scope=friends&response_type=token&v=5.74" class="explore"">
                 <span class="title">Войти через </span>
                 <img src="static/images/vk_logo.svg" alt="">
                 <span class="icon-right"></span><span class="icon-right after"></span>
@@ -167,10 +157,8 @@ class ULogin extends connect(store)(LitElement) {
             
             <a class="copyright" href="http://user-experience.ru" target="_blank">Сделано с ♥ Студия Сергея Новикова</a>
         `;
-  }
 
-  _stateChanged(state) {
-    this._page = state.app.page;
+    shadow.querySelector('.explore').addEventListener('click', this.test);
   }
 
   test(e) {

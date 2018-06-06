@@ -3,13 +3,14 @@
   "shell": "src/components/app-level/u-app/u-app.js",
   "sources": [
     "static/images/**/*",
-    "static/styles/**/*"
+    "static/styles/**/*",
+    "src/constants.js"
   ],
   "extraDependencies": [
     "manifest.json",
     "node_modules/@webcomponents/webcomponentsjs/**",
     "node_modules/leaflet/**",
-    "node_modules/normalize.css/**",
+    "src/components/app-level/u-login/**",
     "push-manifest.json"
   ],
   "builds": [

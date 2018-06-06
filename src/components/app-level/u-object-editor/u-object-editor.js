@@ -2,7 +2,6 @@ import { html, LitElement } from '@polymer/lit-element';
 import { SharedStyles } from '../../shared-styles.js';
 import { connect } from 'pwa-helpers/connect-mixin';
 
-import { ENV } from '../../../constants';
 import { store } from '../../../store';
 import { hideObjectEditor, saveObject } from '../../../actions/map.js';
 
