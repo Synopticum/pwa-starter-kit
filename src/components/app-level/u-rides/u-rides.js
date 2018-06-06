@@ -19,6 +19,7 @@ class URides extends PageViewElement {
       
       <style>
         .rides {
+            position: relative;
             width: 90%;
             max-width: 1000px;
             height: 400px;
@@ -26,9 +27,21 @@ class URides extends PageViewElement {
             border-radius: 5px;
             pointer-events: all;
         }
+        
+        .close {
+            cursor: pointer;
+            position: absolute;
+            display: block;
+            right: -15px;
+            top: -15px;
+            width: 30px;
+            height: 30px;
+            background-color: #ff0000;
+        }
       </style>
       
       <div class="rides">
+        <a href="/" class="close"></a>
         Poedu
       </div>
     `;

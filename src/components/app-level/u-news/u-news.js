@@ -36,6 +36,7 @@ class UNews extends connect(store)(PageViewElement) {
       
       <style>
         .news {
+            position: relative;
             width: 90%;
             max-width: 1000px;
             height: 400px;
@@ -54,9 +55,22 @@ class UNews extends connect(store)(PageViewElement) {
         .news__link {
             text-align: right;
         }
+        
+        .close {
+            cursor: pointer;
+            position: absolute;
+            display: block;
+            right: -15px;
+            top: -15px;
+            width: 30px;
+            height: 30px;
+            background-color: #ff0000;
+        }
       </style>
       
       <div class="news">
+        <a href="/" class="close"></a>
+        
           ${repeat(news, (i) => i.id, (i, index) => html`
             <div class="news__item">
                 <div class="news__text">${i.text}</div>
