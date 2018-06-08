@@ -18,31 +18,24 @@ import { updateMetadata } from 'pwa-helpers/metadata.js';
 
 import { store } from '../../../store.js';
 import { navigate } from '../../../actions/app.js';
-import { hideObjectTooltip, hideObjectInfo, hideObjectEditor } from '../../../actions/map';
 
 class UApp extends connect(store)(LitElement) {
+  _createRoot() {
+    return this;
+  }
+
   _render({ appTitle, pageTitle, _page }) {
     return html`
       ${SharedStyles}
       
-      <style>
-        :host {
-          display: block;
+      <style>        
+        .pages {
           position: fixed;
           left: 0;
           top: 0;
           width: 100vw;
           height: 100vh;
-          z-index: 999;
           pointer-events: none;
-        }
-        
-        .pages {
-          position: fixed;
-          left: 0;
-          top: 0;
-          width: 100%;
-          height: 100%;
         }
         
         .pages .page {
@@ -59,7 +52,7 @@ class UApp extends connect(store)(LitElement) {
         }
       </style>
       
-      <u-map active></u-map>   
+      <u-map></u-map>   
   
       <main class="pages">
         <u-mainmenu class="mainmenu" page-active?="${this._isPageActive}"></u-mainmenu>

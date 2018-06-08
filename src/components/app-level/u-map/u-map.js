@@ -49,6 +49,10 @@ class UMap extends connect(store)(LitElement) {
     };
   }
 
+  _createRoot() {
+    return this;
+  }
+
   _render({
             _isTooltipVisible, _isInfoVisible, _isEditorVisible,
             _objectTooltipPositionX, _objectTooltipPositionY,
@@ -58,7 +62,7 @@ class UMap extends connect(store)(LitElement) {
       ${SharedStyles}
       
       <style>
-        :host {
+        .info {
             width: 100vw;
             height: 100vh;
             z-index: 200;
@@ -66,17 +70,64 @@ class UMap extends connect(store)(LitElement) {
             justify-content: center;
             align-items: center;
         }
+
+        #map {
+            cursor: move;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #000000;
+            pointer-events: all;
+        }
+        
+        #map::before,
+        #map::after {
+            content: '';
+            pointer-events: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 500;
+        }
+        
+        /* shadow */
+        #map::before {
+            box-shadow: inset 0 0 200px rgba(0,0,0,0.9);
+        }
+        
+        /* overlay */
+        #map::after {
+            opacity: .05;
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADAQMAAABs5if8AAAABlBMVEUAAAD///+l2Z/dAAAAAXRSTlMAQObYZgAAAA5JREFUCNdjeMDQwNAAAAZmAeFpNQSMAAAAAElFTkSuQmCC');
+        }
+        
+        .leaflet-interactive {
+            opacity: 0;
+        }
+        
+        .leaflet-interactive:hover {
+            opacity: 1;
+        }
+        
+        .leaflet-control-container {
+            z-index: 200;
+        }
       </style>
       
-      <u-object-tooltip hidden?="${!_isTooltipVisible}" x="${_objectTooltipPositionX}" y="${_objectTooltipPositionY}">
-        ${_object ? _object._id : ''}
-      </u-object-tooltip>
+      <div class="info">
+        <u-object-tooltip hidden?="${!_isTooltipVisible}" x="${_objectTooltipPositionX}" y="${_objectTooltipPositionY}">
+          ${_object ? _object._id : ''}
+        </u-object-tooltip>
+        
+        <u-object-info hidden?="${!_isInfoVisible}">${_object ? _object._id : ''}</u-object-info>      
+        <u-object-editor hidden?="${!_isEditorVisible}"></u-object-editor>
+      </div>
       
-      <u-object-info hidden?="${!_isInfoVisible}">
-        ${_object ? _object._id : ''}
-      </u-object-info>
-      
-      <u-object-editor hidden?="${!_isEditorVisible}"></u-object-editor>
+      <div id="map"></div>
     `;
   }
 
@@ -171,8 +222,8 @@ class UMap extends connect(store)(LitElement) {
           color: this.objectFillColor,
           weight: this.objectStrokeWidth
         })
-          .on('mouseover', this._showObjectTooltip)
-          .on('mouseout', this._hideObjectTooltip)
+          .on('mouseover', this._showObjectTooltip.bind(this))
+          .on('mouseout', this._hideObjectTooltip.bind(this))
           .on('click', this._showObjectInfo)
           .addTo(this.map);
       });
@@ -196,8 +247,8 @@ class UMap extends connect(store)(LitElement) {
           weight: this.objectStrokeWidth,
           radius: item.coordinates[1]
         })
-          .on('mouseover', this._showObjectTooltip)
-          .on('mouseout', this._hideObjectTooltip)
+          .on('mouseover', this._showObjectTooltip.bind(this))
+          .on('mouseout', this._hideObjectTooltip.bind(this))
           .addTo(this.map);
       });
     } else {
@@ -220,7 +271,10 @@ class UMap extends connect(store)(LitElement) {
 
   _hideObjectTooltip() {
     clearTimeout(this._objectHoverTimeOut);
-    store.dispatch(hideObjectTooltip());
+
+    if (this._isTooltipVisible) {
+      store.dispatch(hideObjectTooltip());
+    }
   }
 
   static _calculateTooltipPosition(mouseX, mouseY) {

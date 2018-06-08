@@ -20,7 +20,7 @@ export const navigate = (path) => (dispatch) => {
   dispatch(loadPage(page));
 };
 
-const loadPage = (page) => async (dispatch) => {
+const loadPage = (page) => async (dispatch, getState) => {
   await import('../components/app-level/u-map/u-map.js');
 
   switch (page) {
@@ -58,8 +58,13 @@ const loadPage = (page) => async (dispatch) => {
       import('../components/reusable/u-404.js');
   }
 
-  dispatch(hideObjectInfo());
-  dispatch(hideObjectEditor());
+  if (getState().app.isInfoVisible) {
+    dispatch(hideObjectInfo());
+  }
+
+  if (getState().app.isEditorVisible) {
+    dispatch(hideObjectEditor());
+  }
 
   dispatch(updatePage(page));
 };
