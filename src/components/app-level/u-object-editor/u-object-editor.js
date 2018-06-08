@@ -116,10 +116,13 @@ class UObjectEditor extends connect(store)(LitElement) {
   _stateChanged(state) {
     this._object = state.map.object;
     this._saveState = state.map.saveState;
+    this._isEditorVisible = state.map.isEditorVisible;
   }
 
   static close() {
-    store.dispatch(hideObjectEditor());
+    if (this._isEditorVisible) {
+      store.dispatch(hideObjectEditor());
+    }
   }
 
   submit(e) {

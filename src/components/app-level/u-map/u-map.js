@@ -303,11 +303,19 @@ class UMap extends connect(store)(LitElement) {
   _showObjectInfo(e) {
     let coordinates = UMap._getObjectCoordinates(e.target);
 
+    if (this._isTooltipVisible) {
+      store.dispatch(hideObjectTooltip());
+    }
+
     if (e.originalEvent.altKey) {
-      store.dispatch(hideObjectInfo());
+      if (this._isInfoVisible) {
+        store.dispatch(hideObjectInfo());
+      }
       store.dispatch(showObjectEditor(coordinates))
     } else {
-      store.dispatch(hideObjectEditor());
+      if (this._isEditorVisible) {
+        store.dispatch(hideObjectEditor());
+      }
       store.dispatch(showObjectInfo(coordinates));
     }
   }
