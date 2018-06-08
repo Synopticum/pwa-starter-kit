@@ -89,17 +89,6 @@ class UApp extends connect(store)(LitElement) {
     });
   }
 
-  _didRender(properties, changeList) {
-    if ('_page' in changeList) {
-      const pageTitle = properties.appTitle + ' / ' + this.pageTitle;
-      updateMetadata({
-        title: pageTitle,
-        description: pageTitle
-        // This object also takes an image property, that points to an img src.
-      });
-    }
-  }
-
   _stateChanged(state) {
     this._page = state.app.page;
     this.pageTitle = state.app.pageTitle;
