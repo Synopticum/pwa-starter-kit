@@ -224,7 +224,7 @@ class UMap extends connect(store)(LitElement) {
         })
           .on('mouseover', this._showObjectTooltip.bind(this))
           .on('mouseout', this._hideObjectTooltip.bind(this))
-          .on('click', this._showObjectInfo)
+          .on('click', this._showObjectInfo.bind(this))
           .addTo(this.map);
       });
     } else {
@@ -249,6 +249,7 @@ class UMap extends connect(store)(LitElement) {
         })
           .on('mouseover', this._showObjectTooltip.bind(this))
           .on('mouseout', this._hideObjectTooltip.bind(this))
+          .on('click', this._showObjectInfo.bind(this))
           .addTo(this.map);
       });
     } else {
@@ -257,9 +258,7 @@ class UMap extends connect(store)(LitElement) {
   }
 
   _showObjectTooltip(e) {
-    let state = store.getState();
-
-    if (!state.map.isEditorVisible && !state.map.isInfoVisible) {
+    if (!this._isEditorVisible && !this._isInfoVisible) {
       this._objectHoverTimeOut = setTimeout(() => {
         let coordinates = UMap._getObjectCoordinates(e.target);
         let position = UMap._calculateTooltipPosition(e.containerPoint.x, e.containerPoint.y);
