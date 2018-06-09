@@ -149,7 +149,7 @@ class ULogin extends HTMLElement {
                 }
             </style>
             
-            <a href="https://oauth.vk.com/authorize?client_id=4447151&display=page&redirect_uri=${ENV.static}/success&scope=friends&response_type=token&v=5.74" class="explore"">
+            <a href="https://oauth.vk.com/authorize?client_id=4447151&display=page&redirect_uri=${ENV.static}&response_type=code&v=5.78" class="explore"">
                 <span class="title">Войти через </span>
                 <img src="static/images/vk_logo.svg" alt="">
                 <span class="icon-right"></span><span class="icon-right after"></span>
@@ -157,21 +157,6 @@ class ULogin extends HTMLElement {
             
             <a class="copyright" href="http://user-experience.ru" target="_blank">Сделано с ♥ Студия Сергея Новикова</a>
         `;
-
-    shadow.querySelector('.explore').addEventListener('click', this.test);
-  }
-
-  test(e) {
-    e.preventDefault();
-    window.open(this.href, 'targetWindow',
-      `toolbar=no,
-       location=no,
-       status=no,
-       menubar=no,
-       scrollbars=no,
-       resizable=no,
-       width=700,
-       height=420`);
   }
 }
 
