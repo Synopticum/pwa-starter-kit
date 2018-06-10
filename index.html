@@ -67,13 +67,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       import { authenticate } from '/src/components/app-level/u-login/authenticate.js';
 
       authenticate()
-        .then(authCode => {
-          localStorage.auth_code = authCode;
+        .then(token => {
+          localStorage.token = token;
           let app = document.createElement('u-app');
           document.body.appendChild(app);
         })
         .catch(e => {
           console.error(e);
+          localStorage.token = '';
           let login = document.createElement('u-login');
           document.body.appendChild(login);
         });

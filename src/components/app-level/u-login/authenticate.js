@@ -1,32 +1,48 @@
 export async function authenticate() {
-  let code = getCode();
+  let token = await getToken();
 
-  if (code) {
-    return await checkIfCodeIsValid(code);
-  }
-  throw new Error('No auth code');
-}
-
-function getCode() {
-  if (localStorage.auth_code) {
-    return localStorage.auth_code;
+  if (token) {
+    return await isTokenValid(token);
   }
 
-  if (location.search) {
-    return new URLSearchParams(location.search.slice(1)).get('code');
+  throw new Error('No token found, please login');
+
+  async function getToken() {
+    if (localStorage.token) {
+      return localStorage.token;
+    }
+
+    if (location.search) {
+      let code = new URLSearchParams(location.search.slice(1)).get('code');
+
+      if (code) {
+        let token = await getNewToken(code);
+        return token;
+      }
+    }
+
+    return '';
   }
 
-  return '';
-}
+  async function isTokenValid(token) {
+    let response = await fetch(`http://localhost:3000/api/checkToken?token=${token}`);
+    let json = await response.json();
 
-async function checkIfCodeIsValid(code) {
-  let response = await fetch(`http://localhost:3000/api/authenticate?code=${code}`);
-  let json = await response.json();
+    if (json.error) {
+      throw new Error('Token is invalid');
+    }
 
-  if (json.error) {
-    localStorage.auth_code = '';
-    throw new Error('Auth code is invalid');
+    return token;
   }
 
-  return code;
+  async function getNewToken(code) {
+    let response = await fetch(`http://localhost:3000/api/authenticate?code=${code}`);
+    let json = await response.json();
+
+    if (json.error) {
+      throw new Error('Cannot get new token, the auth code is invalid');
+    }
+
+    return json.token;
+  }
 }
