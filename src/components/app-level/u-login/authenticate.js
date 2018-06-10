@@ -2,7 +2,9 @@ export async function authenticate() {
   let token = await getToken();
 
   if (token) {
-    return await isTokenValid(token);
+    await isTokenValid(token);
+    localStorage.token = token;
+    return token;
   }
 
   throw new Error('No token found, please login');
@@ -29,6 +31,7 @@ export async function authenticate() {
     let json = await response.json();
 
     if (json.error) {
+      localStorage.token = '';
       throw new Error('Token is invalid');
     }
 
@@ -40,6 +43,7 @@ export async function authenticate() {
     let json = await response.json();
 
     if (json.error) {
+      localStorage.token = '';
       throw new Error('Cannot get new token, the auth code is invalid');
     }
 
