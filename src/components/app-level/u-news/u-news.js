@@ -37,14 +37,38 @@ class UNews extends connect(store)(PageViewElement) {
       <style>
         .news {
             position: relative;
-            width: 90%;
-            max-width: 1000px;
-            height: 400px;
-            background-color: #ffffff;
-            border-radius: 5px;
+            top: -30px;
+            width: calc(100vw - 100px);
+            height: calc(100vh - 250px);
             pointer-events: all;
+            padding: 20px 30px;
+        }
+        
+        .news__paper {
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 5;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            border-radius: 5px;
+            transform: perspective(500px) rotateX(-1deg);
+        }
+        
+        .news__wrapper {
+            position: relative;
+            z-index: 10;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr 20px);
+            padding: 0;
+            height: 100%;
             overflow-y: auto;
-            padding: 20px;
+        }
+        
+        .news__image img {
+            width: 100%;
+            filter: grayscale(100%);
         }
         
         .news__item {
@@ -52,8 +76,8 @@ class UNews extends connect(store)(PageViewElement) {
             border-bottom: 1px solid #ccc;
         }
         
-        .news__link {
-            text-align: right;
+        .news__text {
+            line-height: 1.3;
         }
         
         .close {
@@ -69,15 +93,20 @@ class UNews extends connect(store)(PageViewElement) {
       </style>
       
       <div class="news">
-        <a href="/" class="close"></a>
-        
-          ${repeat(news, (i) => i.id, (i, index) => html`
+        <div class="news__wrapper">
+            <!--<a href="/" class="close"></a>        -->
+            ${repeat(news, item => item.id, (item, index) => html`
             <div class="news__item">
-                <div class="news__text">${i.text}</div>
-                <div class="news__link"><a href$="${i.link}" target="_blank">Поподробнее</a></div>
-            </div>`)}
+              ${this.getPhoto(item, '604')}
+              <div class="news__text">${item.text}</div>
+            </div>
+            <div class="spacer"></div>
+            `)}
+        </div>
+        
+        <div class="news__paper"></div>
       </div>
-    `;
+`;
   }
 
   _firstRendered() {
@@ -86,6 +115,15 @@ class UNews extends connect(store)(PageViewElement) {
 
   _stateChanged(state) {
     this.news = state.news.all;
+  }
+
+  getPhoto(item, size) {
+    let url = item.attachments ? item.attachments[0] ? item.attachments[0].photo ? item.attachments[0].photo[`photo_${size}`] ? item.attachments[0].photo[`photo_${size}`] : null : null : null : null;
+
+    return url ? html`
+      <div class="news__image">
+          <a href$="${item.link}" target="_blank"><img src="${url}"></a>
+      </div>` : '';
   }
 }
 
