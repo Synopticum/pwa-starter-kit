@@ -1,3 +1,5 @@
+import { ENV } from '../../../constants';
+
 export async function authenticate() {
   let token = await getToken();
 
@@ -27,7 +29,7 @@ export async function authenticate() {
   }
 
   async function isTokenValid(token) {
-    let response = await fetch(`http://localhost:3000/api/checkToken?token=${token}`);
+    let response = await fetch(`${ENV.api}/api/checkToken?token=${token}`);
     let json = await response.json();
 
     if (json.error) {
@@ -39,7 +41,7 @@ export async function authenticate() {
   }
 
   async function getNewToken(code) {
-    let response = await fetch(`http://localhost:3000/api/authenticate?code=${code}`);
+    let response = await fetch(`${ENV.api}/api/authenticate?code=${code}`);
     let json = await response.json();
 
     if (json.error) {

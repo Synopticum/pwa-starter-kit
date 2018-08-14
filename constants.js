@@ -1,1 +1,1 @@
-export const ENV = { api: 'http://localhost:3000', static: 'https://localhost' };
+export const ENV = { api: 'http://localhost:3000', static: 'http://localhost' };
