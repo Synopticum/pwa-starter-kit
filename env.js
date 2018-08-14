@@ -9,7 +9,7 @@ const ENV = {
 
   static: {
     dev: 'http://localhost:8081',
-    prod: 'http://localhost:5000',
+    prod: 'https://localhost',
   }
 };
 
