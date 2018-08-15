@@ -38,9 +38,9 @@ class UNews extends connect(store)(PageViewElement) {
       <style>
         .news {
             position: relative;
-            top: -30px;
-            width: calc(100vw - 100px);
-            height: calc(100vh - 250px);
+            top: -40px;
+            width: calc(100vw - 80px);
+            height: calc(100vh - 130px);
             pointer-events: all;
             padding: 20px 30px;
         }
@@ -55,7 +55,7 @@ class UNews extends connect(store)(PageViewElement) {
             height: 100%;
             background-color: #fff;
             border-radius: 5px;
-            transform: perspective(500px) rotateX(-1deg);
+            transform: perspective(450px) rotateX(-1deg);
         }
         
         .news__layout {
@@ -63,35 +63,52 @@ class UNews extends connect(store)(PageViewElement) {
             z-index: 10;
             display: grid;
             height: 100%;
-            grid-template-areas:
-              'header     header    header    header'
-              'leftside   content   content   rightside'
-              'footer     footer    footer    footer';
-            grid-template-columns: 1.2fr 2fr 2fr 2fr;
-            grid-template-rows: 100px 1fr 50px;
+            grid:
+              'header     header     header     header'  190px
+              'spacer     spacer     spacer     spacer'  10px
+              'content    content    content    content' 1fr
+              'footer     footer     footer     footer'  50px /
+              200px       2fr        2fr        2fr;
             grid-gap: 1px;
         }
         
-        .leftside {
-            grid-area: leftside;
-            border: 1px solid #ccc;
+        .spacer {
+            grid-area: spacer;
+            border-top: 2px solid grey;
         }
         
         .content {
             grid-area: content;
-            border: 1px solid #ccc;
+            display: grid;
+            max-height: 100%;
+            grid-template-areas:
+              'leftside   center   center   rightside';
+            grid-template-columns: 200px 2fr 2fr 2fr;
+            grid-gap: 1px;
             overflow-y: auto;
+        }
+        
+        .leftside {
+            grid-area: leftside;
+            border: 1px solid #eee;
+        }
+        
+        .center {
+            grid-area: center;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border: 1px solid #eee;
             padding: 20px;
         }
         
         .rightside {
             grid-area: rightside;
-            border: 1px solid #ccc;
+            border: 1px solid #eee;
         }
         
         .footer {
             grid-area: footer;
-            border: 1px solid #ccc;
+            border: 1px solid #eee;
         }
         
         .close {
@@ -109,16 +126,20 @@ class UNews extends connect(store)(PageViewElement) {
       <div class="news">
         <div class="news__layout">
             <u-news-header></u-news-header>
-            
-            <div class="leftside"></div>
+            <div class="spacer"></div>
             
             <div class="content">
-              ${repeat(news, item => item.id, item => html`
-                <u-news-item item="${item}"></u-news-item>
-              `)}
+              <div class="leftside"></div>
+              
+              <div class="center">
+                ${repeat(news, item => item.id, item => html`
+                  <u-news-item item="${item}"></u-news-item>
+                `)}
+              </div>
+              
+              <div class="rightside"></div>
             </div>
             
-            <div class="rightside"></div>
             <div class="footer"></div>
         </div>
       </div>
