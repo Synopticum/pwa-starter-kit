@@ -45,7 +45,8 @@ class UNews extends connect(store)(PageViewElement) {
             padding: 20px 30px;
         }
         
-        .news__paper {
+        .news::after {
+            content: '';
             position: absolute;
             left: 0;
             top: 0;
@@ -66,7 +67,7 @@ class UNews extends connect(store)(PageViewElement) {
               'header     header    header    header'
               'leftside   content   content   rightside'
               'footer     footer    footer    footer';
-            grid-template-columns: 1fr 2fr 2fr 2fr;
+            grid-template-columns: 1.2fr 2fr 2fr 2fr;
             grid-template-rows: 100px 1fr 50px;
             grid-gap: 1px;
         }
@@ -79,6 +80,8 @@ class UNews extends connect(store)(PageViewElement) {
         .content {
             grid-area: content;
             border: 1px solid #ccc;
+            overflow-y: auto;
+            padding: 20px;
         }
         
         .rightside {
@@ -89,31 +92,6 @@ class UNews extends connect(store)(PageViewElement) {
         .footer {
             grid-area: footer;
             border: 1px solid #ccc;
-        }
-        
-        .news__wrapper {
-            position: relative;
-            z-index: 10;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr 20px);
-            padding: 0;
-            height: 100%;
-            overflow-y: auto;
-            display: none;
-        }
-        
-        .news__image img {
-            width: 100%;
-            filter: grayscale(100%);
-        }
-        
-        .news__item {
-            padding: 10px 0;
-            border-bottom: 1px solid #ccc;
-        }
-        
-        .news__text {
-            line-height: 1.3;
         }
         
         .close {
@@ -133,22 +111,16 @@ class UNews extends connect(store)(PageViewElement) {
             <u-news-header></u-news-header>
             
             <div class="leftside"></div>
-            <div class="content"></div>
+            
+            <div class="content">
+              ${repeat(news, item => item.id, item => html`
+                <u-news-item item="${item}"></u-news-item>
+              `)}
+            </div>
+            
             <div class="rightside"></div>
             <div class="footer"></div>
         </div>
-        <div class="news__wrapper">
-            <!--<a href="/" class="close"></a>        -->
-            ${repeat(news, item => item.id, item => html`
-              <div class="news__item">
-                <div class="news__image">${this.getPhoto(item)}</div>
-                <div class="news__text">${item.text}</div>
-              </div>
-              <div class="spacer"></div>
-            `)}
-        </div>
-        
-        <div class="news__paper"></div>
       </div>
 `;
   }
@@ -159,12 +131,6 @@ class UNews extends connect(store)(PageViewElement) {
 
   _stateChanged(state) {
     this.news = state.news.all;
-  }
-
-  getPhoto(item, size = 604) {
-    let url = item.attachments ? item.attachments[0] ? item.attachments[0].photo ? item.attachments[0].photo[`photo_${size}`] ? item.attachments[0].photo[`photo_${size}`] : null : null : null : null;
-
-    return url ? html`<a href$="${item.link}" target="_blank"><img src="${url}"></a>` : '';
   }
 }
 
