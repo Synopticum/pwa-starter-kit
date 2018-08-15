@@ -34,6 +34,7 @@ const loadPage = (page) => async (dispatch, getState) => {
       break;
     case 'U★R★U★S★S★I★N★K★A':
       import('../components/app-level/u-news/u-news.js');
+      import('../components/app-level/u-news/u-news-header/u-news-header.js');
       break;
     case 'C★H★E★K★A★V★O':
       import('../components/app-level/u-ads/u-ads.js');

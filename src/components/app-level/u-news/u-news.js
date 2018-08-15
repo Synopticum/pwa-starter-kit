@@ -13,6 +13,7 @@ import { repeat } from 'lit-html/lib/repeat';
 import { SharedStyles } from '../../shared-styles.js';
 import { PageViewElement } from '../../reusable/page-view-element';
 import { connect } from 'pwa-helpers/connect-mixin';
+import './u-news-header/u-news-header';
 
 import { store } from '../../../store';
 import { getAllNews } from '../../../actions/news.js';
@@ -68,11 +69,6 @@ class UNews extends connect(store)(PageViewElement) {
             grid-template-columns: 1fr 2fr 2fr 2fr;
             grid-template-rows: 100px 1fr 50px;
             grid-gap: 1px;
-        }
-        
-        .header {
-            grid-area: header;
-            border: 1px solid #ccc;
         }
         
         .leftside {
@@ -134,7 +130,8 @@ class UNews extends connect(store)(PageViewElement) {
       
       <div class="news">
         <div class="news__layout">
-            <div class="header"></div>
+            <u-news-header></u-news-header>
+            
             <div class="leftside"></div>
             <div class="content"></div>
             <div class="rightside"></div>
