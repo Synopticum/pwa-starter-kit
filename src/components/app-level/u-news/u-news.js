@@ -56,6 +56,45 @@ class UNews extends connect(store)(PageViewElement) {
             transform: perspective(500px) rotateX(-1deg);
         }
         
+        .news__layout {
+            position: relative;
+            z-index: 10;
+            display: grid;
+            height: 100%;
+            grid-template-areas:
+              'header     header    header    header'
+              'leftside   content   content   rightside'
+              'footer     footer    footer    footer';
+            grid-template-columns: 1fr 2fr 2fr 2fr;
+            grid-template-rows: 100px 1fr 50px;
+            grid-gap: 1px;
+        }
+        
+        .header {
+            grid-area: header;
+            border: 1px solid #ccc;
+        }
+        
+        .leftside {
+            grid-area: leftside;
+            border: 1px solid #ccc;
+        }
+        
+        .content {
+            grid-area: content;
+            border: 1px solid #ccc;
+        }
+        
+        .rightside {
+            grid-area: rightside;
+            border: 1px solid #ccc;
+        }
+        
+        .footer {
+            grid-area: footer;
+            border: 1px solid #ccc;
+        }
+        
         .news__wrapper {
             position: relative;
             z-index: 10;
@@ -64,6 +103,7 @@ class UNews extends connect(store)(PageViewElement) {
             padding: 0;
             height: 100%;
             overflow-y: auto;
+            display: none;
         }
         
         .news__image img {
@@ -93,6 +133,13 @@ class UNews extends connect(store)(PageViewElement) {
       </style>
       
       <div class="news">
+        <div class="news__layout">
+            <div class="header"></div>
+            <div class="leftside"></div>
+            <div class="content"></div>
+            <div class="rightside"></div>
+            <div class="footer"></div>
+        </div>
         <div class="news__wrapper">
             <!--<a href="/" class="close"></a>        -->
             ${repeat(news, item => item.id, item => html`
