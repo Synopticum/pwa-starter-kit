@@ -95,12 +95,12 @@ class UNews extends connect(store)(PageViewElement) {
       <div class="news">
         <div class="news__wrapper">
             <!--<a href="/" class="close"></a>        -->
-            ${repeat(news, item => item.id, (item, index) => html`
-            <div class="news__item">
-              ${this.getPhoto(item, '604')}
-              <div class="news__text">${item.text}</div>
-            </div>
-            <div class="spacer"></div>
+            ${repeat(news, item => item.id, item => html`
+              <div class="news__item">
+                <div class="news__image">${this.getPhoto(item)}</div>
+                <div class="news__text">${item.text}</div>
+              </div>
+              <div class="spacer"></div>
             `)}
         </div>
         
@@ -117,13 +117,10 @@ class UNews extends connect(store)(PageViewElement) {
     this.news = state.news.all;
   }
 
-  getPhoto(item, size) {
+  getPhoto(item, size = 604) {
     let url = item.attachments ? item.attachments[0] ? item.attachments[0].photo ? item.attachments[0].photo[`photo_${size}`] ? item.attachments[0].photo[`photo_${size}`] : null : null : null : null;
 
-    return url ? html`
-      <div class="news__image">
-          <a href$="${item.link}" target="_blank"><img src="${url}"></a>
-      </div>` : '';
+    return url ? html`<a href$="${item.link}" target="_blank"><img src="${url}"></a>` : '';
   }
 }
 
