@@ -4,12 +4,12 @@ const env = process.env['uenv'];
 const ENV = {
   api: {
     dev: 'http://localhost:3000',
-    prod: 'https://localhost:3000',
+    prod: 'http://ec2-18-194-13-255.eu-central-1.compute.amazonaws.com:3000',
   },
 
   static: {
     dev: 'http://localhost:8081',
-    prod: 'https://localhost',
+    prod: 'http://ec2-18-194-13-255.eu-central-1.compute.amazonaws.com',
   }
 };
 
