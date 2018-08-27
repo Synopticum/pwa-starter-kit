@@ -22,6 +22,30 @@ store.addReducers({
   news
 });
 
+const weatherEnum = {
+  'fair':                       'На небе практически ни облачка.',
+  'partly cloudy':              'Чуток облачно.',
+  'partly cloudy, weak rain':   'Чуток облачно и дождь чуток.',
+  'partly cloudy, rain':        'Чуток облачно и дождь.',
+  'partly cloudy, weak snow':   'Чуток облачно и снег чуток.',
+  'partly cloudy, snow':        'Чуток облачно и снег.',
+  'partly cloudy, strong snow': 'Чуток облачно и сильный снег.',
+  'cloudy':                     'Конкретно облачно.',
+  'cloudy, weak rain':          'Конкретно облачно и дождь чуток',
+  'cloudy, rain':               'Конкретно облачно и дождь',
+  'cloudy, weak snow':          'Конкретно облачно и снег чуток',
+  'cloudy, snow':               'Конкретно облачно и снег.',
+  'cloudy, strong snow':        'Конкретно облачно и сильный снег.',
+  'overcast':                   'На улице мрачняк.',
+  'overcast, weak rain':        'Мрачняк и слабый дождь.',
+  'overcast, rain':             'Мрачняк и дождь.',
+  'overcast, weak snow':        'Мрачняк и снег чуток.',
+  'overcast, snow':             'Мрачняк и снег.',
+  'overcast, strong snow':      'Мрачняк и сильный снег.',
+  'overcast, precipitation':    'Мрачняк и разнообразные атмосферные осадки.',
+  'overcast, a little drizzle': 'Мрачняк, дождь моросит.'
+};
+
 class UNewsHeader extends connect(store)(LitElement) {
 
   static get properties() {
@@ -185,7 +209,7 @@ class UNewsHeader extends connect(store)(LitElement) {
       </div>
       
       <div class="header__weather">
-        ${this.weather ? `Температура по приборам ${this.weather.a}, реально +15°, может ливануть` : ``} 
+        ${this.weather ? `Температура по приборам ${this.weather.currentTemperature}°, но как будто бы ${this.weather.feelingTemperature}°. ${UNewsHeader.getSky(this.weather.sky)}` : ``} 
       </div>
 `;
   }
@@ -196,6 +220,10 @@ class UNewsHeader extends connect(store)(LitElement) {
 
   _stateChanged(state) {
     this.weather = state.news.weather;
+  }
+
+  static getSky(value) {
+    return weatherEnum[value] ? weatherEnum[value] : '';
   }
 }
 
