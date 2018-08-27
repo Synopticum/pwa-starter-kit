@@ -64,13 +64,14 @@ class UMainMenu extends connect(store)(LitElement) {
           justify-content: center;
           padding: 5px 0;
           border-radius: 5px;
+          perspective: 800px;
         }
         
         .menu::before {
           pointer-events: none;
           content: '';
           position: absolute;
-          left: -60px;
+          left: -90px;
           top: -115px;
           width: 800px;
           height: 334px;
@@ -87,29 +88,46 @@ class UMainMenu extends connect(store)(LitElement) {
           height: 70px;
           margin: 0 3px;
           border-radius: 7px;
-          border: 3px solid transparent;
         }
         
-        .menu__item[selected] {
-          border-color: white;
+        .menu__item:not(.menu__item--news)[selected] {
+          border-color: rgba(255,255,0,1);
+        }
+        
+        .menu__item:not(.menu__item--news) {
+          border: 3px solid rgba(255,255,255,1);
+          transition: filter .1s, border-color .1s, box-shadow .1s;
+          box-shadow: 0 2px 1px rgba(0, 0, 0, 0.2), inset 0 2px 1px rgba(0, 0, 0, 0.2);
+        }
+        
+        .menu__item:not(.menu__item--news):hover {
+          border-color: rgba(255,255,0,1);
         }
         
         .menu__item--ads {
-          transform: skew(-.112rad);
-          background: url('../../../../static/images/mainmenu/ads.svg') no-repeat -22px -25px #fbe9bc;
+          width: 62px;
+          height: 62px;
+          top: 4px;
+          margin-right: 0;
+          transform: skew(-.112rad) rotate3d(0, 1, 0, -20deg);
+          background: url('../../../../static/images/mainmenu/ads.svg') no-repeat -22px -20px #fbe9bc;
           background-size: 200%;
           background-clip: content-box;
         }
         
         .menu__item--ideas {
-          transform: skew(-.112rad);
+          width: 66px;
+          height: 66px;
+          top: 2px;
+          margin-left: 0;
+          transform: skew(-.112rad) rotate3d(0, 1, 0, -15deg);
           background: url('../../../../static/images/mainmenu/ideas.svg') no-repeat -22px -20px #b2b2b2;
           background-size: 200%;
           background-clip: content-box;
         }
         
         .menu__item--claims {
-          transform: skew(-.112rad);
+          transform: skew(-.112rad) rotate3d(0, 1, 0, -5deg);
           background: url('../../../../static/images/mainmenu/claims.svg') no-repeat -22px -20px #274264;
           background-size: 200%;
           background-clip: content-box;
@@ -127,22 +145,30 @@ class UMainMenu extends connect(store)(LitElement) {
         }
         
         .menu__item--sale {
-          transform: skew(.112rad);
+          transform: skew(.112rad) rotate3d(0, 1, 0, 5deg);
           background: url('../../../../static/images/mainmenu/sale.svg') no-repeat -25px -23px;
           background-size: 200%;
           background-clip: content-box;
         }
         
         .menu__item--rides {
-          transform: skew(.112rad);
+          width: 66px;
+          height: 66px;
+          top: 2px;
+          margin-right: 0;
+          transform: skew(.112rad) rotate3d(0, 1, 0, 15deg);
           background: url('../../../../static/images/mainmenu/rides.svg') no-repeat -16px -21px #101010;
           background-size: 200%;
           background-clip: content-box;
         }
         
         .menu__item--anonymous {
-          transform: skew(.112rad);
-          background: url('../../../../static/images/mainmenu/anonymous.svg') no-repeat -22px -25px #dfe0df;
+          width: 62px;
+          height: 62px;
+          top: 4px;
+          margin-left: 0;
+          transform: skew(.112rad) rotate3d(0, 1, 0, 20deg);
+          background: url('../../../../static/images/mainmenu/anonymous.svg') no-repeat -18px -20px #dfe0df;
           background-size: 200%;
           background-clip: content-box;
         }
