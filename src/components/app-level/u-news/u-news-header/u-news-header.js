@@ -13,9 +13,11 @@ import { SharedStyles } from '../../../shared-styles.js';
 import { PageViewElement } from '../../../reusable/page-view-element';
 import { connect } from 'pwa-helpers/connect-mixin';
 
+
 import { store } from '../../../../store';
 
 import news from '../../../../reducers/news.js';
+import { getWeather } from '../../../../actions/news';
 store.addReducers({
   news
 });
@@ -23,6 +25,9 @@ store.addReducers({
 class UNewsHeader extends connect(store)(LitElement) {
 
   static get properties() {
+    return {
+      weather: Object
+    };
   }
 
   _render({ }) {
@@ -180,12 +185,17 @@ class UNewsHeader extends connect(store)(LitElement) {
       </div>
       
       <div class="header__weather">
-        Температура по приборам +17,6°, реально +15°, может ливануть
+        ${this.weather ? `Температура по приборам ${this.weather.a}, реально +15°, может ливануть` : ``} 
       </div>
 `;
   }
 
+  _firstRendered() {
+    store.dispatch(getWeather());
+  }
+
   _stateChanged(state) {
+    this.weather = state.news.weather;
   }
 }
 

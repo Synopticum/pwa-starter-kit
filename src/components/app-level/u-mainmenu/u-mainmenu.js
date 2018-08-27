@@ -92,16 +92,18 @@ class UMainMenu extends connect(store)(LitElement) {
         
         .menu__item:not(.menu__item--news)[selected] {
           border-color: rgba(255,255,0,1);
+          opacity: 1;
         }
         
         .menu__item:not(.menu__item--news) {
           border: 3px solid rgba(255,255,255,1);
-          transition: filter .1s, border-color .1s, box-shadow .1s;
+          transition: opacity .1s, border-color .1s, box-shadow .1s;
           box-shadow: 0 2px 1px rgba(0, 0, 0, 0.2), inset 0 2px 1px rgba(0, 0, 0, 0.2);
         }
         
         .menu__item:not(.menu__item--news):hover {
           border-color: rgba(255,255,0,1);
+          opacity: 1;
         }
         
         .menu__item--ads {
@@ -113,6 +115,7 @@ class UMainMenu extends connect(store)(LitElement) {
           background: url('../../../../static/images/mainmenu/ads.svg') no-repeat -22px -20px #fbe9bc;
           background-size: 200%;
           background-clip: content-box;
+          opacity: .8;
         }
         
         .menu__item--ideas {
@@ -124,6 +127,7 @@ class UMainMenu extends connect(store)(LitElement) {
           background: url('../../../../static/images/mainmenu/ideas.svg') no-repeat -22px -20px #b2b2b2;
           background-size: 200%;
           background-clip: content-box;
+          opacity: .9;
         }
         
         .menu__item--claims {
@@ -160,6 +164,7 @@ class UMainMenu extends connect(store)(LitElement) {
           background: url('../../../../static/images/mainmenu/rides.svg') no-repeat -16px -21px #101010;
           background-size: 200%;
           background-clip: content-box;
+          opacity: .9;
         }
         
         .menu__item--anonymous {
@@ -171,6 +176,7 @@ class UMainMenu extends connect(store)(LitElement) {
           background: url('../../../../static/images/mainmenu/anonymous.svg') no-repeat -18px -20px #dfe0df;
           background-size: 200%;
           background-clip: content-box;
+          opacity: .8;
         }
       </style>
       

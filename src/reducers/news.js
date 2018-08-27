@@ -1,4 +1,4 @@
-import { GET_ALL_NEWS } from '../actions/news.js';
+import { GET_ALL_NEWS, GET_WEATHER } from '../actions/news.js';
 
 const news = (state = { all: [] }, action) => {
   switch (action.type) {
@@ -6,6 +6,11 @@ const news = (state = { all: [] }, action) => {
       return {
         ...state,
         all: action.all
+      };
+    case GET_WEATHER:
+      return {
+        ...state,
+        weather: action.weather
       };
     default:
       return state;
