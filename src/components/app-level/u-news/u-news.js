@@ -9,7 +9,6 @@
  */
 
 import { html } from '@polymer/lit-element';
-import { repeat } from 'lit-html/lib/repeat';
 import { SharedStyles } from '../../shared-styles.js';
 import { PageViewElement } from '../../reusable/page-view-element';
 import { connect } from 'pwa-helpers/connect-mixin';
@@ -88,27 +87,16 @@ class UNews extends connect(store)(PageViewElement) {
             overflow-y: auto;
         }
         
-        .leftside {
+        u-news-leftside {
             grid-area: leftside;
-            border: 1px solid #eee;
         }
         
-        .center {
+        u-news-main {
             grid-area: center;
-            display: grid;
-            grid-template-columns: repeat(3,1fr);
-            border: 1px solid #eee;
-        }
-        
-        @media screen and (max-width: 1420px) {
-          .center {
-            grid-template-columns: 1fr 1fr;
-          }
         }
         
         .rightside {
             grid-area: rightside;
-            border: 1px solid #eee;
         }
         
         .footer {
@@ -134,15 +122,9 @@ class UNews extends connect(store)(PageViewElement) {
             <div class="spacer"></div>
             
             <div class="content">
-              <div class="leftside"></div>
-              
-              <div class="center">
-                ${repeat(news, item => item.id, item => html`
-                  <u-news-item item="${item}"></u-news-item>
-                `)}
-              </div>
-              
-              <div class="rightside"></div>
+              <u-news-leftside></u-news-leftside>
+              <u-news-main items="${news}"></u-news-main>
+              <u-news-rightside></u-news-rightside>
             </div>
             
             <div class="footer"></div>

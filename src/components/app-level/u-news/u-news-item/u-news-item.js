@@ -41,6 +41,7 @@ class UNewsItem extends LitElement {
         
         .text {
             margin: 5px 0 10px 0;
+            font-size: 18px;
             line-height: 1.3;
             border-radius: 10px;
         }
@@ -50,7 +51,6 @@ class UNewsItem extends LitElement {
         }
       </style>
       
-      <a href$="${item.link}" target="_blank" class="thumbnail" style="background-image: url(${UNewsItem.getPhoto(item)})"></a>
       <div class="text">${item.text}</div>
       
       <div class="spacer"></div>
