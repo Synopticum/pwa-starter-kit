@@ -96,9 +96,14 @@ class UNews extends connect(store)(PageViewElement) {
         .center {
             grid-area: center;
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(3,1fr);
             border: 1px solid #eee;
-            padding: 20px;
+        }
+        
+        @media screen and (max-width: 1420px) {
+          .center {
+            grid-template-columns: 1fr 1fr;
+          }
         }
         
         .rightside {
