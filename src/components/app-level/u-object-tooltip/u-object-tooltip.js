@@ -12,20 +12,20 @@ class UObjectTooltip extends connect(store)(LitElement) {
 
   static get properties() {
     return {
-      _positionX: Number,
-      _positionY: Number,
-      _origin: String
+      _positionX: { type: Number },
+      _positionY: { type: Number },
+      _origin: { type: String }
     };
   }
 
-  _render({ _positionX, _positionY, _origin }) {
+  render() {
     return html`
       ${SharedStyles}
       <style>
         :host {
             position: fixed;
-            left: ${_positionX}px;
-            top: ${_positionY}px;
+            left: ${this._positionX}px;
+            top: ${this._positionY}px;
             min-width: 300px;
             min-height: 150px;
             background-color: #ffffff;
@@ -33,7 +33,7 @@ class UObjectTooltip extends connect(store)(LitElement) {
             border: 1px solid blue;
             transform: scale(1);
             transition: transform .3s;
-            transform-origin: ${_origin};
+            transform-origin: ${this._origin};
         }
         
         :host([hidden]) {

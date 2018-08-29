@@ -14,12 +14,12 @@ class UObjectEditor extends connect(store)(LitElement) {
 
   static get properties() {
     return {
-      _object: Object,
-      _saveState: String
+      _object: { type: Object },
+      _saveState: { type: String }
     };
   }
 
-  _render({ _object, _saveState }) {
+  render() {
     return html`
       ${SharedStyles}
       <style>
@@ -81,7 +81,7 @@ class UObjectEditor extends connect(store)(LitElement) {
       </style>
       
       <div class="object">
-        <div class="close" on-click="${UObjectEditor.close}"></div>
+        <div class="close" @click="${UObjectEditor.close}"></div>
         
         <form>
             <input id="object-name" type="text" placeholder="Название объекта" required><br>
@@ -89,11 +89,11 @@ class UObjectEditor extends connect(store)(LitElement) {
             <textarea id="object-short-description" placeholder="Краткое описание" maxlength="200" required></textarea><br>
             <textarea id="object-full-description" placeholder="Полное описание"></textarea><br>
             
-            <button class="submit" type="submit" on-click="${this.submit.bind(this)}"></button>
+            <button class="submit" type="submit" @click="${this.submit.bind(this)}"></button>
         </form>
         
         <div class="zxvczxcv">
-            ${_saveState}
+            ${this._saveState}
         </div>
       </div> 
     `
@@ -104,7 +104,7 @@ class UObjectEditor extends connect(store)(LitElement) {
     this._object = {};
   }
 
-  _firstRendered() {
+  firstRendered() {
     // create references to the inputs
     this._form = this.shadowRoot.querySelector('form');
     this._objectName = this.shadowRoot.querySelector('#object-name');

@@ -23,7 +23,7 @@ store.addReducers({
 
 class UAds extends connect(store)(PageViewElement) {
 
-  _render(props) {
+  render() {
     return html`
       ${SharedStyles}
       

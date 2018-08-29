@@ -26,11 +26,11 @@ class UNewsRightside extends connect(store)(LitElement) {
 
   static get properties() {
     return {
-      weather: Object
+      weather: { type: Object }
     };
   }
 
-  _render({ }) {
+  render() {
     return html`
       ${SharedStyles}
       
@@ -64,7 +64,7 @@ class UNewsRightside extends connect(store)(LitElement) {
 `;
   }
 
-  _firstRendered() {
+  firstRendered() {
   }
 
   _stateChanged(state) {

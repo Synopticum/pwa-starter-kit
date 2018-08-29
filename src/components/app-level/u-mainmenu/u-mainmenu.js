@@ -18,15 +18,15 @@ class UMainMenu extends connect(store)(LitElement) {
 
   static get properties() {
     return {
-      _page: String
+      _page: { type: String }
     };
   }
 
-  _shouldRender(_props, _changedProps, _prevProps) {
-    return _props._page !== undefined && _props._page !== 'login' && _props._page !== '404';
+  shouldUpdate() {
+    return this._page !== undefined && this._page !== 'login' && this._page !== '404';
   }
 
-  _render({ _page }) {
+  render() {
     return html`
       ${SharedStyles}
       
@@ -181,16 +181,16 @@ class UMainMenu extends connect(store)(LitElement) {
       </style>
       
       <nav class="menu">
-        <a selected?="${_page === 'C★H★E★K★A★V★O'}" href="C★H★E★K★A★V★O" class="menu__item menu__item--ads"></a>
-        <a selected?="${_page === 'Z★A★P★I★L★I'}" href="Z★A★P★I★L★I" class="menu__item menu__item--ideas"></a>
-        <a selected?="${_page === 'C★H★O★M★U'}" href="C★H★O★M★U" class="menu__item menu__item--claims"></a>
-        <a selected?="${_page === 'U★R★U★S★S★I★N★K★A'}" href="U★R★U★S★S★I★N★K★A" class="menu__item menu__item--news">
+        <a ?selected="${this._page === 'C★H★E★K★A★V★O'}" href="C★H★E★K★A★V★O" class="menu__item menu__item--ads"></a>
+        <a ?selected="${this._page === 'Z★A★P★I★L★I'}" href="Z★A★P★I★L★I" class="menu__item menu__item--ideas"></a>
+        <a ?selected="${this._page === 'C★H★O★M★U'}" href="C★H★O★M★U" class="menu__item menu__item--claims"></a>
+        <a ?selected="${this._page === 'U★R★U★S★S★I★N★K★A'}" href="U★R★U★S★S★I★N★K★A" class="menu__item menu__item--news">
           <img src="static/images/mainmenu/news.svg" width="100" height="140"><br>
           <img src="static/images/mainmenu/title.svg" width="180" height="44">
         </a>
-        <a selected?="${_page === 'C★H★O★P★O★C★H★O★M'}" href="C★H★O★P★O★C★H★O★M" class="menu__item menu__item--sale"></a>
-        <a selected?="${_page === 'P★O★E★D★U'}" href="P★O★E★D★U" class="menu__item menu__item--rides"></a>
-        <a selected?="${_page === 'U★D★O★L★I'}" href="U★D★O★L★I" class="menu__item menu__item--anonymous"></a>
+        <a ?selected="${this._page === 'C★H★O★P★O★C★H★O★M'}" href="C★H★O★P★O★C★H★O★M" class="menu__item menu__item--sale"></a>
+        <a ?selected="${this._page === 'P★O★E★D★U'}" href="P★O★E★D★U" class="menu__item menu__item--rides"></a>
+        <a ?selected="${this._page === 'U★D★O★L★I'}" href="U★D★O★L★I" class="menu__item menu__item--anonymous"></a>
       </nav>
     `;
   }

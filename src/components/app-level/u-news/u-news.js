@@ -26,11 +26,11 @@ class UNews extends connect(store)(PageViewElement) {
 
   static get properties() {
     return {
-      news: Array
+      news: { type: Array }
     };
   }
 
-  _render({ news }) {
+  render() {
     return html`
       ${SharedStyles}
       
@@ -123,7 +123,7 @@ class UNews extends connect(store)(PageViewElement) {
             
             <div class="content">
               <u-news-leftside></u-news-leftside>
-              <u-news-main items="${news}"></u-news-main>
+              <u-news-main items="${this.news}"></u-news-main>
               <u-news-rightside></u-news-rightside>
             </div>
             
@@ -133,7 +133,7 @@ class UNews extends connect(store)(PageViewElement) {
 `;
   }
 
-  _firstRendered() {
+  firstRendered() {
     store.dispatch(getAllNews());
   }
 

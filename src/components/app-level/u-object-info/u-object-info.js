@@ -11,7 +11,7 @@ store.addReducers({
 });
 
 class UObjectInfo extends connect(store)(LitElement) {
-  _render(props) {
+  render() {
     return html`
       ${SharedStyles}
       <style>
@@ -45,7 +45,7 @@ class UObjectInfo extends connect(store)(LitElement) {
       </style>
       
       <div class="object">
-        <div class="close" on-click="${UObjectInfo.close}"></div>
+        <div class="close" @click="${UObjectInfo.close}"></div>
         <slot></slot>
       </div> 
     `

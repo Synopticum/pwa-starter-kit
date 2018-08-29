@@ -27,11 +27,11 @@ class UNewsMain extends connect(store)(LitElement) {
 
   static get properties() {
     return {
-      items: Array
+      items: { type: Array }
     };
   }
 
-  _render({ items }) {
+  render() {
     return html`
       ${SharedStyles}
       
@@ -72,14 +72,14 @@ class UNewsMain extends connect(store)(LitElement) {
       <div class="label">Сводки с полей</div>
       <div class="spacer"></div>
       <div class="content">
-        ${repeat(items, item => item.id, item => html`
+        ${repeat(this.items, item => item.id, item => html`
           <u-news-item item="${item}"></u-news-item>
         `)}
       </div>
 `;
   }
 
-  _firstRendered() {
+  firstRendered() {
   }
 
   _stateChanged(state) {

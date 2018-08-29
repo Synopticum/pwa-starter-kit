@@ -15,12 +15,12 @@ class UNewsItem extends LitElement {
 
   static get properties() {
     return {
-      item: Object
+      item: { type: Object }
     };
   }
 
-  _render({ item }) {
-    return item ? html`
+  render() {
+    return this.item ? html`
       ${SharedStyles}
       
       <style>
@@ -51,7 +51,7 @@ class UNewsItem extends LitElement {
         }
       </style>
       
-      <div class="text">${item.text}</div>
+      <div class="text">${this.item.text}</div>
       
       <div class="spacer"></div>
     ` : null;

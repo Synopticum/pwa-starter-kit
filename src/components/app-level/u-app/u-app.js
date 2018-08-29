@@ -20,11 +20,12 @@ import { store } from '../../../store.js';
 import { navigate } from '../../../actions/app.js';
 
 class UApp extends connect(store)(LitElement) {
-  _createRoot() {
+
+  createRenderRoot() {
     return this;
   }
 
-  _render({ appTitle, pageTitle, _page }) {
+  render() {
     return html`
       ${SharedStyles}
       
@@ -55,26 +56,26 @@ class UApp extends connect(store)(LitElement) {
       <u-map></u-map>   
   
       <main class="pages">
-        <u-mainmenu class="mainmenu" page-active?="${this._isPageActive}"></u-mainmenu>
+        <u-mainmenu class="mainmenu" ?page-active="${this._isPageActive}"></u-mainmenu>
         
-        <u-news class="page" active?="${_page === 'U★R★U★S★S★I★N★K★A'}"></u-news>
-        <u-ads class="page" active?="${_page === 'C★H★E★K★A★V★O'}"></u-ads>
-        <u-ideas class="page" active?="${_page === 'Z★A★P★I★L★I'}"></u-ideas>
-        <u-claims class="page" active?="${_page === 'C★H★O★M★U'}"></u-claims>
-        <u-sale class="page" active?="${_page === 'C★H★O★P★O★C★H★O★M'}"></u-sale>
-        <u-rides class="page" active?="${_page === 'P★O★E★D★U'}"></u-rides>
-        <u-anonymous class="page" active?="${_page === 'U★D★O★L★I'}"></u-anonymous>
+        <u-news class="page" ?active="${this._page === 'U★R★U★S★S★I★N★K★A'}"></u-news>
+        <u-ads class="page" ?active="${this._page === 'C★H★E★K★A★V★O'}"></u-ads>
+        <u-ideas class="page" ?active="${this._page === 'Z★A★P★I★L★I'}"></u-ideas>
+        <u-claims class="page" ?active="${this._page === 'C★H★O★M★U'}"></u-claims>
+        <u-sale class="page" ?active="${this._page === 'C★H★O★P★O★C★H★O★M'}"></u-sale>
+        <u-rides class="page" ?active="${this._page === 'P★O★E★D★U'}"></u-rides>
+        <u-anonymous class="page" ?active="${this._page === 'U★D★O★L★I'}"></u-anonymous>
       </main>
         
-      <u-404 active?="${_page === '404'}"></u-404>
+      <u-404 ?active="${this._page === '404'}"></u-404>
     `;
   }
 
   static get properties() {
     return {
-      appTitle: String,
-      pageTitle: String,
-      _page: String
+      appTitle: { type: String },
+      pageTitle: { type: String },
+      _page: { type: String }
     };
   }
 
@@ -83,7 +84,7 @@ class UApp extends connect(store)(LitElement) {
     this.appTitle = UApp.getAppTitle();
   }
 
-  _firstRendered() {
+  firstRendered() {
     installRouter((location) => {
       store.dispatch(navigate(window.decodeURIComponent(location.pathname)));
     });

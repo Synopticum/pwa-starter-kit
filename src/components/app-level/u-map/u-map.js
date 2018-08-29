@@ -30,34 +30,30 @@ class UMap extends connect(store)(LitElement) {
 
   static get properties() {
     return {
-      map: Object,
-      minZoom: Number,
-      maxZoom: Number,
-      maxBounds: Array,
-      mapWidth: Number,
-      mapHeight: Number,
-      objectFillColor: String,
-      objectStrokeWidth: Number,
+      map: { type: Object },
+      minZoom: { type: Number },
+      maxZoom: { type: Number },
+      maxBounds: { type: Array },
+      mapWidth: { type: Number },
+      mapHeight: { type: Number },
+      objectFillColor: { type: String },
+      objectStrokeWidth: { type: Number },
 
-      _object: Object,
-      _isTooltipVisible: Boolean,
-      _isEditorVisible: Boolean,
-      _isInfoVisible: Boolean,
-      _objectHoverTimeOut: Number,
+      _object: { type: Object },
+      _isTooltipVisible: { type: Boolean },
+      _isEditorVisible: { type: Boolean },
+      _isInfoVisible: { type: Boolean },
+      _objectHoverTimeOut: { type: Number },
 
-      __currentObject: Array,
+      __currentObject: { type: Array }
     };
   }
 
-  _createRoot() {
+  createRenderRoot() {
     return this;
   }
 
-  _render({
-            _isTooltipVisible, _isInfoVisible, _isEditorVisible,
-            _objectTooltipPositionX, _objectTooltipPositionY,
-            _object
-  }) {
+  render() {
     return html`
       ${SharedStyles}
       
@@ -119,12 +115,12 @@ class UMap extends connect(store)(LitElement) {
       </style>
       
       <div class="info">
-        <u-object-tooltip hidden?="${!_isTooltipVisible}" x="${_objectTooltipPositionX}" y="${_objectTooltipPositionY}">
-          ${_object ? _object._id : ''}
+        <u-object-tooltip ?hidden="${!this._isTooltipVisible}">
+          ${this._object ? this._object._id : ''}
         </u-object-tooltip>
         
-        <u-object-info hidden?="${!_isInfoVisible}">${_object ? _object._id : ''}</u-object-info>      
-        <u-object-editor hidden?="${!_isEditorVisible}"></u-object-editor>
+        <u-object-info ?hidden="${!this._isInfoVisible}">${this._object ? this._object._id : ''}</u-object-info>      
+        <u-object-editor ?hidden="${!this._isEditorVisible}"></u-object-editor>
       </div>
       
       <div id="map"></div>
@@ -148,8 +144,7 @@ class UMap extends connect(store)(LitElement) {
     this.__currentObject = [];
   }
 
-  _firstRendered() {
-    super._firstRendered();
+  firstRendered() {
     this.init().catch(e => { throw new Error(e) });
   }
 

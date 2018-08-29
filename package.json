@@ -9,24 +9,21 @@
   "scripts": {
     "start": "node ./env.js && polymer serve",
     "build": "npm run build:prpl-server && npm run build:static",
-    "build:prpl-server": "polymer build --auto-base-path && rm -rf server/build && mv build server/ && renamer --find node_modules --replace node_assets 'server/build/**' && replace node_modules node_assets server/build -r -s",
     "build:static": "node ./env.js && polymer build",
-    "serve:prpl-server": "prpl-server --root server/build",
     "serve:static": "polymer serve --port 5000 build/esm-bundled"
   },
   "dependencies": {
-    "@polymer/lit-element": "^0.5.0",
+    "@polymer/lit-element": "0.6.0-dev.5",
     "@webcomponents/webcomponentsjs": "^2.0.0",
     "leaflet": "^1.3.1",
     "pwa-helpers": "^0.8.2",
-    "redux": "^3.7.2",
-    "redux-thunk": "^2.2.0",
+    "redux": "^4.0.0",
+    "redux-thunk": "^2.3.0",
     "reselect": "^3.0.1"
   },
   "devDependencies": {
-    "polymer-cli": "^1.7.1",
+    "polymer-cli": "^1.7.6",
     "polyserve": "^0.27.0",
-    "prpl-server": "^1.1.0",
     "renamer": "^0.6.1",
     "replace": "^1.0.0"
   }

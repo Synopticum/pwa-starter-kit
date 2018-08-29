@@ -13,7 +13,7 @@ import { SharedStyles } from '../../shared-styles.js';
 import { PageViewElement } from '../../reusable/page-view-element';
 
 class URides extends PageViewElement {
-  _render(props) {
+  render() {
     return html`
       ${SharedStyles}
       
