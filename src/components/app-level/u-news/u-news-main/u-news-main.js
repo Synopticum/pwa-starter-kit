@@ -40,14 +40,14 @@ class UNewsMain extends connect(store)(LitElement) {
             display: grid;
             padding: 0 20px;
             grid:
-                'center-label .'                25px
-                'center-spacer center-spacer'   10px
-                'center-content center-content' 1fr / 
-                minmax(0, 400px) 1fr;
+                'label .'         25px
+                'spacer spacer'   10px
+                'content content' 1fr / 
+                minmax(0, 400px)  1fr;
         }
         
         .label {
-            grid-area: center-label; 
+            grid-area: label; 
             display: flex;
             align-items: center;
             justify-content: center;
@@ -60,16 +60,18 @@ class UNewsMain extends connect(store)(LitElement) {
         }
         
         .spacer {
-            grid-area: center-spacer; 
+            grid-area: spacer; 
         }
         
         .content {
-            grid-area: center-content; 
+            grid-area: content;
+            display: grid;
+            
         }
       </style>
       
       
-      <div class="label">Сводки с полей</div>
+      <div class="label">Сводки с кукурузных полей</div>
       <div class="spacer"></div>
       <div class="content">
         ${repeat(this.items, item => item.id, item => html`
