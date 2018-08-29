@@ -123,7 +123,7 @@ class UNews extends connect(store)(PageViewElement) {
             
             <div class="content">
               <u-news-leftside></u-news-leftside>
-              <u-news-main items="${this.news}"></u-news-main>
+              <u-news-main .items="${this.news}"></u-news-main>
               <u-news-rightside></u-news-rightside>
             </div>
             

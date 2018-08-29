@@ -73,7 +73,7 @@ class UNewsMain extends connect(store)(LitElement) {
       <div class="spacer"></div>
       <div class="content">
         ${repeat(this.items, item => item.id, item => html`
-          <u-news-item item="${item}"></u-news-item>
+          <u-news-item .item="${item}"></u-news-item>
         `)}
       </div>
 `;
