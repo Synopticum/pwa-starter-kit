@@ -46,6 +46,7 @@ class UNewsItem extends LitElement {
             border-radius: 10px;
             text-align: justify;
             hyphens: auto;
+            white-space: pre-wrap;
         }
         
         .text::first-letter {

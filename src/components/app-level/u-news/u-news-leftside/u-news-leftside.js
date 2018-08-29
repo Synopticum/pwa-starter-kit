@@ -57,6 +57,11 @@ class UNewsLeftside extends connect(store)(LitElement) {
             font-size: 14px;
         }
         
+        .content {
+            display: grid;
+            grid-template-rows: repeat(5,1fr);
+        }
+        
         u-news-item {
             --text-size: 16px;
         }

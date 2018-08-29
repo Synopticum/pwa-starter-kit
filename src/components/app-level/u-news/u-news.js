@@ -65,9 +65,9 @@ class UNews extends connect(store)(PageViewElement) {
             grid:
               'header     header     header     header'  190px
               'spacer     spacer     spacer     spacer'  10px
-              'content    content    content    content' 1fr
+              'content    content    content    content' auto
               'footer     footer     footer     footer'  50px /
-              200px       2fr        2fr        2fr;
+               200px      2fr        2fr        2fr;
             grid-gap: 1px;
         }
         
@@ -79,12 +79,11 @@ class UNews extends connect(store)(PageViewElement) {
         .content {
             grid-area: content;
             display: grid;
-            max-height: 100%;
-            grid-template-areas:
-              'leftside   center   center   rightside';
-            grid-template-columns: 200px 2fr 2fr 2fr;
+            grid:
+                'leftside   center   center   rightside' 100% /
+                 200px      2fr      2fr      2fr;
             grid-gap: 1px;
-            overflow-y: auto;
+            overflow: hidden;
         }
         
         u-news-leftside {
@@ -95,13 +94,13 @@ class UNews extends connect(store)(PageViewElement) {
             grid-area: center;
         }
         
-        .rightside {
+        u-news-rightside {
             grid-area: rightside;
         }
         
         .footer {
             grid-area: footer;
-            border: 1px solid #eee;
+            border-top: 2px solid #111;
         }
         
         .close {

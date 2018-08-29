@@ -44,6 +44,7 @@ class UNewsMain extends connect(store)(LitElement) {
                 'spacer spacer'   10px
                 'content content' 1fr / 
                 minmax(0, 400px)  1fr;
+            overflow: hidden;
         }
         
         .label {
@@ -65,8 +66,13 @@ class UNewsMain extends connect(store)(LitElement) {
         
         .content {
             grid-area: content;
-            display: grid;
-            
+            overflow: hidden;
+        }
+        
+        .content__wrapper {
+            width: calc(100% + 20px);
+            max-height: 100%;
+            overflow-y: scroll;
         }
       </style>
       
@@ -74,9 +80,11 @@ class UNewsMain extends connect(store)(LitElement) {
       <div class="label">Сводки с кукурузных полей</div>
       <div class="spacer"></div>
       <div class="content">
-        ${repeat(this.items, item => item.id, item => html`
-          <u-news-item .item="${item}"></u-news-item>
-        `)}
+        <div class="content__wrapper">
+          ${repeat(this.items, item => item.id, item => html`
+            <u-news-item .item="${item}"></u-news-item>
+          `)}
+        </div>
       </div>
 `;
   }
