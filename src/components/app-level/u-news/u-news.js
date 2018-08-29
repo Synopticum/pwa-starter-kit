@@ -122,8 +122,8 @@ class UNews extends connect(store)(PageViewElement) {
             <div class="spacer"></div>
             
             <div class="content">
-              <u-news-leftside></u-news-leftside>
-              <u-news-main .items="${this.news}"></u-news-main>
+              <u-news-leftside .items="${UNews.getTatar(this.news)}"></u-news-leftside>
+              <u-news-main .items="${UNews.getRussian(this.news)}"></u-news-main>
               <u-news-rightside></u-news-rightside>
             </div>
             
@@ -139,6 +139,14 @@ class UNews extends connect(store)(PageViewElement) {
 
   _stateChanged(state) {
     this.news = state.news.all;
+  }
+
+  static getRussian(items) {
+    return items.filter(item => !item.isTatar);
+  }
+
+  static getTatar(items) {
+    return items.filter(item => item.isTatar);
   }
 }
 

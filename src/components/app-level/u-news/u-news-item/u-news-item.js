@@ -41,9 +41,11 @@ class UNewsItem extends LitElement {
         
         .text {
             margin: 5px 0 10px 0;
-            font-size: 18px;
-            line-height: 1.3;
+            font-size: var(--text-size, 18px);
+            line-height: 1.3em;
             border-radius: 10px;
+            text-align: justify;
+            hyphens: auto;
         }
         
         .text::first-letter {
@@ -51,7 +53,7 @@ class UNewsItem extends LitElement {
         }
       </style>
       
-      <div class="text">${this.item.text}</div>
+      <div class="text" lang="ru">${this.item.text}</div>
       
       <div class="spacer"></div>
     ` : null;

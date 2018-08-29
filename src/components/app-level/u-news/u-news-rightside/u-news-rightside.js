@@ -12,6 +12,7 @@ import { html, LitElement } from '@polymer/lit-element';
 import { SharedStyles } from '../../../shared-styles.js';
 import { PageViewElement } from '../../../reusable/page-view-element';
 import { connect } from 'pwa-helpers/connect-mixin';
+import { repeat } from 'lit-html/lib/repeat';
 
 
 import { store } from '../../../../store';
@@ -26,7 +27,7 @@ class UNewsRightside extends connect(store)(LitElement) {
 
   static get properties() {
     return {
-      weather: { type: Object }
+      items: { type: Array }
     };
   }
 
@@ -38,10 +39,10 @@ class UNewsRightside extends connect(store)(LitElement) {
         :host {
             display: grid;
             grid:
-                'label'   25px
-                'spacer' 10px
-                'content'   1fr / 
-                minmax(0, 300px);
+                'label .'           25px
+                'spacer spacer'     10px
+                'content content'   1fr / 
+                minmax(0, 300px) 1fr;
         }
         
         .label {
@@ -60,7 +61,8 @@ class UNewsRightside extends connect(store)(LitElement) {
       
       <div class="label">Справа</div>
       <div class="spacer"></div>
-      <div class="content"></div>
+      <div class="content">
+      </div>
 `;
   }
 
