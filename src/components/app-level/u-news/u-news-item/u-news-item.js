@@ -25,7 +25,7 @@ class UNewsItem extends LitElement {
       
       <style>
         :host {
-            margin: 10px;
+            margin: 10px 0;
             border-bottom: 1px solid #ccc;
         }
         

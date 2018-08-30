@@ -76,6 +76,7 @@ class UNewsMain extends connect(store)(LitElement) {
         
         .content__wrapper {
             width: calc(100% + 20px);
+            padding-right: 20px;
             max-height: 100%;
             overflow-y: scroll;
         }

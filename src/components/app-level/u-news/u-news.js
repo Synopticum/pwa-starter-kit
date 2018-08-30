@@ -137,7 +137,9 @@ class UNews extends connect(store)(PageViewElement) {
   }
 
   _stateChanged(state) {
-    this.news = state.news.all;
+    if (state.news.all) {
+      this.news = state.news.all;
+    }
   }
 
   static getRussian(items) {
