@@ -18,6 +18,7 @@ import { repeat } from 'lit-html/lib/repeat';
 import { store } from '../../../../store';
 
 import news from '../../../../reducers/news.js';
+import { updateMainNewsScroll } from '../../../../actions/news';
 store.addReducers({
   news
 });
@@ -27,7 +28,10 @@ class UNewsMain extends connect(store)(LitElement) {
 
   static get properties() {
     return {
-      items: { type: Array }
+      items: { type: Array },
+      scrollTop: { type: Number },
+      isScrollTopVisible: { type: Boolean },
+      isScrollBottomVisible: { type: Boolean }
     };
   }
 
@@ -66,6 +70,7 @@ class UNewsMain extends connect(store)(LitElement) {
         
         .content {
             grid-area: content;
+            position: relative;
             overflow: hidden;
         }
         
@@ -74,25 +79,66 @@ class UNewsMain extends connect(store)(LitElement) {
             max-height: 100%;
             overflow-y: scroll;
         }
+        
+        .scroll-up, .scroll-down {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity .2s;
+        }
+        
+        .scroll-up[visible], .scroll-down[visible] {
+            opacity: 1;
+        }
+        
+        .scroll-up {
+            top: 0;
+            background: linear-gradient(rgba(255,255,255,1), rgba(255,255,255,0));
+        }
+        
+        .scroll-down {
+            bottom: 0;
+            background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1));
+        }
       </style>
       
       
       <div class="label">Сводки с кукурузных полей</div>
       <div class="spacer"></div>
       <div class="content">
-        <div class="content__wrapper">
+        <div class="scroll-up" ?visible="${this.isScrollTopVisible}"></div>        
+        <div class="content__wrapper" @scroll="${this.scroll}">
           ${repeat(this.items, item => item.id, item => html`
             <u-news-item .item="${item}"></u-news-item>
           `)}
-        </div>
+        </div>        
+        <div class="scroll-down" ?visible="${this.isScrollBottomVisible}"></div>  
       </div>
 `;
   }
 
   firstRendered() {
+    this.isScrollBottomVisible = true;
   }
 
   _stateChanged(state) {
+    if (state.news.mainNewsScroll) {
+      this.scrollTop = state.news.mainNewsScroll.scrollTop;
+      this.isScrollTopVisible = state.news.mainNewsScroll.isScrollTopVisible;
+      this.isScrollBottomVisible = state.news.mainNewsScroll.isScrollBottomVisible;
+    }
+  }
+
+  scroll(e) {
+    let target = e.currentTarget;
+    let scrollTop = target.scrollTop;
+    let isScrollBottomVisible = target.clientHeight !== target.scrollHeight - target.scrollTop;
+    let isScrollTopVisible = target.scrollTop > 0;
+
+    store.dispatch(updateMainNewsScroll({ scrollTop, isScrollTopVisible: isScrollTopVisible, isScrollBottomVisible: isScrollBottomVisible }));
   }
 }
 
