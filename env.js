@@ -4,7 +4,7 @@ const env = process.env['uenv'];
 const ENV = {
   api: {
     dev: 'http://localhost:3000',
-    prod: 'http://www.u-r-u-s-s-u.com:12345',
+    prod: 'https://www.u-r-u-s-s-u.com:12345',
   },
 
   static: {
