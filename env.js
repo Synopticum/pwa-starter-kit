@@ -9,7 +9,7 @@ const ENV = {
 
   static: {
     dev: 'http://localhost:8081',
-    prod: 'http://www.u-r-u-s-s-u.com',
+    prod: 'https://www.u-r-u-s-s-u.com',
   }
 };
 
