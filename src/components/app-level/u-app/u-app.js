@@ -29,43 +29,10 @@ class UApp extends connect(store)(LitElement) {
     return html`
       ${SharedStyles}
       
-      <style>        
-        .pages {
-          position: fixed;
-          left: 0;
-          top: 0;
-          width: 100vw;
-          height: 100vh;
-          pointer-events: none;
-        }
-        
-        .pages .page {
-          display: none;
-          position: relative;
-          width: 100%;
-          height: 100%;
-          align-items: center;
-          justify-content: center;
-        }
-        
-        .mainmenu[page-active] ~ .page[active] {
-          display: flex;
-        }
+      <style>
       </style>
       
-      <u-map></u-map>   
-  
-      <main class="pages">
-        <u-mainmenu class="mainmenu" ?page-active="${this._isPageActive}"></u-mainmenu>
-        
-        <u-news class="page" ?active="${this._page === 'U★R★U★S★S★I★N★K★A'}"></u-news>
-        <u-ads class="page" ?active="${this._page === 'C★H★E★K★A★V★O'}"></u-ads>
-        <u-ideas class="page" ?active="${this._page === 'Z★A★P★I★L★I'}"></u-ideas>
-        <u-claims class="page" ?active="${this._page === 'C★H★O★M★U'}"></u-claims>
-        <u-sale class="page" ?active="${this._page === 'C★H★O★P★O★C★H★O★M'}"></u-sale>
-        <u-rides class="page" ?active="${this._page === 'P★O★E★D★U'}"></u-rides>
-        <u-anonymous class="page" ?active="${this._page === 'U★D★O★L★I'}"></u-anonymous>
-      </main>
+      <u-map></u-map>
         
       <u-404 ?active="${this._page === '404'}"></u-404>
     `;

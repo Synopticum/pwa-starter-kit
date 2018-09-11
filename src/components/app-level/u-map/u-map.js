@@ -58,6 +58,7 @@ class UMap extends connect(store)(LitElement) {
       ${SharedStyles}
       
       <style>
+        
         .info {
             width: 100vw;
             height: 100vh;
@@ -65,6 +66,21 @@ class UMap extends connect(store)(LitElement) {
             display: flex;
             justify-content: center;
             align-items: center;
+        }
+        
+        .info::before {
+          content: '';
+          position: fixed;
+          left: 0;
+          top: 0;
+          width: 100vw;
+          height: 100vh;
+          background: url('../../../../static/images/clouds65.jpg') no-repeat 50% 50%;
+          transition: opacity ease .6s;
+          will-change: opacity;
+          opacity: .2;
+          pointer-events: none;
+          z-index: 10;
         }
 
         #map {
