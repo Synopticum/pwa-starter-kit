@@ -20,6 +20,7 @@ export async function authenticate() {
       let code = new URLSearchParams(location.search.slice(1)).get('code');
 
       if (code) {
+        history.pushState({}, '', location.origin);
         let token = await getNewToken(code);
         return token;
       }
