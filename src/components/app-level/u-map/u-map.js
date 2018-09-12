@@ -16,10 +16,7 @@ import { store } from '../../../store';
 import {
   showObjectTooltip,
   hideObjectTooltip,
-  showObjectInfoByCoordinates,
-  hideObjectInfo,
-  showObjectEditorByCoordinates,
-  hideObjectEditor } from '../../../actions/map.js';
+  showObjectInfoByCoordinates } from '../../../actions/map.js';
 
 import map from '../../../reducers/map.js';
 store.addReducers({
@@ -41,7 +38,6 @@ class UMap extends connect(store)(LitElement) {
 
       _activeObject: { type: Object },
       _isTooltipVisible: { type: Boolean },
-      _isEditorVisible: { type: Boolean },
       _isInfoVisible: { type: Boolean },
       _objectHoverTimeOut: { type: Number },
 
@@ -135,8 +131,7 @@ class UMap extends connect(store)(LitElement) {
           ${this._activeObject ? this._activeObject._id : ''}
         </u-object-tooltip>
         
-        <u-object-info ?hidden="${!this._isInfoVisible}">${this._activeObject ? this._activeObject._id : ''}</u-object-info>      
-        <u-object-editor ?hidden="${!this._isEditorVisible}"></u-object-editor>
+        <u-object-info ?hidden="${!this._isInfoVisible}">${this._activeObject ? this._activeObject._id : ''}</u-object-info>
       </div>
       
       <div id="map"></div>
@@ -168,7 +163,6 @@ class UMap extends connect(store)(LitElement) {
     this._activeObject = state.map.activeObject;
     this._isTooltipVisible = state.map.isTooltipVisible;
     this._isInfoVisible = state.map.isInfoVisible;
-    this._isEditorVisible = state.map.isEditorVisible;
   }
 
   async init() {
@@ -269,7 +263,7 @@ class UMap extends connect(store)(LitElement) {
   }
 
   _showObjectTooltip(e) {
-    if (!this._isEditorVisible && !this._isInfoVisible) {
+    if (!this._isInfoVisible) {
       this._objectHoverTimeOut = setTimeout(() => {
         let coordinates = UMap._getObjectCoordinates(e.target);
         let position = UMap._calculateTooltipPosition(e.containerPoint.x, e.containerPoint.y);
@@ -317,17 +311,7 @@ class UMap extends connect(store)(LitElement) {
       store.dispatch(hideObjectTooltip());
     }
 
-    if (e.originalEvent.altKey) {
-      if (this._isInfoVisible) {
-        store.dispatch(hideObjectInfo());
-      }
-      store.dispatch(showObjectEditorByCoordinates(coordinates))
-    } else {
-      if (this._isEditorVisible) {
-        store.dispatch(hideObjectEditor());
-      }
-      store.dispatch(showObjectInfoByCoordinates(coordinates));
-    }
+    store.dispatch(showObjectInfoByCoordinates(coordinates));
   }
 
   static _getObjectCoordinates(target) {

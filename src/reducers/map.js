@@ -13,8 +13,6 @@ import {
   HIDE_OBJECT_TOOLTIP,
   SHOW_OBJECT_INFO,
   HIDE_OBJECT_INFO,
-  SHOW_OBJECT_EDITOR,
-  HIDE_OBJECT_EDITOR,
   SAVE_OBJECT_SUCCEED,
   SAVE_OBJECT_FAILED } from '../actions/map.js';
 
@@ -23,7 +21,6 @@ const map = (state = {
   tooltipPosition: {},
   isTooltipVisible: false,
   isInfoVisible: false,
-  isEditorVisible: false,
   saveState: 'untouched'
 }, action) => {
   switch (action.type) {
@@ -52,19 +49,6 @@ const map = (state = {
       return {
         ...state,
         isInfoVisible: false
-      };
-
-    case SHOW_OBJECT_EDITOR:
-      return {
-        ...state,
-        isEditorVisible: true,
-        activeObject: action.payload
-      };
-
-    case HIDE_OBJECT_EDITOR:
-      return {
-        ...state,
-        isEditorVisible: false
       };
 
     case SAVE_OBJECT_SUCCEED:
