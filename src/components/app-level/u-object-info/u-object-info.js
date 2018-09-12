@@ -16,13 +16,9 @@ class UObjectInfo extends connect(store)(LitElement) {
   static get properties() {
     return {
       activeObject: { type: Object },
-      saveState: { type: String }
+      saveState: { type: String },
+      isObjectInfoUpdating: { type: Boolean }
     };
-  }
-
-  constructor() {
-    super();
-    this.activeObject = {};
   }
 
   render() {
@@ -100,7 +96,8 @@ class UObjectInfo extends connect(store)(LitElement) {
         </form>
         
         <div class="zxvczxcv">
-            ${this.saveState}
+            ${this.saveState}<br>
+            ${this.isObjectInfoUpdating ? 'updating' : ''}
         </div>
       </div> 
     `
@@ -110,6 +107,7 @@ class UObjectInfo extends connect(store)(LitElement) {
     this.user = state.user;
     this.activeObject = state.map.activeObject;
     this.saveState = state.map.saveState;
+    this.isObjectInfoUpdating = state.map.isObjectInfoUpdating;
   }
 
   firstRendered() {
@@ -128,6 +126,7 @@ class UObjectInfo extends connect(store)(LitElement) {
   submit(e) {
     e.preventDefault();
 
+    debugger;
     if (this.activeObject._id && this.form.checkValidity()) {
       let object = {
         id: this.activeObject._id,

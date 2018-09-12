@@ -11,17 +11,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 import {
   SHOW_OBJECT_TOOLTIP,
   HIDE_OBJECT_TOOLTIP,
-  SHOW_OBJECT_INFO,
   HIDE_OBJECT_INFO,
-  SAVE_OBJECT_SUCCEED,
-  SAVE_OBJECT_FAILED } from '../actions/map.js';
+  GET_OBJECT_INFO_REQUEST,
+  GET_OBJECT_INFO_SUCCESS,
+  GET_OBJECT_INFO_FAILURE,
+  UPDATE_OBJECT_INFO_REQUEST,
+  UPDATE_OBJECT_INFO_SUCCESS,
+  UPDATE_OBJECT_INFO_FAILURE } from '../actions/map.js';
 
 const map = (state = {
   activeObject: {},
   tooltipPosition: {},
   isTooltipVisible: false,
   isInfoVisible: false,
-  saveState: 'untouched'
+  getObjectInfoState: 'untouched',
+  saveState: 'untouched',
+  isObjectInfoFetching: false,
+  isObjectInfoUpdating: false
 }, action) => {
   switch (action.type) {
     case SHOW_OBJECT_TOOLTIP:
@@ -38,29 +44,52 @@ const map = (state = {
         isTooltipVisible: false
       };
 
-    case SHOW_OBJECT_INFO:
+    case GET_OBJECT_INFO_REQUEST:
       return {
         ...state,
-        isInfoVisible: true,
-        activeObject: action.payload
+        isObjectInfoFetching: true
+      };
+
+    case GET_OBJECT_INFO_SUCCESS:
+      return {
+        ...state,
+        activeObject: action.payload,
+        getObjectInfoState: 'SUCCESS',
+        isObjectInfoVisible: true,
+        isObjectInfoFetching: false
+      };
+
+    case GET_OBJECT_INFO_FAILURE:
+      return {
+        ...state,
+        getObjectInfoState: 'FAILURE',
+        isObjectInfoFetching: false
       };
 
     case HIDE_OBJECT_INFO:
       return {
         ...state,
-        isInfoVisible: false
+        isObjectInfoVisible: false
       };
 
-    case SAVE_OBJECT_SUCCEED:
+    case UPDATE_OBJECT_INFO_REQUEST:
       return {
         ...state,
-        saveState: 'succeed'
+        isObjectInfoUpdating: true
       };
 
-    case SAVE_OBJECT_FAILED:
+    case UPDATE_OBJECT_INFO_SUCCESS:
       return {
         ...state,
-        saveState: 'failed'
+        saveState: 'SUCCESS',
+        isObjectInfoUpdating: false
+      };
+
+    case UPDATE_OBJECT_INFO_FAILURE:
+      return {
+        ...state,
+        saveState: 'FAILURE',
+        isObjectInfoUpdating: false
       };
 
     default:

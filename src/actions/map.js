@@ -2,10 +2,17 @@ import { ENV } from '../../constants';
 
 export const SHOW_OBJECT_TOOLTIP = 'SHOW_OBJECT_TOOLTIP';
 export const HIDE_OBJECT_TOOLTIP = 'HIDE_OBJECT_TOOLTIP';
+
 export const SHOW_OBJECT_INFO = 'SHOW_OBJECT_INFO';
 export const HIDE_OBJECT_INFO = 'HIDE_OBJECT_INFO';
-export const SAVE_OBJECT_SUCCEED = 'SAVE_OBJECT_SUCCEED';
-export const SAVE_OBJECT_FAILED = 'SAVE_OBJECT_FAILED';
+
+export const UPDATE_OBJECT_INFO_REQUEST = 'UPDATE_OBJECT_INFO_REQUEST';
+export const UPDATE_OBJECT_INFO_SUCCESS = 'UPDATE_OBJECT_INFO_SUCCESS';
+export const UPDATE_OBJECT_INFO_FAILURE = 'UPDATE_OBJECT_INFO_FAILURE';
+
+export const GET_OBJECT_INFO_REQUEST = 'GET_OBJECT_INFO_REQUEST';
+export const GET_OBJECT_INFO_SUCCESS = 'GET_OBJECT_INFO_SUCCESS';
+export const GET_OBJECT_INFO_FAILURE = 'GET_OBJECT_INFO_FAILURE';
 
 export const showObjectTooltip = (coordinates, tooltipPosition) => async (dispatch, getState) => {
   const activeObject = await _getObjectByCoordinates(coordinates);
@@ -26,20 +33,26 @@ export const hideObjectTooltip = (dispatch, getState) => {
 };
 
 export const showObjectInfoByCoordinates = (coordinates) => async (dispatch, getState) => {
-  const activeObject = await _getObjectByCoordinates(coordinates);
-  history.pushState(null, null, `${ENV.static}/objects/${activeObject._id}`);
+  dispatch({ type: GET_OBJECT_INFO_REQUEST });
 
-  return dispatch({
-    type: SHOW_OBJECT_INFO,
-    payload: {
-      _id: activeObject._id
-    }
-  });
+  try {
+    const activeObject = await _getObjectByCoordinates(coordinates);
+    history.pushState(null, null, `${ENV.static}/objects/${activeObject._id}`);
+
+    dispatch({
+      type: GET_OBJECT_INFO_SUCCESS,
+      payload: {
+        _id: activeObject._id
+      }
+    });
+  } catch (e) {
+    dispatch({ type: GET_OBJECT_INFO_FAILURE });
+  }
 };
 
 export const showObjectInfoById = (objectId) => async (dispatch, getState) => {
   dispatch({
-    type: SHOW_OBJECT_INFO,
+    type: GET_OBJECT_INFO_SUCCESS,
     payload: {
       _id: objectId
     }
@@ -54,6 +67,10 @@ export const hideObjectInfo = (dispatch, getState) => {
 };
 
 export const saveObject = (object) => async (dispatch, getState) => {
+  dispatch({
+    type: UPDATE_OBJECT_INFO_REQUEST
+  });
+
   try {
     let response = await fetch(`${ENV.api}/api/objects/${object.id}`, {
       method: 'PUT',
@@ -65,13 +82,15 @@ export const saveObject = (object) => async (dispatch, getState) => {
     });
 
     if (!response.ok) {
-      return dispatch({ type: SAVE_OBJECT_FAILED });
+      return dispatch({ type: UPDATE_OBJECT_INFO_FAILURE });
     }
 
-    dispatch({ type: SAVE_OBJECT_SUCCEED });
+    setTimeout(() => {
+      dispatch({ type: UPDATE_OBJECT_INFO_SUCCESS });
+    }, 2000)
   } catch(e) {
     console.error(e);
-    dispatch({ type: SAVE_OBJECT_FAILED });
+    dispatch({ type: UPDATE_OBJECT_INFO_FAILURE });
   }
 };
 
