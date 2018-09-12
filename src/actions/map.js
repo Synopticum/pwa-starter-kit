@@ -85,7 +85,7 @@ export const hideObjectEditor = (dispatch, getState) => {
 
 export const saveObject = (object) => async (dispatch, getState) => {
   try {
-    let response = await fetch(`${ENV.api}/api/objects/object`, {
+    let response = await fetch(`${ENV.api}/api/objects/${object.id}`, {
       method: 'PUT',
       body: JSON.stringify(object),
       headers: {
