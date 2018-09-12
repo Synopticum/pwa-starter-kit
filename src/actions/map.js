@@ -55,6 +55,7 @@ export const hideObjectInfo = (dispatch, getState) => {
 
 export const showObjectEditorByCoordinates = (coordinates) => async (dispatch, getState) => {
   const object = await _getObjectByCoordinates(coordinates);
+  history.pushState(null, null, `${ENV.static}/objects/${object._id}/edit`);
 
   dispatch({
     type: SHOW_OBJECT_EDITOR,
