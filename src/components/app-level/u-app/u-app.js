@@ -18,6 +18,7 @@ import { updateMetadata } from 'pwa-helpers/metadata.js';
 
 import { store } from '../../../store.js';
 import { navigate } from '../../../actions/app.js';
+import { getUserInfo } from '../../../actions/user';
 
 class UApp extends connect(store)(LitElement) {
 
@@ -52,6 +53,8 @@ class UApp extends connect(store)(LitElement) {
   }
 
   firstRendered() {
+    store.dispatch(getUserInfo());
+
     installRouter((location) => {
       store.dispatch(navigate(window.decodeURIComponent(location.pathname)));
     });
