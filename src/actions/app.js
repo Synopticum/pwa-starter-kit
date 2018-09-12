@@ -9,7 +9,7 @@
  */
 
 export const UPDATE_PAGE = 'UPDATE_PAGE';
-import { hideObjectInfo, hideObjectEditor, showObjectInfoById } from './map';
+import { hideObjectInfo, hideObjectEditor, showObjectInfoById, showObjectEditorById } from './map';
 
 export const navigate = (path) => (dispatch) => {
   // Extract the page name from path.
@@ -27,12 +27,19 @@ const loadPage = (page) => async (dispatch, getState) => {
     case (page === '/'):
       import('../components/app-level/u-object-tooltip/u-object-tooltip.js');
       import('../components/app-level/u-object-info/u-object-info.js');
+      import('../components/app-level/u-object-editor/u-object-editor.js');
       break;
-    case (/^(objects)\/(.+)/.test(page)):
+    case (/^(objects)\/(.+)\/(edit)$/.test(page)):
       import('../components/app-level/u-object-tooltip/u-object-tooltip.js');
       import('../components/app-level/u-object-info/u-object-info.js');
-      let objectId = page.split('/')[1];
-      dispatch(showObjectInfoById(objectId));
+      import('../components/app-level/u-object-editor/u-object-editor.js');
+      dispatch(showObjectEditorById(page.split('/')[1]));
+      break;
+    case (/^(objects)\/(.+)$/.test(page)):
+      import('../components/app-level/u-object-tooltip/u-object-tooltip.js');
+      import('../components/app-level/u-object-info/u-object-info.js');
+      import('../components/app-level/u-object-editor/u-object-editor.js');
+      dispatch(showObjectInfoById(page.split('/')[1]));
       break;
     case (page === 'success'):
       // do nothing

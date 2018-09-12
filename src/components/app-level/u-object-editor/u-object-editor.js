@@ -120,9 +120,7 @@ class UObjectEditor extends connect(store)(LitElement) {
   }
 
   static close() {
-    if (this._isEditorVisible) {
-      store.dispatch(hideObjectEditor());
-    }
+    store.dispatch(hideObjectEditor());
   }
 
   submit(e) {

@@ -18,7 +18,7 @@ import {
   hideObjectTooltip,
   showObjectInfoByCoordinates,
   hideObjectInfo,
-  showObjectEditor,
+  showObjectEditorByCoordinates,
   hideObjectEditor } from '../../../actions/map.js';
 
 import map from '../../../reducers/map.js';
@@ -321,7 +321,7 @@ class UMap extends connect(store)(LitElement) {
       if (this._isInfoVisible) {
         store.dispatch(hideObjectInfo());
       }
-      store.dispatch(showObjectEditor(coordinates))
+      store.dispatch(showObjectEditorByCoordinates(coordinates))
     } else {
       if (this._isEditorVisible) {
         store.dispatch(hideObjectEditor());

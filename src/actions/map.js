@@ -53,16 +53,28 @@ export const hideObjectInfo = (dispatch, getState) => {
   }
 };
 
-export const showObjectEditor = (coordinates) => async (dispatch, getState) => {
+export const showObjectEditorByCoordinates = (coordinates) => async (dispatch, getState) => {
   const object = await _getObjectByCoordinates(coordinates);
 
   dispatch({
     type: SHOW_OBJECT_EDITOR,
-    object
+    object: {
+      _id: object._id
+    }
+  });
+};
+
+export const showObjectEditorById = (objectId) => async (dispatch, getState) => {
+  dispatch({
+    type: SHOW_OBJECT_EDITOR,
+    object: {
+      _id: objectId
+    }
   });
 };
 
 export const hideObjectEditor = (dispatch, getState) => {
+  history.pushState(null, null, ENV.static);
   return {
     type: HIDE_OBJECT_EDITOR
   }
