@@ -14,8 +14,10 @@ export const showObjectTooltip = (coordinates, position) => async (dispatch, get
 
   dispatch({
     type: SHOW_OBJECT_TOOLTIP,
-    object,
-    position
+    payload: {
+      object,
+      position
+    }
   });
 };
 
@@ -31,8 +33,10 @@ export const showObjectInfoByCoordinates = (coordinates, objectId) => async (dis
 
   return dispatch({
     type: SHOW_OBJECT_INFO,
-    object: {
-      _id: object._id
+    payload: {
+      object: {
+        _id: object._id
+      }
     }
   });
 };
@@ -40,8 +44,10 @@ export const showObjectInfoByCoordinates = (coordinates, objectId) => async (dis
 export const showObjectInfoById = (objectId) => async (dispatch, getState) => {
   dispatch({
     type: SHOW_OBJECT_INFO,
-    object: {
-      _id: objectId
+    payload: {
+      object: {
+        _id: objectId
+      }
     }
   });
 };
@@ -59,8 +65,10 @@ export const showObjectEditorByCoordinates = (coordinates) => async (dispatch, g
 
   dispatch({
     type: SHOW_OBJECT_EDITOR,
-    object: {
-      _id: object._id
+    payload: {
+      object: {
+        _id: object._id
+      }
     }
   });
 };

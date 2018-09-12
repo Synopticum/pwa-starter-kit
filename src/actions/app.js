@@ -99,7 +99,9 @@ pageTitles.set('U★D★O★L★I', 'Удоли');
 const updatePage = (page) => {
   return {
     type: UPDATE_PAGE,
-    page,
-    pageTitle: pageTitles.get(page)
+    payload: {
+      page,
+      pageTitle: pageTitles.get(page)
+    }
   };
 };

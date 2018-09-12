@@ -31,8 +31,8 @@ const map = (state = {
       return {
         ...state,
         isTooltipVisible: true,
-        object: action.object,
-        position: action.position
+        object: action.payload.object,
+        position: action.payload.position
       };
 
     case HIDE_OBJECT_TOOLTIP:
@@ -45,7 +45,7 @@ const map = (state = {
       return {
         ...state,
         isInfoVisible: true,
-        object: action.object
+        object: action.payload.object
       };
 
     case HIDE_OBJECT_INFO:
@@ -58,7 +58,7 @@ const map = (state = {
       return {
         ...state,
         isEditorVisible: true,
-        object: action.object
+        object: action.payload.object
       };
 
     case HIDE_OBJECT_EDITOR:

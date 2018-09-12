@@ -5,7 +5,7 @@ const user = (state = {}, action) => {
     case GET_USER:
       return {
         ...state,
-        ...action.info
+        ...action.payload
       };
     default:
       return state;

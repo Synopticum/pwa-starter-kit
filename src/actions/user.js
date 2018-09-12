@@ -13,6 +13,8 @@ export const getUserInfo = () => async (dispatch, getState) => {
 
   dispatch({
     type: GET_USER,
-    info
+    payload: {
+      ...info
+    }
   });
 };

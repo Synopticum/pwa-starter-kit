@@ -9,7 +9,9 @@ export const getAllNews = () => async (dispatch, getState) => {
 
   dispatch({
     type: GET_ALL_NEWS,
-    all
+    payload: {
+      ...all
+    }
   });
 };
 
@@ -19,13 +21,17 @@ export const getWeather = () => async (dispatch, getState) => {
 
   dispatch({
     type: GET_WEATHER,
-    weather
+    payload: {
+      ...weather
+    }
   });
 };
 
 export const updateMainNewsScroll = (mainNewsScroll) => (dispatch, getState) => {
   dispatch({
     type: UPDATE_MAIN_NEWS_SCROLL,
-    mainNewsScroll
+    payload: {
+      ...mainNewsScroll
+    }
   });
 };

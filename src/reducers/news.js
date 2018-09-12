@@ -5,19 +5,19 @@ const news = (state = { all: [] }, action) => {
     case GET_ALL_NEWS:
       return {
         ...state,
-        all: action.all
+        all: action.payload
       };
 
     case GET_WEATHER:
       return {
         ...state,
-        weather: action.weather
+        weather: action.payload
       };
 
     case UPDATE_MAIN_NEWS_SCROLL:
       return {
         ...state,
-        mainNewsScroll: action.mainNewsScroll
+        mainNewsScroll: action.payload
       };
 
     default:

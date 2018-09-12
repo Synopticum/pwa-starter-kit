@@ -15,8 +15,8 @@ const app = (state = {}, action) => {
     case UPDATE_PAGE:
       return {
         ...state,
-        page: action.page,
-        pageTitle: action.pageTitle
+        page: action.payload.page,
+        pageTitle: action.payload.pageTitle
       };
     default:
       return state;
