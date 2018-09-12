@@ -79,10 +79,6 @@ class UApp extends connect(store)(LitElement) {
     let items = ['Уруссы', 'Уссурийск', 'Уруссняк', 'В Уруссах', 'С Уруссов'];
     return items[Math.floor(Math.random()*items.length)];
   }
-
-  static isAdmin(user) {
-    return user && user.role === 'admin';
-  }
 }
 
 window.customElements.define('u-app', UApp);

@@ -14,7 +14,8 @@ export const getUserInfo = () => async (dispatch, getState) => {
   dispatch({
     type: GET_USER,
     payload: {
-      ...info
+      ...info,
+      isAdmin: info.role === 'admin'
     }
   });
 };
