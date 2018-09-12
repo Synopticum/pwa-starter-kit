@@ -6,7 +6,7 @@ export const getUserInfo = () => async (dispatch, getState) => {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'token': localStorage.token
+      'Token': localStorage.token
     }
   });
   const info = await response.json();

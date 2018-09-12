@@ -221,7 +221,7 @@ class UMap extends connect(store)(LitElement) {
   async _drawPaths() {
     let response = await fetch(`${ENV.api}/api/objects/coordinates/paths`, {
       headers: {
-        'token': localStorage.token
+        'Token': localStorage.token
       }
     });
 
@@ -246,7 +246,7 @@ class UMap extends connect(store)(LitElement) {
   async _drawCircles() {
     let response = await fetch(`${ENV.api}/api/objects/coordinates/circles`, {
       headers: {
-        'token': localStorage.token
+        'Token': localStorage.token
       }
     });
     if (response.ok) {

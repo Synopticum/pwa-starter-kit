@@ -87,7 +87,7 @@ export const saveObject = (object) => async (dispatch, getState) => {
       body: JSON.stringify(object),
       headers: {
         'Content-Type': 'application/json',
-        'token': localStorage.token
+        'Token': localStorage.token
       }
     });
 
@@ -105,7 +105,7 @@ export const saveObject = (object) => async (dispatch, getState) => {
 async function _getObjectByCoordinates(coordinates) {
   let response = await fetch(`${ENV.api}/api/objects?coordinates=${JSON.stringify(coordinates)}`, {
     headers: {
-      'token': localStorage.token
+      'Token': localStorage.token
     }
   });
 
