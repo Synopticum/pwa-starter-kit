@@ -39,7 +39,7 @@ class UMap extends connect(store)(LitElement) {
       objectFillColor: { type: String },
       objectStrokeWidth: { type: Number },
 
-      _object: { type: Object },
+      _activeObject: { type: Object },
       _isTooltipVisible: { type: Boolean },
       _isEditorVisible: { type: Boolean },
       _isInfoVisible: { type: Boolean },
@@ -132,10 +132,10 @@ class UMap extends connect(store)(LitElement) {
       
       <div class="info">
         <u-object-tooltip ?hidden="${!this._isTooltipVisible}">
-          ${this._object ? this._object._id : ''}
+          ${this._activeObject ? this._activeObject._id : ''}
         </u-object-tooltip>
         
-        <u-object-info ?hidden="${!this._isInfoVisible}">${this._object ? this._object._id : ''}</u-object-info>      
+        <u-object-info ?hidden="${!this._isInfoVisible}">${this._activeObject ? this._activeObject._id : ''}</u-object-info>      
         <u-object-editor ?hidden="${!this._isEditorVisible}"></u-object-editor>
       </div>
       
@@ -165,7 +165,7 @@ class UMap extends connect(store)(LitElement) {
   }
 
   _stateChanged(state) {
-    this._object = state.map.object;
+    this._activeObject = state.map.activeObject;
     this._isTooltipVisible = state.map.isTooltipVisible;
     this._isInfoVisible = state.map.isInfoVisible;
     this._isEditorVisible = state.map.isEditorVisible;

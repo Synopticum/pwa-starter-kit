@@ -19,8 +19,8 @@ import {
   SAVE_OBJECT_FAILED } from '../actions/map.js';
 
 const map = (state = {
-  object: {},
-  position: {},
+  activeObject: {},
+  tooltipPosition: {},
   isTooltipVisible: false,
   isInfoVisible: false,
   isEditorVisible: false,
@@ -31,8 +31,8 @@ const map = (state = {
       return {
         ...state,
         isTooltipVisible: true,
-        object: action.payload.object,
-        position: action.payload.position
+        activeObject: action.payload.activeObject,
+        tooltipPosition: action.payload.tooltipPosition
       };
 
     case HIDE_OBJECT_TOOLTIP:
@@ -45,7 +45,7 @@ const map = (state = {
       return {
         ...state,
         isInfoVisible: true,
-        object: action.payload.object
+        activeObject: action.payload
       };
 
     case HIDE_OBJECT_INFO:
@@ -58,7 +58,7 @@ const map = (state = {
       return {
         ...state,
         isEditorVisible: true,
-        object: action.payload.object
+        activeObject: action.payload
       };
 
     case HIDE_OBJECT_EDITOR:

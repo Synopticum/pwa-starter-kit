@@ -49,9 +49,9 @@ class UObjectTooltip extends connect(store)(LitElement) {
   }
 
   _stateChanged(state) {
-    this._positionX = state.map.position.x;
-    this._positionY = state.map.position.y;
-    this._origin = state.map.position.origin;
+    this._positionX = state.map.tooltipPosition.x;
+    this._positionY = state.map.tooltipPosition.y;
+    this._origin = state.map.tooltipPosition.origin;
   }
 }
 

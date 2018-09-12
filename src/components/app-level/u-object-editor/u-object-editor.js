@@ -14,7 +14,7 @@ class UObjectEditor extends connect(store)(LitElement) {
 
   static get properties() {
     return {
-      _object: { type: Object },
+      _activeObject: { type: Object },
       _saveState: { type: String }
     };
   }
@@ -101,7 +101,7 @@ class UObjectEditor extends connect(store)(LitElement) {
 
   constructor() {
     super();
-    this._object = {};
+    this._activeObject = {};
   }
 
   firstRendered() {
@@ -114,7 +114,7 @@ class UObjectEditor extends connect(store)(LitElement) {
   }
 
   _stateChanged(state) {
-    this._object = state.map.object;
+    this._activeObject = state.map.activeObject;
     this._saveState = state.map.saveState;
     this._isEditorVisible = state.map.isEditorVisible;
   }
@@ -126,9 +126,9 @@ class UObjectEditor extends connect(store)(LitElement) {
   submit(e) {
     e.preventDefault();
 
-    if (this._object._id && this._form.checkValidity()) {
+    if (this._activeObject._id && this._form.checkValidity()) {
       let object = {
-        id: this._object._id,
+        id: this._activeObject._id,
         name: this._objectName.value,
         address: this._objectAddress.value,
         shortDescription: this._objectShortDescription.value,
