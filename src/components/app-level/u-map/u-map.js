@@ -16,7 +16,7 @@ import { store } from '../../../store';
 import {
   showObjectTooltip,
   hideObjectTooltip,
-  showObjectInfo,
+  showObjectInfoByCoordinates,
   hideObjectInfo,
   showObjectEditor,
   hideObjectEditor } from '../../../actions/map.js';
@@ -326,7 +326,7 @@ class UMap extends connect(store)(LitElement) {
       if (this._isEditorVisible) {
         store.dispatch(hideObjectEditor());
       }
-      store.dispatch(showObjectInfo(coordinates));
+      store.dispatch(showObjectInfoByCoordinates(coordinates));
     }
   }
 

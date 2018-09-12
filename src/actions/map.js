@@ -25,16 +25,29 @@ export const hideObjectTooltip = (dispatch, getState) => {
   }
 };
 
-export const showObjectInfo = (coordinates) => async (dispatch, getState) => {
+export const showObjectInfoByCoordinates = (coordinates, objectId) => async (dispatch, getState) => {
   const object = await _getObjectByCoordinates(coordinates);
+  history.pushState(null, null, `${ENV.static}/objects/${object._id}`);
 
+  return dispatch({
+    type: SHOW_OBJECT_INFO,
+    object: {
+      _id: object._id
+    }
+  });
+};
+
+export const showObjectInfoById = (objectId) => async (dispatch, getState) => {
   dispatch({
     type: SHOW_OBJECT_INFO,
-    object
+    object: {
+      _id: objectId
+    }
   });
 };
 
 export const hideObjectInfo = (dispatch, getState) => {
+  history.pushState(null, null, ENV.static);
   return {
     type: HIDE_OBJECT_INFO
   }

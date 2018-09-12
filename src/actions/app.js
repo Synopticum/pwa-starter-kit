@@ -9,7 +9,7 @@
  */
 
 export const UPDATE_PAGE = 'UPDATE_PAGE';
-import { hideObjectInfo, hideObjectEditor } from './map';
+import { hideObjectInfo, hideObjectEditor, showObjectInfoById } from './map';
 
 export const navigate = (path) => (dispatch) => {
   // Extract the page name from path.
@@ -23,16 +23,21 @@ export const navigate = (path) => (dispatch) => {
 const loadPage = (page) => async (dispatch, getState) => {
   await import('../components/app-level/u-map/u-map.js');
 
-  switch (page) {
-    case '/':
+  switch (true) {
+    case (page === '/'):
       import('../components/app-level/u-object-tooltip/u-object-tooltip.js');
       import('../components/app-level/u-object-info/u-object-info.js');
-      import('../components/app-level/u-object-editor/u-object-editor.js');
       break;
-    case 'success':
+    case (/^(objects)\/(.+)/.test(page)):
+      import('../components/app-level/u-object-tooltip/u-object-tooltip.js');
+      import('../components/app-level/u-object-info/u-object-info.js');
+      let objectId = page.split('/')[1];
+      dispatch(showObjectInfoById(objectId));
+      break;
+    case (page === 'success'):
       // do nothing
       break;
-    case 'U★R★U★S★S★I★N★K★A':
+    case (page === 'U★R★U★S★S★I★N★K★A'):
       import('../components/app-level/u-news/u-news.js');
       import('../components/app-level/u-news/u-news-header/u-news-header.js');
       import('../components/app-level/u-news/u-news-leftside/u-news-leftside.js');
@@ -40,22 +45,22 @@ const loadPage = (page) => async (dispatch, getState) => {
       import('../components/app-level/u-news/u-news-main/u-news-main.js');
       import('../components/app-level/u-news/u-news-item/u-news-item.js');
       break;
-    case 'C★H★E★K★A★V★O':
+    case (page === 'C★H★E★K★A★V★O'):
       import('../components/app-level/u-ads/u-ads.js');
       break;
-    case 'Z★A★P★I★L★I':
+    case (page === 'Z★A★P★I★L★I'):
       import('../components/app-level/u-ideas/u-ideas.js');
       break;
-    case 'C★H★O★M★U':
+    case (page === 'C★H★O★M★U'):
       import('../components/app-level/u-claims/u-claims.js');
       break;
-    case 'C★H★O★P★O★C★H★O★M':
+    case (page === 'C★H★O★P★O★C★H★O★M'):
       import('../components/app-level/u-sale/u-sale.js');
       break;
-    case 'P★O★E★D★U':
+    case (page === 'P★O★E★D★U'):
       import('../components/app-level/u-rides/u-rides.js');
       break;
-    case 'U★D★O★L★I':
+    case (page === 'U★D★O★L★I'):
       import('../components/app-level/u-anonymous/u-anonymous.js');
       break;
     default:
