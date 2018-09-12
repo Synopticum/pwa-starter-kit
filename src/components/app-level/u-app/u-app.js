@@ -43,7 +43,8 @@ class UApp extends connect(store)(LitElement) {
     return {
       appTitle: { type: String },
       pageTitle: { type: String },
-      _page: { type: String }
+      _page: { type: String },
+      user: { type: Object }
     };
   }
 
@@ -77,6 +78,10 @@ class UApp extends connect(store)(LitElement) {
   static getAppTitle() {
     let items = ['Уруссы', 'Уссурийск', 'Уруссняк', 'В Уруссах', 'С Уруссов'];
     return items[Math.floor(Math.random()*items.length)];
+  }
+
+  static isAdmin(user) {
+    return user && user.role === 'admin';
   }
 }
 

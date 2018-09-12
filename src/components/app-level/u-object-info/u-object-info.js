@@ -10,6 +10,8 @@ store.addReducers({
   map
 });
 
+const UApp = customElements.get('u-app');
+
 class UObjectInfo extends connect(store)(LitElement) {
   render() {
     return html`
@@ -46,16 +48,19 @@ class UObjectInfo extends connect(store)(LitElement) {
       
       <div class="object">
         <div class="close" @click="${UObjectInfo.close}"></div>
+        ${UApp.isAdmin(this.user) ? 'admin' : 'member'}
         <slot></slot>
       </div> 
     `
   }
 
+  _stateChanged(state) {
+    this.user = state.user;
+  }
+
   static close() {
     store.dispatch(hideObjectInfo());
   }
-
-  _stateChanged() {}
 }
 
 window.customElements.define('u-object-info', UObjectInfo);
