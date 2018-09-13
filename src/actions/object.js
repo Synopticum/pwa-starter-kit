@@ -24,7 +24,7 @@ export const showObjectInfoByCoordinates = (coordinates) => async (dispatch, get
           _id: activeObject._id
         }
       });
-    }, 1000);
+    }, 2000);
   } catch (e) {
     dispatch({ type: GET_OBJECT_INFO_FAILURE });
   }

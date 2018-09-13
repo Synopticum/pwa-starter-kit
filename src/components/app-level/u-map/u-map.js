@@ -166,6 +166,10 @@ class UMap extends connect(store)(LitElement) {
     this.isTooltipVisible = state.map.isTooltipVisible;
     this.isObjectInfoVisible = state.object.isVisible;
     this.isObjectInfoFetching = state.object.isFetching;
+
+    if (this.map && this.map._container) {
+      this.isObjectInfoFetching ? this.showObjectInfoSpinner(true) : this.showObjectInfoSpinner(false);
+    }
   }
 
   async init() {
@@ -350,6 +354,10 @@ class UMap extends connect(store)(LitElement) {
 
   static _triggerResize() {
     window.dispatchEvent(new Event('resize'));
+  }
+
+  showObjectInfoSpinner(value) {
+    value ? this.map._container.style.cursor = 'wait' : this.map._container.style.cursor = 'default';
   }
 }
 
