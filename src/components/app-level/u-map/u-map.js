@@ -115,6 +115,7 @@ class UMap extends connect(store)(LitElement) {
         }
         
         .leaflet-interactive {
+            cursor: default;
             opacity: 0;
         }
         
