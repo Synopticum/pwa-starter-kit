@@ -13,14 +13,14 @@ import { SharedStyles } from '../../shared-styles.js';
 import { connect } from 'pwa-helpers/connect-mixin';
 
 import { store } from '../../../store';
-import {
-  showObjectTooltip,
-  hideObjectTooltip,
-  showObjectInfoByCoordinates } from '../../../actions/map.js';
+import { showObjectTooltip, hideObjectTooltip } from '../../../actions/map';
+import { showObjectInfoByCoordinates } from '../../../actions/object';
 
-import map from '../../../reducers/map.js';
+import map from '../../../reducers/map';
+import object from '../../../reducers/object';
 store.addReducers({
-  map
+  map,
+  object
 });
 
 class UMap extends connect(store)(LitElement) {
@@ -37,7 +37,7 @@ class UMap extends connect(store)(LitElement) {
       objectStrokeWidth: { type: Number },
 
       activeObject: { type: Object },
-      isObjectInfoFetching: { type: Boolean },
+      isFetching: { type: Boolean },
       isTooltipVisible: { type: Boolean },
       isObjectInfoVisible: { type: Boolean },
       objectHoverTimeOut: { type: Number },
@@ -164,8 +164,8 @@ class UMap extends connect(store)(LitElement) {
   _stateChanged(state) {
     this.activeObject = state.map.activeObject;
     this.isTooltipVisible = state.map.isTooltipVisible;
-    this.isObjectInfoVisible = state.map.isObjectInfoVisible;
-    this.isObjectInfoFetching = state.map.isObjectInfoFetching;
+    this.isObjectInfoVisible = state.object.isVisible;
+    this.isObjectInfoFetching = state.object.isFetching;
   }
 
   async init() {

@@ -3,12 +3,11 @@ import { SharedStyles } from '../../shared-styles.js';
 import { connect } from 'pwa-helpers/connect-mixin';
 
 import { store } from '../../../store';
-import { hideObjectInfo } from '../../../actions/map.js';
+import { hideObjectInfo, saveObject } from '../../../actions/object';
 
-import map from '../../../reducers/map.js';
-import { saveObject } from '../../../actions/map';
+import object from '../../../reducers/object';
 store.addReducers({
-  map
+  object
 });
 
 class UObjectInfo extends connect(store)(LitElement) {
@@ -17,7 +16,8 @@ class UObjectInfo extends connect(store)(LitElement) {
     return {
       activeObject: { type: Object },
       saveState: { type: String },
-      isObjectInfoUpdating: { type: Boolean }
+      isFetching: { type: Boolean },
+      isUpdating: { type: Boolean }
     };
   }
 
@@ -97,7 +97,7 @@ class UObjectInfo extends connect(store)(LitElement) {
         
         <div class="zxvczxcv">
             ${this.saveState}<br>
-            ${this.isObjectInfoUpdating ? 'updating' : ''}
+            ${this.isUpdating ? 'updating' : ''}
         </div>
       </div> 
     `
@@ -105,9 +105,9 @@ class UObjectInfo extends connect(store)(LitElement) {
 
   _stateChanged(state) {
     this.user = state.user;
-    this.activeObject = state.map.activeObject;
-    this.saveState = state.map.saveState;
-    this.isObjectInfoUpdating = state.map.isObjectInfoUpdating;
+    this.activeObject = state.object.activeObject;
+    this.saveState = state.object.saveState;
+    this.isUpdating = state.object.isUpdating;
   }
 
   firstRendered() {
@@ -126,7 +126,6 @@ class UObjectInfo extends connect(store)(LitElement) {
   submit(e) {
     e.preventDefault();
 
-    debugger;
     if (this.activeObject._id && this.form.checkValidity()) {
       let object = {
         id: this.activeObject._id,

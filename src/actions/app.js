@@ -9,7 +9,7 @@
  */
 
 export const UPDATE_PAGE = 'UPDATE_PAGE';
-import { hideObjectInfo, showObjectInfoById } from './map';
+import { hideObjectInfo, showObjectInfoById } from './object';
 
 export const navigate = (path) => (dispatch) => {
   // Extract the page name from path.
