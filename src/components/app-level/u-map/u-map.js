@@ -115,7 +115,7 @@ class UMap extends connect(store)(LitElement) {
         }
         
         .leaflet-interactive {
-            cursor: default;
+            cursor: pointer;
             opacity: 0;
         }
         
@@ -359,14 +359,14 @@ class UMap extends connect(store)(LitElement) {
   }
 
   showCursorSpinner(value) {
-    let leafletStyles = document.styleSheets[1];
-    if (value) {
-      this.map._container.style.cursor = 'wait';
-      if (leafletStyles) leafletStyles.insertRule('.leaflet-interactive { cursor: wait !important }', 0);
-    } else {
-      this.map._container.style.cursor = 'default';
-      if (leafletStyles && leafletStyles.cssRules && leafletStyles.cssRules[0]) leafletStyles.deleteRule(0);
-    }
+    // let leafletStyles = document.styleSheets[1];
+    // if (value) {
+    //   this.map._container.style.cursor = 'wait';
+    //   if (leafletStyles) leafletStyles.insertRule('.leaflet-interactive { cursor: wait !important }', 0);
+    // } else {
+    //   this.map._container.style.cursor = 'default';
+    //   if (leafletStyles && leafletStyles.cssRules && leafletStyles.cssRules[0]) leafletStyles.deleteRule(0);
+    // }
   }
 }
 
