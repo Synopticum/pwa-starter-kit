@@ -14,7 +14,11 @@ export const SharedStyles = html`
 <style>
   * {
     box-sizing: border-box;
-  }  
+  }
+  
+  body {
+    margin: 0;
+  }
 
   :host {
     display: block;
