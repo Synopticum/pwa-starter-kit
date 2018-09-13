@@ -17,14 +17,12 @@ export const showObjectInfoByCoordinates = (coordinates) => async (dispatch, get
     const activeObject = await _getObjectByCoordinates(coordinates);
     history.pushState(null, null, `${ENV.static}/objects/${activeObject._id}`);
 
-    setTimeout(() => {
-      dispatch({
-        type: GET_OBJECT_INFO_SUCCESS,
-        payload: {
-          _id: activeObject._id
-        }
-      });
-    }, 2000);
+    dispatch({
+      type: GET_OBJECT_INFO_SUCCESS,
+      payload: {
+        _id: activeObject._id
+      }
+    });
   } catch (e) {
     dispatch({ type: GET_OBJECT_INFO_FAILURE });
   }
@@ -65,9 +63,7 @@ export const saveObject = (object) => async (dispatch, getState) => {
       return dispatch({ type: UPDATE_OBJECT_INFO_FAILURE });
     }
 
-    setTimeout(() => {
-      dispatch({ type: UPDATE_OBJECT_INFO_SUCCESS });
-    }, 1000)
+    dispatch({ type: UPDATE_OBJECT_INFO_SUCCESS });
   } catch(e) {
     console.error(e);
     dispatch({ type: UPDATE_OBJECT_INFO_FAILURE });

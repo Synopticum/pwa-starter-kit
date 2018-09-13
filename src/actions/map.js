@@ -12,15 +12,13 @@ export const showObjectTooltip = (coordinates, tooltipPosition) => async (dispat
   try {
     const activeObject = await _getObjectByCoordinates(coordinates);
 
-    setTimeout(() => {
-      dispatch({
-        type: GET_OBJECT_TOOLTIP_SUCCESS,
-        payload: {
-          activeObject,
-          tooltipPosition
-        }
-      });
-    }, 1000);
+    dispatch({
+      type: GET_OBJECT_TOOLTIP_SUCCESS,
+      payload: {
+        activeObject,
+        tooltipPosition
+      }
+    });
   } catch (e) {
     dispatch({ type: GET_OBJECT_TOOLTIP_FAILURE });
   }
