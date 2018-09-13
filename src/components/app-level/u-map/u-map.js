@@ -133,7 +133,6 @@ class UMap extends connect(store)(LitElement) {
         </u-object-tooltip>
         
         <u-object-info ?hidden="${!this.isObjectInfoVisible}">${this.activeObject ? this.activeObject._id : ''}</u-object-info>
-        <div style="position: fixed; left: 0; top: 0; z-index: 999; width: 100px; height: 100px; background: #fff; color: #000;">${this.isObjectInfoFetching ? 'fetching' : ''}</div>
       </div>
       
       <div id="map"></div>
