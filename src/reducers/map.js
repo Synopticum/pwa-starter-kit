@@ -1,5 +1,7 @@
 import {
-  SHOW_OBJECT_TOOLTIP,
+  GET_OBJECT_TOOLTIP_FAILURE,
+  GET_OBJECT_TOOLTIP_REQUEST,
+  GET_OBJECT_TOOLTIP_SUCCESS,
   HIDE_OBJECT_TOOLTIP } from '../actions/map';
 
 const map = (state = {
@@ -8,12 +10,25 @@ const map = (state = {
   isTooltipVisible: false
 }, action) => {
   switch (action.type) {
-    case SHOW_OBJECT_TOOLTIP:
+    case GET_OBJECT_TOOLTIP_REQUEST:
       return {
         ...state,
-        isTooltipVisible: true,
+        isTooltipFetching: true
+      };
+
+    case GET_OBJECT_TOOLTIP_SUCCESS:
+      return {
+        ...state,
         activeObject: action.payload.activeObject,
-        tooltipPosition: action.payload.tooltipPosition
+        tooltipPosition: action.payload.tooltipPosition,
+        isTooltipVisible: true,
+        isTooltipFetching: false
+      };
+
+    case GET_OBJECT_TOOLTIP_FAILURE:
+      return {
+        ...state,
+        isTooltipFetching: false
       };
 
     case HIDE_OBJECT_TOOLTIP:

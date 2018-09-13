@@ -164,11 +164,13 @@ class UMap extends connect(store)(LitElement) {
   _stateChanged(state) {
     this.activeObject = state.map.activeObject;
     this.isTooltipVisible = state.map.isTooltipVisible;
+    this.isTooltipFetching = state.map.isTooltipFetching;
+
     this.isObjectInfoVisible = state.object.isVisible;
     this.isObjectInfoFetching = state.object.isFetching;
 
     if (this.map && this.map._container) {
-      this.isObjectInfoFetching ? this.showObjectInfoSpinner(true) : this.showObjectInfoSpinner(false);
+      (this.isTooltipFetching || this.isObjectInfoFetching) ? this.showCursorSpinner(true) : this.showCursorSpinner(false);
     }
   }
 
@@ -356,8 +358,15 @@ class UMap extends connect(store)(LitElement) {
     window.dispatchEvent(new Event('resize'));
   }
 
-  showObjectInfoSpinner(value) {
-    value ? this.map._container.style.cursor = 'wait' : this.map._container.style.cursor = 'default';
+  showCursorSpinner(value) {
+    let leafletStyles = document.styleSheets[1];
+    if (value) {
+      this.map._container.style.cursor = 'wait';
+      if (leafletStyles) leafletStyles.insertRule('.leaflet-interactive { cursor: wait !important }', 0);
+    } else {
+      this.map._container.style.cursor = 'default';
+      if (leafletStyles && leafletStyles.cssRules && leafletStyles.cssRules[0]) leafletStyles.deleteRule(0);
+    }
   }
 }
 

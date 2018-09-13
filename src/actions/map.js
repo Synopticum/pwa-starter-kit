@@ -1,18 +1,29 @@
 import { ENV } from '../../constants';
 
-export const SHOW_OBJECT_TOOLTIP = 'SHOW_OBJECT_TOOLTIP';
+export const GET_OBJECT_TOOLTIP_REQUEST = 'GET_OBJECT_TOOLTIP_REQUEST';
+export const GET_OBJECT_TOOLTIP_SUCCESS = 'GET_OBJECT_TOOLTIP_SUCCESS';
+export const GET_OBJECT_TOOLTIP_FAILURE = 'GET_OBJECT_TOOLTIP_FAILURE';
+
 export const HIDE_OBJECT_TOOLTIP = 'HIDE_OBJECT_TOOLTIP';
 
 export const showObjectTooltip = (coordinates, tooltipPosition) => async (dispatch, getState) => {
-  const activeObject = await _getObjectByCoordinates(coordinates);
+  dispatch({ type: GET_OBJECT_TOOLTIP_REQUEST });
 
-  dispatch({
-    type: SHOW_OBJECT_TOOLTIP,
-    payload: {
-      activeObject,
-      tooltipPosition
-    }
-  });
+  try {
+    const activeObject = await _getObjectByCoordinates(coordinates);
+
+    setTimeout(() => {
+      dispatch({
+        type: GET_OBJECT_TOOLTIP_SUCCESS,
+        payload: {
+          activeObject,
+          tooltipPosition
+        }
+      });
+    }, 1000);
+  } catch (e) {
+    dispatch({ type: GET_OBJECT_TOOLTIP_FAILURE });
+  }
 };
 
 export const hideObjectTooltip = (dispatch, getState) => {
