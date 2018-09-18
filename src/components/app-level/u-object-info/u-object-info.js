@@ -87,7 +87,7 @@ class UObjectInfo extends connect(store)(LitElement) {
         <div class="close" @click="${UObjectInfo.close}"></div>
         
         <form>
-            <input id="object-name" type="text" placeholder="Название объекта" required><br>
+            <input id="object-title" type="text" placeholder="Название объекта" required><br>
             <input id="object-address" type="text" placeholder="Адрес объекта" required><br>
             <textarea id="object-short-description" placeholder="Краткое описание" maxlength="200" required></textarea><br>
             <textarea id="object-full-description" placeholder="Полное описание"></textarea><br>
@@ -113,7 +113,7 @@ class UObjectInfo extends connect(store)(LitElement) {
   firstRendered() {
     // create references to the inputs
     this.form = this.shadowRoot.querySelector('form');
-    this.objectName = this.shadowRoot.querySelector('#object-name');
+    this.objectTitle = this.shadowRoot.querySelector('#object-title');
     this.objectAddress = this.shadowRoot.querySelector('#object-address');
     this.objectShortDescription = this.shadowRoot.querySelector('#object-short-description');
     this.objectFullDescription = this.shadowRoot.querySelector('#object-full-description');
@@ -127,15 +127,15 @@ class UObjectInfo extends connect(store)(LitElement) {
     e.preventDefault();
 
     if (this.activeObject._id && this.form.checkValidity()) {
+      debugger;
       let object = {
-        id: this.activeObject._id,
-        name: this.objectName.value,
+        title: this.objectTitle.value,
         address: this.objectAddress.value,
         shortDescription: this.objectShortDescription.value,
         fullDescription: this.objectFullDescription.value
       };
 
-      store.dispatch(saveObject(object));
+      store.dispatch(saveObject(object, this.activeObject._id));
     } else {
       alert('error!');
     }

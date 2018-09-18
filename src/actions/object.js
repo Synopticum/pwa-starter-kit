@@ -44,14 +44,14 @@ export const hideObjectInfo = (dispatch, getState) => {
   }
 };
 
-export const saveObject = (object) => async (dispatch, getState) => {
+export const saveObject = (object, objectId) => async (dispatch, getState) => {
   dispatch({
     type: UPDATE_OBJECT_INFO_REQUEST
   });
 
   try {
-    let response = await fetch(`${ENV.api}/api/objects/${object.id}`, {
-      method: 'PUT',
+    let response = await fetch(`${ENV.api}/api/objects/${objectId}`, {
+      method: 'PATCH',
       body: JSON.stringify(object),
       headers: {
         'Content-Type': 'application/json',
