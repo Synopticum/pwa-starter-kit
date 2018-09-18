@@ -30,6 +30,10 @@ export const SharedStyles = html`
     display: none;
   }
   
+  [contentEditable] {
+    outline: none;
+  }
+  
   input, textarea {
     font-family: 'PT Serif', Helvetica, 'Times New Roman', serif;
     font-size: 18px;

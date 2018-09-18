@@ -70,21 +70,27 @@ class UObjectInfo extends connect(store)(LitElement) {
             background-color: #00bb00;
         }
         
-        form {
-            font-size: 0;
+        #object-title {
+            font-size: 24px;
         }
         
-        input[type="text"] {
-            width: 300px;
-            padding: 10px;
-            margin: 10px 0;
+        #object-address {
+            font-size: 16px;
+            font-style: italic;
         }
         
-        textarea {
-            width: 300px;
-            height: 150px;
-            padding: 10px;
-            margin: 10px 0;
+        #object-short-description {
+            border-top: 1px solid #ccc;
+            margin-top: 10px;
+            padding-top: 10px;
+            font-size: 16px;
+        }
+        
+        #object-full-description {
+            border-top: 1px solid #ccc;
+            margin-top: 10px;
+            padding-top: 10px;
+            font-size: 16px;
         }
       </style>
       
@@ -92,10 +98,11 @@ class UObjectInfo extends connect(store)(LitElement) {
         <div class="close" @click="${UObjectInfo.close}"></div>
         
         <form>
-            <input id="object-title" type="text" value="${this.activeObject.title ? this.activeObject.title : ''}" placeholder="Название объекта" required><br>
-            <input id="object-address" type="text" value="${this.activeObject.address ? this.activeObject.address : ''}" placeholder="Адрес объекта" required><br>
-            <textarea id="object-short-description" placeholder="Краткое описание" maxlength="200" required>${this.activeObject.shortDescription ? this.activeObject.shortDescription : ''}</textarea><br>
-            <textarea id="object-full-description" placeholder="Полное описание">${this.activeObject.fullDescription ? this.activeObject.fullDescription : ''}</textarea><br>
+            <div id="object-title" ?contentEditable="${this.user.isAdmin}">${this.activeObject.title ? this.activeObject.title : 'Название объекта'}</div>
+            <div id="object-address" ?contentEditable="${this.user.isAdmin}">${this.activeObject.address ? this.activeObject.address : 'Адрес объекта'}</div>
+            <div id="object-short-description" ?contentEditable="${this.user.isAdmin}">${this.activeObject.shortDescription ? this.activeObject.shortDescription : 'Краткое описание'}</div>
+            <div id="object-full-description" ?contentEditable="${this.user.isAdmin}">${this.activeObject.fullDescription ? this.activeObject.fullDescription : 'Полное описание'}</div>
+            <hr>
             
             <button class="submit" type="submit" @click="${this.submit.bind(this)}"></button>
         </form>
@@ -133,10 +140,10 @@ class UObjectInfo extends connect(store)(LitElement) {
 
     if (this.activeObject._id && this.form.checkValidity()) {
       let object = {
-        title: this.objectTitle.value,
-        address: this.objectAddress.value,
-        shortDescription: this.objectShortDescription.value,
-        fullDescription: this.objectFullDescription.value
+        title: this.objectTitle.textContent.trim(),
+        address: this.objectAddress.textContent.trim(),
+        shortDescription: this.objectShortDescription.textContent.trim(),
+        fullDescription: this.objectFullDescription.textContent.trim()
       };
 
       store.dispatch(updateObject(object, this.activeObject._id));
