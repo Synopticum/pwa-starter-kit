@@ -3,7 +3,7 @@ import { SharedStyles } from '../../shared-styles.js';
 import { connect } from 'pwa-helpers/connect-mixin';
 
 import { store } from '../../../store';
-import { hideObjectInfo, saveObject } from '../../../actions/object';
+import { hideObjectInfo, updateObject } from '../../../actions/object';
 
 import object from '../../../reducers/object';
 store.addReducers({
@@ -135,7 +135,7 @@ class UObjectInfo extends connect(store)(LitElement) {
         fullDescription: this.objectFullDescription.value
       };
 
-      store.dispatch(saveObject(object, this.activeObject._id));
+      store.dispatch(updateObject(object, this.activeObject._id));
     } else {
       alert('error!');
     }

@@ -44,7 +44,7 @@ export const hideObjectInfo = (dispatch, getState) => {
   }
 };
 
-export const saveObject = (object, objectId) => async (dispatch, getState) => {
+export const updateObject = (object, objectId) => async (dispatch, getState) => {
   dispatch({
     type: UPDATE_OBJECT_INFO_REQUEST
   });
