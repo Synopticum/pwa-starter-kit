@@ -139,14 +139,15 @@ class UObjectInfo extends connect(store)(LitElement) {
     e.preventDefault();
 
     if (this.activeObject._id && this.form.checkValidity()) {
-      let object = {
-        title: this.objectTitle.textContent.trim(),
-        address: this.objectAddress.textContent.trim(),
-        shortDescription: this.objectShortDescription.textContent.trim(),
-        fullDescription: this.objectFullDescription.textContent.trim()
-      };
+      let objectId = this.activeObject._id;
+      let updatedObject = Object.assign(this.activeObject, {
+        title: this.objectTitle.textContent,
+        address: this.objectAddress.textContent,
+        shortDescription: this.objectShortDescription.textContent,
+        fullDescription: this.objectFullDescription.textContent
+      });
 
-      store.dispatch(updateObject(object, this.activeObject._id));
+      store.dispatch(updateObject(updatedObject, objectId));
     } else {
       alert('error!');
     }

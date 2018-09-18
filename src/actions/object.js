@@ -55,7 +55,7 @@ export const updateObject = (object, objectId) => async (dispatch, getState) => 
 
   try {
     let response = await fetch(`${ENV.api}/api/objects/${objectId}`, {
-      method: 'PATCH',
+      method: 'PUT',
       body: JSON.stringify(object),
       headers: {
         'Content-Type': 'application/json',
