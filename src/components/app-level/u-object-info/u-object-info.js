@@ -3,7 +3,7 @@ import { SharedStyles } from '../../shared-styles.js';
 import { connect } from 'pwa-helpers/connect-mixin';
 
 import { store } from '../../../store';
-import { hideObjectInfo, updateObject } from '../../../actions/object';
+import { getObjectInfoById, hideObjectInfo, updateObject } from '../../../actions/object';
 
 import object from '../../../reducers/object';
 store.addReducers({
@@ -11,6 +11,11 @@ store.addReducers({
 });
 
 class UObjectInfo extends connect(store)(LitElement) {
+
+  constructor() {
+    super();
+    this.activeObject = {};
+  }
 
   static get properties() {
     return {
@@ -87,10 +92,10 @@ class UObjectInfo extends connect(store)(LitElement) {
         <div class="close" @click="${UObjectInfo.close}"></div>
         
         <form>
-            <input id="object-title" type="text" placeholder="Название объекта" required><br>
-            <input id="object-address" type="text" placeholder="Адрес объекта" required><br>
-            <textarea id="object-short-description" placeholder="Краткое описание" maxlength="200" required></textarea><br>
-            <textarea id="object-full-description" placeholder="Полное описание"></textarea><br>
+            <input id="object-title" type="text" value="${this.activeObject.title}" placeholder="Название объекта" required><br>
+            <input id="object-address" type="text" value="${this.activeObject.address}" placeholder="Адрес объекта" required><br>
+            <textarea id="object-short-description" placeholder="Краткое описание" maxlength="200" required>${this.activeObject.shortDescription}</textarea><br>
+            <textarea id="object-full-description" placeholder="Полное описание">${this.activeObject.fullDescription}</textarea><br>
             
             <button class="submit" type="submit" @click="${this.submit.bind(this)}"></button>
         </form>
@@ -127,7 +132,6 @@ class UObjectInfo extends connect(store)(LitElement) {
     e.preventDefault();
 
     if (this.activeObject._id && this.form.checkValidity()) {
-      debugger;
       let object = {
         title: this.objectTitle.value,
         address: this.objectAddress.value,

@@ -10,7 +10,7 @@ export const GET_OBJECT_INFO_REQUEST = 'GET_OBJECT_INFO_REQUEST';
 export const GET_OBJECT_INFO_SUCCESS = 'GET_OBJECT_INFO_SUCCESS';
 export const GET_OBJECT_INFO_FAILURE = 'GET_OBJECT_INFO_FAILURE';
 
-export const showObjectInfoByCoordinates = (coordinates) => async (dispatch, getState) => {
+export const getObjectInfoByCoordinates = (coordinates) => async (dispatch, getState) => {
   dispatch({ type: GET_OBJECT_INFO_REQUEST });
 
   try {
@@ -19,22 +19,26 @@ export const showObjectInfoByCoordinates = (coordinates) => async (dispatch, get
 
     dispatch({
       type: GET_OBJECT_INFO_SUCCESS,
-      payload: {
-        _id: activeObject._id
-      }
+      payload: activeObject
     });
   } catch (e) {
     dispatch({ type: GET_OBJECT_INFO_FAILURE });
   }
 };
 
-export const showObjectInfoById = (objectId) => async (dispatch, getState) => {
-  dispatch({
-    type: GET_OBJECT_INFO_SUCCESS,
-    payload: {
-      _id: objectId
-    }
-  });
+export const getObjectInfoById = (objectId) => async (dispatch, getState) => {
+  dispatch({ type: GET_OBJECT_INFO_REQUEST });
+
+  try {
+    const activeObject = await _getObjectById(objectId);
+
+    dispatch({
+      type: GET_OBJECT_INFO_SUCCESS,
+      payload: activeObject
+    });
+  } catch (e) {
+    dispatch({ type: GET_OBJECT_INFO_FAILURE });
+  }
 };
 
 export const hideObjectInfo = (dispatch, getState) => {
@@ -72,6 +76,16 @@ export const updateObject = (object, objectId) => async (dispatch, getState) => 
 
 async function _getObjectByCoordinates(coordinates) {
   let response = await fetch(`${ENV.api}/api/objects?coordinates=${JSON.stringify(coordinates)}`, {
+    headers: {
+      'Token': localStorage.token
+    }
+  });
+
+  return await response.json();
+}
+
+async function _getObjectById(objectId) {
+  let response = await fetch(`${ENV.api}/api/objects/${objectId}`, {
     headers: {
       'Token': localStorage.token
     }

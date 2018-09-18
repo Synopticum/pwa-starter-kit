@@ -9,7 +9,7 @@
  */
 
 export const UPDATE_PAGE = 'UPDATE_PAGE';
-import { hideObjectInfo, showObjectInfoById } from './object';
+import { hideObjectInfo, getObjectInfoById } from './object';
 
 export const navigate = (path) => (dispatch) => {
   // Extract the page name from path.
@@ -31,7 +31,7 @@ const loadPage = (page) => async (dispatch, getState) => {
     case (/^(objects)\/(.+)$/.test(page)):
       import('../components/app-level/u-object-tooltip/u-object-tooltip.js');
       import('../components/app-level/u-object-info/u-object-info.js');
-      dispatch(showObjectInfoById(page.split('/')[1]));
+      dispatch(getObjectInfoById(page.split('/')[1]));
       break;
     case (page === 'success'):
       // do nothing

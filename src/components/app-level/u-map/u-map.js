@@ -14,7 +14,7 @@ import { connect } from 'pwa-helpers/connect-mixin';
 
 import { store } from '../../../store';
 import { showObjectTooltip, hideObjectTooltip } from '../../../actions/map';
-import { showObjectInfoByCoordinates } from '../../../actions/object';
+import { getObjectInfoByCoordinates } from '../../../actions/object';
 
 import map from '../../../reducers/map';
 import object from '../../../reducers/object';
@@ -320,7 +320,7 @@ class UMap extends connect(store)(LitElement) {
       store.dispatch(hideObjectTooltip());
     }
 
-    store.dispatch(showObjectInfoByCoordinates(coordinates));
+    store.dispatch(getObjectInfoByCoordinates(coordinates));
   }
 
   static _getObjectCoordinates(target) {
