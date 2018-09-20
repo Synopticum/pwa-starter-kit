@@ -105,18 +105,21 @@ class UObjectInfo extends connect(store)(LitElement) {
         <div class="close" @click="${UObjectInfo.close}"></div>
         
         <form>
-            <div id="object-title" ?data-fetching="${this.isUpdating}" ?contentEditable="${this.user.isAdmin}">
-                ${this.activeObject.title ? this.activeObject.title : 'Название объекта'}
-            </div>
-            <div id="object-address" ?data-fetching="${this.isUpdating}" ?contentEditable="${this.user.isAdmin}">
-                ${this.activeObject.address ? this.activeObject.address : 'Адрес объекта'}
-            </div>
-            <div id="object-short-description" ?data-fetching="${this.isUpdating}" ?contentEditable="${this.user.isAdmin}">
-                ${this.activeObject.shortDescription ? this.activeObject.shortDescription : 'Краткое описание'}
-            </div>
-            <div id="object-full-description" ?data-fetching="${this.isUpdating}" ?contentEditable="${this.user.isAdmin}">
-                ${this.activeObject.fullDescription ? this.activeObject.fullDescription : 'Полное описание'}
-            </div>
+            <div id="object-title" 
+                 ?data-fetching="${this.isUpdating}" 
+                 ?contentEditable="${this.user.isAdmin}">${this.activeObject.title ? this.activeObject.title : 'Название объекта'}</div>
+                 
+            <div id="object-address" 
+                 ?data-fetching="${this.isUpdating}" 
+                 ?contentEditable="${this.user.isAdmin}">${this.activeObject.address ? this.activeObject.address : 'Адрес объекта'}</div>
+                 
+            <div id="object-short-description" 
+                 ?data-fetching="${this.isUpdating}" 
+                 ?contentEditable="${this.user.isAdmin}">${this.activeObject.shortDescription ? this.activeObject.shortDescription : 'Краткое описание'}</div>
+                 
+            <div id="object-full-description" 
+                 ?data-fetching="${this.isUpdating}" 
+                 ?contentEditable="${this.user.isAdmin}">${this.activeObject.fullDescription ? this.activeObject.fullDescription : 'Полное описание'}</div>
             <hr>
             
             <button class="submit" type="submit" @click="${this.submit.bind(this)}"></button>
