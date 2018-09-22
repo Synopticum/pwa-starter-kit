@@ -18,9 +18,12 @@ import { getObjectInfoByCoordinates } from '../../../actions/object';
 
 import map from '../../../reducers/map';
 import object from '../../../reducers/object';
+import dot from '../../../reducers/dot';
+import { putDot } from '../../../actions/dot';
 store.addReducers({
   map,
-  object
+  object,
+  dot
 });
 
 class UMap extends connect(store)(LitElement) {
@@ -173,6 +176,7 @@ class UMap extends connect(store)(LitElement) {
     this.isObjectInfoVisible = state.object.isVisible;
     this.isObjectInfoFetching = state.object.isFetching;
 
+    // show that object info is fetching (on object hover)
     if (this.map && this.map._container) {
       (this.isTooltipFetching || this.isObjectInfoFetching) ? this.showCursorSpinner(true) : this.showCursorSpinner(false);
     }
@@ -185,7 +189,7 @@ class UMap extends connect(store)(LitElement) {
     this._initializeTiles();
     this._setListeners();
     await this._drawObjects();
-    this._addMarkers();
+    await this._drawDots();
   }
 
   _createMap() {
@@ -218,7 +222,7 @@ class UMap extends connect(store)(LitElement) {
 
   _setListeners() {
     this.map.on('load', UMap._triggerResize());
-    this.map.on('click', this.__getCoordinates.bind(this));
+    this.map.on('click', this._handleClick.bind(this));
     this.map.on('keypress', this.__drawHelper.bind(this));
   }
 
@@ -276,15 +280,21 @@ class UMap extends connect(store)(LitElement) {
     }
   }
 
-  _addMarkers() {
-    let marker = L.marker([69.49,33.49]).bindPopup('This is Littleton, CO.');
-    let markers = L.layerGroup([marker]);
+  async _drawDots() {
+    let response = await fetch(`${ENV.api}/api/dots`, {
+      headers: {
+        'Token': localStorage.token
+      }
+    });
+    if (response.ok) {
+      const dots = await response.json();
+      let markers = L.layerGroup(dots.map(dot => L.marker(dot.coordinates).bindPopup('This is Littleton, CO.')));
+      let overlayMaps = {
+        "Markers": markers
+      };
 
-    let overlayMaps = {
-      "Markers": markers
-    };
-
-    L.control.layers(null, overlayMaps).addTo(this.map);
+      L.control.layers(null, overlayMaps).addTo(this.map);
+    }
   }
 
   _showObjectTooltip(e) {
@@ -330,13 +340,15 @@ class UMap extends connect(store)(LitElement) {
   }
 
   _showObjectInfo(e) {
-    let coordinates = UMap._getObjectCoordinates(e.target);
+    if (!e.originalEvent.altKey) {
+      let coordinates = UMap._getObjectCoordinates(e.target);
 
-    if (this.isTooltipVisible) {
-      store.dispatch(hideObjectTooltip());
+      if (this.isTooltipVisible) {
+        store.dispatch(hideObjectTooltip());
+      }
+
+      store.dispatch(getObjectInfoByCoordinates(coordinates));
     }
-
-    store.dispatch(getObjectInfoByCoordinates(coordinates));
   }
 
   static _getObjectCoordinates(target) {
@@ -348,6 +360,26 @@ class UMap extends connect(store)(LitElement) {
 
       case 'path':
         return target.getLatLngs()[0].map(item => [item.lat, item.lng]);
+    }
+  }
+
+  _handleClick(e) {
+    if (e.originalEvent.altKey) {
+      this._addDot([e.latlng.lat, e.latlng.lng]);
+    }
+  }
+
+  _addDot(coordinates) {
+    if (confirm('Do you want to add a marker?')) {
+      let dot = {
+        type: 'global',
+        id: uuidv4(),
+        coordinates
+      }
+
+      store.dispatch(putDot(dot));
+      let marker = new L.marker(coordinates).addTo(this.map);
+      marker._icon.style.opacity = 0.5;
     }
   }
 
