@@ -189,6 +189,9 @@ class UMap extends connect(store)(LitElement) {
     this.isObjectInfoVisible = state.object.isVisible;
     this.isObjectInfoFetching = state.object.isFetching;
 
+    this.isDotInfoVisible = state.dot.isVisible;
+    this.isDotInfoFetching = state.dot.isFetching;
+
     // show that object info is fetching (on object hover)
     if (this.map && this.map._container) {
       (this.isTooltipFetching || this.isObjectInfoFetching) ? this.showCursorSpinner(true) : this.showCursorSpinner(false);

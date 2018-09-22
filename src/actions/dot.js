@@ -8,6 +8,8 @@ export const GET_DOT_REQUEST = 'GET_DOT_REQUEST';
 export const GET_DOT_SUCCESS = 'GET_DOT_SUCCESS';
 export const GET_DOT_FAILURE = 'GET_DOT_FAILURE';
 
+export const HIDE_DOT_INFO = 'HIDE_DOT_INFO';
+
 export const putDot = dot => async (dispatch, getState) => {
   dispatch({
     type: PUT_DOT_REQUEST,

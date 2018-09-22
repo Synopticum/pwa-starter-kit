@@ -4,11 +4,14 @@ import {
   PUT_DOT_FAILURE,
   GET_DOT_REQUEST,
   GET_DOT_SUCCESS,
-  GET_DOT_FAILURE} from '../actions/dot';
+  GET_DOT_FAILURE,
+  HIDE_DOT_INFO } from '../actions/dot';
 
 const dot = (state = {
   activeDot: null,
-  isUpdating: false
+  isFetching: false,
+  isUpdating: false,
+  isVisible: false
 }, action) => {
   switch (action.type) {
     // GET
@@ -22,6 +25,7 @@ const dot = (state = {
       return {
         ...state,
         isFetching: false,
+        isVisible: true,
         activeDot: action.payload
       };
 
@@ -30,7 +34,6 @@ const dot = (state = {
         ...state,
         isFetching: false
       };
-
 
     // CREATE/UPDATE
     case PUT_DOT_REQUEST:
@@ -54,6 +57,12 @@ const dot = (state = {
       };
     default:
       return state;
+
+    case HIDE_DOT_INFO:
+      return {
+        ...state,
+        isVisible: false
+      };
   }
 };
 
