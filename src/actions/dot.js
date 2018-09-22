@@ -6,7 +6,8 @@ export const PUT_DOT_FAILURE = 'PUT_DOT_FAILURE';
 
 export const putDot = dot => async (dispatch, getState) => {
   dispatch({
-    type: PUT_DOT_REQUEST
+    type: PUT_DOT_REQUEST,
+    payload: dot
   });
 
   try {

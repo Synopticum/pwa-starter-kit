@@ -50,6 +50,8 @@ class UMap extends connect(store)(LitElement) {
       isObjectInfoVisible: { type: Boolean },
       objectHoverTimeOut: { type: Number },
 
+      tempDotRef: { type: Object },
+
       __currentObject: { type: Array }
     };
   }
@@ -132,7 +134,12 @@ class UMap extends connect(store)(LitElement) {
         }
         
         .leaflet-marker-icon {
-            opacity: ;
+            opacity: 1;
+            transition: opacity .3s;
+        }
+        
+        .leaflet-marker-icon--is-updating {
+            opacity: .5;
         }
         
         .leaflet-control-container {
@@ -185,6 +192,12 @@ class UMap extends connect(store)(LitElement) {
     if (this.map && this.map._container) {
       (this.isTooltipFetching || this.isObjectInfoFetching) ? this.showCursorSpinner(true) : this.showCursorSpinner(false);
     }
+
+    if (this.isDotUpdating !== state.dot.isUpdating && !state.dot.isUpdating && state.dot.activeDot) {
+      this._hideDot();
+    }
+
+    this.isDotUpdating = state.dot.isUpdating;
   }
 
   async init() {
@@ -360,7 +373,7 @@ class UMap extends connect(store)(LitElement) {
   }
 
   _handleClick(e) {
-    if (e.originalEvent.altKey) {
+    if (e.originalEvent.altKey && !this.isDotUpdating) {
       this._addDot([e.latlng.lat, e.latlng.lng]);
     }
   }
@@ -373,10 +386,15 @@ class UMap extends connect(store)(LitElement) {
         coordinates
       }
 
+      this.tempDotRef = new L.marker(coordinates).addTo(this.map);
+      this.tempDotRef._icon.classList.add('leaflet-marker-icon--is-updating');
       store.dispatch(putDot(dot));
-      let marker = new L.marker(coordinates).addTo(this.map);
-      marker._icon.style.opacity = 0.5;
     }
+  }
+
+  _hideDot() {
+    this.tempDotRef._icon.classList.remove('leaflet-marker-icon--is-updating');
+    this.tempDotRef = null;
   }
 
   __getCoordinates(e) {
