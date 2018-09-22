@@ -286,6 +286,7 @@ class UMap extends connect(store)(LitElement) {
         "Markers": markers
       };
 
+      markers.addTo(this.map);
       L.control.layers(null, overlayMaps).addTo(this.map);
     } catch (e) {
       console.error(`Unable to draw dots`, e);
