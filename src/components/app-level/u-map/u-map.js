@@ -114,13 +114,17 @@ class UMap extends connect(store)(LitElement) {
             background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADAQMAAABs5if8AAAABlBMVEUAAAD///+l2Z/dAAAAAXRSTlMAQObYZgAAAA5JREFUCNdjeMDQwNAAAAZmAeFpNQSMAAAAAElFTkSuQmCC');
         }
         
-        .leaflet-interactive {
+        path.leaflet-interactive {
             cursor: pointer;
             opacity: 0;
         }
         
-        .leaflet-interactive:hover {
+        path.leaflet-interactive:hover {
             opacity: 1;
+        }
+        
+        .leaflet-marker-icon {
+            opacity: ;
         }
         
         .leaflet-control-container {
@@ -181,6 +185,7 @@ class UMap extends connect(store)(LitElement) {
     this._initializeTiles();
     this._setListeners();
     await this._drawObjects();
+    this._addMarkers();
   }
 
   _createMap() {
@@ -269,6 +274,17 @@ class UMap extends connect(store)(LitElement) {
     } else {
       window.location.href = '/login';
     }
+  }
+
+  _addMarkers() {
+    let marker = L.marker([69.49,33.49]).bindPopup('This is Littleton, CO.');
+    let markers = L.layerGroup([marker]);
+
+    let overlayMaps = {
+      "Markers": markers
+    };
+
+    L.control.layers(null, overlayMaps).addTo(this.map);
   }
 
   _showObjectTooltip(e) {
