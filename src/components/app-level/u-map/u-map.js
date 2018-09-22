@@ -15,6 +15,7 @@ import { connect } from 'pwa-helpers/connect-mixin';
 import { store } from '../../../store';
 import { showObjectTooltip, hideObjectTooltip } from '../../../actions/map';
 import { getObjectInfoByCoordinates } from '../../../actions/object';
+import { getDotInfoById } from '../../../actions/dot';
 
 import map from '../../../reducers/map';
 import object from '../../../reducers/object';
@@ -294,7 +295,7 @@ class UMap extends connect(store)(LitElement) {
       let response = await fetch(`${ENV.api}/api/dots`, { headers });
       let dots = await response.json();
 
-      let markers = L.layerGroup(dots.map(dot => L.marker(dot.coordinates).bindPopup('This is Littleton, CO.')));
+      let markers = L.layerGroup(dots.map(dot => L.marker(dot.coordinates, { id: dot.id }).on('click', this._showDotInfo.bind(this))));
       let overlayMaps = {
         "Markers": markers
       };
@@ -360,6 +361,13 @@ class UMap extends connect(store)(LitElement) {
     }
   }
 
+  _showDotInfo(e) {
+    if (!e.originalEvent.altKey) {
+      let dotId = e.target.options.id;
+      store.dispatch(getDotInfoById(dotId));
+    }
+  }
+
   static _getObjectCoordinates(target) {
     let type = target.getRadius ? 'circle' : 'path';
 
@@ -386,7 +394,7 @@ class UMap extends connect(store)(LitElement) {
         coordinates
       }
 
-      this.tempDotRef = new L.marker(coordinates).addTo(this.map);
+      this.tempDotRef = new L.marker(coordinates, { id: dot.id }).addTo(this.map);
       this.tempDotRef._icon.classList.add('leaflet-marker-icon--is-updating');
       store.dispatch(putDot(dot));
     }
