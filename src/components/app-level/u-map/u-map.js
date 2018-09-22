@@ -26,6 +26,11 @@ store.addReducers({
   dot
 });
 
+const headers = {
+  'Content-Type': 'application/json',
+  'Token': localStorage.token
+};
+
 class UMap extends connect(store)(LitElement) {
 
   static get properties() {
@@ -231,13 +236,8 @@ class UMap extends connect(store)(LitElement) {
   }
 
   async _drawPaths() {
-    let response = await fetch(`${ENV.api}/api/objects/coordinates/paths`, {
-      headers: {
-        'Token': localStorage.token
-      }
-    });
-
-    if (response.ok) {
+    try {
+      let response = await fetch(`${ENV.api}/api/objects/coordinates/paths`, { headers });
       const paths = await response.json();
 
       paths.forEach(item => {
@@ -250,19 +250,15 @@ class UMap extends connect(store)(LitElement) {
           .on('click', this._showObjectInfo.bind(this))
           .addTo(this.map);
       });
-    } else {
-      window.location.href = '/login';
+    } catch (e) {
+      console.error(`Unable to draw paths`, e);
     }
   }
 
   async _drawCircles() {
-    let response = await fetch(`${ENV.api}/api/objects/coordinates/circles`, {
-      headers: {
-        'Token': localStorage.token
-      }
-    });
-    if (response.ok) {
-      const circles = await response.json();
+    try {
+      let response = await fetch(`${ENV.api}/api/objects/coordinates/circles`, { headers });
+      let circles = await response.json();
 
       circles.forEach(item => {
         L.circle(item.coordinates[0], {
@@ -275,25 +271,24 @@ class UMap extends connect(store)(LitElement) {
           .on('click', this._showObjectInfo.bind(this))
           .addTo(this.map);
       });
-    } else {
-      window.location.href = '/login';
+    } catch (e) {
+      console.error(`Unable to draw circles`, e);
     }
   }
 
   async _drawDots() {
-    let response = await fetch(`${ENV.api}/api/dots`, {
-      headers: {
-        'Token': localStorage.token
-      }
-    });
-    if (response.ok) {
-      const dots = await response.json();
+    try {
+      let response = await fetch(`${ENV.api}/api/dots`, { headers });
+      let dots = await response.json();
+
       let markers = L.layerGroup(dots.map(dot => L.marker(dot.coordinates).bindPopup('This is Littleton, CO.')));
       let overlayMaps = {
         "Markers": markers
       };
 
       L.control.layers(null, overlayMaps).addTo(this.map);
+    } catch (e) {
+      console.error(`Unable to draw dots`, e);
     }
   }
 
