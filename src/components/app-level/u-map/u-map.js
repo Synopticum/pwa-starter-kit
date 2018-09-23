@@ -14,7 +14,7 @@ import { connect } from 'pwa-helpers/connect-mixin';
 
 import { store } from '../../../store';
 import { showObjectTooltip, hideObjectTooltip } from '../../../actions/map';
-import { getObjectInfoByCoordinates } from '../../../actions/object';
+import { getObjectInfoById } from '../../../actions/object';
 import { getDotInfoById } from '../../../actions/dot';
 
 import map from '../../../reducers/map';
@@ -263,6 +263,7 @@ class UMap extends connect(store)(LitElement) {
 
       paths.forEach(item => {
         L.polygon(item.coordinates, {
+          id: item._id,
           color: this.objectFillColor,
           weight: this.objectStrokeWidth
         })
@@ -283,6 +284,7 @@ class UMap extends connect(store)(LitElement) {
 
       circles.forEach(item => {
         L.circle(item.coordinates[0], {
+          id: item._id,
           color: this.objectFillColor,
           weight: this.objectStrokeWidth,
           radius: item.coordinates[1]
@@ -303,7 +305,11 @@ class UMap extends connect(store)(LitElement) {
       let dots = await response.json();
 
       let markers = L.layerGroup(dots.map(dot => {
-        return L.marker(dot.coordinates, { id: dot.id, icon: this.getMarkerIcon('global') }).on('click', this._showDotInfo.bind(this))
+        return L.marker(dot.coordinates, {
+          id: dot.id,
+          icon: this.getMarkerIcon('global')
+        })
+          .on('click', this._showDotInfo.bind(this))
       }));
 
       let overlayMaps = {
@@ -320,10 +326,10 @@ class UMap extends connect(store)(LitElement) {
   _showObjectTooltip(e) {
     if (!this.isObjectInfoVisible) {
       this.objectHoverTimeOut = setTimeout(() => {
-        let coordinates = UMap._getObjectCoordinates(e.target);
+        let objectId = e.target.options.id;
         let position = UMap._calculateTooltipPosition(e.containerPoint.x, e.containerPoint.y);
 
-        store.dispatch(showObjectTooltip(coordinates, position));
+        store.dispatch(showObjectTooltip(objectId, position));
       }, 1000);
     }
   }
@@ -361,13 +367,12 @@ class UMap extends connect(store)(LitElement) {
 
   _showObjectInfo(e) {
     if (!e.originalEvent.altKey) {
-      let coordinates = UMap._getObjectCoordinates(e.target);
-
       if (this.isTooltipVisible) {
         store.dispatch(hideObjectTooltip());
       }
 
-      store.dispatch(getObjectInfoByCoordinates(coordinates));
+      let objectId = e.target.options.id;
+      store.dispatch(getObjectInfoById(objectId));
     }
   }
 
@@ -375,18 +380,6 @@ class UMap extends connect(store)(LitElement) {
     if (!e.originalEvent.altKey) {
       let dotId = e.target.options.id;
       store.dispatch(getDotInfoById(dotId));
-    }
-  }
-
-  static _getObjectCoordinates(target) {
-    let type = target.getRadius ? 'circle' : 'path';
-
-    switch (type) {
-      case 'circle':
-        return [[target.getLatLng().lat, target.getLatLng().lng], target.getRadius()];
-
-      case 'path':
-        return target.getLatLngs()[0].map(item => [item.lat, item.lng]);
     }
   }
 
