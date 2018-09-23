@@ -32,9 +32,12 @@ const loadPage = (page) => async (dispatch, getState) => {
     case (/^(objects)\/(.+)$/.test(page)):
       import('../components/app-level/u-object-tooltip/u-object-tooltip.js');
       import('../components/app-level/u-object-info/u-object-info.js');
+      import('../components/app-level/u-dot-info/u-dot-info.js');
       dispatch(getObjectInfoById(page.split('/')[1]));
       break;
     case (/^(dots)\/(.+)$/.test(page)):
+      import('../components/app-level/u-object-tooltip/u-object-tooltip.js');
+      import('../components/app-level/u-object-info/u-object-info.js');
       import('../components/app-level/u-dot-info/u-dot-info.js');
       dispatch(getObjectInfoById(page.split('/')[1]));
       break;
