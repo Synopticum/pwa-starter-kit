@@ -154,6 +154,8 @@ class UMap extends connect(store)(LitElement) {
         </u-object-tooltip>
         
         <u-object-info ?hidden="${!this.isObjectInfoVisible}">${this.activeObject ? this.activeObject._id : ''}</u-object-info>
+        
+        <u-dot-info ?hidden="${!this.isDotInfoVisible}">${this.activeDot ? this.activeDot.id : ''}</u-dot-info>
       </div>
       
       <div id="map"></div>
@@ -197,8 +199,8 @@ class UMap extends connect(store)(LitElement) {
       (this.isTooltipFetching || this.isObjectInfoFetching) ? this.showCursorSpinner(true) : this.showCursorSpinner(false);
     }
 
-    if (this.isDotUpdating !== state.dot.isUpdating && !state.dot.isUpdating && state.dot.activeDot) {
-      this._hideDot();
+    if (this.tempDotRef && state.dot.isUpdating === false) {
+      this._enableDot();
     }
 
     this.isDotUpdating = state.dot.isUpdating;
@@ -403,7 +405,7 @@ class UMap extends connect(store)(LitElement) {
     }
   }
 
-  _hideDot() {
+  _enableDot() {
     this.tempDotRef._icon.classList.remove('leaflet-marker-icon--is-updating');
     this.tempDotRef = null;
   }

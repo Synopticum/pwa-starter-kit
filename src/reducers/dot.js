@@ -8,7 +8,7 @@ import {
   HIDE_DOT_INFO } from '../actions/dot';
 
 const dot = (state = {
-  activeDot: null,
+  activeDot: {},
   isFetching: false,
   isUpdating: false,
   isVisible: false

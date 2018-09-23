@@ -1,4 +1,5 @@
 import { ENV } from '../../constants';
+import { HIDE_OBJECT_INFO } from './object';
 
 export const PUT_DOT_REQUEST = 'PUT_DOT_REQUEST';
 export const PUT_DOT_SUCCESS = 'PUT_DOT_SUCCESS';
@@ -65,3 +66,10 @@ export const getDotInfoById = dotId => async (dispatch, getState) => {
     dispatch({ type: GET_DOT_FAILURE });
   }
 }
+
+export const hideDotInfo = (dispatch, getState) => {
+  history.pushState(null, null, ENV.static);
+  return {
+    type: HIDE_DOT_INFO
+  }
+};
