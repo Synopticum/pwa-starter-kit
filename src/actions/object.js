@@ -16,6 +16,7 @@ export const getObjectInfoById = (objectId) => async (dispatch, getState) => {
   try {
     const activeObject = await _getObjectById(objectId);
 
+    history.pushState(null, null, `${ENV.static}/objects/${objectId}`);
     dispatch({
       type: GET_OBJECT_INFO_SUCCESS,
       payload: activeObject
