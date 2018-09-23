@@ -258,7 +258,7 @@ class UMap extends connect(store)(LitElement) {
 
   async _drawPaths() {
     try {
-      let response = await fetch(`${ENV.api}/api/objects/coordinates/paths`, { headers });
+      let response = await fetch(`${ENV.api}/api/objects?include=paths`, { headers });
       const paths = await response.json();
 
       paths.forEach(item => {
@@ -279,7 +279,7 @@ class UMap extends connect(store)(LitElement) {
 
   async _drawCircles() {
     try {
-      let response = await fetch(`${ENV.api}/api/objects/coordinates/circles`, { headers });
+      let response = await fetch(`${ENV.api}/api/objects?include=circles`, { headers });
       let circles = await response.json();
 
       circles.forEach(item => {
