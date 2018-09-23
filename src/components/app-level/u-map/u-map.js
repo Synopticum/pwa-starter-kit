@@ -302,7 +302,10 @@ class UMap extends connect(store)(LitElement) {
       let response = await fetch(`${ENV.api}/api/dots`, { headers });
       let dots = await response.json();
 
-      let markers = L.layerGroup(dots.map(dot => L.marker(dot.coordinates, { id: dot.id }).on('click', this._showDotInfo.bind(this))));
+      let markers = L.layerGroup(dots.map(dot => {
+        return L.marker(dot.coordinates, { id: dot.id, icon: this.getMarkerIcon('global') }).on('click', this._showDotInfo.bind(this))
+      }));
+
       let overlayMaps = {
         "Markers": markers
       };
@@ -401,7 +404,9 @@ class UMap extends connect(store)(LitElement) {
         coordinates
       }
 
-      this.tempDotRef = new L.marker(coordinates, { id: dot.id }).on('click', this._showDotInfo.bind(this)).addTo(this.map);
+      this.tempDotRef = new L.marker(coordinates, { id: dot.id, icon: this.getMarkerIcon('global') })
+        .on('click', this._showDotInfo.bind(this))
+        .addTo(this.map);
       this.tempDotRef._icon.classList.add('leaflet-marker-icon--is-updating');
       store.dispatch(putDot(dot));
     }
@@ -410,6 +415,13 @@ class UMap extends connect(store)(LitElement) {
   _enableDot() {
     this.tempDotRef._icon.classList.remove('leaflet-marker-icon--is-updating');
     this.tempDotRef = null;
+  }
+
+  getMarkerIcon(type) {
+    return L.icon({
+      iconUrl: `${ENV.static}/static/images/markers/${type}.png`,
+      iconSize: [32, 32], // size of the icon
+    })
   }
 
   __getCoordinates(e) {
