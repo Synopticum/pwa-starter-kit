@@ -46,12 +46,15 @@ class UMap extends connect(store)(LitElement) {
       objectStrokeWidth: { type: Number },
 
       activeObject: { type: Object },
-      isFetching: { type: Boolean },
       isTooltipVisible: { type: Boolean },
       isObjectInfoVisible: { type: Boolean },
       objectHoverTimeOut: { type: Number },
 
-      tempDotRef: { type: Object },
+
+      tempDotRef: { type: Object }, // need for storing temporary data about where a marker will be added
+      activeDot: { type: Object },
+      isDotInfoVisible: { type: Boolean },
+      isDotInfoFetching: { type: Boolean },
 
       __currentObject: { type: Array }
     };
@@ -189,10 +192,10 @@ class UMap extends connect(store)(LitElement) {
     this.isTooltipFetching = state.map.isTooltipFetching;
 
     this.isObjectInfoVisible = state.object.isVisible;
-    this.isObjectInfoFetching = state.object.isFetching;
 
     this.isDotInfoVisible = state.dot.isVisible;
     this.isDotInfoFetching = state.dot.isFetching;
+    this.isDotUpdating = state.dot.isUpdating;
 
     // show that object info is fetching (on object hover)
     if (this.map && this.map._container) {
@@ -203,7 +206,6 @@ class UMap extends connect(store)(LitElement) {
       this._enableDot();
     }
 
-    this.isDotUpdating = state.dot.isUpdating;
   }
 
   async init() {
@@ -399,7 +401,7 @@ class UMap extends connect(store)(LitElement) {
         coordinates
       }
 
-      this.tempDotRef = new L.marker(coordinates, { id: dot.id }).addTo(this.map);
+      this.tempDotRef = new L.marker(coordinates, { id: dot.id }).on('click', this._showDotInfo.bind(this)).addTo(this.map);
       this.tempDotRef._icon.classList.add('leaflet-marker-icon--is-updating');
       store.dispatch(putDot(dot));
     }
