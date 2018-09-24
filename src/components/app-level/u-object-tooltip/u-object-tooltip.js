@@ -12,9 +12,18 @@ class UObjectTooltip extends connect(store)(LitElement) {
 
   static get properties() {
     return {
-      _positionX: { type: Number },
-      _positionY: { type: Number },
-      _origin: { type: String }
+      _positionX: {
+        type: Number,
+        attribute: false
+      },
+      _positionY: {
+        type: Number,
+        attribute: false
+      },
+      _origin: {
+        type: String,
+        attribute: false
+      }
     };
   }
 

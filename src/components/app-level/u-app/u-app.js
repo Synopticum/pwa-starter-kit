@@ -33,7 +33,13 @@ class UApp extends connect(store)(LitElement) {
       <style>
       </style>
       
-      <u-map></u-map>
+      <u-map width="6400"
+             height="4000"
+             min-zoom="4" 
+             max-zoom="5"
+             max-bounds="[[5,-180],[122,100]]"
+             object-fill-color="#ffc600"
+             object-stroke-width="2"></u-map>
         
       <u-404 ?active="${this._page === '404'}"></u-404>
     `;
@@ -41,10 +47,22 @@ class UApp extends connect(store)(LitElement) {
 
   static get properties() {
     return {
-      appTitle: { type: String },
-      pageTitle: { type: String },
-      _page: { type: String },
-      user: { type: Object }
+      appTitle: {
+        type: String,
+        attribute: false
+      },
+      pageTitle: {
+        type: String,
+        attribute: false
+      },
+      _page: {
+        type: String,
+        attribute: false
+      },
+      user: {
+        type: Object,
+        attribute: false
+      }
     };
   }
 

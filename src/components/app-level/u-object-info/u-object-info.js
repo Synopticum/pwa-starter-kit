@@ -19,10 +19,22 @@ class UObjectInfo extends connect(store)(LitElement) {
 
   static get properties() {
     return {
-      activeObject: { type: Object },
-      saveState: { type: String },
-      isFetching: { type: Boolean },
-      isUpdating: { type: Boolean }
+      activeObject: {
+        type: Object,
+        attribute: false
+      },
+      saveState: {
+        type: String,
+        attribute: false
+      },
+      isFetching: {
+        type: Boolean,
+        attribute: false
+      },
+      isUpdating: {
+        type: Boolean,
+        attribute: false
+      }
     };
   }
 

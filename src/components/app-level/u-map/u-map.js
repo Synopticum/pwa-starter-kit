@@ -36,27 +36,79 @@ class UMap extends connect(store)(LitElement) {
 
   static get properties() {
     return {
-      map: { type: Object },
-      minZoom: { type: Number },
-      maxZoom: { type: Number },
-      maxBounds: { type: Array },
-      mapWidth: { type: Number },
-      mapHeight: { type: Number },
-      objectFillColor: { type: String },
-      objectStrokeWidth: { type: Number },
+      minZoom: {
+        type: Number,
+        attribute: 'min-zoom'
+      },
+      maxZoom: {
+        type: Number,
+        attribute: 'max-zoom'
+      },
+      maxBounds: {
+        type: { fromAttribute: JSON.parse, toAttribute: JSON.stringify },
+        attribute: 'max-bounds'
+      },
+      width: {
+        type: Number,
+        attribute: 'width'
+      },
+      height: {
+        type: Number,
+        attribute: 'height'
+      },
+      objectFillColor: {
+        type: String,
+        attribute: 'object-fill-color'
+      },
+      objectStrokeWidth: {
+        type: Number,
+        attribute: 'object-stroke-width'
+      },
 
-      activeObject: { type: Object },
-      isTooltipVisible: { type: Boolean },
-      isObjectInfoVisible: { type: Boolean },
-      objectHoverTimeOut: { type: Number },
+
+      _map: {
+        type: Object,
+        attribute: false
+      },
+      _activeObject: {
+        type: Object,
+        attribute: false
+      },
+      _isTooltipVisible: {
+        type: Boolean,
+        attribute: false
+      },
+      _isObjectInfoVisible: {
+        type: Boolean,
+        attribute: false
+      },
+      _objectHoverTimeOut: {
+        type: Number,
+        attribute: false
+      },
+      _tempDotRef: {
+        // need for storing temporary data about where a marker will be added
+        type: Object,
+        attribute: false
+      },
+      _activeDot: {
+        type: Object,
+        attribute: false
+      },
+      _isDotInfoVisible: {
+        type: Boolean,
+        attribute: false
+      },
+      _isDotUpdating: {
+        type: Boolean,
+        attribute: false
+      },
 
 
-      tempDotRef: { type: Object }, // need for storing temporary data about where a marker will be added
-      activeDot: { type: Object },
-      isDotInfoVisible: { type: Boolean },
-      isDotInfoFetching: { type: Boolean },
-
-      __currentObject: { type: Array }
+      __currentObject: {
+        type: Array,
+        attribute: false
+      }
     };
   }
 
@@ -152,13 +204,13 @@ class UMap extends connect(store)(LitElement) {
       </style>
       
       <div class="info">
-        <u-object-tooltip ?hidden="${!this.isTooltipVisible}">
-          ${this.activeObject ? this.activeObject._id : ''}
+        <u-object-tooltip ?hidden="${!this._isTooltipVisible}">
+          ${this._activeObject ? this._activeObject._id : ''}
         </u-object-tooltip>
         
-        <u-object-info ?hidden="${!this.isObjectInfoVisible}">${this.activeObject ? this.activeObject._id : ''}</u-object-info>
+        <u-object-info ?hidden="${!this._isObjectInfoVisible}">${this._activeObject ? this._activeObject._id : ''}</u-object-info>
         
-        <u-dot-info ?hidden="${!this.isDotInfoVisible}">${this.activeDot ? this.activeDot.id : ''}</u-dot-info>
+        <u-dot-info ?hidden="${!this._isDotInfoVisible}">${this._activeDot ? this._activeDot.id : ''}</u-dot-info>
       </div>
       
       <div id="map"></div>
@@ -168,17 +220,8 @@ class UMap extends connect(store)(LitElement) {
   constructor() {
     super();
 
-    this.map = null;
-    this.minZoom = 4;
-    this.maxZoom = 5;
-    this.maxBounds = [[5, -180], [122, 100]];
-    this.mapWidth = 6400;
-    this.mapHeight = 4000;
-    this.objectFillColor = '#ffc600';
-    this.objectStrokeWidth = 2;
-
-    this.objectHoverTimeOut = null;
-
+    this._map = null;
+    this._objectHoverTimeOut = null;
     this.__currentObject = [];
   }
 
@@ -187,22 +230,21 @@ class UMap extends connect(store)(LitElement) {
   }
 
   _stateChanged(state) {
-    this.activeObject = state.map.activeObject;
-    this.isTooltipVisible = state.map.isTooltipVisible;
+    this._activeObject = state.map.activeObject;
+    this._isTooltipVisible = state.map.isTooltipVisible;
     this.isTooltipFetching = state.map.isTooltipFetching;
 
-    this.isObjectInfoVisible = state.object.isVisible;
+    this._isObjectInfoVisible = state.object.isVisible;
 
-    this.isDotInfoVisible = state.dot.isVisible;
-    this.isDotInfoFetching = state.dot.isFetching;
-    this.isDotUpdating = state.dot.isUpdating;
+    this._isDotInfoVisible = state.dot.isVisible;
+    this._isDotUpdating = state.dot.isUpdating;
 
     // show that object info is fetching (on object hover)
-    if (this.map && this.map._container) {
+    if (this._map && this._map._container) {
       (this.isTooltipFetching || this.isObjectInfoFetching) ? this.showCursorSpinner(true) : this.showCursorSpinner(false);
     }
 
-    if (this.tempDotRef && state.dot.isUpdating === false) {
+    if (this._tempDotRef && state.dot.isUpdating === false) {
       this._enableDot();
     }
 
@@ -219,21 +261,21 @@ class UMap extends connect(store)(LitElement) {
   }
 
   _createMap() {
-    this.map = L.map('map', {});
+    this._map = L.map('map', {});
   }
 
   _setDefaultSettings() {
-    this.map.setView([70, 30], 5);
+    this._map.setView([70, 30], 5);
   }
 
   _setMaxBounds() {
-    this.map.setMaxBounds(this.maxBounds);
+    this._map.setMaxBounds(this.maxBounds);
   }
 
   _getBounds() {
     return new L.LatLngBounds(
-      this.map.unproject([0, this.mapHeight], this.maxZoom),
-      this.map.unproject([this.mapWidth, 0], this.maxZoom)
+      this._map.unproject([0, this.height], this.maxZoom),
+      this._map.unproject([this.width, 0], this.maxZoom)
     );
   }
 
@@ -243,13 +285,13 @@ class UMap extends connect(store)(LitElement) {
       maxZoom: this.maxZoom,
       bounds: this._getBounds(),
       noWrap: true
-    }).addTo(this.map);
+    }).addTo(this._map);
   }
 
   _setListeners() {
-    this.map.on('load', UMap._triggerResize());
-    this.map.on('click', this._handleClick.bind(this));
-    this.map.on('keypress', this.__drawHelper.bind(this));
+    this._map.on('load', UMap._triggerResize());
+    this._map.on('click', this._handleClick.bind(this));
+    this._map.on('keypress', this.__drawHelper.bind(this));
   }
 
   async _drawObjects() {
@@ -270,7 +312,7 @@ class UMap extends connect(store)(LitElement) {
           .on('mouseover', this._showObjectTooltip.bind(this))
           .on('mouseout', this._hideObjectTooltip.bind(this))
           .on('click', this._showObjectInfo.bind(this))
-          .addTo(this.map);
+          .addTo(this._map);
       });
     } catch (e) {
       console.error(`Unable to draw paths`, e);
@@ -292,7 +334,7 @@ class UMap extends connect(store)(LitElement) {
           .on('mouseover', this._showObjectTooltip.bind(this))
           .on('mouseout', this._hideObjectTooltip.bind(this))
           .on('click', this._showObjectInfo.bind(this))
-          .addTo(this.map);
+          .addTo(this._map);
       });
     } catch (e) {
       console.error(`Unable to draw circles`, e);
@@ -316,16 +358,16 @@ class UMap extends connect(store)(LitElement) {
         "Markers": markers
       };
 
-      markers.addTo(this.map);
-      L.control.layers(null, overlayMaps).addTo(this.map);
+      markers.addTo(this._map);
+      L.control.layers(null, overlayMaps).addTo(this._map);
     } catch (e) {
       console.error(`Unable to draw dots`, e);
     }
   }
 
   _showObjectTooltip(e) {
-    if (!this.isObjectInfoVisible) {
-      this.objectHoverTimeOut = setTimeout(() => {
+    if (!this._isObjectInfoVisible) {
+      this._objectHoverTimeOut = setTimeout(() => {
         let objectId = e.target.options.id;
         let position = UMap._calculateTooltipPosition(e.containerPoint.x, e.containerPoint.y);
 
@@ -335,9 +377,9 @@ class UMap extends connect(store)(LitElement) {
   }
 
   _hideObjectTooltip() {
-    clearTimeout(this.objectHoverTimeOut);
+    clearTimeout(this._objectHoverTimeOut);
 
-    if (this.isTooltipVisible) {
+    if (this._isTooltipVisible) {
       store.dispatch(hideObjectTooltip());
     }
   }
@@ -367,7 +409,7 @@ class UMap extends connect(store)(LitElement) {
 
   _showObjectInfo(e) {
     if (!e.originalEvent.altKey) {
-      if (this.isTooltipVisible) {
+      if (this._isTooltipVisible) {
         store.dispatch(hideObjectTooltip());
       }
 
@@ -384,7 +426,7 @@ class UMap extends connect(store)(LitElement) {
   }
 
   _handleClick(e) {
-    if (e.originalEvent.altKey && !this.isDotUpdating) {
+    if (e.originalEvent.altKey && !this._isDotUpdating) {
       this._addDot([e.latlng.lat, e.latlng.lng]);
     }
   }
@@ -397,17 +439,17 @@ class UMap extends connect(store)(LitElement) {
         coordinates
       }
 
-      this.tempDotRef = new L.marker(coordinates, { id: dot.id, icon: this.getMarkerIcon('global') })
+      this._tempDotRef = new L.marker(coordinates, { id: dot.id, icon: this.getMarkerIcon('global') })
         .on('click', this._showDotInfo.bind(this))
-        .addTo(this.map);
-      this.tempDotRef._icon.classList.add('leaflet-marker-icon--is-updating');
+        .addTo(this._map);
+      this._tempDotRef._icon.classList.add('leaflet-marker-icon--is-updating');
       store.dispatch(putDot(dot));
     }
   }
 
   _enableDot() {
-    this.tempDotRef._icon.classList.remove('leaflet-marker-icon--is-updating');
-    this.tempDotRef = null;
+    this._tempDotRef._icon.classList.remove('leaflet-marker-icon--is-updating');
+    this._tempDotRef = null;
   }
 
   getMarkerIcon(type) {
@@ -443,10 +485,10 @@ class UMap extends connect(store)(LitElement) {
   showCursorSpinner(value) {
     // let leafletStyles = document.styleSheets[1];
     // if (value) {
-    //   this.map._container.style.cursor = 'wait';
+    //   this._map._container.style.cursor = 'wait';
     //   if (leafletStyles) leafletStyles.insertRule('.leaflet-interactive { cursor: wait !important }', 0);
     // } else {
-    //   this.map._container.style.cursor = 'default';
+    //   this._map._container.style.cursor = 'default';
     //   if (leafletStyles && leafletStyles.cssRules && leafletStyles.cssRules[0]) leafletStyles.deleteRule(0);
     // }
   }
