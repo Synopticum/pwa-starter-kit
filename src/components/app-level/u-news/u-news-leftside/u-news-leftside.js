@@ -78,7 +78,7 @@ class UNewsLeftside extends connect(store)(LitElement) {
 `;
   }
 
-  firstRendered() {
+  firstUpdated() {
   }
 
   _stateChanged(state) {

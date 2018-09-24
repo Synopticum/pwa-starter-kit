@@ -121,7 +121,7 @@ class UNewsMain extends connect(store)(LitElement) {
 `;
   }
 
-  firstRendered() {
+  firstUpdated() {
     this.isScrollBottomVisible = true;
   }
 

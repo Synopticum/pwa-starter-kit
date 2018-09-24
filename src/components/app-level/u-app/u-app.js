@@ -53,7 +53,7 @@ class UApp extends connect(store)(LitElement) {
     this.appTitle = UApp.getAppTitle();
   }
 
-  firstRendered() {
+  firstUpdated() {
     store.dispatch(getUserInfo());
 
     installRouter((location) => {

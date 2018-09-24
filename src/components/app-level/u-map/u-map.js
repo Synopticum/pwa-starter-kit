@@ -182,7 +182,7 @@ class UMap extends connect(store)(LitElement) {
     this.__currentObject = [];
   }
 
-  firstRendered() {
+  firstUpdated() {
     this.init().catch(e => { throw new Error(e) });
   }
 

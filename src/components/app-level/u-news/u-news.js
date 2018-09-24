@@ -132,7 +132,7 @@ class UNews extends connect(store)(PageViewElement) {
 `;
   }
 
-  firstRendered() {
+  firstUpdated() {
     store.dispatch(getAllNews());
   }
 

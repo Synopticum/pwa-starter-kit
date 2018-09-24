@@ -122,7 +122,7 @@ class UDotInfo extends connect(store)(LitElement) {
     this.isUpdating = state.dot.isUpdating;
   }
 
-  firstRendered() {
+  firstUpdated() {
     // create references to the inputs
     this.form = this.shadowRoot.querySelector('form');
     this.dotTitle = this.shadowRoot.querySelector('#dot-title');

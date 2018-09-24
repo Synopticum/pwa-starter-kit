@@ -135,7 +135,7 @@ class UObjectInfo extends connect(store)(LitElement) {
     this.isUpdating = state.object.isUpdating;
   }
 
-  firstRendered() {
+  firstUpdated() {
     // create references to the inputs
     this.form = this.shadowRoot.querySelector('form');
     this.objectTitle = this.shadowRoot.querySelector('#object-title');

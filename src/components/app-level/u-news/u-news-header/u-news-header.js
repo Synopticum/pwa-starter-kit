@@ -214,7 +214,7 @@ class UNewsHeader extends connect(store)(LitElement) {
 `;
   }
 
-  firstRendered() {
+  firstUpdated() {
     store.dispatch(getWeather());
   }
 
