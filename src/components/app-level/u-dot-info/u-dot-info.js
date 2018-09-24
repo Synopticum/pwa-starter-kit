@@ -14,13 +14,19 @@ class UDotInfo extends connect(store)(LitElement) {
 
   constructor() {
     super();
-    this.activeDot = {};
+    this._activeDot = {};
   }
 
   static get properties() {
     return {
-      activeDot: { type: Object },
-      isUpdating: { type: Boolean }
+      _activeDot: {
+        type: Object,
+        attribute: false
+      },
+      isUpdating: {
+        type: Boolean,
+        attribute: false
+      }
     };
   }
 
@@ -99,15 +105,15 @@ class UDotInfo extends connect(store)(LitElement) {
         <form>
             <div id="dot-title" 
                  ?data-fetching="${this.isUpdating}" 
-                 ?contentEditable="${this.user.isAdmin}">${this.activeDot.title ? this.activeDot.title : 'Название точки'}</div>
+                 ?contentEditable="${this.user.isAdmin}">${this._activeDot.title ? this._activeDot.title : 'Название точки'}</div>
                  
             <div id="dot-short-description" 
                  ?data-fetching="${this.isUpdating}" 
-                 ?contentEditable="${this.user.isAdmin}">${this.activeDot.shortDescription ? this.activeDot.shortDescription : 'Краткое описание'}</div>
+                 ?contentEditable="${this.user.isAdmin}">${this._activeDot.shortDescription ? this._activeDot.shortDescription : 'Краткое описание'}</div>
                  
             <div id="dot-full-description" 
                  ?data-fetching="${this.isUpdating}" 
-                 ?contentEditable="${this.user.isAdmin}">${this.activeDot.fullDescription ? this.activeDot.fullDescription : 'Полное описание'}</div>
+                 ?contentEditable="${this.user.isAdmin}">${this._activeDot.fullDescription ? this._activeDot.fullDescription : 'Полное описание'}</div>
             <hr>
             
             <button class="submit" type="submit" @click="${this.submit.bind(this)}"></button>
@@ -118,7 +124,7 @@ class UDotInfo extends connect(store)(LitElement) {
 
   _stateChanged(state) {
     this.user = state.user;
-    this.activeDot = state.dot.activeDot;
+    this._activeDot = state.dot.activeDot;
     this.isUpdating = state.dot.isUpdating;
   }
 
@@ -137,9 +143,9 @@ class UDotInfo extends connect(store)(LitElement) {
   submit(e) {
     e.preventDefault();
 
-    if (this.activeDot.id && this.form.checkValidity()) {
-      let dotId = this.activeDot.id;
-      let updatedDot = Object.assign(this.activeDot, {
+    if (this._activeDot.id && this.form.checkValidity()) {
+      let dotId = this._activeDot.id;
+      let updatedDot = Object.assign(this._activeDot, {
         title: this.dotTitle.textContent.trim(),
         shortDescription: this.dotShortDescription.textContent.trim(),
         fullDescription: this.dotFullDescription.textContent.trim()
