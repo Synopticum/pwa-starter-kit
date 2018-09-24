@@ -14,12 +14,12 @@ class UObjectInfo extends connect(store)(LitElement) {
 
   constructor() {
     super();
-    this.activeObject = {};
+    this._activeObject = {};
   }
 
   static get properties() {
     return {
-      activeObject: {
+      _activeObject: {
         type: Object,
         attribute: false
       },
@@ -39,9 +39,8 @@ class UObjectInfo extends connect(store)(LitElement) {
   }
 
   render() {
-    return html`
-      
-      ${SharedStyles}
+    return html`      
+      ${SharedStyles}      
       <style>
         :host {
             width: 900px;
@@ -119,19 +118,19 @@ class UObjectInfo extends connect(store)(LitElement) {
         <form>
             <div id="object-title" 
                  ?data-fetching="${this.isUpdating}" 
-                 ?contentEditable="${this.user.isAdmin}">${this.activeObject.title ? this.activeObject.title : 'Название объекта'}</div>
+                 ?contentEditable="${this.user.isAdmin}">${this._activeObject.title ? this._activeObject.title : 'Название объекта'}</div>
                  
             <div id="object-address" 
                  ?data-fetching="${this.isUpdating}" 
-                 ?contentEditable="${this.user.isAdmin}">${this.activeObject.address ? this.activeObject.address : 'Адрес объекта'}</div>
+                 ?contentEditable="${this.user.isAdmin}">${this._activeObject.address ? this._activeObject.address : 'Адрес объекта'}</div>
                  
             <div id="object-short-description" 
                  ?data-fetching="${this.isUpdating}" 
-                 ?contentEditable="${this.user.isAdmin}">${this.activeObject.shortDescription ? this.activeObject.shortDescription : 'Краткое описание'}</div>
+                 ?contentEditable="${this.user.isAdmin}">${this._activeObject.shortDescription ? this._activeObject.shortDescription : 'Краткое описание'}</div>
                  
             <div id="object-full-description" 
                  ?data-fetching="${this.isUpdating}" 
-                 ?contentEditable="${this.user.isAdmin}">${this.activeObject.fullDescription ? this.activeObject.fullDescription : 'Полное описание'}</div>
+                 ?contentEditable="${this.user.isAdmin}">${this._activeObject.fullDescription ? this._activeObject.fullDescription : 'Полное описание'}</div>
             <hr>
             
             <button class="submit" type="submit" @click="${this.submit.bind(this)}"></button>
@@ -142,7 +141,7 @@ class UObjectInfo extends connect(store)(LitElement) {
 
   _stateChanged(state) {
     this.user = state.user;
-    this.activeObject = state.object.activeObject;
+    this._activeObject = state.object.activeObject;
     this.saveState = state.object.saveState;
     this.isUpdating = state.object.isUpdating;
   }
@@ -163,9 +162,9 @@ class UObjectInfo extends connect(store)(LitElement) {
   submit(e) {
     e.preventDefault();
 
-    if (this.activeObject._id && this.form.checkValidity()) {
-      let objectId = this.activeObject._id;
-      let updatedObject = Object.assign(this.activeObject, {
+    if (this._activeObject._id && this.form.checkValidity()) {
+      let objectId = this._activeObject._id;
+      let updatedObject = Object.assign(this._activeObject, {
         title: this.objectTitle.textContent.trim(),
         address: this.objectAddress.textContent.trim(),
         shortDescription: this.objectShortDescription.textContent.trim(),
