@@ -27,12 +27,7 @@ class UApp extends connect(store)(LitElement) {
   }
 
   render() {
-    return html`
-      ${SharedStyles}
-      
-      <style>
-      </style>
-      
+    return html`      
       <u-map width="6400"
              height="4000"
              min-zoom="4" 
@@ -47,10 +42,6 @@ class UApp extends connect(store)(LitElement) {
 
   static get properties() {
     return {
-      appTitle: {
-        type: String,
-        attribute: false
-      },
       pageTitle: {
         type: String,
         attribute: false
@@ -68,7 +59,6 @@ class UApp extends connect(store)(LitElement) {
 
   constructor() {
     super();
-    this.appTitle = UApp.getAppTitle();
   }
 
   firstUpdated() {
@@ -91,11 +81,6 @@ class UApp extends connect(store)(LitElement) {
 
   get _isPageActive() {
     return (this._page !== 'login' && this._page !== '404' && this._page !== '/');
-  }
-
-  static getAppTitle() {
-    let items = ['Уруссы', 'Уссурийск', 'Уруссняк', 'В Уруссах', 'С Уруссов'];
-    return items[Math.floor(Math.random()*items.length)];
   }
 }
 
