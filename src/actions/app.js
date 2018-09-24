@@ -10,6 +10,7 @@
 
 export const UPDATE_PAGE = 'UPDATE_PAGE';
 import { hideObjectInfo, getObjectInfoById } from './object';
+import { hideDotInfo, getDotInfoById } from './dot';
 
 export const navigate = (path) => (dispatch) => {
   // Extract the page name from path.
@@ -39,7 +40,7 @@ const loadPage = (page) => async (dispatch, getState) => {
       import('../components/app-level/u-object-tooltip/u-object-tooltip.js');
       import('../components/app-level/u-object-info/u-object-info.js');
       import('../components/app-level/u-dot-info/u-dot-info.js');
-      dispatch(getObjectInfoById(page.split('/')[1]));
+      dispatch(getDotInfoById(page.split('/')[1]));
       break;
     case (page === 'success'):
       // do nothing

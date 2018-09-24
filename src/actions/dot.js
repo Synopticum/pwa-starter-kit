@@ -47,19 +47,18 @@ export const getDotInfoById = dotId => async (dispatch, getState) => {
   });
 
   try {
-    let response = await fetch(`${ENV.api}/api/dots/${dotId}`, {
-      headers: {
-        'Token': localStorage.token
-      }
-    });
+    let response = await fetch(`${ENV.api}/api/dots/${dotId}`, { headers: { 'Token': localStorage.token } });
 
     if (!response.ok) {
       return dispatch({ type: GET_DOT_FAILURE });
     }
 
+    let activeDot = await response.json();
+    history.pushState(null, null, `${ENV.static}/dots/${activeDot.id}`);
+
     dispatch({
       type: GET_DOT_SUCCESS,
-      payload: await response.json()
+      payload: activeDot
     });
   } catch (e) {
     console.error(e);
