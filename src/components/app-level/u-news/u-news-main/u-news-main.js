@@ -12,7 +12,7 @@ import { html, LitElement } from '@polymer/lit-element';
 import { SharedStyles } from '../../../shared-styles.js';
 import { PageViewElement } from '../../../reusable/page-view-element';
 import { connect } from 'pwa-helpers/connect-mixin';
-import { repeat } from 'lit-html/lib/repeat';
+import { repeat } from 'lit-html/directives/repeat';
 
 
 import { store } from '../../../../store';
