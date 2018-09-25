@@ -205,9 +205,9 @@ class UMap extends connect(store)(LitElement) {
       <div class="info">
         <u-object-tooltip 
             ?hidden="${!this._isTooltipVisible}" 
-            x="${this._tooltipPositionX}" 
-            y="${this._tooltipPositionY}" 
-            origin="${this._tooltipOrigin}">${this._activeObject ? this._activeObject._id : ''}</u-object-tooltip>
+            .x="${this._tooltipPositionX}"
+            .y="${this._tooltipPositionY}"
+            .origin="${this._tooltipOrigin}">${this._activeObject ? this._activeObject._id : ''}</u-object-tooltip>
         
         <u-object-info 
             ?hidden="${!this._isObjectInfoVisible}">${this._activeObject ? this._activeObject._id : ''}</u-object-info>
