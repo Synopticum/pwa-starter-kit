@@ -19,11 +19,15 @@ class UDotInfo extends connect(store)(LitElement) {
 
   static get properties() {
     return {
+      _user: {
+        type: Object,
+        attribute: false
+      },
       _activeDot: {
         type: Object,
         attribute: false
       },
-      isUpdating: {
+      _isUpdating: {
         type: Boolean,
         attribute: false
       }
@@ -104,16 +108,16 @@ class UDotInfo extends connect(store)(LitElement) {
         
         <form>
             <div id="dot-title" 
-                 ?data-fetching="${this.isUpdating}" 
-                 ?contentEditable="${this.user.isAdmin}">${this._activeDot.title ? this._activeDot.title : 'Название точки'}</div>
+                 ?data-fetching="${this._isUpdating}" 
+                 ?contentEditable="${this._user.isAdmin}">${this._activeDot.title ? this._activeDot.title : 'Название точки'}</div>
                  
             <div id="dot-short-description" 
-                 ?data-fetching="${this.isUpdating}" 
-                 ?contentEditable="${this.user.isAdmin}">${this._activeDot.shortDescription ? this._activeDot.shortDescription : 'Краткое описание'}</div>
+                 ?data-fetching="${this._isUpdating}" 
+                 ?contentEditable="${this._user.isAdmin}">${this._activeDot.shortDescription ? this._activeDot.shortDescription : 'Краткое описание'}</div>
                  
             <div id="dot-full-description" 
-                 ?data-fetching="${this.isUpdating}" 
-                 ?contentEditable="${this.user.isAdmin}">${this._activeDot.fullDescription ? this._activeDot.fullDescription : 'Полное описание'}</div>
+                 ?data-fetching="${this._isUpdating}" 
+                 ?contentEditable="${this._user.isAdmin}">${this._activeDot.fullDescription ? this._activeDot.fullDescription : 'Полное описание'}</div>
             <hr>
             
             <button class="submit" type="submit" @click="${this.submit.bind(this)}"></button>
@@ -123,17 +127,17 @@ class UDotInfo extends connect(store)(LitElement) {
   }
 
   _stateChanged(state) {
-    this.user = state.user;
+    this._user = state.user;
     this._activeDot = state.dot.activeDot;
-    this.isUpdating = state.dot.isUpdating;
+    this._isUpdating = state.dot.isUpdating;
   }
 
   firstUpdated() {
     // create references to the inputs
-    this.form = this.shadowRoot.querySelector('form');
-    this.dotTitle = this.shadowRoot.querySelector('#dot-title');
-    this.dotShortDescription = this.shadowRoot.querySelector('#dot-short-description');
-    this.dotFullDescription = this.shadowRoot.querySelector('#dot-full-description');
+    this.$form = this.shadowRoot.querySelector('form');
+    this.$dotTitle = this.shadowRoot.querySelector('#dot-title');
+    this.$dotShortDescription = this.shadowRoot.querySelector('#dot-short-description');
+    this.$dotFullDescription = this.shadowRoot.querySelector('#dot-full-description');
   }
 
   static close() {
@@ -143,12 +147,12 @@ class UDotInfo extends connect(store)(LitElement) {
   submit(e) {
     e.preventDefault();
 
-    if (this._activeDot.id && this.form.checkValidity()) {
+    if (this._activeDot.id && this.$form.checkValidity()) {
       let dotId = this._activeDot.id;
       let updatedDot = Object.assign(this._activeDot, {
-        title: this.dotTitle.textContent.trim(),
-        shortDescription: this.dotShortDescription.textContent.trim(),
-        fullDescription: this.dotFullDescription.textContent.trim()
+        title: this.$dotTitle.textContent.trim(),
+        shortDescription: this.$dotShortDescription.textContent.trim(),
+        fullDescription: this.$dotFullDescription.textContent.trim()
       });
 
       store.dispatch(putDot(updatedDot, dotId));
