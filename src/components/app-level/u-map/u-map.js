@@ -120,8 +120,7 @@ class UMap extends connect(store)(LitElement) {
     return html`
       ${SharedStyles}
       
-      <style>
-        
+      <style>        
         .info {
             width: 100vw;
             height: 100vh;
@@ -204,13 +203,17 @@ class UMap extends connect(store)(LitElement) {
       </style>
       
       <div class="info">
-        <u-object-tooltip ?hidden="${!this._isTooltipVisible}">
-          ${this._activeObject ? this._activeObject._id : ''}
-        </u-object-tooltip>
+        <u-object-tooltip 
+            ?hidden="${!this._isTooltipVisible}" 
+            x="${this._tooltipPositionX}" 
+            y="${this._tooltipPositionY}" 
+            origin="${this._tooltipOrigin}">${this._activeObject ? this._activeObject._id : ''}</u-object-tooltip>
         
-        <u-object-info ?hidden="${!this._isObjectInfoVisible}">${this._activeObject ? this._activeObject._id : ''}</u-object-info>
+        <u-object-info 
+            ?hidden="${!this._isObjectInfoVisible}">${this._activeObject ? this._activeObject._id : ''}</u-object-info>
         
-        <u-dot-info ?hidden="${!this._isDotInfoVisible}">${this._activeDot ? this._activeDot.id : ''}</u-dot-info>
+        <u-dot-info 
+            ?hidden="${!this._isDotInfoVisible}">${this._activeDot ? this._activeDot.id : ''}</u-dot-info>
       </div>
       
       <div id="map"></div>
@@ -231,8 +234,12 @@ class UMap extends connect(store)(LitElement) {
 
   _stateChanged(state) {
     this._activeObject = state.map.activeObject;
+
     this._isTooltipVisible = state.map.isTooltipVisible;
     this.isTooltipFetching = state.map.isTooltipFetching;
+    this._tooltipPositionX = state.map.tooltipPosition.x;
+    this._tooltipPositionY = state.map.tooltipPosition.y;
+    this._tooltipOrigin = state.map.tooltipPosition.origin;
 
     this._isObjectInfoVisible = state.object.isVisible;
 

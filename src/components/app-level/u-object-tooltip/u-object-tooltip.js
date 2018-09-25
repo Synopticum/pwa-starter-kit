@@ -1,28 +1,18 @@
 import { html, LitElement } from '@polymer/lit-element';
 import { SharedStyles } from '../../shared-styles.js';
-import { store } from '../../../store';
-import { connect } from 'pwa-helpers/connect-mixin';
 
-import map from '../../../reducers/map.js';
-store.addReducers({
-  map
-});
-
-class UObjectTooltip extends connect(store)(LitElement) {
+class UObjectTooltip extends LitElement {
 
   static get properties() {
     return {
-      _positionX: {
-        type: Number,
-        attribute: false
+      x: {
+        type: Number
       },
-      _positionY: {
-        type: Number,
-        attribute: false
+      y: {
+        type: Number
       },
-      _origin: {
-        type: String,
-        attribute: false
+      origin: {
+        type: String
       }
     };
   }
@@ -33,8 +23,8 @@ class UObjectTooltip extends connect(store)(LitElement) {
       <style>
         :host {
             position: fixed;
-            left: ${this._positionX}px;
-            top: ${this._positionY}px;
+            left: ${this.x}px;
+            top: ${this.y}px;
             min-width: 300px;
             min-height: 150px;
             background-color: #ffffff;
@@ -42,7 +32,7 @@ class UObjectTooltip extends connect(store)(LitElement) {
             border: 1px solid blue;
             transform: scale(1);
             transition: transform .3s;
-            transform-origin: ${this._origin};
+            transform-origin: ${this.origin};
         }
         
         :host([hidden]) {
@@ -55,12 +45,6 @@ class UObjectTooltip extends connect(store)(LitElement) {
         <slot></slot>
       </div> 
     `
-  }
-
-  _stateChanged(state) {
-    this._positionX = state.map.tooltipPosition.x;
-    this._positionY = state.map.tooltipPosition.y;
-    this._origin = state.map.tooltipPosition.origin;
   }
 }
 
