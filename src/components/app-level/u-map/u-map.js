@@ -246,11 +246,6 @@ class UMap extends connect(store)(LitElement) {
     this._isDotInfoVisible = state.dot.isVisible;
     this._isDotUpdating = state.dot.isUpdating;
 
-    // show that object info is fetching (on object hover)
-    if (this._map && this._map._container) {
-      (this.isTooltipFetching || this.isObjectInfoFetching) ? this.showCursorSpinner(true) : this.showCursorSpinner(false);
-    }
-
     if (this._tempDotRef && state.dot.isUpdating === false) {
       this._enableDot();
     }
