@@ -3,7 +3,7 @@ import { SharedStyles } from '../../shared-styles.js';
 import { connect } from 'pwa-helpers/connect-mixin';
 
 import { store } from '../../../store';
-import { getObjectInfoById, hideObjectInfo, updateObject } from '../../../actions/object';
+import { hideObjectInfo, updateObject } from '../../../actions/object';
 
 import object from '../../../reducers/object';
 store.addReducers({
@@ -19,19 +19,15 @@ class UObjectInfo extends connect(store)(LitElement) {
 
   static get properties() {
     return {
+      _user: {
+        type: Object,
+        attribute: false
+      },
       _activeObject: {
         type: Object,
         attribute: false
       },
-      saveState: {
-        type: String,
-        attribute: false
-      },
-      isFetching: {
-        type: Boolean,
-        attribute: false
-      },
-      isUpdating: {
+      _isUpdating: {
         type: Boolean,
         attribute: false
       }
@@ -117,20 +113,20 @@ class UObjectInfo extends connect(store)(LitElement) {
         
         <form>
             <div id="object-title" 
-                 ?data-fetching="${this.isUpdating}" 
-                 ?contentEditable="${this.user.isAdmin}">${this._activeObject.title ? this._activeObject.title : 'Название объекта'}</div>
+                 ?data-fetching="${this._isUpdating}" 
+                 ?contentEditable="${this._user.isAdmin}">${this._activeObject.title ? this._activeObject.title : 'Название объекта'}</div>
                  
             <div id="object-address" 
-                 ?data-fetching="${this.isUpdating}" 
-                 ?contentEditable="${this.user.isAdmin}">${this._activeObject.address ? this._activeObject.address : 'Адрес объекта'}</div>
+                 ?data-fetching="${this._isUpdating}" 
+                 ?contentEditable="${this._user.isAdmin}">${this._activeObject.address ? this._activeObject.address : 'Адрес объекта'}</div>
                  
             <div id="object-short-description" 
-                 ?data-fetching="${this.isUpdating}" 
-                 ?contentEditable="${this.user.isAdmin}">${this._activeObject.shortDescription ? this._activeObject.shortDescription : 'Краткое описание'}</div>
+                 ?data-fetching="${this._isUpdating}" 
+                 ?contentEditable="${this._user.isAdmin}">${this._activeObject.shortDescription ? this._activeObject.shortDescription : 'Краткое описание'}</div>
                  
             <div id="object-full-description" 
-                 ?data-fetching="${this.isUpdating}" 
-                 ?contentEditable="${this.user.isAdmin}">${this._activeObject.fullDescription ? this._activeObject.fullDescription : 'Полное описание'}</div>
+                 ?data-fetching="${this._isUpdating}" 
+                 ?contentEditable="${this._user.isAdmin}">${this._activeObject.fullDescription ? this._activeObject.fullDescription : 'Полное описание'}</div>
             <hr>
             
             <button class="submit" type="submit" @click="${this.submit.bind(this)}"></button>
@@ -140,10 +136,9 @@ class UObjectInfo extends connect(store)(LitElement) {
   }
 
   _stateChanged(state) {
-    this.user = state.user;
+    this._user = state.user;
     this._activeObject = state.object.activeObject;
-    this.saveState = state.object.saveState;
-    this.isUpdating = state.object.isUpdating;
+    this._isUpdating = state.object.isUpdating;
   }
 
   firstUpdated() {
