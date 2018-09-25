@@ -3,7 +3,7 @@
   "shell": "src/components/app-level/u-app/u-app.js",
   "sources": [
     "static/images/**/*",
-    "static/styles/**/*",
+    "static/libs/**/*",
     "src/constants.js"
   ],
   "extraDependencies": [
