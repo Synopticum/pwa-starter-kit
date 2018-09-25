@@ -10,7 +10,7 @@
 
 export const UPDATE_PAGE = 'UPDATE_PAGE';
 import { hideObjectInfo, getObjectInfoById } from './object';
-import { hideDotInfo, getDotInfoById } from './dot';
+import { getDotInfoById } from './dot';
 
 export const navigate = (path) => (dispatch) => {
   // Extract the page name from path.

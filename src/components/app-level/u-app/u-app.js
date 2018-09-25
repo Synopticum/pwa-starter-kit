@@ -9,12 +9,9 @@
  */
 
 import { LitElement, html } from '@polymer/lit-element';
-import { SharedStyles } from '../../shared-styles.js';
-import '../u-mainmenu/u-mainmenu';
 
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { installRouter } from 'pwa-helpers/router.js';
-import { updateMetadata } from 'pwa-helpers/metadata.js';
 
 import { store } from '../../../store.js';
 import { navigate } from '../../../actions/app.js';

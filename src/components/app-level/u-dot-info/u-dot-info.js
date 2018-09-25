@@ -3,7 +3,7 @@ import { SharedStyles } from '../../shared-styles.js';
 import { connect } from 'pwa-helpers/connect-mixin';
 
 import { store } from '../../../store';
-import { getDotInfoById, hideDotInfo, putDot } from '../../../actions/dot';
+import { hideDotInfo, putDot } from '../../../actions/dot';
 
 import dot from '../../../reducers/dot';
 store.addReducers({

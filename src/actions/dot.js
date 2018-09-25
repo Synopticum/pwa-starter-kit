@@ -1,5 +1,4 @@
 import { ENV } from '../../constants';
-import { HIDE_OBJECT_INFO } from './object';
 
 export const PUT_DOT_REQUEST = 'PUT_DOT_REQUEST';
 export const PUT_DOT_SUCCESS = 'PUT_DOT_SUCCESS';
