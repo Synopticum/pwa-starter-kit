@@ -20,13 +20,13 @@
         "modules"
       ],
       "js": {
-        "minify": true
+        "minify": false
       },
       "css": {
-        "minify": true
+        "minify": false
       },
       "html": {
-        "minify": true
+        "minify": false
       },
       "bundle": true,
       "addServiceWorker": false
