@@ -8,6 +8,7 @@
   ],
   "extraDependencies": [
     "manifest.json",
+    "node_modules/@webcomponents/webcomponentsjs/**",
     "node_modules/leaflet/**",
     "src/components/app-level/u-login/**",
     "push-manifest.json"
