@@ -14,9 +14,20 @@ export const getObjectInfoById = (objectId) => async (dispatch, getState) => {
   dispatch({ type: GET_OBJECT_INFO_REQUEST });
 
   try {
-    const activeObject = await _getObjectById(objectId);
+    let response = await fetch(`${ENV.api}/api/objects/${objectId}`, {
+      headers: {
+        'Token': localStorage.token
+      }
+    });
 
+    if (!response.ok) {
+      if (response.status === 401) location.reload();
+      return dispatch({ type: GET_OBJECT_INFO_FAILURE });
+    }
+
+    let activeObject = await response.json();
     history.pushState(null, null, `${ENV.static}/objects/${objectId}`);
+
     dispatch({
       type: GET_OBJECT_INFO_SUCCESS,
       payload: activeObject
@@ -26,14 +37,7 @@ export const getObjectInfoById = (objectId) => async (dispatch, getState) => {
   }
 };
 
-export const hideObjectInfo = (dispatch, getState) => {
-  history.pushState(null, null, ENV.static);
-  return {
-    type: HIDE_OBJECT_INFO
-  }
-};
-
-export const updateObject = (object, objectId) => async (dispatch, getState) => {
+export const putObject = (object, objectId) => async (dispatch, getState) => {
   dispatch({
     type: UPDATE_OBJECT_INFO_REQUEST
   });
@@ -59,12 +63,9 @@ export const updateObject = (object, objectId) => async (dispatch, getState) => 
   }
 };
 
-async function _getObjectById(objectId) {
-  let response = await fetch(`${ENV.api}/api/objects/${objectId}`, {
-    headers: {
-      'Token': localStorage.token
-    }
-  });
-
-  return await response.json();
-}
+export const hideObjectInfo = (dispatch, getState) => {
+  history.pushState(null, null, ENV.static);
+  return {
+    type: HIDE_OBJECT_INFO
+  }
+};

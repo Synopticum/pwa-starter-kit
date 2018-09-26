@@ -10,6 +10,30 @@ export const GET_DOT_FAILURE = 'GET_DOT_FAILURE';
 
 export const HIDE_DOT_INFO = 'HIDE_DOT_INFO';
 
+export const getDotInfoById = dotId => async (dispatch, getState) => {
+  dispatch({ type: GET_DOT_REQUEST });
+
+  try {
+    let response = await fetch(`${ENV.api}/api/dots/${dotId}`, { headers: { 'Token': localStorage.token } });
+
+    if (!response.ok) {
+      if (response.status === 401) location.reload();
+      return dispatch({ type: GET_DOT_FAILURE });
+    }
+
+    let activeDot = await response.json();
+    history.pushState(null, null, `${ENV.static}/dots/${activeDot.id}`);
+
+    dispatch({
+      type: GET_DOT_SUCCESS,
+      payload: activeDot
+    });
+  } catch (e) {
+    console.error(e);
+    dispatch({ type: GET_DOT_FAILURE });
+  }
+};
+
 export const putDot = dot => async (dispatch, getState) => {
   dispatch({
     type: PUT_DOT_REQUEST,
@@ -39,31 +63,6 @@ export const putDot = dot => async (dispatch, getState) => {
     dispatch({ type: PUT_DOT_FAILURE });
   }
 };
-
-export const getDotInfoById = dotId => async (dispatch, getState) => {
-  dispatch({
-    type: GET_DOT_REQUEST
-  });
-
-  try {
-    let response = await fetch(`${ENV.api}/api/dots/${dotId}`, { headers: { 'Token': localStorage.token } });
-
-    if (!response.ok) {
-      return dispatch({ type: GET_DOT_FAILURE });
-    }
-
-    let activeDot = await response.json();
-    history.pushState(null, null, `${ENV.static}/dots/${activeDot.id}`);
-
-    dispatch({
-      type: GET_DOT_SUCCESS,
-      payload: activeDot
-    });
-  } catch (e) {
-    console.error(e);
-    dispatch({ type: GET_DOT_FAILURE });
-  }
-}
 
 export const hideDotInfo = (dispatch, getState) => {
   history.pushState(null, null, ENV.static);
