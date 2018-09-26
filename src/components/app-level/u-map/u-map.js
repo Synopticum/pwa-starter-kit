@@ -11,9 +11,10 @@ import { ENV } from '../../../../constants';
 import { LitElement, html } from '@polymer/lit-element';
 import { SharedStyles } from '../../shared-styles.js';
 import { connect } from 'pwa-helpers/connect-mixin';
+import { repeat } from 'lit-html/directives/repeat';
 
 import { store } from '../../../store';
-import { showObjectTooltip, hideObjectTooltip } from '../../../actions/map';
+import { showObjectTooltip, hideObjectTooltip, toggleContextMenu } from '../../../actions/map';
 import { getObjectInfoById } from '../../../actions/object';
 import { getDotInfoById } from '../../../actions/dot';
 
@@ -78,6 +79,10 @@ class UMap extends connect(store)(LitElement) {
         type: Boolean,
         attribute: false
       },
+      _tooltipPosition: {
+        type: Object,
+        attribute: false
+      },
       _isObjectInfoVisible: {
         type: Boolean,
         attribute: false
@@ -103,7 +108,14 @@ class UMap extends connect(store)(LitElement) {
         type: Boolean,
         attribute: false
       },
-
+      _isContextMenuVisible: {
+        type: Boolean,
+        attribute: false
+      },
+      _contextMenuPosition: {
+        type: Object,
+        attribute: false
+      },
 
       __currentObject: {
         type: Array,
@@ -205,8 +217,8 @@ class UMap extends connect(store)(LitElement) {
       <div class="info">
         <u-object-tooltip 
             ?hidden="${!this._isTooltipVisible}" 
-            .x="${this._tooltipPositionX}"
-            .y="${this._tooltipPositionY}"
+            .x="${this._tooltipPosition.x}"
+            .y="${this._tooltipPosition.y}"
             .origin="${this._tooltipOrigin}">${this._activeObject ? this._activeObject._id : ''}</u-object-tooltip>
         
         <u-object-info 
@@ -214,6 +226,14 @@ class UMap extends connect(store)(LitElement) {
         
         <u-dot-info 
             ?hidden="${!this._isDotInfoVisible}">${this._activeDot ? this._activeDot.id : ''}</u-dot-info>
+            
+        <u-context-menu
+            ?hidden="${!this._isContextMenuVisible}"
+            .x="${this._contextMenuPosition.x}"
+            .y="${this._contextMenuPosition.y}">
+              <div class="menu__item" @click="${this._addDot.bind(this)}" slot="context-menu-items">Add a dot</div>
+              <div class="menu__item" @click="${() => { alert(1) }}" slot="context-menu-items">Alert</div>   
+        </u-context-menu>
       </div>
       
       <div id="map"></div>
@@ -237,14 +257,16 @@ class UMap extends connect(store)(LitElement) {
 
     this._isTooltipVisible = state.map.isTooltipVisible;
     this.isTooltipFetching = state.map.isTooltipFetching;
-    this._tooltipPositionX = state.map.tooltipPosition.x;
-    this._tooltipPositionY = state.map.tooltipPosition.y;
+    this._tooltipPosition = state.map.tooltipPosition;
     this._tooltipOrigin = state.map.tooltipPosition.origin;
 
     this._isObjectInfoVisible = state.object.isVisible;
 
     this._isDotInfoVisible = state.dot.isVisible;
     this._isDotUpdating = state.dot.isUpdating;
+
+    this._isContextMenuVisible = state.map.isContextMenuVisible;
+    this._contextMenuPosition = state.map.contextMenuPosition;
 
     if (this._tempDotRef && state.dot.isUpdating === false) {
       this._enableDot();
@@ -429,12 +451,26 @@ class UMap extends connect(store)(LitElement) {
 
   _handleClick(e) {
     if (e.originalEvent.altKey && !this._isDotUpdating) {
-      this._addDot([e.latlng.lat, e.latlng.lng]);
+      this._showContextMenu(e);
+      this._tempDotCoordinates = { lat: e.latlng.lat, lng: e.latlng.lng }
+    } else {
+      this._hideContextMenu(e);
     }
   }
 
-  _addDot(coordinates) {
+  _showContextMenu(e) {
+    store.dispatch(toggleContextMenu(true, { x: e.containerPoint.x, y: e.containerPoint.y }));
+  }
+
+  _hideContextMenu(e) {
+    if (!e.altKey) {
+      store.dispatch(toggleContextMenu(false, { x: this._contextMenuPosition.x, y: this._contextMenuPosition.y }));
+    }
+  }
+
+  _addDot() {
     if (confirm('Do you want to add a marker?')) {
+      let coordinates = [this._tempDotCoordinates.lat, this._tempDotCoordinates.lng];
       let dot = {
         type: 'global',
         id: uuidv4(),
@@ -444,8 +480,12 @@ class UMap extends connect(store)(LitElement) {
       this._tempDotRef = new L.marker(coordinates, { id: dot.id, icon: this.getMarkerIcon('global') })
         .on('click', this._showDotInfo.bind(this))
         .addTo(this._map);
+
       this._tempDotRef._icon.classList.add('leaflet-marker-icon--is-updating');
+      this._tempDotCoordinates = null;
+
       store.dispatch(putDot(dot));
+      this._hideContextMenu(false, { x: this._contextMenuPosition.x, y: this._contextMenuPosition.y });
     }
   }
 

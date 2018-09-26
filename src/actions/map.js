@@ -6,6 +6,8 @@ export const GET_OBJECT_TOOLTIP_FAILURE = 'GET_OBJECT_TOOLTIP_FAILURE';
 
 export const HIDE_OBJECT_TOOLTIP = 'HIDE_OBJECT_TOOLTIP';
 
+export const TOGGLE_CONTEXT_MENU = 'TOGGLE_CONTEXT_MENU';
+
 export const showObjectTooltip = (objectId, tooltipPosition) => async (dispatch, getState) => {
   dispatch({ type: GET_OBJECT_TOOLTIP_REQUEST });
 
@@ -39,3 +41,13 @@ async function _getObjectById(objectId) {
 
   return await response.json();
 }
+
+export const toggleContextMenu = (isContextMenuVisible, contextMenuPosition) => {
+  return {
+    type: TOGGLE_CONTEXT_MENU,
+    payload: {
+      isContextMenuVisible,
+      contextMenuPosition
+    }
+  }
+};

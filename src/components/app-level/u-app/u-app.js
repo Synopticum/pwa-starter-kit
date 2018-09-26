@@ -16,6 +16,7 @@ import { installRouter } from 'pwa-helpers/router.js';
 import { store } from '../../../store.js';
 import { navigate } from '../../../actions/app.js';
 import { getUserInfo } from '../../../actions/user';
+import { toggleContextMenu } from '../../../actions/map';
 
 class UApp extends connect(store)(LitElement) {
 
