@@ -37,13 +37,13 @@ export class UContextMenu extends LitElement {
           display: block !important;
           transform: scale(0);
         }
-        
-        .menu__item {
+
+        ::slotted(.menu__item) {
           cursor: pointer;
           padding: 5px 10px;
         }
         
-        .menu__item:hover {
+        ::slotted(.menu__item:hover) {
           background-color: #eee;
         }
       </style>
