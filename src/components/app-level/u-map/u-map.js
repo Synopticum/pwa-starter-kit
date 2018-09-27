@@ -315,6 +315,7 @@ class UMap extends connect(store)(LitElement) {
   _setListeners() {
     this._map.on('load', UMap._triggerResize());
     this._map.on('click', this._handleClick.bind(this));
+    this._map.on('dragstart', this._hideContextMenu.bind(this));
     this._map.on('keypress', this.__drawHelper.bind(this));
   }
 
