@@ -22,10 +22,13 @@ import map from '../../../reducers/map';
 import object from '../../../reducers/object';
 import dot from '../../../reducers/dot';
 import { putDot } from '../../../actions/dot';
+import dots from '../../../reducers/dots';
+import { getDots } from '../../../actions/dots';
 store.addReducers({
   map,
   object,
-  dot
+  dot,
+  dots
 });
 
 const headers = {
@@ -242,11 +245,26 @@ class UMap extends connect(store)(LitElement) {
     this.__currentObject = [];
   }
 
+  async init() {
+    this._createMap();
+    this._setDefaultSettings();
+    this._setMaxBounds();
+    this._initializeTiles();
+    this._setListeners();
+    await this._drawObjects();
+    store.dispatch(getDots());
+  }
+
   firstUpdated() {
     this.init().catch(e => { throw new Error(e) });
   }
 
   _stateChanged(state) {
+    if (this._dots !== state.dots.items) {
+      this._drawDots(state.dots.items);
+    }
+    this._dots = state.dots.items;
+
     this._activeObject = state.map.activeObject;
     this._isObjectInfoVisible = state.object.isVisible;
 
@@ -263,17 +281,6 @@ class UMap extends connect(store)(LitElement) {
     if (this._tempDotRef && state.dot.isUpdating === false) {
       this._enableDot();
     }
-
-  }
-
-  async init() {
-    this._createMap();
-    this._setDefaultSettings();
-    this._setMaxBounds();
-    this._initializeTiles();
-    this._setListeners();
-    await this._drawObjects();
-    await this._drawDots();
   }
 
   _createMap() {
@@ -358,10 +365,9 @@ class UMap extends connect(store)(LitElement) {
     }
   }
 
-  async _drawDots() {
+  _drawDots(dots) {
+    debugger;
     try {
-      let response = await fetch(`${ENV.api}/api/dots`, { headers });
-      let dots = await response.json();
       let getMarker = (dot) => L.marker(dot.coordinates, { id: dot.id, icon: this.getMarkerIcon(dot.type) }).on('click', this._showDotInfo.bind(this));
 
       let dotLayers = new Set(dots.map(dot => dot.layer));
