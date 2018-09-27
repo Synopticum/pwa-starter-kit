@@ -367,19 +367,22 @@ class UMap extends connect(store)(LitElement) {
 
   _drawDots(dots) {
     try {
+      // remove current layers and markers
       if (this._layerControl) this._layerControl.remove();
+      if (this._overlayMaps) Object.values(this._overlayMaps).forEach(layer => this._map.removeLayer(layer));
+
       let getMarker = (dot) => L.marker(dot.coordinates, { id: dot.id, icon: this.getMarkerIcon(dot.type) }).on('click', this._showDotInfo.bind(this));
 
       let dotLayers = new Set(dots.map(dot => dot.layer));
-      let overlayMaps = {};
+      this._overlayMaps = {};
 
       for (let layerName of dotLayers) {
         let layerDots = dots.filter(dot => dot.layer === layerName);
-        overlayMaps[layerName] = L.layerGroup(layerDots.map(getMarker));
+        this._overlayMaps[layerName] = L.layerGroup(layerDots.map(getMarker));
       }
 
-      Object.values(overlayMaps).forEach(layer => layer.addTo(this._map));
-      this._layerControl = L.control.layers(null, overlayMaps).addTo(this._map);
+      Object.values(this._overlayMaps).forEach(layer => layer.addTo(this._map));
+      this._layerControl = L.control.layers(null, this._overlayMaps).addTo(this._map);
     } catch (e) {
       console.error(`Unable to draw dots`, e);
     }
@@ -459,9 +462,7 @@ class UMap extends connect(store)(LitElement) {
   }
 
   _hideContextMenu(e) {
-    if (!e.altKey) {
-      store.dispatch(toggleContextMenu(false, { x: this._contextMenuPosition.x, y: this._contextMenuPosition.y }));
-    }
+    store.dispatch(toggleContextMenu(false, { x: this._contextMenuPosition.x, y: this._contextMenuPosition.y }));
   }
 
   _addDot() {
@@ -482,12 +483,12 @@ class UMap extends connect(store)(LitElement) {
       this._tempDotCoordinates = null;
 
       store.dispatch(putDot(dot));
-      this._hideContextMenu(false, { x: this._contextMenuPosition.x, y: this._contextMenuPosition.y });
+      this._hideContextMenu();
     }
   }
 
   _enableDot() {
-    this._tempDotRef._icon.classList.remove('leaflet-marker-icon--is-updating');
+    this._tempDotRef.remove();
     this._tempDotRef = null;
   }
 
