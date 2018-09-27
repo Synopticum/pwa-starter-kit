@@ -370,15 +370,14 @@ class UMap extends connect(store)(LitElement) {
     try {
       let response = await fetch(`${ENV.api}/api/dots`, { headers });
       let dots = await response.json();
+      let getMarker = (dot) => L.marker(dot.coordinates, { id: dot.id, icon: this.getMarkerIcon(dot.type) }).on('click', this._showDotInfo.bind(this));
 
       let dotLayers = new Set(dots.map(dot => dot.layer));
       let overlayMaps = {};
 
       for (let layerName of dotLayers) {
         let layerDots = dots.filter(dot => dot.layer === layerName);
-        overlayMaps[layerName] = L.layerGroup(layerDots.map(dot => {
-            return L.marker(dot.coordinates, { id: dot.id, icon: this.getMarkerIcon(dot.type) }).on('click', this._showDotInfo.bind(this))
-        }));
+        overlayMaps[layerName] = L.layerGroup(layerDots.map(getMarker));
       }
 
       Object.values(overlayMaps).forEach(layer => layer.addTo(this._map));
