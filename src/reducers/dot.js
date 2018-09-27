@@ -47,7 +47,8 @@ const dot = (state = {
       return {
         ...state,
         isUpdating: false,
-        activeDot: action.payload
+        activeDot: action.payload,
+        isVisible: true
       };
 
     case PUT_DOT_FAILURE:

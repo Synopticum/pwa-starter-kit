@@ -54,9 +54,12 @@ export const putDot = dot => async (dispatch, getState) => {
       return dispatch({ type: PUT_DOT_FAILURE });
     }
 
+    let activeDot = await response.json();
+    history.pushState(null, null, `${ENV.static}/dots/${activeDot.id}`);
+
     dispatch({
       type: PUT_DOT_SUCCESS,
-      payload: await response.json()
+      payload: activeDot
     });
   } catch(e) {
     console.error(e);

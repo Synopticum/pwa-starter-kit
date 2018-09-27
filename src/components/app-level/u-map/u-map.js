@@ -468,10 +468,11 @@ class UMap extends connect(store)(LitElement) {
   }
 
   _addDot() {
-    if (confirm('Do you want to add a marker?')) {
+    if (confirm('Do you want to add a dot?')) {
       let coordinates = [this._tempDotCoordinates.lat, this._tempDotCoordinates.lng];
       let dot = {
         type: 'global',
+        layer: 'default',
         id: uuidv4(),
         coordinates
       }
