@@ -10,7 +10,7 @@ store.addReducers({
   object
 });
 
-class UObjectInfo extends connect(store)(LitElement) {
+class UObject extends connect(store)(LitElement) {
 
   constructor() {
     super();
@@ -109,7 +109,7 @@ class UObjectInfo extends connect(store)(LitElement) {
       </style>
       
       <div class="object">
-        <div class="close" @click="${UObjectInfo.close}"></div>
+        <div class="close" @click="${UObject.close}"></div>
         
         <form>
             <div id="object-title" 
@@ -173,4 +173,4 @@ class UObjectInfo extends connect(store)(LitElement) {
   }
 }
 
-window.customElements.define('u-object-info', UObjectInfo);
+window.customElements.define('u-object', UObject);

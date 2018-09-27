@@ -26,7 +26,7 @@ const loadPage = (page) => async (dispatch, getState) => {
   import('../components/reusable/u-context-menu/u-context-menu.js');
 
   import('../components/app-level/u-object-tooltip/u-object-tooltip.js');
-  import('../components/app-level/u-object-info/u-object-info.js');
+  import('../components/app-level/u-object/u-object.js');
 
   import('../components/app-level/u-dot/u-dot.js');
 

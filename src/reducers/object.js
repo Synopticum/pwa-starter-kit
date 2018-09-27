@@ -1,11 +1,11 @@
 import {
   HIDE_OBJECT_INFO,
-  GET_OBJECT_INFO_REQUEST,
-  GET_OBJECT_INFO_SUCCESS,
-  GET_OBJECT_INFO_FAILURE,
-  UPDATE_OBJECT_INFO_REQUEST,
-  UPDATE_OBJECT_INFO_SUCCESS,
-  UPDATE_OBJECT_INFO_FAILURE } from '../actions/object';
+  GET_OBJECT_REQUEST,
+  GET_OBJECT_SUCCESS,
+  GET_OBJECT_FAILURE,
+  UPDATE_OBJECT_REQUEST,
+  UPDATE_OBJECT_SUCCESS,
+  UPDATE_OBJECT_FAILURE } from '../actions/object';
 
 const object = (state = {
   activeObject: {},
@@ -16,13 +16,13 @@ const object = (state = {
   isUpdating: false
 }, action) => {
   switch (action.type) {
-    case GET_OBJECT_INFO_REQUEST:
+    case GET_OBJECT_REQUEST:
       return {
         ...state,
         isFetching: true
       };
 
-    case GET_OBJECT_INFO_SUCCESS:
+    case GET_OBJECT_SUCCESS:
       return {
         ...state,
         activeObject: action.payload,
@@ -31,7 +31,7 @@ const object = (state = {
         isFetching: false
       };
 
-    case GET_OBJECT_INFO_FAILURE:
+    case GET_OBJECT_FAILURE:
       return {
         ...state,
         fetchState: 'FAILURE',
@@ -44,20 +44,20 @@ const object = (state = {
         isVisible: false
       };
 
-    case UPDATE_OBJECT_INFO_REQUEST:
+    case UPDATE_OBJECT_REQUEST:
       return {
         ...state,
         isUpdating: true
       };
 
-    case UPDATE_OBJECT_INFO_SUCCESS:
+    case UPDATE_OBJECT_SUCCESS:
       return {
         ...state,
         saveState: 'SUCCESS',
         isUpdating: false
       };
 
-    case UPDATE_OBJECT_INFO_FAILURE:
+    case UPDATE_OBJECT_FAILURE:
       return {
         ...state,
         saveState: 'FAILURE',
