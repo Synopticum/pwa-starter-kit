@@ -371,19 +371,18 @@ class UMap extends connect(store)(LitElement) {
       let response = await fetch(`${ENV.api}/api/dots`, { headers });
       let dots = await response.json();
 
-      let markers = L.layerGroup(dots.map(dot => {
-        return L.marker(dot.coordinates, {
-          id: dot.id,
-          icon: this.getMarkerIcon('global')
-        })
-          .on('click', this._showDotInfo.bind(this))
-      }));
+      let dotLayers = new Set(dots.map(dot => dot.layer));
+      let overlayMaps = {};
 
-      let overlayMaps = {
-        "Markers": markers
-      };
+      for (let layerName of dotLayers) {
+        let layerDots = dots.filter(dot => dot.layer === layerName);
+        overlayMaps[layerName] = L.layerGroup(layerDots.map(dot => {
+            return L.marker(dot.coordinates, { id: dot.id, icon: this.getMarkerIcon(dot.type) }).on('click', this._showDotInfo.bind(this))
+        }));
+      }
 
-      markers.addTo(this._map);
+      Object.values(overlayMaps).forEach(layer => layer.addTo(this._map));
+
       L.control.layers(null, overlayMaps).addTo(this._map);
     } catch (e) {
       console.error(`Unable to draw dots`, e);
