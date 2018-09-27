@@ -96,10 +96,6 @@ class UMap extends connect(store)(LitElement) {
         type: Object,
         attribute: false
       },
-      _activeDot: {
-        type: Object,
-        attribute: false
-      },
       _isDotInfoVisible: {
         type: Boolean,
         attribute: false
@@ -221,11 +217,9 @@ class UMap extends connect(store)(LitElement) {
             .y="${this._tooltipPosition.y}"
             .origin="${this._tooltipOrigin}">${this._activeObject ? this._activeObject._id : ''}</u-object-tooltip>
         
-        <u-object-info 
-            ?hidden="${!this._isObjectInfoVisible}">${this._activeObject ? this._activeObject._id : ''}</u-object-info>
+        <u-object-info ?hidden="${!this._isObjectInfoVisible}"></u-object-info>
         
-        <u-dot-info 
-            ?hidden="${!this._isDotInfoVisible}">${this._activeDot ? this._activeDot.id : ''}</u-dot-info>
+        <u-dot-info ?hidden="${!this._isDotInfoVisible}"></u-dot-info>
             
         <u-context-menu
             ?hidden="${!this._isContextMenuVisible}"
@@ -254,13 +248,11 @@ class UMap extends connect(store)(LitElement) {
 
   _stateChanged(state) {
     this._activeObject = state.map.activeObject;
+    this._isObjectInfoVisible = state.object.isVisible;
 
     this._isTooltipVisible = state.map.isTooltipVisible;
-    this.isTooltipFetching = state.map.isTooltipFetching;
     this._tooltipPosition = state.map.tooltipPosition;
     this._tooltipOrigin = state.map.tooltipPosition.origin;
-
-    this._isObjectInfoVisible = state.object.isVisible;
 
     this._isDotInfoVisible = state.dot.isVisible;
     this._isDotUpdating = state.dot.isUpdating;
