@@ -4,7 +4,9 @@ export const GET_DOTS_REQUEST = 'GET_DOTS_REQUEST';
 export const GET_DOTS_SUCCESS = 'GET_DOTS_SUCCESS';
 export const GET_DOTS_FAILURE = 'GET_DOTS_FAILURE';
 
-export const getDots = dotId => async (dispatch, getState) => {
+export const UPDATE_DOTS = 'UPDATE_DOTS';
+
+export const getDots = () => async (dispatch, getState) => {
   dispatch({ type: GET_DOTS_REQUEST });
 
   try {

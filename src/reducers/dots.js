@@ -1,7 +1,8 @@
 import {
   GET_DOTS_REQUEST,
   GET_DOTS_SUCCESS,
-  GET_DOTS_FAILURE } from '../actions/dots';
+  GET_DOTS_FAILURE,
+  UPDATE_DOTS } from '../actions/dots';
 
 const dots = (state = {
   dots: [],
@@ -25,6 +26,12 @@ const dots = (state = {
       return {
         ...state,
         isFetching: false
+      };
+
+    case UPDATE_DOTS:
+      return {
+        ...state,
+        items: [...state.items, action.payload]
       };
 
     default:

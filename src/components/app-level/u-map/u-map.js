@@ -366,8 +366,8 @@ class UMap extends connect(store)(LitElement) {
   }
 
   _drawDots(dots) {
-    debugger;
     try {
+      if (this._layerControl) this._layerControl.remove();
       let getMarker = (dot) => L.marker(dot.coordinates, { id: dot.id, icon: this.getMarkerIcon(dot.type) }).on('click', this._showDotInfo.bind(this));
 
       let dotLayers = new Set(dots.map(dot => dot.layer));
@@ -379,8 +379,7 @@ class UMap extends connect(store)(LitElement) {
       }
 
       Object.values(overlayMaps).forEach(layer => layer.addTo(this._map));
-
-      L.control.layers(null, overlayMaps).addTo(this._map);
+      this._layerControl = L.control.layers(null, overlayMaps).addTo(this._map);
     } catch (e) {
       console.error(`Unable to draw dots`, e);
     }

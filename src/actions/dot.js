@@ -1,4 +1,5 @@
 import { ENV } from '../../constants';
+import { UPDATE_DOTS } from './dots';
 
 export const PUT_DOT_REQUEST = 'PUT_DOT_REQUEST';
 export const PUT_DOT_SUCCESS = 'PUT_DOT_SUCCESS';
@@ -55,10 +56,14 @@ export const putDot = dot => async (dispatch, getState) => {
     }
 
     let activeDot = await response.json();
-    history.pushState(null, null, `${ENV.static}/dots/${activeDot.id}`);
 
     dispatch({
       type: PUT_DOT_SUCCESS,
+      payload: activeDot
+    });
+
+    dispatch({
+      type: UPDATE_DOTS,
       payload: activeDot
     });
   } catch(e) {
