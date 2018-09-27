@@ -222,7 +222,7 @@ class UMap extends connect(store)(LitElement) {
         
         <u-object-info ?hidden="${!this._isObjectInfoVisible}"></u-object-info>
         
-        <u-dot-info ?hidden="${!this._isDotInfoVisible}"></u-dot-info>
+        <u-dot ?hidden="${!this._isDotInfoVisible}"></u-dot>
             
         <u-context-menu
             ?hidden="${!this._isContextMenuVisible}"

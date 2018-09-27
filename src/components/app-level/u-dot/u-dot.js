@@ -10,7 +10,7 @@ store.addReducers({
   dot
 });
 
-class UDotInfo extends connect(store)(LitElement) {
+class UDot extends connect(store)(LitElement) {
 
   constructor() {
     super();
@@ -104,7 +104,7 @@ class UDotInfo extends connect(store)(LitElement) {
       </style>
       
       <div class="dot">
-        <div class="close" @click="${UDotInfo.close}"></div>
+        <div class="close" @click="${UDot.close}"></div>
         
         <form>
             <div id="dot-title" 
@@ -162,4 +162,4 @@ class UDotInfo extends connect(store)(LitElement) {
   }
 }
 
-window.customElements.define('u-dot-info', UDotInfo);
+window.customElements.define('u-dot', UDot);
