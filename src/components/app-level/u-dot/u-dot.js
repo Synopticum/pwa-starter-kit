@@ -1,14 +1,10 @@
 import { html, LitElement } from '@polymer/lit-element';
 import { SharedStyles } from '../../shared-styles.js';
-import { connect } from 'pwa-helpers/connect-mixin';
 
 import { store } from '../../../store';
-import { hideDotInfo, putDot } from '../../../actions/dot';
-
-import dot from '../../../reducers/dot';
-store.addReducers({
-  dot
-});
+import { connect } from 'pwa-helpers/connect-mixin';
+import { hideDotInfo, putDot, dot } from './redux';
+store.addReducers({ dot });
 
 class UDot extends connect(store)(LitElement) {
 

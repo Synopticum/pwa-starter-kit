@@ -1,14 +1,10 @@
 import { html, LitElement } from '@polymer/lit-element';
 import { SharedStyles } from '../../shared-styles.js';
-import { connect } from 'pwa-helpers/connect-mixin';
 
 import { store } from '../../../store';
-import { hideObjectInfo, putObject } from '../../../actions/object';
-
-import object from '../../../reducers/object';
-store.addReducers({
-  object
-});
+import { connect } from 'pwa-helpers/connect-mixin';
+import { hideObjectInfo, putObject, object } from './redux';
+store.addReducers({ object });
 
 class UObject extends connect(store)(LitElement) {
 

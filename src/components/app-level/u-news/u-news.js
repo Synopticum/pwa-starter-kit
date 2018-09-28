@@ -12,15 +12,10 @@ import { html } from '@polymer/lit-element';
 import { SharedStyles } from '../../shared-styles.js';
 import { PageViewElement } from '../../reusable/page-view-element';
 import { connect } from 'pwa-helpers/connect-mixin';
-import './u-news-header/u-news-header';
 
 import { store } from '../../../store';
-import { getAllNews } from '../../../actions/news.js';
-
-import news from '../../../reducers/news.js';
-store.addReducers({
-  news
-});
+import { getAllNews, news } from './redux';
+store.addReducers({ news });
 
 class UNews extends connect(store)(PageViewElement) {
 

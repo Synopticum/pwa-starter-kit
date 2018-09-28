@@ -14,12 +14,8 @@ import { PageViewElement } from '../../reusable/page-view-element';
 
 import { store } from '../../../store.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
-
-import map from '../../../reducers/map.js';
-
-store.addReducers({
-  map
-});
+import { map } from '../../../components/app-level/u-map/redux';
+store.addReducers({ map });
 
 class UAds extends connect(store)(PageViewElement) {
 

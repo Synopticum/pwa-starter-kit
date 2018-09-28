@@ -3,24 +3,11 @@ import { SharedStyles } from '../../shared-styles.js';
 import { store } from '../../../store';
 import { connect } from 'pwa-helpers/connect-mixin';
 
-import { putDot } from '../../../actions/dot';
-import { toggleDotCreate } from '../../../actions/map';
-import { updateForm } from '../../../actions/create-dot';
-
-import createDot from '../../../reducers/create-dot';
-store.addReducers({
-  createDot
-});
-
-class Dot {
-  constructor(options) {
-    this.id = uuidv4();
-    this.title = options.title;
-    this.layer = options.layer;
-    this.type = options.type;
-    this.coordinates = options.coordinates;
-  }
-}
+import { updateForm } from './redux';
+import { putDot } from '../u-dot/redux';
+import { toggleDotCreate } from '../u-map/redux';
+import { createDot } from '../u-dot-create/redux';
+store.addReducers({ createDot });
 
 class UDotCreate extends connect(store)(LitElement) {
 
@@ -129,6 +116,16 @@ class UDotCreate extends connect(store)(LitElement) {
 
   static changeType(e) {
     store.dispatch(updateForm({ type: e.currentTarget.value }));
+  }
+}
+
+class Dot {
+  constructor(options) {
+    this.id = uuidv4();
+    this.title = options.title;
+    this.layer = options.layer;
+    this.type = options.type;
+    this.coordinates = options.coordinates;
   }
 }
 

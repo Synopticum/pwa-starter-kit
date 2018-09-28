@@ -10,26 +10,13 @@
 import { ENV } from '../../../../constants';
 import { LitElement, html } from '@polymer/lit-element';
 import { SharedStyles } from '../../shared-styles.js';
-import { connect } from 'pwa-helpers/connect-mixin';
-import { repeat } from 'lit-html/directives/repeat';
 
 import { store } from '../../../store';
-import { showObjectTooltip, hideObjectTooltip, toggleContextMenu, toggleDotCreate } from '../../../actions/map';
-import { getObjectInfoById } from '../../../actions/object';
-import { getDotInfoById } from '../../../actions/dot';
-
-import map from '../../../reducers/map';
-import object from '../../../reducers/object';
-import dot from '../../../reducers/dot';
-import { putDot } from '../../../actions/dot';
-import dots from '../../../reducers/dots';
-import { getDots } from '../../../actions/dots';
-store.addReducers({
-  map,
-  object,
-  dot,
-  dots
-});
+import { connect } from 'pwa-helpers/connect-mixin';
+import { showObjectTooltip, hideObjectTooltip, toggleContextMenu, toggleDotCreate, map } from '../../../components/app-level/u-map/redux';
+import { getObjectInfoById, object } from '../../../components/app-level/u-object/redux';
+import { getDotInfoById, getDots, dot, dots } from '../../../components/app-level/u-dot/redux';
+store.addReducers({ map, object, dot, dots });
 
 const headers = {
   'Content-Type': 'application/json',
