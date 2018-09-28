@@ -467,12 +467,15 @@ class UMap extends connect(store)(LitElement) {
       let objectId = e.target.options.id;
       store.dispatch(getObjectInfoById(objectId));
     }
+
+    store.dispatch(toggleDotCreate(false));
   }
 
   _showDotInfo(e) {
     if (!e.originalEvent.altKey) {
       let dotId = e.target.options.id;
       store.dispatch(getDotInfoById(dotId));
+      store.dispatch(toggleDotCreate(false));
     }
   }
 
