@@ -246,7 +246,7 @@ class UMap extends connect(store)(LitElement) {
             ?hidden="${!this._isContextMenuVisible}"
             .x="${this._contextMenuPosition.x}"
             .y="${this._contextMenuPosition.y}">
-              <div class="menu__item" @click="${this._showCreateDot.bind(this)}" slot="context-menu-items">Add a dot</div>
+              <div class="menu__item" @click="${this._createDot.bind(this)}" slot="context-menu-items">Add a dot</div>
               <div class="menu__item" @click="${() => { alert(1) }}" slot="context-menu-items">Alert</div>   
         </u-context-menu>
         
@@ -342,7 +342,7 @@ class UMap extends connect(store)(LitElement) {
   _setListeners() {
     this._map.on('load', UMap._triggerResize());
     this._map.on('click', this._handleClick.bind(this));
-    this._map.on('dragstart', this._hideContextMenu.bind(this));
+    this._map.on('dragstart', this._hideElements.bind(this));
     this._map.on('keypress', this.__drawHelper.bind(this));
   }
 
@@ -468,7 +468,9 @@ class UMap extends connect(store)(LitElement) {
       store.dispatch(getObjectInfoById(objectId));
     }
 
-    store.dispatch(toggleDotCreate(false));
+    if (this._isDotCreateVisible) {
+      this._hideCreateDot();
+    }
   }
 
   _showDotInfo(e) {
@@ -476,6 +478,10 @@ class UMap extends connect(store)(LitElement) {
       let dotId = e.target.options.id;
       store.dispatch(getDotInfoById(dotId));
       store.dispatch(toggleDotCreate(false));
+
+      if (this._isDotCreateVisible) {
+        this._hideCreateDot();
+      }
     }
   }
 
@@ -490,12 +496,18 @@ class UMap extends connect(store)(LitElement) {
         lng: e.latlng.lng
       }
     } else {
-      this._hideContextMenu(e);
+      this._hideContextMenu();
+      this._hideCreateDot();
     }
   }
 
   static _showContextMenu(e) {
     store.dispatch(toggleContextMenu(true, { x: e.containerPoint.x, y: e.containerPoint.y }));
+  }
+
+  _hideElements() {
+    this._hideContextMenu();
+    this._hideCreateDot();
   }
 
   _hideContextMenu() {
@@ -504,6 +516,21 @@ class UMap extends connect(store)(LitElement) {
 
   _showCreateDot() {
     store.dispatch(toggleDotCreate(true, this._tempDotCoordinates));
+  }
+
+  _hideCreateDot() {
+    store.dispatch(toggleDotCreate(false, { x: this._dotCreateCoordinates.x, y: this._dotCreateCoordinates.y }));
+  }
+
+  static getMarkerIcon(type) {
+    return L.icon({
+      iconUrl: `${ENV.static}/static/images/markers/${type}.png`,
+      iconSize: [32, 32], // size of the icon
+    })
+  }
+
+  _createDot() {
+    this._showCreateDot();
 
     // display ghost marker until a dot is created
     this._tempDotRef = new L.marker([this._tempDotCoordinates.lat, this._tempDotCoordinates.lng], { id: dot.id, icon: UMap.getMarkerIcon('global') })
@@ -512,13 +539,6 @@ class UMap extends connect(store)(LitElement) {
     this._tempDotRef._icon.classList.add('leaflet-marker-icon--is-updating');
 
     this._hideContextMenu();
-  }
-
-  static getMarkerIcon(type) {
-    return L.icon({
-      iconUrl: `${ENV.static}/static/images/markers/${type}.png`,
-      iconSize: [32, 32], // size of the icon
-    })
   }
 
   _enableDot() {
