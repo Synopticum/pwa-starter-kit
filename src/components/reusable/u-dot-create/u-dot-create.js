@@ -1,10 +1,18 @@
 import { html, LitElement } from '@polymer/lit-element';
 import { SharedStyles } from '../../shared-styles.js';
 import { store } from '../../../store';
+import { connect } from 'pwa-helpers/connect-mixin';
+
 import { putDot } from '../../../actions/dot';
 import { toggleDotCreate } from '../../../actions/map';
+import { updateForm } from '../../../actions/create-dot';
 
-class UDotCreate extends LitElement {
+import createDot from '../../../reducers/create-dot';
+store.addReducers({
+  createDot
+});
+
+class UDotCreate extends connect(store)(LitElement) {
 
   static get properties() {
     return {
@@ -19,13 +27,17 @@ class UDotCreate extends LitElement {
       },
       lng: {
         type: Number
+      },
+
+      _title: {
+        type: String,
+        attribute: false
       }
     };
   }
 
   constructor() {
     super();
-    this._title = 'test';
   }
 
   render() {
@@ -52,9 +64,13 @@ class UDotCreate extends LitElement {
       </style>
       
       <div class="create">
-        <input type="text" value="${this._title}" @input="${this.onInput.bind(this)}" placeholder="Enter dot title"> <button type="submit" @click="${this.create.bind(this)}">ok</button>
+        <input type="text" .value="${this._title}" @input="${UDotCreate.input.bind(this)}" placeholder="Enter dot title"> <button type="submit" @click="${this.create.bind(this)}">ok</button>
       </div>
     `;
+  }
+
+  _stateChanged(state) {
+    this._title = state.createDot.title;
   }
 
   create() {
@@ -70,10 +86,11 @@ class UDotCreate extends LitElement {
 
     store.dispatch(putDot(dot));
     store.dispatch(toggleDotCreate(false));
+    store.dispatch(updateForm({ title: '' }));
   }
 
-  onInput(e) {
-    this._title = e.currentTarget.value;
+  static input(e) {
+    store.dispatch(updateForm({ title: e.currentTarget.value }));
   }
 }
 
