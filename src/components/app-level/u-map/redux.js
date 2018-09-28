@@ -3,52 +3,65 @@
 //
 import { ENV } from '../../../constants';
 
-const OBJECT = {
-  TOOLTIP: {
-    GET: {
-      REQUEST: 'OBJECT_TOOLTIP_GET_REQUEST',
-      SUCCESS: 'OBJECT_TOOLTIP_GET_SUCCESS',
-      FAILURE: 'OBJECT_TOOLTIP_GET_FAILURE',
-    },
-    HIDE: 'OBJECT_TOOLTIP_HIDE'
+const TOOLTIP = {
+  GET: {
+    REQUEST: 'TOOLTIP_GET_REQUEST',
+    SUCCESS: 'TOOLTIP_GET_SUCCESS',
+    FAILURE: 'TOOLTIP_GET_FAILURE',
   }
 };
 
 const TOGGLE = {
+  TOOLTIP: 'TOGGLE_TOOLTIP',
   CONTEXT_MENU: 'TOGGLE_CONTEXT_MENU',
   CREATE_DOT: 'TOGGLE_CREATE_DOT'
 };
 
-export const showObjectTooltip = (objectId, tooltipPosition = {}) => async (dispatch, getState) => {
-  dispatch({ type: OBJECT.TOOLTIP.GET.REQUEST });
+export const toggleTooltip = (enable, objectId, tooltipPosition = {}) => async (dispatch, getState) => {
+  if (enable) {
+    dispatch({ type: TOOLTIP.GET.REQUEST });
 
-  try {
-    const activeObject = await _getObjectById(objectId);
+    try {
+      const object = await _getObjectById(objectId, dispatch);
 
+      dispatch({
+        type: TOOLTIP.GET.SUCCESS,
+        payload: {
+          object,
+          tooltipPosition
+        }
+      });
+
+      dispatch({
+        type: TOGGLE.TOOLTIP,
+        payload: {
+          isTooltipVisible: true
+        }
+      });
+    } catch (e) {
+      dispatch({ type: TOOLTIP.GET.FAILURE });
+    }
+  } else {
     dispatch({
-      type: OBJECT.TOOLTIP.GET.SUCCESS,
+      type: TOGGLE.TOOLTIP,
       payload: {
-        activeObject,
-        tooltipPosition
+        isTooltipVisible: false
       }
-    });
-  } catch (e) {
-    dispatch({ type: OBJECT.TOOLTIP.GET.FAILURE });
+    })
   }
 };
 
-export const hideObjectTooltip = (dispatch, getState) => {
-  return {
-    type: OBJECT.TOOLTIP.HIDE
-  }
-};
-
-async function _getObjectById(objectId) {
+const _getObjectById = async (objectId, dispatch) => {
   let response = await fetch(`${ENV.api}/api/objects/${objectId}`, {
     headers: {
       'Token': localStorage.token
     }
   });
+
+  if (!response.ok) {
+    if (response.status === 401) location.reload();
+    return dispatch({ type: TOOLTIP.GET.FAILURE });
+  }
 
   return await response.json();
 }
@@ -77,8 +90,7 @@ export const toggleDotCreate = (isDotCreateVisible, dotCreateCoordinates = {}) =
 // Reducer
 //
 export const map = (state = {
-  activeObject: {},
-
+  tooltipObject: {},
   isTooltipVisible: false,
   tooltipPosition: {},
 
@@ -90,31 +102,31 @@ export const map = (state = {
   dotCreateCoordinates: {},
 }, action) => {
   switch (action.type) {
-    case OBJECT.TOOLTIP.GET.REQUEST:
+    case TOOLTIP.GET.REQUEST:
       return {
         ...state,
         isTooltipFetching: true
       };
 
-    case OBJECT.TOOLTIP.GET.SUCCESS:
+    case TOOLTIP.GET.SUCCESS:
       return {
         ...state,
-        activeObject: action.payload.activeObject,
+        tooltipObject: action.payload.object,
         tooltipPosition: action.payload.tooltipPosition,
         isTooltipVisible: true,
         isTooltipFetching: false
       };
 
-    case OBJECT.TOOLTIP.GET.FAILURE:
+    case TOOLTIP.GET.FAILURE:
       return {
         ...state,
         isTooltipFetching: false
       };
 
-    case OBJECT.TOOLTIP.HIDE:
+    case TOGGLE.TOOLTIP:
       return {
         ...state,
-        isTooltipVisible: false
+        isTooltipVisible: action.payload.isTooltipVisible
       };
 
     case TOGGLE.CONTEXT_MENU:

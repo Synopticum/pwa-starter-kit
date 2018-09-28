@@ -3,7 +3,7 @@
 //
 import { ENV } from '../../../constants';
 
-const OBJECT = {
+export const OBJECT = {
   GET: {
     REQUEST: 'OBJECT_GET_REQUEST',
     SUCCESS: 'OBJECT_GET_SUCCESS',

@@ -13,7 +13,7 @@ import { SharedStyles } from '../../shared-styles.js';
 
 import { store } from '../../../store';
 import { connect } from 'pwa-helpers/connect-mixin';
-import { showObjectTooltip, hideObjectTooltip, toggleContextMenu, toggleDotCreate, map } from '../../../components/app-level/u-map/redux';
+import { toggleTooltip, toggleContextMenu, toggleDotCreate, map } from '../../../components/app-level/u-map/redux';
 import { getObjectInfoById, object } from '../../../components/app-level/u-object/redux';
 import { getDotInfoById, getDots, dot, dots } from '../../../components/app-level/u-dot/redux';
 store.addReducers({ map, object, dot, dots });
@@ -62,7 +62,7 @@ class UMap extends connect(store)(LitElement) {
       },
 
       // object tooltip/info
-      _activeObject: {
+      _tooltipObject: {
         type: Object,
         attribute: false
       },
@@ -223,7 +223,7 @@ class UMap extends connect(store)(LitElement) {
             ?hidden="${!this._isTooltipVisible}" 
             .x="${this._tooltipPosition.x}"
             .y="${this._tooltipPosition.y}"
-            .origin="${this._tooltipOrigin}">${this._activeObject ? this._activeObject._id : ''}</u-object-tooltip>
+            .origin="${this._tooltipOrigin}">${this._tooltipObject ? this._tooltipObject._id : ''}</u-object-tooltip>
         
         <u-object ?hidden="${!this._isObjectInfoVisible}"></u-object>
         
@@ -277,9 +277,9 @@ class UMap extends connect(store)(LitElement) {
     }
     this._dots = state.dots.items;
 
-    this._activeObject = state.map.activeObject;
     this._isObjectInfoVisible = state.object.isVisible;
 
+    this._tooltipObject = state.map.tooltipObject;
     this._isTooltipVisible = state.map.isTooltipVisible;
     this._tooltipPosition = state.map.tooltipPosition;
     this._tooltipOrigin = state.map.tooltipPosition.origin;
@@ -409,7 +409,7 @@ class UMap extends connect(store)(LitElement) {
         let objectId = e.target.options.id;
         let position = UMap._calculateTooltipPosition(e.containerPoint.x, e.containerPoint.y);
 
-        store.dispatch(showObjectTooltip(objectId, position));
+        store.dispatch(toggleTooltip(true, objectId, position));
       }, 1000);
     }
   }
@@ -418,7 +418,7 @@ class UMap extends connect(store)(LitElement) {
     clearTimeout(this._objectHoverTimeOut);
 
     if (this._isTooltipVisible) {
-      store.dispatch(hideObjectTooltip());
+      store.dispatch(toggleTooltip(false));
     }
   }
 
@@ -448,7 +448,7 @@ class UMap extends connect(store)(LitElement) {
   _showObjectInfo(e) {
     if (!e.originalEvent.altKey) {
       if (this._isTooltipVisible) {
-        store.dispatch(hideObjectTooltip());
+        store.dispatch(toggleTooltip(false));
       }
 
       let objectId = e.target.options.id;
