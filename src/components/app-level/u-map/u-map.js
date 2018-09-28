@@ -14,7 +14,7 @@ import { connect } from 'pwa-helpers/connect-mixin';
 import { repeat } from 'lit-html/directives/repeat';
 
 import { store } from '../../../store';
-import { showObjectTooltip, hideObjectTooltip, toggleContextMenu } from '../../../actions/map';
+import { showObjectTooltip, hideObjectTooltip, toggleContextMenu, toggleDotCreate } from '../../../actions/map';
 import { getObjectInfoById } from '../../../actions/object';
 import { getDotInfoById } from '../../../actions/dot';
 
@@ -69,15 +69,21 @@ class UMap extends connect(store)(LitElement) {
         attribute: 'object-stroke-width'
       },
 
-
       _map: {
         type: Object,
         attribute: false
       },
+
+      // object tooltip/info
       _activeObject: {
         type: Object,
         attribute: false
       },
+      _isObjectInfoVisible: {
+        type: Boolean,
+        attribute: false
+      },
+
       _isTooltipVisible: {
         type: Boolean,
         attribute: false
@@ -86,18 +92,17 @@ class UMap extends connect(store)(LitElement) {
         type: Object,
         attribute: false
       },
-      _isObjectInfoVisible: {
-        type: Boolean,
-        attribute: false
-      },
       _objectHoverTimeOut: {
         type: Number,
         attribute: false
+        // delay to show a tooltip
       },
+
+      // dot
       _tempDotRef: {
-        // need for storing temporary data about where a marker will be added
         type: Object,
         attribute: false
+        // need for storing temporary data about where a marker will be added
       },
       _isDotInfoVisible: {
         type: Boolean,
@@ -107,6 +112,8 @@ class UMap extends connect(store)(LitElement) {
         type: Boolean,
         attribute: false
       },
+
+      // context menu
       _isContextMenuVisible: {
         type: Boolean,
         attribute: false
@@ -116,6 +123,17 @@ class UMap extends connect(store)(LitElement) {
         attribute: false
       },
 
+      // create dot
+      _isDotCreateVisible: {
+        type: Boolean,
+        attribute: false
+      },
+      _dotCreateCoordinates: {
+        type: Object,
+        attribute: false
+      },
+
+      // debug
       __currentObject: {
         type: Array,
         attribute: false
@@ -228,9 +246,16 @@ class UMap extends connect(store)(LitElement) {
             ?hidden="${!this._isContextMenuVisible}"
             .x="${this._contextMenuPosition.x}"
             .y="${this._contextMenuPosition.y}">
-              <div class="menu__item" @click="${this._addDot.bind(this)}" slot="context-menu-items">Add a dot</div>
+              <div class="menu__item" @click="${this._showCreateDot.bind(this)}" slot="context-menu-items">Add a dot</div>
               <div class="menu__item" @click="${() => { alert(1) }}" slot="context-menu-items">Alert</div>   
         </u-context-menu>
+        
+        <u-dot-create 
+            ?hidden="${!this._isDotCreateVisible}"
+            .x="${this._dotCreateCoordinates.x}"
+            .y="${this._dotCreateCoordinates.y}"
+            .lat="${this._dotCreateCoordinates.lat}"
+            .lng="${this._dotCreateCoordinates.lng}"></u-dot-create>
       </div>
       
       <div id="map"></div>
@@ -277,6 +302,9 @@ class UMap extends connect(store)(LitElement) {
 
     this._isContextMenuVisible = state.map.isContextMenuVisible;
     this._contextMenuPosition = state.map.contextMenuPosition;
+
+    this._isDotCreateVisible = state.map.isDotCreateVisible;
+    this._dotCreateCoordinates = state.map.dotCreateCoordinates;
 
     if (this._tempDotRef && state.dot.isUpdating === false) {
       this._enableDot();
@@ -371,7 +399,7 @@ class UMap extends connect(store)(LitElement) {
       if (this._layerControl) this._layerControl.remove();
       if (this._overlayMaps) Object.values(this._overlayMaps).forEach(layer => this._map.removeLayer(layer));
 
-      let getMarker = (dot) => L.marker(dot.coordinates, { id: dot.id, icon: this.getMarkerIcon(dot.type) }).on('click', this._showDotInfo.bind(this));
+      let getMarker = (dot) => L.marker(dot.coordinates, { id: dot.id, icon: UMap.getMarkerIcon(dot.type) }).on('click', this._showDotInfo.bind(this));
 
       let dotLayers = new Set(dots.map(dot => dot.layer));
       this._overlayMaps = {};
@@ -450,53 +478,49 @@ class UMap extends connect(store)(LitElement) {
 
   _handleClick(e) {
     if (e.originalEvent.altKey && !this._isDotUpdating) {
-      this._showContextMenu(e);
-      this._tempDotCoordinates = { lat: e.latlng.lat, lng: e.latlng.lng }
+      UMap._showContextMenu(e);
+
+      this._tempDotCoordinates = {
+        x: e.containerPoint.x,
+        y: e.containerPoint.y,
+        lat: e.latlng.lat,
+        lng: e.latlng.lng
+      }
     } else {
       this._hideContextMenu(e);
     }
   }
 
-  _showContextMenu(e) {
+  static _showContextMenu(e) {
     store.dispatch(toggleContextMenu(true, { x: e.containerPoint.x, y: e.containerPoint.y }));
   }
 
-  _hideContextMenu(e) {
+  _hideContextMenu() {
     store.dispatch(toggleContextMenu(false, { x: this._contextMenuPosition.x, y: this._contextMenuPosition.y }));
   }
 
-  _addDot() {
-    if (confirm('Do you want to add a dot?')) {
-      let coordinates = [this._tempDotCoordinates.lat, this._tempDotCoordinates.lng];
-      let dot = {
-        type: 'global',
-        layer: 'default',
-        id: uuidv4(),
-        coordinates
-      }
+  _showCreateDot() {
+    store.dispatch(toggleDotCreate(true, this._tempDotCoordinates));
 
-      this._tempDotRef = new L.marker(coordinates, { id: dot.id, icon: this.getMarkerIcon('global') })
-        .on('click', this._showDotInfo.bind(this))
-        .addTo(this._map);
+    // display ghost marker until a dot is created
+    this._tempDotRef = new L.marker([this._tempDotCoordinates.lat, this._tempDotCoordinates.lng], { id: dot.id, icon: UMap.getMarkerIcon('global') })
+      .on('click', this._showDotInfo.bind(this))
+      .addTo(this._map);
+    this._tempDotRef._icon.classList.add('leaflet-marker-icon--is-updating');
 
-      this._tempDotRef._icon.classList.add('leaflet-marker-icon--is-updating');
-      this._tempDotCoordinates = null;
+    this._hideContextMenu();
+  }
 
-      store.dispatch(putDot(dot));
-      this._hideContextMenu();
-    }
+  static getMarkerIcon(type) {
+    return L.icon({
+      iconUrl: `${ENV.static}/static/images/markers/${type}.png`,
+      iconSize: [32, 32], // size of the icon
+    })
   }
 
   _enableDot() {
     this._tempDotRef.remove();
     this._tempDotRef = null;
-  }
-
-  getMarkerIcon(type) {
-    return L.icon({
-      iconUrl: `${ENV.static}/static/images/markers/${type}.png`,
-      iconSize: [32, 32], // size of the icon
-    })
   }
 
   __getCoordinates(e) {

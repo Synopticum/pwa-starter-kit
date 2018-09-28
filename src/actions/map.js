@@ -3,12 +3,11 @@ import { ENV } from '../../constants';
 export const GET_OBJECT_TOOLTIP_REQUEST = 'GET_OBJECT_TOOLTIP_REQUEST';
 export const GET_OBJECT_TOOLTIP_SUCCESS = 'GET_OBJECT_TOOLTIP_SUCCESS';
 export const GET_OBJECT_TOOLTIP_FAILURE = 'GET_OBJECT_TOOLTIP_FAILURE';
-
 export const HIDE_OBJECT_TOOLTIP = 'HIDE_OBJECT_TOOLTIP';
-
 export const TOGGLE_CONTEXT_MENU = 'TOGGLE_CONTEXT_MENU';
+export const TOGGLE_DOT_CREATE = 'TOGGLE_DOT_CREATE';
 
-export const showObjectTooltip = (objectId, tooltipPosition) => async (dispatch, getState) => {
+export const showObjectTooltip = (objectId, tooltipPosition = {}) => async (dispatch, getState) => {
   dispatch({ type: GET_OBJECT_TOOLTIP_REQUEST });
 
   try {
@@ -42,12 +41,22 @@ async function _getObjectById(objectId) {
   return await response.json();
 }
 
-export const toggleContextMenu = (isContextMenuVisible, contextMenuPosition) => {
+export const toggleContextMenu = (isContextMenuVisible, contextMenuPosition = {}) => {
   return {
     type: TOGGLE_CONTEXT_MENU,
     payload: {
       isContextMenuVisible,
       contextMenuPosition
+    }
+  }
+};
+
+export const toggleDotCreate = (isDotCreateVisible, dotCreateCoordinates = {}) => {
+  return {
+    type: TOGGLE_DOT_CREATE,
+    payload: {
+      isDotCreateVisible,
+      dotCreateCoordinates
     }
   }
 };

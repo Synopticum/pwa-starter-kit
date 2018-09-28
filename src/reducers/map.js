@@ -3,7 +3,8 @@ import {
   GET_OBJECT_TOOLTIP_REQUEST,
   GET_OBJECT_TOOLTIP_SUCCESS,
   HIDE_OBJECT_TOOLTIP,
-  TOGGLE_CONTEXT_MENU
+  TOGGLE_CONTEXT_MENU,
+  TOGGLE_DOT_CREATE
 } from '../actions/map';
 
 const map = (state = {
@@ -14,7 +15,10 @@ const map = (state = {
 
   isContextMenuVisible: false,
   contextMenuPosition: {},
-  contextMenuItems: []
+  contextMenuItems: [],
+
+  isDotCreateVisible: false,
+  dotCreateCoordinates: {},
 }, action) => {
   switch (action.type) {
     case GET_OBJECT_TOOLTIP_REQUEST:
@@ -49,6 +53,13 @@ const map = (state = {
         ...state,
         isContextMenuVisible: action.payload.isContextMenuVisible,
         contextMenuPosition: action.payload.contextMenuPosition
+      };
+
+    case TOGGLE_DOT_CREATE:
+      return {
+        ...state,
+        isDotCreateVisible: action.payload.isDotCreateVisible,
+        dotCreateCoordinates: action.payload.dotCreateCoordinates
       };
 
     default:
