@@ -5,8 +5,13 @@ import { ENV } from '../../../constants';
 import { hideObjectInfo, getObjectInfoById } from '../../../components/app-level/u-object/redux';
 import { getDotInfoById } from '../../../components/app-level/u-dot/redux';
 
-const UPDATE_PAGE = 'UPDATE_PAGE';
-const GET_USER = 'GET_USER';
+const PAGE = {
+  UPDATE: 'PAGE_UPDATE'
+};
+
+const USER = {
+  GET: 'USER_GET'
+};
 
 export const navigate = (path) => (dispatch) => {
   // Extract the page name from path.
@@ -92,7 +97,7 @@ pageTitles.set('U★D★O★L★I', 'Удоли');
 
 const updatePage = (page) => {
   return {
-    type: UPDATE_PAGE,
+    type: PAGE.UPDATE,
     payload: {
       page,
       pageTitle: pageTitles.get(page)
@@ -111,7 +116,7 @@ export const getUserInfo = () => async (dispatch, getState) => {
   const info = await response.json();
 
   dispatch({
-    type: GET_USER,
+    type: USER.GET,
     payload: {
       ...info,
       isAdmin: info.role === 'admin'
@@ -124,7 +129,7 @@ export const getUserInfo = () => async (dispatch, getState) => {
 //
 export const app = (state = {}, action) => {
   switch (action.type) {
-    case UPDATE_PAGE:
+    case PAGE.UPDATE:
       return {
         ...state,
         page: action.payload.page,
@@ -137,7 +142,7 @@ export const app = (state = {}, action) => {
 
 export const user = (state = {}, action) => {
   switch (action.type) {
-    case GET_USER:
+    case USER.GET:
       return {
         ...state,
         ...action.payload

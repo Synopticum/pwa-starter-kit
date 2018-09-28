@@ -3,49 +3,56 @@
 //
 import { ENV } from '../../../constants';
 
-const PUT_DOT_REQUEST = 'PUT_DOT_REQUEST';
-const PUT_DOT_SUCCESS = 'PUT_DOT_SUCCESS';
-const PUT_DOT_FAILURE = 'PUT_DOT_FAILURE';
+const DOT = {
+  GET: {
+    REQUEST: 'DOT_GET_REQUEST',
+    SUCCESS: 'DOT_GET_SUCCESS',
+    FAILURE: 'DOT_GET_FAILURE'
+  },
+  PUT: {
+    REQUEST: 'DOT_PUT_REQUEST',
+    SUCCESS: 'DOT_PUT_SUCCESS',
+    FAILURE: 'DOT_PUT_FAILURE'
+  },
+  HIDE: 'DOT_HIDE'
+};
 
-const GET_DOT_REQUEST = 'GET_DOT_REQUEST';
-const GET_DOT_SUCCESS = 'GET_DOT_SUCCESS';
-const GET_DOT_FAILURE = 'GET_DOT_FAILURE';
-
-const HIDE_DOT_INFO = 'HIDE_DOT_INFO';
-
-export const GET_DOTS_REQUEST = 'GET_DOTS_REQUEST';
-export const GET_DOTS_SUCCESS = 'GET_DOTS_SUCCESS';
-export const GET_DOTS_FAILURE = 'GET_DOTS_FAILURE';
-
-export const UPDATE_DOTS = 'UPDATE_DOTS';
+const DOTS = {
+  GET: {
+    REQUEST: 'DOTS_GET_REQUEST',
+    SUCCESS: 'DOTS_GET_SUCCESS',
+    FAILURE: 'DOTS_GET_FAILURE'
+  },
+  UPDATE: 'DOTS_UPDATE'
+};
 
 export const getDotInfoById = dotId => async (dispatch, getState) => {
-  dispatch({ type: GET_DOT_REQUEST });
+  dispatch({ type: DOT.GET.REQUEST });
 
   try {
     let response = await fetch(`${ENV.api}/api/dots/${dotId}`, { headers: { 'Token': localStorage.token } });
 
     if (!response.ok) {
       if (response.status === 401) location.reload();
-      return dispatch({ type: GET_DOT_FAILURE });
+      return dispatch({ type: DOT.GET.FAILURE });
     }
 
     let activeDot = await response.json();
     history.pushState(null, null, `${ENV.static}/dots/${activeDot.id}`);
 
     dispatch({
-      type: GET_DOT_SUCCESS,
+      type: DOT.GET.SUCCESS,
       payload: activeDot
     });
   } catch (e) {
     console.error(e);
-    dispatch({ type: GET_DOT_FAILURE });
+    dispatch({ type: DOT.GET.FAILURE });
   }
 };
 
 export const putDot = dot => async (dispatch, getState) => {
   dispatch({
-    type: PUT_DOT_REQUEST,
+    type: DOT.PUT.SUCCESS,
     payload: dot
   });
 
@@ -60,36 +67,36 @@ export const putDot = dot => async (dispatch, getState) => {
     });
 
     if (!response.ok) {
-      return dispatch({ type: PUT_DOT_FAILURE });
+      return dispatch({ type: DOT.PUT.FAILURE });
     }
 
     let activeDot = await response.json();
 
     dispatch({
-      type: PUT_DOT_SUCCESS,
+      type: DOT.PUT.SUCCESS,
       payload: activeDot
     });
 
     dispatch({
-      type: UPDATE_DOTS,
+      type: DOTS.UPDATE,
       payload: activeDot
     });
   } catch(e) {
     console.error(e);
-    dispatch({ type: PUT_DOT_FAILURE });
+    dispatch({ type: DOT.PUT.FAILURE });
   }
 };
 
 export const hideDotInfo = (dispatch, getState) => {
   history.pushState(null, null, ENV.static);
   return {
-    type: HIDE_DOT_INFO
+    type: DOT.HIDE
   }
 };
 
 
 export const getDots = () => async (dispatch, getState) => {
-  dispatch({ type: GET_DOTS_REQUEST });
+  dispatch({ type: DOTS.GET.REQUEST });
 
   try {
     let response = await fetch(`${ENV.api}/api/dots`, {
@@ -100,18 +107,18 @@ export const getDots = () => async (dispatch, getState) => {
 
     if (!response.ok) {
       if (response.status === 401) location.reload();
-      return dispatch({ type: GET_DOTS_FAILURE });
+      return dispatch({ type: DOTS.GET.FAILURE });
     }
 
     let dots = await response.json();
 
     dispatch({
-      type: GET_DOTS_SUCCESS,
+      type: DOTS.GET.SUCCESS,
       payload: dots
     });
   } catch (e) {
     console.error(e);
-    dispatch({ type: GET_DOTS_FAILURE });
+    dispatch({ type: DOTS.GET.FAILURE });
   }
 };
 
@@ -126,13 +133,13 @@ export const dot = (state = {
 }, action) => {
   switch (action.type) {
     // GET
-    case GET_DOT_REQUEST:
+    case DOT.GET.REQUEST:
       return {
         ...state,
         isFetching: true
       };
 
-    case GET_DOT_SUCCESS:
+    case DOT.GET.SUCCESS:
       return {
         ...state,
         isFetching: false,
@@ -140,28 +147,28 @@ export const dot = (state = {
         activeDot: action.payload
       };
 
-    case GET_DOT_FAILURE:
+    case DOT.GET.FAILURE:
       return {
         ...state,
         isFetching: false
       };
 
     // CREATE/UPDATE
-    case PUT_DOT_REQUEST:
+    case DOT.PUT.REQUEST:
       return {
         ...state,
         isUpdating: true,
         dotToBeUpdated: action.payload
       };
 
-    case PUT_DOT_SUCCESS:
+    case DOT.PUT.SUCCESS:
       return {
         ...state,
         isUpdating: false,
         activeDot: action.payload
       };
 
-    case PUT_DOT_FAILURE:
+    case DOT.PUT.FAILURE:
       return {
         ...state,
         isUpdating: false
@@ -169,7 +176,7 @@ export const dot = (state = {
     default:
       return state;
 
-    case HIDE_DOT_INFO:
+    case DOT.HIDE:
       return {
         ...state,
         isVisible: false
@@ -182,26 +189,26 @@ export const dots = (state = {
   isFetching: false
 }, action) => {
   switch (action.type) {
-    case GET_DOTS_REQUEST:
+    case DOTS.GET.REQUEST:
       return {
         ...state,
         isFetching: true
       };
 
-    case GET_DOTS_SUCCESS:
+    case DOTS.GET.SUCCESS:
       return {
         ...state,
         isFetching: false,
         items: action.payload
       };
 
-    case GET_DOTS_FAILURE:
+    case DOTS.GET.FAILURE:
       return {
         ...state,
         isFetching: false
       };
 
-    case UPDATE_DOTS:
+    case DOTS.UPDATE:
       return {
         ...state,
         items: [...state.items, action.payload]

@@ -3,18 +3,22 @@
 //
 import { ENV } from '../../../constants';
 
-const HIDE_OBJECT_INFO = 'HIDE_OBJECT_INFO';
-
-const UPDATE_OBJECT_REQUEST = 'UPDATE_OBJECT_REQUEST';
-const UPDATE_OBJECT_SUCCESS = 'UPDATE_OBJECT_SUCCESS';
-const UPDATE_OBJECT_FAILURE = 'UPDATE_OBJECT_FAILURE';
-
-const GET_OBJECT_REQUEST = 'GET_OBJECT_REQUEST';
-const GET_OBJECT_SUCCESS = 'GET_OBJECT_SUCCESS';
-const GET_OBJECT_FAILURE = 'GET_OBJECT_FAILURE';
+const OBJECT = {
+  GET: {
+    REQUEST: 'OBJECT_GET_REQUEST',
+    SUCCESS: 'OBJECT_GET_SUCCESS',
+    FAILURE: 'OBJECT_GET_FAILURE'
+  },
+  PUT: {
+    REQUEST: 'OBJECT_PUT_REQUEST',
+    SUCCESS: 'OBJECT_PUT_SUCCESS',
+    FAILURE: 'OBJECT_PUT_FAILURE'
+  },
+  HIDE: 'OBJECT_HIDE'
+};
 
 export const getObjectInfoById = (objectId) => async (dispatch, getState) => {
-  dispatch({ type: GET_OBJECT_REQUEST });
+  dispatch({ type: OBJECT.GET.REQUEST });
 
   try {
     let response = await fetch(`${ENV.api}/api/objects/${objectId}`, {
@@ -25,24 +29,24 @@ export const getObjectInfoById = (objectId) => async (dispatch, getState) => {
 
     if (!response.ok) {
       if (response.status === 401) location.reload();
-      return dispatch({ type: GET_OBJECT_FAILURE });
+      return dispatch({ type: OBJECT.GET.FAILURE });
     }
 
     let activeObject = await response.json();
     history.pushState(null, null, `${ENV.static}/objects/${objectId}`);
 
     dispatch({
-      type: GET_OBJECT_SUCCESS,
+      type: OBJECT.GET.SUCCESS,
       payload: activeObject
     });
   } catch (e) {
-    dispatch({ type: GET_OBJECT_FAILURE });
+    dispatch({ type: OBJECT.GET.FAILURE });
   }
 };
 
 export const putObject = (object, objectId) => async (dispatch, getState) => {
   dispatch({
-    type: UPDATE_OBJECT_REQUEST
+    type: OBJECT.PUT.REQUEST
   });
 
   try {
@@ -56,20 +60,20 @@ export const putObject = (object, objectId) => async (dispatch, getState) => {
     });
 
     if (!response.ok) {
-      return dispatch({ type: UPDATE_OBJECT_FAILURE });
+      return dispatch({ type: OBJECT.PUT.FAILURE });
     }
 
-    dispatch({ type: UPDATE_OBJECT_SUCCESS });
+    dispatch({ type: OBJECT.PUT.SUCCESS });
   } catch(e) {
     console.error(e);
-    dispatch({ type: UPDATE_OBJECT_FAILURE });
+    dispatch({ type: OBJECT.PUT.FAILURE });
   }
 };
 
 export const hideObjectInfo = (dispatch, getState) => {
   history.pushState(null, null, ENV.static);
   return {
-    type: HIDE_OBJECT_INFO
+    type: OBJECT.HIDE
   }
 };
 
@@ -85,13 +89,13 @@ export const object = (state = {
   isUpdating: false
 }, action) => {
   switch (action.type) {
-    case GET_OBJECT_REQUEST:
+    case OBJECT.GET.REQUEST:
       return {
         ...state,
         isFetching: true
       };
 
-    case GET_OBJECT_SUCCESS:
+    case OBJECT.GET.SUCCESS:
       return {
         ...state,
         activeObject: action.payload,
@@ -100,33 +104,33 @@ export const object = (state = {
         isFetching: false
       };
 
-    case GET_OBJECT_FAILURE:
+    case OBJECT.GET.FAILURE:
       return {
         ...state,
         fetchState: 'FAILURE',
         isFetching: false
       };
 
-    case HIDE_OBJECT_INFO:
+    case OBJECT.HIDE:
       return {
         ...state,
         isVisible: false
       };
 
-    case UPDATE_OBJECT_REQUEST:
+    case OBJECT.PUT.REQUEST:
       return {
         ...state,
         isUpdating: true
       };
 
-    case UPDATE_OBJECT_SUCCESS:
+    case OBJECT.PUT.SUCCESS:
       return {
         ...state,
         saveState: 'SUCCESS',
         isUpdating: false
       };
 
-    case UPDATE_OBJECT_FAILURE:
+    case OBJECT.PUT.FAILURE:
       return {
         ...state,
         saveState: 'FAILURE',

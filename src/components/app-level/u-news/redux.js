@@ -3,16 +3,21 @@
 //
 import { ENV } from '../../../constants';
 
-const GET_ALL_NEWS = 'GET_ALL_NEWS';
-const GET_WEATHER = 'GET_WEATHER';
-const UPDATE_MAIN_NEWS_SCROLL = 'UPDATE_MAIN_NEWS_SCROLL';
+const NEWS = {
+  GET: 'NEWS_GET',
+  UPDATE_SCROLL: 'NEWS_UPDATE_SCROLL'
+};
+
+const WEATHER = {
+  GET: 'WEATHER_GET'
+};
 
 export const getAllNews = () => async (dispatch, getState) => {
   const response = await fetch(`${ENV.api}/api/news`);
   const all = await response.json();
 
   dispatch({
-    type: GET_ALL_NEWS,
+    type: NEWS.GET,
     payload: {
       ...all
     }
@@ -24,7 +29,7 @@ export const getWeather = () => async (dispatch, getState) => {
   const weather = await response.json();
 
   dispatch({
-    type: GET_WEATHER,
+    type: WEATHER.GET,
     payload: {
       ...weather
     }
@@ -33,7 +38,7 @@ export const getWeather = () => async (dispatch, getState) => {
 
 export const updateMainNewsScroll = (mainNewsScroll) => (dispatch, getState) => {
   dispatch({
-    type: UPDATE_MAIN_NEWS_SCROLL,
+    type: NEWS.UPDATE_SCROLL,
     payload: {
       ...mainNewsScroll
     }
@@ -45,19 +50,19 @@ export const updateMainNewsScroll = (mainNewsScroll) => (dispatch, getState) => 
 //
 export const news = (state = { all: [] }, action) => {
   switch (action.type) {
-    case GET_ALL_NEWS:
+    case NEWS.GET:
       return {
         ...state,
         all: action.payload
       };
 
-    case GET_WEATHER:
+    case WEATHER.GET:
       return {
         ...state,
         weather: action.payload
       };
 
-    case UPDATE_MAIN_NEWS_SCROLL:
+    case NEWS.UPDATE_SCROLL:
       return {
         ...state,
         mainNewsScroll: action.payload
