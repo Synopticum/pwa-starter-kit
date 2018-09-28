@@ -12,6 +12,16 @@ store.addReducers({
   createDot
 });
 
+class Dot {
+  constructor(options) {
+    this.id = uuidv4();
+    this.title = options.title;
+    this.layer = options.layer;
+    this.type = options.type;
+    this.coordinates = options.coordinates;
+  }
+}
+
 class UDotCreate extends connect(store)(LitElement) {
 
   static get properties() {
@@ -78,11 +88,13 @@ class UDotCreate extends connect(store)(LitElement) {
       <div class="create">
         <input type="text" .value="${this._title}" @input="${UDotCreate.inputTitle.bind(this)}" placeholder="Enter dot title"><br>
         <input type="text" .value="${this._layer}" @input="${UDotCreate.inputLayer.bind(this)}" placeholder="Enter dot layer"><br>
+        
         <select @change="${UDotCreate.changeType.bind(this)}">
-            <option value="global">Global</option>
-            <option value="local1">Local 1</option>
-            <option value="local2">Local 2</option>
+            <option value="global" ?selected="${this._type === 'global'}">Global</option>
+            <option value="local1" ?selected="${this._type === 'local1'}">Local 1</option>
+            <option value="local2" ?selected="${this._type === 'local2'}">Local 2</option>
         </select>
+        
         <button type="submit" @click="${this.create.bind(this)}">ok</button>
       </div>
     `;
@@ -95,15 +107,12 @@ class UDotCreate extends connect(store)(LitElement) {
   }
 
   create() {
-    let dot = {};
-    let coordinates = [this.lat, this.lng];
-
-    // setup dot
-    dot.id = uuidv4();
-    dot.title = this._title;
-    dot.layer = this._layer;
-    dot.type = this._type;
-    dot.coordinates = coordinates;
+    let dot = new Dot({
+      title: this._title,
+      layer: this._layer,
+      type: this._type,
+      coordinates: [this.lat, this.lng]
+    });
 
     store.dispatch(putDot(dot));
     store.dispatch(toggleDotCreate(false));
