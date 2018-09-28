@@ -32,6 +32,14 @@ class UDotCreate extends connect(store)(LitElement) {
       _title: {
         type: String,
         attribute: false
+      },
+      _layer: {
+        type: String,
+        attribute: false
+      },
+      _type: {
+        type: String,
+        attribute: false
       }
     };
   }
@@ -61,16 +69,29 @@ class UDotCreate extends connect(store)(LitElement) {
             display: block !important;
             transform: scale(0);
         }
+        
+        input[type="text"] {
+            margin: 5px 0;
+        }
       </style>
       
       <div class="create">
-        <input type="text" .value="${this._title}" @input="${UDotCreate.input.bind(this)}" placeholder="Enter dot title"> <button type="submit" @click="${this.create.bind(this)}">ok</button>
+        <input type="text" .value="${this._title}" @input="${UDotCreate.inputTitle.bind(this)}" placeholder="Enter dot title"><br>
+        <input type="text" .value="${this._layer}" @input="${UDotCreate.inputLayer.bind(this)}" placeholder="Enter dot layer"><br>
+        <select @change="${UDotCreate.changeType.bind(this)}">
+            <option value="global">Global</option>
+            <option value="local1">Local 1</option>
+            <option value="local2">Local 2</option>
+        </select>
+        <button type="submit" @click="${this.create.bind(this)}">ok</button>
       </div>
     `;
   }
 
   _stateChanged(state) {
     this._title = state.createDot.title;
+    this._layer = state.createDot.layer;
+    this._type = state.createDot.type;
   }
 
   create() {
@@ -80,17 +101,25 @@ class UDotCreate extends connect(store)(LitElement) {
     // setup dot
     dot.id = uuidv4();
     dot.title = this._title;
-    dot.layer = 'default';
-    dot.type = 'global';
+    dot.layer = this._layer;
+    dot.type = this._type;
     dot.coordinates = coordinates;
 
     store.dispatch(putDot(dot));
     store.dispatch(toggleDotCreate(false));
-    store.dispatch(updateForm({ title: '' }));
+    store.dispatch(updateForm({ title: '', layer: '', type: 'global' }));
   }
 
-  static input(e) {
+  static inputTitle(e) {
     store.dispatch(updateForm({ title: e.currentTarget.value }));
+  }
+
+  static inputLayer(e) {
+    store.dispatch(updateForm({ layer: e.currentTarget.value }));
+  }
+
+  static changeType(e) {
+    store.dispatch(updateForm({ type: e.currentTarget.value }));
   }
 }
 
