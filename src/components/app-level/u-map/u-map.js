@@ -353,25 +353,27 @@ class UMap extends connect(store)(LitElement) {
   }
 
   _drawDots(dots) {
-    try {
-      // remove current layers and markers
-      if (this._layerControl) this._layerControl.remove();
-      if (this._overlayMaps) Object.values(this._overlayMaps).forEach(layer => this._map.removeLayer(layer));
+    if (dots.length) {
+      try {
+        // remove current layers and markers
+        if (this._layerControl) this._layerControl.remove();
+        if (this._overlayMaps) Object.values(this._overlayMaps).forEach(layer => this._map.removeLayer(layer));
 
-      let getMarker = (dot) => L.marker(dot.coordinates, { id: dot.id, icon: UMap.getMarkerIcon(dot.type) }).on('click', this._showDotInfo.bind(this));
+        let getMarker = (dot) => L.marker(dot.coordinates, { id: dot.id, icon: UMap.getMarkerIcon(dot.type) }).on('click', this._showDotInfo.bind(this));
 
-      let dotLayers = new Set(dots.map(dot => dot.layer));
-      this._overlayMaps = {};
+        let dotLayers = new Set(dots.map(dot => dot.layer));
+        this._overlayMaps = {};
 
-      for (let layerName of dotLayers) {
-        let layerDots = dots.filter(dot => dot.layer === layerName);
-        this._overlayMaps[layerName] = L.layerGroup(layerDots.map(getMarker));
+        for (let layerName of dotLayers) {
+          let layerDots = dots.filter(dot => dot.layer === layerName);
+          this._overlayMaps[layerName] = L.layerGroup(layerDots.map(getMarker));
+        }
+
+        Object.values(this._overlayMaps).forEach(layer => layer.addTo(this._map));
+        this._layerControl = L.control.layers(null, this._overlayMaps).addTo(this._map);
+      } catch (e) {
+        console.error(`Unable to draw dots`, e);
       }
-
-      Object.values(this._overlayMaps).forEach(layer => layer.addTo(this._map));
-      this._layerControl = L.control.layers(null, this._overlayMaps).addTo(this._map);
-    } catch (e) {
-      console.error(`Unable to draw dots`, e);
     }
   }
 

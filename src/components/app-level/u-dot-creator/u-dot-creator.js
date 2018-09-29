@@ -101,7 +101,7 @@ class UDotCreator extends connect(store)(LitElement) {
 
     store.dispatch(putDot(dot));
     store.dispatch(toggleDotCreator(false, { x: this.x, y: this.y }));
-    store.dispatch(updateForm({ title: '', layer: '', type: 'global' }));
+    store.dispatch(updateForm({ title: '', layer: 'default', type: 'global' }));
   }
 
   static inputTitle(e) {
