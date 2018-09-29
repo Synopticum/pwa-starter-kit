@@ -2,7 +2,7 @@ import { createStore, compose as origCompose, applyMiddleware, combineReducers }
 import thunk from 'redux-thunk';
 import { lazyReducerEnhancer } from 'pwa-helpers/lazy-reducer-enhancer.js';
 
-import { app, user } from './components/app-level/u-app/redux';
+import { app } from './components/app-level/u-app/redux';
 import { map } from './components/app-level/u-map/redux';
 import { object } from './components/app-level/u-object/redux';
 
@@ -24,6 +24,5 @@ export const store = createStore(
 store.addReducers({
   app,
   map,
-  object,
-  user
+  object
 });

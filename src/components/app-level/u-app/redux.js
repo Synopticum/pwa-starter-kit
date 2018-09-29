@@ -135,18 +135,13 @@ export const app = (state = {}, action) => {
         page: action.payload.page,
         pageTitle: action.payload.pageTitle
       };
-    default:
-      return state;
-  }
-};
 
-export const user = (state = {}, action) => {
-  switch (action.type) {
     case USER.GET:
       return {
         ...state,
-        ...action.payload
+        user: action.payload
       };
+
     default:
       return state;
   }

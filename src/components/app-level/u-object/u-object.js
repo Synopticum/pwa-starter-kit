@@ -132,7 +132,7 @@ class UObject extends connect(store)(LitElement) {
   }
 
   _stateChanged(state) {
-    this._user = state.user;
+    this._user = state.app.user;
     this._activeObject = state.object.activeObject;
     this._isUpdating = state.object.isUpdating;
   }
