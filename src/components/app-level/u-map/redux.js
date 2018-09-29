@@ -14,7 +14,7 @@ const TOOLTIP = {
 const TOGGLE = {
   TOOLTIP: 'TOGGLE_TOOLTIP',
   CONTEXT_MENU: 'TOGGLE_CONTEXT_MENU',
-  CREATE_DOT: 'TOGGLE_CREATE_DOT'
+  DOT_CREATOR: 'TOGGLE_DOT_CREATOR'
 };
 
 export const toggleTooltip = (enable, objectId, position = {}) => async (dispatch, getState) => {
@@ -72,12 +72,12 @@ export const toggleContextMenu = (isVisible, position = {}) => {
   }
 };
 
-export const toggleDotCreate = (isDotCreateVisible, dotCreateCoordinates = {}) => {
+export const toggleDotCreator = (isVisible, position = {}) => {
   return {
-    type: TOGGLE.CREATE_DOT,
+    type: TOGGLE.DOT_CREATOR,
     payload: {
-      isDotCreateVisible,
-      dotCreateCoordinates
+      isVisible,
+      position
     }
   }
 };
@@ -98,8 +98,10 @@ export const map = (state = {
     position: {}
   },
 
-  isDotCreateVisible: false,
-  dotCreateCoordinates: {},
+  dotCreator: {
+    isVisible: false,
+    position: {}
+  }
 }, action) => {
   switch (action.type) {
     case TOOLTIP.GET.REQUEST:
@@ -141,17 +143,20 @@ export const map = (state = {
     case TOGGLE.CONTEXT_MENU:
       return Object.assign({}, state, {
         contextMenu: {
+          ...state.contextMenu,
           isVisible: action.payload.isVisible,
           position: action.payload.position
         }
       });
 
-    case TOGGLE.CREATE_DOT:
-      return {
-        ...state,
-        isDotCreateVisible: action.payload.isDotCreateVisible,
-        dotCreateCoordinates: action.payload.dotCreateCoordinates
-      };
+    case TOGGLE.DOT_CREATOR:
+      return Object.assign({}, state, {
+        dotCreator: {
+          ...state.dotCreator,
+          isVisible: action.payload.isVisible,
+          position: action.payload.position
+        }
+      });
 
     default:
       return state;

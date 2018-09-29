@@ -5,7 +5,7 @@ import { connect } from 'pwa-helpers/connect-mixin';
 
 import { updateForm } from './redux';
 import { putDot } from '../u-dot/redux';
-import { toggleDotCreate } from '../u-map/redux';
+import { toggleDotCreator } from '../u-map/redux';
 import { createDot } from './redux';
 store.addReducers({ createDot });
 
@@ -102,7 +102,7 @@ class UDotCreator extends connect(store)(LitElement) {
     });
 
     store.dispatch(putDot(dot));
-    store.dispatch(toggleDotCreate(false));
+    store.dispatch(toggleDotCreator(false, { x: this.x, y: this.y }));
     store.dispatch(updateForm({ title: '', layer: '', type: 'global' }));
   }
 

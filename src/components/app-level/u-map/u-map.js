@@ -13,7 +13,7 @@ import { SharedStyles } from '../../shared-styles.js';
 
 import { store } from '../../../store';
 import { connect } from 'pwa-helpers/connect-mixin';
-import { toggleTooltip, toggleContextMenu, toggleDotCreate, map } from '../../../components/app-level/u-map/redux';
+import { toggleTooltip, toggleContextMenu, toggleDotCreator, map } from '../../../components/app-level/u-map/redux';
 import { getObjectInfoById, object } from '../../../components/app-level/u-object/redux';
 import { getDotInfoById, getDots, dot, dots } from '../../../components/app-level/u-dot/redux';
 store.addReducers({ map, object, dot, dots });
@@ -66,13 +66,21 @@ class UMap extends connect(store)(LitElement) {
         // delay to show a tooltip
       },
 
-      _isObjectInfoVisible: {
-        type: Boolean,
+      _tooltip: {
+        type: Object,
+        attribute: false
+      },
+      _contextMenu: {
+        type: Object,
+        attribute: false
+      },
+      _dotCreator: {
+        type: Object,
         attribute: false
       },
 
-      _tooltip: {
-        type: Object,
+      _isObjectInfoVisible: {
+        type: Boolean,
         attribute: false
       },
 
@@ -88,22 +96,6 @@ class UMap extends connect(store)(LitElement) {
       },
       _isDotUpdating: {
         type: Boolean,
-        attribute: false
-      },
-
-      // context menu
-      _contextMenu: {
-        type: Object,
-        attribute: false
-      },
-
-      // create dot
-      _isDotCreateVisible: {
-        type: Boolean,
-        attribute: false
-      },
-      _dotCreateCoordinates: {
-        type: Object,
         attribute: false
       },
 
@@ -225,11 +217,11 @@ class UMap extends connect(store)(LitElement) {
         </u-context-menu>
         
         <u-dot-creator 
-            ?hidden="${!this._isDotCreateVisible}"
-            .x="${this._dotCreateCoordinates.x}"
-            .y="${this._dotCreateCoordinates.y}"
-            .lat="${this._dotCreateCoordinates.lat}"
-            .lng="${this._dotCreateCoordinates.lng}"></u-dot-creator>
+            ?hidden="${!this._dotCreator.isVisible}"
+            .x="${this._dotCreator.position.x}"
+            .y="${this._dotCreator.position.y}"
+            .lat="${this._dotCreator.position.lat}"
+            .lng="${this._dotCreator.position.lng}"></u-dot-creator>
       </div>
       
       <div id="map"></div>
@@ -271,9 +263,7 @@ class UMap extends connect(store)(LitElement) {
 
     this._contextMenu = state.map.contextMenu;
     this._tooltip = state.map.tooltip;
-
-    this._isDotCreateVisible = state.map.isDotCreateVisible;
-    this._dotCreateCoordinates = state.map.dotCreateCoordinates;
+    this._dotCreator = state.map.dotCreator;
 
     if (this._tempDotRef && state.dot.isUpdating === false) {
       this._enableDot();
@@ -437,7 +427,7 @@ class UMap extends connect(store)(LitElement) {
       store.dispatch(getObjectInfoById(objectId));
     }
 
-    if (this._isDotCreateVisible) {
+    if (this._dotCreator.isVisible) {
       this._hideCreateDot();
     }
   }
@@ -446,9 +436,9 @@ class UMap extends connect(store)(LitElement) {
     if (!e.originalEvent.altKey) {
       let dotId = e.target.options.id;
       store.dispatch(getDotInfoById(dotId));
-      store.dispatch(toggleDotCreate(false));
+      store.dispatch(toggleDotCreator(false, { x: this._dotCreator.position.x, y: this._dotCreator.position.y }));
 
-      if (this._isDotCreateVisible) {
+      if (this._dotCreator.isVisible) {
         this._hideCreateDot();
       }
     }
@@ -484,11 +474,11 @@ class UMap extends connect(store)(LitElement) {
   }
 
   _showCreateDot() {
-    store.dispatch(toggleDotCreate(true, this._tempDotCoordinates));
+    store.dispatch(toggleDotCreator(true, this._tempDotCoordinates));
   }
 
   _hideCreateDot() {
-    store.dispatch(toggleDotCreate(false, { x: this._dotCreateCoordinates.x, y: this._dotCreateCoordinates.y }));
+    store.dispatch(toggleDotCreator(false, { x: this._dotCreator.position.x, y: this._dotCreator.position.y }));
   }
 
   static getMarkerIcon(type) {
