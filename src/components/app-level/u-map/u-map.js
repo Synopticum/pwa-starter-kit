@@ -116,7 +116,7 @@ class UMap extends connect(store)(LitElement) {
       ${SharedStyles}
       
       <style>        
-        .info {
+        .controls {
             width: 100vw;
             height: 100vh;
             z-index: 200;
@@ -125,7 +125,7 @@ class UMap extends connect(store)(LitElement) {
             align-items: center;
         }
         
-        .info::before {
+        .controls::before {
           content: '';
           position: fixed;
           left: 0;
@@ -197,7 +197,7 @@ class UMap extends connect(store)(LitElement) {
         }
       </style>
       
-      <div class="info">
+      <div class="controls">
         <u-object-tooltip 
             ?hidden="${!this._tooltip.isVisible}" 
             .x="${this._tooltip.position.x}"
