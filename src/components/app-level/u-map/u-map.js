@@ -60,29 +60,20 @@ class UMap extends connect(store)(LitElement) {
         type: Object,
         attribute: false
       },
-
-      // object tooltip/info
-      _tooltipObject: {
-        type: Object,
+      _objectHoverTimeOut: {
+        type: Number,
         attribute: false
+        // delay to show a tooltip
       },
+
       _isObjectInfoVisible: {
         type: Boolean,
         attribute: false
       },
 
-      _isTooltipVisible: {
-        type: Boolean,
-        attribute: false
-      },
-      _tooltipPosition: {
+      _tooltip: {
         type: Object,
         attribute: false
-      },
-      _objectHoverTimeOut: {
-        type: Number,
-        attribute: false
-        // delay to show a tooltip
       },
 
       // dot
@@ -216,10 +207,10 @@ class UMap extends connect(store)(LitElement) {
       
       <div class="info">
         <u-object-tooltip 
-            ?hidden="${!this._isTooltipVisible}" 
-            .x="${this._tooltipPosition.x}"
-            .y="${this._tooltipPosition.y}"
-            .origin="${this._tooltipOrigin}">${this._tooltipObject ? this._tooltipObject._id : ''}</u-object-tooltip>
+            ?hidden="${!this._tooltip.isVisible}" 
+            .x="${this._tooltip.position.x}"
+            .y="${this._tooltip.position.y}"
+            .origin="${this._tooltip.position.origin}">${this._tooltip.object ? this._tooltip.object._id : ''}</u-object-tooltip>
         
         <u-object ?hidden="${!this._isObjectInfoVisible}"></u-object>
         
@@ -275,15 +266,11 @@ class UMap extends connect(store)(LitElement) {
 
     this._isObjectInfoVisible = state.object.isVisible;
 
-    this._tooltipObject = state.map.tooltipObject;
-    this._isTooltipVisible = state.map.isTooltipVisible;
-    this._tooltipPosition = state.map.tooltipPosition;
-    this._tooltipOrigin = state.map.tooltipPosition.origin;
-
     this._isDotInfoVisible = state.dot.isVisible;
     this._isDotUpdating = state.dot.isUpdating;
 
     this._contextMenu = state.map.contextMenu;
+    this._tooltip = state.map.tooltip;
 
     this._isDotCreateVisible = state.map.isDotCreateVisible;
     this._dotCreateCoordinates = state.map.dotCreateCoordinates;
@@ -343,8 +330,8 @@ class UMap extends connect(store)(LitElement) {
           color: this.objectFillColor,
           weight: this.objectStrokeWidth
         })
-          .on('mouseover', this._showObjectTooltip.bind(this))
-          .on('mouseout', this._hideObjectTooltip.bind(this))
+          .on('mouseover', this._showTooltip.bind(this))
+          .on('mouseout', this._hideTooltip.bind(this))
           .on('click', this._showObjectInfo.bind(this))
           .addTo(this._map);
       });
@@ -365,8 +352,8 @@ class UMap extends connect(store)(LitElement) {
           weight: this.objectStrokeWidth,
           radius: item.coordinates[1]
         })
-          .on('mouseover', this._showObjectTooltip.bind(this))
-          .on('mouseout', this._hideObjectTooltip.bind(this))
+          .on('mouseover', this._showTooltip.bind(this))
+          .on('mouseout', this._hideTooltip.bind(this))
           .on('click', this._showObjectInfo.bind(this))
           .addTo(this._map);
       });
@@ -398,7 +385,7 @@ class UMap extends connect(store)(LitElement) {
     }
   }
 
-  _showObjectTooltip(e) {
+  _showTooltip(e) {
     if (!this._isObjectInfoVisible) {
       this._objectHoverTimeOut = setTimeout(() => {
         let objectId = e.target.options.id;
@@ -409,10 +396,10 @@ class UMap extends connect(store)(LitElement) {
     }
   }
 
-  _hideObjectTooltip() {
+  _hideTooltip() {
     clearTimeout(this._objectHoverTimeOut);
 
-    if (this._isTooltipVisible) {
+    if (this._tooltip.isVisible) {
       store.dispatch(toggleTooltip(false));
     }
   }
@@ -442,7 +429,7 @@ class UMap extends connect(store)(LitElement) {
 
   _showObjectInfo(e) {
     if (!e.originalEvent.altKey) {
-      if (this._isTooltipVisible) {
+      if (this._tooltip.isVisible) {
         store.dispatch(toggleTooltip(false));
       }
 

@@ -17,7 +17,7 @@ const TOGGLE = {
   CREATE_DOT: 'TOGGLE_CREATE_DOT'
 };
 
-export const toggleTooltip = (enable, objectId, tooltipPosition = {}) => async (dispatch, getState) => {
+export const toggleTooltip = (enable, objectId, position = {}) => async (dispatch, getState) => {
   if (enable) {
     dispatch({ type: TOOLTIP.GET.REQUEST });
 
@@ -28,15 +28,13 @@ export const toggleTooltip = (enable, objectId, tooltipPosition = {}) => async (
         type: TOOLTIP.GET.SUCCESS,
         payload: {
           object,
-          tooltipPosition
+          position
         }
       });
 
       dispatch({
         type: TOGGLE.TOOLTIP,
-        payload: {
-          isTooltipVisible: true
-        }
+        payload: true
       });
     } catch (e) {
       dispatch({ type: TOOLTIP.GET.FAILURE });
@@ -44,9 +42,7 @@ export const toggleTooltip = (enable, objectId, tooltipPosition = {}) => async (
   } else {
     dispatch({
       type: TOGGLE.TOOLTIP,
-      payload: {
-        isTooltipVisible: false
-      }
+      payload: false
     })
   }
 };
@@ -90,9 +86,12 @@ export const toggleDotCreate = (isDotCreateVisible, dotCreateCoordinates = {}) =
 // Reducer
 //
 export const map = (state = {
-  tooltipObject: {},
-  isTooltipVisible: false,
-  tooltipPosition: {},
+  tooltip: {
+    isVisible: false,
+    isFetching: false,
+    object: {},
+    position: {},
+  },
 
   contextMenu: {
     isVisible: false,
@@ -106,29 +105,38 @@ export const map = (state = {
     case TOOLTIP.GET.REQUEST:
       return {
         ...state,
-        isTooltipFetching: true
+        tooltip: {
+          ...state.tooltip,
+          isFetching: true
+
+        }
       };
 
     case TOOLTIP.GET.SUCCESS:
-      return {
-        ...state,
-        tooltipObject: action.payload.object,
-        tooltipPosition: action.payload.tooltipPosition,
-        isTooltipVisible: true,
-        isTooltipFetching: false
-      };
+      return Object.assign({}, state, {
+        tooltip: {
+          ...state.tooltip,
+          isFetching: false,
+          object: action.payload.object,
+          position: action.payload.position
+        }
+      });
 
     case TOOLTIP.GET.FAILURE:
-      return {
-        ...state,
-        isTooltipFetching: false
-      };
+      return Object.assign({}, state, {
+        tooltip: {
+          ...state.tooltip,
+          isFetching: false
+        }
+      });
 
     case TOGGLE.TOOLTIP:
-      return {
-        ...state,
-        isTooltipVisible: action.payload.isTooltipVisible
-      };
+      return Object.assign({}, state, {
+        tooltip: {
+          ...state.tooltip,
+          isVisible: action.payload
+        }
+      });
 
     case TOGGLE.CONTEXT_MENU:
       return Object.assign({}, state, {
