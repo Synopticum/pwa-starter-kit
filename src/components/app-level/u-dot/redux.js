@@ -185,7 +185,7 @@ export const dotPage = (state = {
 };
 
 export const dots = (state = {
-  dots: [],
+  items: [],
   isFetching: false
 }, action) => {
   switch (action.type) {
