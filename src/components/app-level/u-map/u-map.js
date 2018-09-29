@@ -224,12 +224,12 @@ class UMap extends connect(store)(LitElement) {
               <div class="menu__item" @click="${() => { alert(1) }}" slot="context-menu-items">Alert</div>   
         </u-context-menu>
         
-        <u-dot-create 
+        <u-dot-creator 
             ?hidden="${!this._isDotCreateVisible}"
             .x="${this._dotCreateCoordinates.x}"
             .y="${this._dotCreateCoordinates.y}"
             .lat="${this._dotCreateCoordinates.lat}"
-            .lng="${this._dotCreateCoordinates.lng}"></u-dot-create>
+            .lng="${this._dotCreateCoordinates.lng}"></u-dot-creator>
       </div>
       
       <div id="map"></div>
