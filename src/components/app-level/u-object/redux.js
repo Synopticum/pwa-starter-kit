@@ -82,8 +82,6 @@ export const hideObjectInfo = (dispatch, getState) => {
 //
 export const object = (state = {
   activeObject: {},
-  fetchState: 'untouched',
-  saveState: 'untouched',
   isVisible: false,
   isFetching: false,
   isUpdating: false
@@ -99,7 +97,6 @@ export const object = (state = {
       return {
         ...state,
         activeObject: action.payload,
-        fetchState: 'SUCCESS',
         isVisible: true,
         isFetching: false
       };
@@ -107,7 +104,6 @@ export const object = (state = {
     case OBJECT.GET.FAILURE:
       return {
         ...state,
-        fetchState: 'FAILURE',
         isFetching: false
       };
 
@@ -126,14 +122,12 @@ export const object = (state = {
     case OBJECT.PUT.SUCCESS:
       return {
         ...state,
-        saveState: 'SUCCESS',
         isUpdating: false
       };
 
     case OBJECT.PUT.FAILURE:
       return {
         ...state,
-        saveState: 'FAILURE',
         isUpdating: false
       };
 
