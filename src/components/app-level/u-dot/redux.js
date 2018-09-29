@@ -50,20 +50,20 @@ export const getDotInfoById = dotId => async (dispatch, getState) => {
   }
 };
 
-export const putDot = dot => async (dispatch, getState) => {
+export const putDot = dotToPut => async (dispatch, getState) => {
   dispatch({
-    type: DOT.PUT.SUCCESS,
-    payload: dot
+    type: DOT.PUT.REQUEST,
+    payload: dotToPut
   });
 
   try {
-    let response = await fetch(`${ENV.api}/api/dots/${dot.id}`, {
+    let response = await fetch(`${ENV.api}/api/dots/${dotToPut.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         'Token': localStorage.token
       },
-      body: JSON.stringify(dot)
+      body: JSON.stringify(dotToPut)
     });
 
     if (!response.ok) {

@@ -492,7 +492,7 @@ class UMap extends connect(store)(LitElement) {
     this._showCreateDot();
 
     // display ghost marker until a dot is created
-    this._tempDotRef = new L.marker([this._tempDotCoordinates.lat, this._tempDotCoordinates.lng], { id: dot.id, icon: UMap.getMarkerIcon('global') })
+    this._tempDotRef = new L.marker([this._tempDotCoordinates.lat, this._tempDotCoordinates.lng], { icon: UMap.getMarkerIcon('global') })
       .on('click', this._showDotInfo.bind(this))
       .addTo(this._map);
     this._tempDotRef._icon.classList.add('leaflet-marker-icon--is-updating');

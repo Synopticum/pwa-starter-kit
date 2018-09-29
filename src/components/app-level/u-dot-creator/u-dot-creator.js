@@ -1,13 +1,11 @@
 import { html, LitElement } from '@polymer/lit-element';
 import { SharedStyles } from '../../shared-styles.js';
+
 import { store } from '../../../store';
 import { connect } from 'pwa-helpers/connect-mixin';
-
-import { updateForm } from './redux';
 import { putDot } from '../u-dot/redux';
-import { toggleDotCreator } from '../u-map/redux';
-import { createDot } from './redux';
-store.addReducers({ createDot });
+import { toggleDotCreator, updateForm, map } from '../u-map/redux';
+store.addReducers({ map });
 
 class UDotCreator extends connect(store)(LitElement) {
 
@@ -88,9 +86,9 @@ class UDotCreator extends connect(store)(LitElement) {
   }
 
   _stateChanged(state) {
-    this._title = state.createDot.title;
-    this._layer = state.createDot.layer;
-    this._type = state.createDot.type;
+    this._title = state.map.dotCreator.title;
+    this._layer = state.map.dotCreator.layer;
+    this._type = state.map.dotCreator.type;
   }
 
   create() {

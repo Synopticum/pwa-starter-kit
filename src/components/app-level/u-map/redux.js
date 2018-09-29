@@ -17,6 +17,10 @@ const TOGGLE = {
   DOT_CREATOR: 'TOGGLE_DOT_CREATOR'
 };
 
+const DOT_CREATOR = {
+  UPDATE_FORM: 'DOT_CREATOR_UPDATE_FORM'
+};
+
 export const toggleTooltip = (enable, objectId, position = {}) => async (dispatch, getState) => {
   if (enable) {
     dispatch({ type: TOOLTIP.GET.REQUEST });
@@ -82,6 +86,13 @@ export const toggleDotCreator = (isVisible, position = {}) => {
   }
 };
 
+export const updateForm = (state) => (dispatch, getState) => {
+  dispatch({
+    type: DOT_CREATOR.UPDATE_FORM,
+    payload: state
+  });
+};
+
 //
 // Reducer
 //
@@ -100,7 +111,10 @@ export const map = (state = {
 
   dotCreator: {
     isVisible: false,
-    position: {}
+    position: {},
+    title: '',
+    layer: 'default',
+    type: 'global'
   }
 }, action) => {
   switch (action.type) {
@@ -158,7 +172,16 @@ export const map = (state = {
         }
       });
 
+    case DOT_CREATOR.UPDATE_FORM:
+      return Object.assign({}, state, {
+        dotCreator: {
+          ...state.dotCreator,
+          ...action.payload
+        }
+      });
+
     default:
       return state;
   }
 };
+
