@@ -3,14 +3,14 @@ import { SharedStyles } from '../../shared-styles.js';
 
 import { store } from '../../../store';
 import { connect } from 'pwa-helpers/connect-mixin';
-import { hideDotInfo, putDot, dot } from './redux';
-store.addReducers({ dot });
+import { hideDotInfo, putDot, dotPage } from './redux';
+store.addReducers({ dotPage });
 
 class UDot extends connect(store)(LitElement) {
 
   constructor() {
     super();
-    this._activeDot = {};
+    this._dot = {};
   }
 
   static get properties() {
@@ -19,7 +19,7 @@ class UDot extends connect(store)(LitElement) {
         type: Object,
         attribute: false
       },
-      _activeDot: {
+      _dot: {
         type: Object,
         attribute: false
       },
@@ -105,15 +105,15 @@ class UDot extends connect(store)(LitElement) {
         <form>
             <div id="dot-title" 
                  ?data-fetching="${this._isUpdating}" 
-                 ?contentEditable="${this._user.isAdmin}">${this._activeDot.title ? this._activeDot.title : 'Название точки'}</div>
+                 ?contentEditable="${this._user.isAdmin}">${this._dot.title ? this._dot.title : 'Название точки'}</div>
                  
             <div id="dot-short-description" 
                  ?data-fetching="${this._isUpdating}" 
-                 ?contentEditable="${this._user.isAdmin}">${this._activeDot.shortDescription ? this._activeDot.shortDescription : 'Краткое описание'}</div>
+                 ?contentEditable="${this._user.isAdmin}">${this._dot.shortDescription ? this._dot.shortDescription : 'Краткое описание'}</div>
                  
             <div id="dot-full-description" 
                  ?data-fetching="${this._isUpdating}" 
-                 ?contentEditable="${this._user.isAdmin}">${this._activeDot.fullDescription ? this._activeDot.fullDescription : 'Полное описание'}</div>
+                 ?contentEditable="${this._user.isAdmin}">${this._dot.fullDescription ? this._dot.fullDescription : 'Полное описание'}</div>
             <hr>
             
             <button class="submit" type="submit" @click="${this.submit.bind(this)}"></button>
@@ -124,8 +124,8 @@ class UDot extends connect(store)(LitElement) {
 
   _stateChanged(state) {
     this._user = state.app.user;
-    this._activeDot = state.dot.activeDot;
-    this._isUpdating = state.dot.isUpdating;
+    this._dot = state.dotPage.dot;
+    this._isUpdating = state.dotPage.isUpdating;
   }
 
   firstUpdated() {
@@ -143,9 +143,9 @@ class UDot extends connect(store)(LitElement) {
   submit(e) {
     e.preventDefault();
 
-    if (this._activeDot.id && this.$form.checkValidity()) {
-      let dotId = this._activeDot.id;
-      let updatedDot = Object.assign(this._activeDot, {
+    if (this._dot.id && this.$form.checkValidity()) {
+      let dotId = this._dot.id;
+      let updatedDot = Object.assign(this._dot, {
         title: this.$dotTitle.textContent.trim(),
         shortDescription: this.$dotShortDescription.textContent.trim(),
         fullDescription: this.$dotFullDescription.textContent.trim()

@@ -15,8 +15,8 @@ import { store } from '../../../store';
 import { connect } from 'pwa-helpers/connect-mixin';
 import { toggleTooltip, toggleContextMenu, toggleDotCreator, map } from '../../../components/app-level/u-map/redux';
 import { getObjectInfoById, objectPage } from '../../../components/app-level/u-object/redux';
-import { getDotInfoById, getDots, dot, dots } from '../../../components/app-level/u-dot/redux';
-store.addReducers({ map, objectPage, dot, dots });
+import { getDotInfoById, getDots, dotPage, dots } from '../../../components/app-level/u-dot/redux';
+store.addReducers({ map, objectPage, dotPage, dots });
 
 const headers = {
   'Content-Type': 'application/json',
@@ -258,14 +258,14 @@ class UMap extends connect(store)(LitElement) {
 
     this._isObjectInfoVisible = state.objectPage.isVisible;
 
-    this._isDotInfoVisible = state.dot.isVisible;
-    this._isDotUpdating = state.dot.isUpdating;
+    this._isDotInfoVisible = state.dotPage.isVisible;
+    this._isDotUpdating = state.dotPage.isUpdating;
 
     this._contextMenu = state.map.contextMenu;
     this._tooltip = state.map.tooltip;
     this._dotCreator = state.map.dotCreator;
 
-    if (this._tempDotRef && state.dot.isUpdating === false) {
+    if (this._tempDotRef && state.dotPage.isUpdating === false) {
       this._enableDot();
     }
   }

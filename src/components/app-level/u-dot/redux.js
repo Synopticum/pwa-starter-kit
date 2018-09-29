@@ -37,12 +37,12 @@ export const getDotInfoById = dotId => async (dispatch, getState) => {
       return dispatch({ type: DOT.GET.FAILURE });
     }
 
-    let activeDot = await response.json();
-    history.pushState(null, null, `${ENV.static}/dots/${activeDot.id}`);
+    let dot = await response.json();
+    history.pushState(null, null, `${ENV.static}/dots/${dot.id}`);
 
     dispatch({
       type: DOT.GET.SUCCESS,
-      payload: activeDot
+      payload: dot
     });
   } catch (e) {
     console.error(e);
@@ -70,16 +70,16 @@ export const putDot = dot => async (dispatch, getState) => {
       return dispatch({ type: DOT.PUT.FAILURE });
     }
 
-    let activeDot = await response.json();
+    let dot = await response.json();
 
     dispatch({
       type: DOT.PUT.SUCCESS,
-      payload: activeDot
+      payload: dot
     });
 
     dispatch({
       type: DOTS.UPDATE,
-      payload: activeDot
+      payload: dot
     });
   } catch(e) {
     console.error(e);
@@ -125,8 +125,8 @@ export const getDots = () => async (dispatch, getState) => {
 //
 // Reducer
 //
-export const dot = (state = {
-  activeDot: {},
+export const dotPage = (state = {
+  dot: {},
   isFetching: false,
   isUpdating: false,
   isVisible: false
@@ -144,7 +144,7 @@ export const dot = (state = {
         ...state,
         isFetching: false,
         isVisible: true,
-        activeDot: action.payload
+        dot: action.payload
       };
 
     case DOT.GET.FAILURE:
@@ -165,7 +165,7 @@ export const dot = (state = {
       return {
         ...state,
         isUpdating: false,
-        activeDot: action.payload
+        dot: action.payload
       };
 
     case DOT.PUT.FAILURE:
