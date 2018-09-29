@@ -32,12 +32,12 @@ export const getObjectInfoById = (objectId) => async (dispatch, getState) => {
       return dispatch({ type: OBJECT.GET.FAILURE });
     }
 
-    let activeObject = await response.json();
+    let object = await response.json();
     history.pushState(null, null, `${ENV.static}/objects/${objectId}`);
 
     dispatch({
       type: OBJECT.GET.SUCCESS,
-      payload: activeObject
+      payload: object
     });
   } catch (e) {
     dispatch({ type: OBJECT.GET.FAILURE });
@@ -80,8 +80,8 @@ export const hideObjectInfo = (dispatch, getState) => {
 //
 // Reducer
 //
-export const object = (state = {
-  activeObject: {},
+export const objectPage = (state = {
+  object: {},
   isVisible: false,
   isFetching: false,
   isUpdating: false
@@ -96,7 +96,7 @@ export const object = (state = {
     case OBJECT.GET.SUCCESS:
       return {
         ...state,
-        activeObject: action.payload,
+        object: action.payload,
         isVisible: true,
         isFetching: false
       };
