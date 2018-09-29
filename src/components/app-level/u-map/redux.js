@@ -66,12 +66,12 @@ const _getObjectById = async (objectId, dispatch) => {
   return await response.json();
 }
 
-export const toggleContextMenu = (isContextMenuVisible, contextMenuPosition = {}) => {
+export const toggleContextMenu = (isVisible, position = {}) => {
   return {
     type: TOGGLE.CONTEXT_MENU,
     payload: {
-      isContextMenuVisible,
-      contextMenuPosition
+      isVisible,
+      position
     }
   }
 };
@@ -94,9 +94,10 @@ export const map = (state = {
   isTooltipVisible: false,
   tooltipPosition: {},
 
-  isContextMenuVisible: false,
-  contextMenuPosition: {},
-  contextMenuItems: [],
+  contextMenu: {
+    isVisible: false,
+    position: {}
+  },
 
   isDotCreateVisible: false,
   dotCreateCoordinates: {},
@@ -130,11 +131,12 @@ export const map = (state = {
       };
 
     case TOGGLE.CONTEXT_MENU:
-      return {
-        ...state,
-        isContextMenuVisible: action.payload.isContextMenuVisible,
-        contextMenuPosition: action.payload.contextMenuPosition
-      };
+      return Object.assign({}, state, {
+        contextMenu: {
+          isVisible: action.payload.isVisible,
+          position: action.payload.position
+        }
+      });
 
     case TOGGLE.CREATE_DOT:
       return {

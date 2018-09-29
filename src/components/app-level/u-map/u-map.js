@@ -101,11 +101,7 @@ class UMap extends connect(store)(LitElement) {
       },
 
       // context menu
-      _isContextMenuVisible: {
-        type: Boolean,
-        attribute: false
-      },
-      _contextMenuPosition: {
+      _contextMenu: {
         type: Object,
         attribute: false
       },
@@ -230,9 +226,9 @@ class UMap extends connect(store)(LitElement) {
         <u-dot ?hidden="${!this._isDotInfoVisible}"></u-dot>
             
         <u-context-menu
-            ?hidden="${!this._isContextMenuVisible}"
-            .x="${this._contextMenuPosition.x}"
-            .y="${this._contextMenuPosition.y}">
+            ?hidden="${!this._contextMenu.isVisible}"
+            .x="${this._contextMenu.position.x}"
+            .y="${this._contextMenu.position.y}">
               <div class="menu__item" @click="${this._createDot.bind(this)}" slot="context-menu-items">Add a dot</div>
               <div class="menu__item" @click="${() => { alert(1) }}" slot="context-menu-items">Alert</div>   
         </u-context-menu>
@@ -287,8 +283,7 @@ class UMap extends connect(store)(LitElement) {
     this._isDotInfoVisible = state.dot.isVisible;
     this._isDotUpdating = state.dot.isUpdating;
 
-    this._isContextMenuVisible = state.map.isContextMenuVisible;
-    this._contextMenuPosition = state.map.contextMenuPosition;
+    this._contextMenu = state.map.contextMenu;
 
     this._isDotCreateVisible = state.map.isDotCreateVisible;
     this._dotCreateCoordinates = state.map.dotCreateCoordinates;
@@ -498,7 +493,7 @@ class UMap extends connect(store)(LitElement) {
   }
 
   _hideContextMenu() {
-    store.dispatch(toggleContextMenu(false, { x: this._contextMenuPosition.x, y: this._contextMenuPosition.y }));
+    store.dispatch(toggleContextMenu(false, { x: this._contextMenu.position.x, y: this._contextMenu.position.y }));
   }
 
   _showCreateDot() {
