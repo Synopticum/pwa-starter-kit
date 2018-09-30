@@ -143,7 +143,7 @@ class UObject extends connect(store)(LitElement) {
           </div>
           
           <div class="comments">
-              <u-comments type="object" id="${this._object._id}"></u-comments>
+              ${this._object._id ? html`<u-comments type="object" id="${this._object._id}"></u-comments>` : ``}
           </div>
         </div>
       </div>
@@ -184,10 +184,6 @@ class UObject extends connect(store)(LitElement) {
     } else {
       alert('error!');
     }
-  }
-
-  addComment(e) {
-    debugger;
   }
 }
 

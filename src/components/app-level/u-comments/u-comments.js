@@ -1,13 +1,16 @@
 import { html, LitElement } from '@polymer/lit-element';
 import { SharedStyles } from '../../shared-styles';
-import { connect } from 'pwa-helpers';
+import { repeat } from 'lit-html/directives/repeat';
+
 import { store } from '../../../store';
-import { getComments, comments } from './redux';
+import { connect } from 'pwa-helpers';
+import { getComments, putComment, comments } from './redux';
 store.addReducers({ comments });
 
 export class UComments extends connect(store)(LitElement) {
   constructor() {
     super();
+    this.addEventListener('change-comment', e => { this._text = e.detail });
   }
 
   static get properties() {
@@ -18,13 +21,15 @@ export class UComments extends connect(store)(LitElement) {
       id: {
         type: String
       },
-      items: {
-        type: Array
-      },
 
-      _comment: {
-        type: String
-      }
+      _text: {
+        type: String,
+        attribute: false
+      },
+      _comments: {
+        type: Array,
+        attribute: false
+      },
     }
   }
 
@@ -62,39 +67,46 @@ export class UComments extends connect(store)(LitElement) {
       <div class="title">Комментарии ${this.id}</div>
       
       <div class="comments">
-        <div class="comment">
-            <div class="comment__text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad alias consectetur deserunt dolorum id iusto numquam officia tempore temporibus tenetur!</div>
-            <div class="comment__meta">
-                <div class="comment__author">Sergey Novikov /</div>
-                <div class="comment__date">30.09.2018 04:30</div>
-            </div>
-        </div>
+        ${repeat(this._comments, comment => comment.id, comment => html`
+          <div class="comment">
+              <div class="comment__text">${comment.text}</div>
+              <div class="comment__meta">
+                  <div class="comment__author">${comment.author} /</div>
+                  <div class="comment__date">${comment.date}</div>
+              </div>
+          </div>
+        `)}
       </div>
       
       <div class="add">
-        <textarea id="comment-to-add" @input="${this.changeComment.bind(this)}">${this._comment}</textarea><br>
+        <textarea id="comment-to-add" @input="${this.changeComment.bind(this)}">${this._text}</textarea><br>
         <button @click="${this.submitComment.bind(this)}">add</button>
       </div>
     `
   }
 
-  attributeChangedCallback(name, oldValue, newValue) {
-    // request comments once all necessary info is ready
-    if (name === 'id' && newValue !== 'undefined') {
-      let attributes = this.attributes;
-      store.dispatch(getComments(attributes.type.value, attributes.id.value));
-    }
+  _stateChanged(state) {
+    this._user = state.app.user;
+    this._comments = state.comments.objectPage.items;
   }
 
-  _stateChanged(state) {
-    this._comments = state.comments.objectPage;
+  firstUpdated() {
+    store.dispatch(getComments(this.type, this.id));
   }
 
   changeComment(e) {
+    this.dispatchEvent(new CustomEvent('change-comment', { detail: e.currentTarget.value }));
   }
 
-  submitComment(e) {
-
+  submitComment() {
+    store.dispatch(putComment(this.type, this.id, {
+      id: uuidv4(),
+      originType: this.type,
+      originId: this.id,
+      text: this._text,
+      date: Date.now(),
+      author: `${this._user.firstName} ${this._user.lastName}`
+    }));
   }
 }
 
