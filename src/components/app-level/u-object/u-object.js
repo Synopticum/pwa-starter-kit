@@ -63,6 +63,19 @@ class UObject extends connect(store)(LitElement) {
             background-color: #ff0000;
         }
         
+        .wrapper {
+            display: flex;
+        }
+        
+        .form {
+            flex: 2;
+        }
+        
+        .comments {
+            margin-left: 20px;
+            flex: 1;
+        }
+        
         .submit {
             cursor: pointer;
             position: absolute;
@@ -107,27 +120,33 @@ class UObject extends connect(store)(LitElement) {
       <div class="object">
         <div class="close" @click="${UObject.close}"></div>
         
-        <form>
-            <div id="object-title" 
-                 ?data-fetching="${this._isUpdating}" 
-                 ?contentEditable="${this._user.isAdmin}">${this._object.title ? this._object.title : 'Название объекта'}</div>
-                 
-            <div id="object-address" 
-                 ?data-fetching="${this._isUpdating}" 
-                 ?contentEditable="${this._user.isAdmin}">${this._object.address ? this._object.address : 'Адрес объекта'}</div>
-                 
-            <div id="object-short-description" 
-                 ?data-fetching="${this._isUpdating}" 
-                 ?contentEditable="${this._user.isAdmin}">${this._object.shortDescription ? this._object.shortDescription : 'Краткое описание'}</div>
-                 
-            <div id="object-full-description" 
-                 ?data-fetching="${this._isUpdating}" 
-                 ?contentEditable="${this._user.isAdmin}">${this._object.fullDescription ? this._object.fullDescription : 'Полное описание'}</div>
-            <hr>
-            
-            <button class="submit" type="submit" @click="${this.submit.bind(this)}"></button>
-        </form>
-      </div> 
+        <div class="wrapper">
+          <div class="form">
+              <div id="object-title" 
+                   ?data-fetching="${this._isUpdating}" 
+                   ?contentEditable="${this._user.isAdmin}">${this._object.title ? this._object.title : 'Название объекта'}</div>
+                   
+              <div id="object-address" 
+                   ?data-fetching="${this._isUpdating}" 
+                   ?contentEditable="${this._user.isAdmin}">${this._object.address ? this._object.address : 'Адрес объекта'}</div>
+                   
+              <div id="object-short-description" 
+                   ?data-fetching="${this._isUpdating}" 
+                   ?contentEditable="${this._user.isAdmin}">${this._object.shortDescription ? this._object.shortDescription : 'Краткое описание'}</div>
+                   
+              <div id="object-full-description" 
+                   ?data-fetching="${this._isUpdating}" 
+                   ?contentEditable="${this._user.isAdmin}">${this._object.fullDescription ? this._object.fullDescription : 'Полное описание'}</div>
+              <hr>
+              
+              <button class="submit" type="submit" @click="${this.submit.bind(this)}"></button>
+          </div>
+          
+          <div class="comments">
+              <u-comments type="object" id="${this._object._id}"></u-comments>
+          </div>
+        </div>
+      </div>
     `
   }
 
@@ -139,7 +158,6 @@ class UObject extends connect(store)(LitElement) {
 
   firstUpdated() {
     // create references to the inputs
-    this.form = this.shadowRoot.querySelector('form');
     this.objectTitle = this.shadowRoot.querySelector('#object-title');
     this.objectAddress = this.shadowRoot.querySelector('#object-address');
     this.objectShortDescription = this.shadowRoot.querySelector('#object-short-description');
@@ -166,6 +184,10 @@ class UObject extends connect(store)(LitElement) {
     } else {
       alert('error!');
     }
+  }
+
+  addComment(e) {
+    debugger;
   }
 }
 
