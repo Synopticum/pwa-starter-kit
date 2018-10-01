@@ -121,7 +121,7 @@ class UObject extends connect(store)(LitElement) {
         <div class="close" @click="${UObject.close}"></div>
         
         <div class="wrapper">
-          <div class="form">
+          <form class="form">
               <div id="object-title" 
                    ?data-fetching="${this._isUpdating}" 
                    ?contentEditable="${this._user.isAdmin}">${this._object.title ? this._object.title : 'Название объекта'}</div>
@@ -140,7 +140,7 @@ class UObject extends connect(store)(LitElement) {
               <hr>
               
               <button class="submit" type="submit" @click="${this.submit.bind(this)}"></button>
-          </div>
+          </form>
           
           <div class="comments">
               ${this._object._id ? html`<u-comments type="object" id="${this._object._id}"></u-comments>` : ``}
@@ -158,10 +158,11 @@ class UObject extends connect(store)(LitElement) {
 
   firstUpdated() {
     // create references to the inputs
-    this.objectTitle = this.shadowRoot.querySelector('#object-title');
-    this.objectAddress = this.shadowRoot.querySelector('#object-address');
-    this.objectShortDescription = this.shadowRoot.querySelector('#object-short-description');
-    this.objectFullDescription = this.shadowRoot.querySelector('#object-full-description');
+    this.$form = this.shadowRoot.querySelector('.form');
+    this.$objectTitle = this.shadowRoot.querySelector('#object-title');
+    this.$objectAddress = this.shadowRoot.querySelector('#object-address');
+    this.$objectShortDescription = this.shadowRoot.querySelector('#object-short-description');
+    this.$objectFullDescription = this.shadowRoot.querySelector('#object-full-description');
   }
 
   static close() {
@@ -171,13 +172,13 @@ class UObject extends connect(store)(LitElement) {
   submit(e) {
     e.preventDefault();
 
-    if (this._object._id && this.form.checkValidity()) {
+    if (this._object._id && this.$form.checkValidity()) {
       let objectId = this._object._id;
       let updatedObject = Object.assign(this._object, {
-        title: this.objectTitle.textContent.trim(),
-        address: this.objectAddress.textContent.trim(),
-        shortDescription: this.objectShortDescription.textContent.trim(),
-        fullDescription: this.objectFullDescription.textContent.trim()
+        title: this.$objectTitle.textContent.trim(),
+        address: this.$objectAddress.textContent.trim(),
+        shortDescription: this.$objectShortDescription.textContent.trim(),
+        fullDescription: this.$objectFullDescription.textContent.trim()
       });
 
       store.dispatch(putObject(updatedObject, objectId));
