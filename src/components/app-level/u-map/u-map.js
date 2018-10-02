@@ -205,9 +205,9 @@ class UMap extends connect(store)(LitElement) {
             .origin="${this._tooltip.position.origin}">${this._tooltip.object ? this._tooltip.object._id : ''}</u-object-tooltip>            
         
         ${this._isObjectVisible() 
-          ? html`<u-object .id="${this._currentObjectId}" @hide="${this._hideObject.bind(this)}"></u-object>`
+          ? html`<u-object .id="${this._currentObjectId}" @hide="${(e) => { this._toggleObject(false, e) }}"></u-object>`
           : ``
-        }    
+        }
         
         <u-dot ?hidden="${!this._isDotInfoVisible}"></u-dot>
             
@@ -325,7 +325,7 @@ class UMap extends connect(store)(LitElement) {
         })
           .on('mouseover', e => { this._toggleTooltip(true, e) })
           .on('mouseout', e => { this._toggleTooltip(false, e) })
-          .on('click', this._showObject.bind(this))
+          .on('click', e => { this._toggleObject(true, e) })
           .addTo(this._map);
       });
     } catch (e) {
@@ -345,9 +345,9 @@ class UMap extends connect(store)(LitElement) {
           weight: this.objectStrokeWidth,
           radius: item.coordinates[1]
         })
-          .on('mouseover', this._showTooltip.bind(this))
-          .on('mouseout', this._hideTooltip.bind(this))
-          .on('click', this._showObject.bind(this))
+          .on('mouseover', e => { this._toggleTooltip(true, e) })
+          .on('mouseout', e => { this._toggleTooltip(false, e) })
+          .on('click', e => { this._toggleObject(true, e) })
           .addTo(this._map);
       });
     } catch (e) {
@@ -420,22 +420,22 @@ class UMap extends connect(store)(LitElement) {
     return { x, y, origin };
   }
 
-  _showObject(e) {
-    if (!e.originalEvent.altKey) {
-      if (this._tooltip.isVisible) {
-        store.dispatch(toggleTooltip(false));
+  _toggleObject(isVisible, e) {
+    if (isVisible) {
+      if (!e.originalEvent.altKey) {
+        if (this._tooltip.isVisible) {
+          store.dispatch(toggleTooltip(false));
+        }
+
+        store.dispatch(setCurrentObjectId(e.target.options.id));
       }
 
-      store.dispatch(setCurrentObjectId(e.target.options.id));
+      if (this._dotCreator.isVisible) {
+        this._hideCreateDot();
+      }
+    } else {
+      store.dispatch(setCurrentObjectId(''));
     }
-
-    if (this._dotCreator.isVisible) {
-      this._hideCreateDot();
-    }
-  }
-
-  _hideObject() {
-    store.dispatch(setCurrentObjectId(''));
   }
 
   _showDotInfo(e) {
