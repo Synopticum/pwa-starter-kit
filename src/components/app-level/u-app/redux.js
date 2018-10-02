@@ -2,8 +2,7 @@
 // Action
 //
 import { ENV } from '../../../constants';
-import { setCurrentObjectId } from '../../../components/app-level/u-map/redux';
-import { getDot } from '../../../components/app-level/u-dot/redux';
+import { setCurrentObjectId, setCurrentDotId } from '../../../components/app-level/u-map/redux';
 
 const PAGE = {
   UPDATE: 'PAGE_UPDATE'
@@ -44,7 +43,7 @@ const loadPage = (page) => async (dispatch, getState) => {
       dispatch(setCurrentObjectId(page.split('/')[1]));
       break;
     case (/^(dots)\/(.+)$/.test(page)):
-      dispatch(getDot(page.split('/')[1]));
+      dispatch(setCurrentDotId(page.split('/')[1]));
       break;
     case (page === 'success'):
       // do nothing
