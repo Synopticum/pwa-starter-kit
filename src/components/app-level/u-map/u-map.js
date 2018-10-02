@@ -427,7 +427,8 @@ class UMap extends connect(store)(LitElement) {
           store.dispatch(toggleTooltip(false));
         }
 
-        store.dispatch(setCurrentObjectId(e.target.options.id));
+        store.dispatch(setCurrentObjectId(''));
+        requestAnimationFrame(() => store.dispatch(setCurrentObjectId(e.target.options.id)));
       }
 
       if (this._dotCreator.isVisible) {
