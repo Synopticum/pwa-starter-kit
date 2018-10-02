@@ -323,8 +323,8 @@ class UMap extends connect(store)(LitElement) {
           color: this.objectFillColor,
           weight: this.objectStrokeWidth
         })
-          .on('mouseover', this._showTooltip.bind(this))
-          .on('mouseout', this._hideTooltip.bind(this))
+          .on('mouseover', e => { this._toggleTooltip(true, e) })
+          .on('mouseout', e => { this._toggleTooltip(false, e) })
           .on('click', this._showObject.bind(this))
           .addTo(this._map);
       });
@@ -380,20 +380,20 @@ class UMap extends connect(store)(LitElement) {
     }
   }
 
-  _showTooltip(e) {
-    this._objectHoverTimeOut = setTimeout(() => {
-      let objectId = e.target.options.id;
-      let position = UMap._calculateTooltipPosition(e.containerPoint.x, e.containerPoint.y);
+  _toggleTooltip(isVisible, e) {
+    if (isVisible) {
+      this._objectHoverTimeOut = setTimeout(() => {
+        let objectId = e.target.options.id;
+        let position = UMap._calculateTooltipPosition(e.containerPoint.x, e.containerPoint.y);
 
-      store.dispatch(toggleTooltip(true, objectId, position));
-    }, 1000);
-  }
+        store.dispatch(toggleTooltip(true, objectId, position));
+      }, 1000);
+    } else {
+      clearTimeout(this._objectHoverTimeOut);
 
-  _hideTooltip() {
-    clearTimeout(this._objectHoverTimeOut);
-
-    if (this._tooltip.isVisible) {
-      store.dispatch(toggleTooltip(false));
+      if (this._tooltip.isVisible) {
+        store.dispatch(toggleTooltip(false));
+      }
     }
   }
 
