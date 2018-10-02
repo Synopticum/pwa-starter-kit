@@ -49,32 +49,6 @@ const loadPage = (page) => async (dispatch, getState) => {
     case (page === 'success'):
       // do nothing
       break;
-    case (page === 'U★R★U★S★S★I★N★K★A'):
-      import(`${CONTAINER_COMPONENTS_PATH}/u-news/u-news.js`);
-      import(`${CONTAINER_COMPONENTS_PATH}/u-news/u-news-header/u-news-header.js`);
-      import(`${CONTAINER_COMPONENTS_PATH}/u-news/u-news-leftside/u-news-leftside.js`);
-      import(`${CONTAINER_COMPONENTS_PATH}/u-news/u-news-rightside/u-news-rightside.js`);
-      import(`${CONTAINER_COMPONENTS_PATH}/u-news/u-news-main/u-news-main.js`);
-      import(`${CONTAINER_COMPONENTS_PATH}/u-news/u-news-item/u-news-item.js`);
-      break;
-    case (page === 'C★H★E★K★A★V★O'):
-      import(`${CONTAINER_COMPONENTS_PATH}/u-ads/u-ads.js`);
-      break;
-    case (page === 'Z★A★P★I★L★I'):
-      import(`${CONTAINER_COMPONENTS_PATH}/u-ideas/u-ideas.js`);
-      break;
-    case (page === 'C★H★O★M★U'):
-      import(`${CONTAINER_COMPONENTS_PATH}/u-claims/u-claims.js`);
-      break;
-    case (page === 'C★H★O★P★O★C★H★O★M'):
-      import(`${CONTAINER_COMPONENTS_PATH}/u-sale/u-sale.js`);
-      break;
-    case (page === 'P★O★E★D★U'):
-      import(`${CONTAINER_COMPONENTS_PATH}/u-rides/u-rides.js`);
-      break;
-    case (page === 'U★D★O★L★I'):
-      import(`${CONTAINER_COMPONENTS_PATH}/u-anonymous/u-anonymous.js`);
-      break;
     default:
       page = '404';
       import(`${PRESENTATIONAL_COMPONENTS_PATH}/u-404.js`);
