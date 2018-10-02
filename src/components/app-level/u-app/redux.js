@@ -83,16 +83,6 @@ const loadPage = (page) => async (dispatch, getState) => {
   dispatch(updatePage(page));
 };
 
-let pageTitles = new Map();
-pageTitles.set('/', 'План');
-pageTitles.set('U★R★U★S★S★I★N★K★A', 'Уруссинка');
-pageTitles.set('C★H★E★K★A★V★O', 'Чёкаво');
-pageTitles.set('Z★A★P★I★L★I', 'Запили');
-pageTitles.set('C★H★O★M★U', 'Чому');
-pageTitles.set('C★H★O★P★O★C★H★O★M', 'Чопочом');
-pageTitles.set('P★O★E★D★U', 'Поеду');
-pageTitles.set('U★D★O★L★I', 'Удоли');
-
 const updatePage = (page) => {
   return {
     type: PAGE.UPDATE,

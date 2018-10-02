@@ -36,10 +36,6 @@ class UApp extends connect(store)(LitElement) {
       _page: {
         type: String,
         attribute: false
-      },
-      user: {
-        type: Object,
-        attribute: false
       }
     };
   }
@@ -50,10 +46,7 @@ class UApp extends connect(store)(LitElement) {
 
   firstUpdated() {
     store.dispatch(getUserInfo());
-
-    installRouter((location) => {
-      store.dispatch(navigate(window.decodeURIComponent(location.pathname)));
-    });
+    installRouter(location => store.dispatch(navigate(window.decodeURIComponent(location.pathname))));
   }
 
   _stateChanged(state) {
@@ -64,10 +57,6 @@ class UApp extends connect(store)(LitElement) {
       window.opener.location.reload();
       window.close();
     }
-  }
-
-  get _isPageActive() {
-    return (this._page !== 'login' && this._page !== '404' && this._page !== '/');
   }
 }
 
