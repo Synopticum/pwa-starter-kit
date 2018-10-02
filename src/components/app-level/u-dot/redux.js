@@ -2,6 +2,7 @@
 // Action
 //
 import { ENV } from '../../../constants';
+import { OBJECT } from '../u-object/redux';
 
 const DOT = {
   GET: {
@@ -14,7 +15,7 @@ const DOT = {
     SUCCESS: 'DOT_PUT_SUCCESS',
     FAILURE: 'DOT_PUT_FAILURE'
   },
-  HIDE: 'DOT_HIDE'
+  CLEAR_STATE: 'DOT_CLEAR_STATE'
 };
 
 const DOTS = {
@@ -26,7 +27,7 @@ const DOTS = {
   UPDATE: 'DOTS_UPDATE'
 };
 
-export const getDotInfoById = dotId => async (dispatch, getState) => {
+export const getDot = dotId => async (dispatch, getState) => {
   dispatch({ type: DOT.GET.REQUEST });
 
   try {
@@ -87,13 +88,9 @@ export const putDot = dotToPut => async (dispatch, getState) => {
   }
 };
 
-export const hideDotInfo = (dispatch, getState) => {
-  history.pushState(null, null, ENV.static);
-  return {
-    type: DOT.HIDE
-  }
+export const clearDotState = () => (dispatch, getState) => {
+  dispatch({ type: DOT.CLEAR_STATE });
 };
-
 
 export const getDots = () => async (dispatch, getState) => {
   dispatch({ type: DOTS.GET.REQUEST });
@@ -128,8 +125,7 @@ export const getDots = () => async (dispatch, getState) => {
 export const dotPage = (state = {
   dot: {},
   isFetching: false,
-  isUpdating: false,
-  isVisible: false
+  isUpdating: false
 }, action) => {
   switch (action.type) {
     // GET
@@ -143,7 +139,6 @@ export const dotPage = (state = {
       return {
         ...state,
         isFetching: false,
-        isVisible: true,
         dot: action.payload
       };
 
@@ -173,14 +168,16 @@ export const dotPage = (state = {
         ...state,
         isUpdating: false
       };
+
+    case DOT.CLEAR_STATE:
+      return {
+        dot: {},
+        isFetching: false,
+        isUpdating: false
+      };
+
     default:
       return state;
-
-    case DOT.HIDE:
-      return {
-        ...state,
-        isVisible: false
-      };
   }
 };
 

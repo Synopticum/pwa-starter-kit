@@ -25,6 +25,10 @@ const OBJECT_PAGE = {
   SET_ID: 'OBJECT_PAGE_SET_ID'
 };
 
+const DOT_PAGE = {
+  SET_ID: 'DOT_PAGE_SET_ID'
+};
+
 export const toggleTooltip = (enable, objectId, position = {}) => async (dispatch, getState) => {
   if (enable) {
     dispatch({ type: TOOLTIP.GET.REQUEST });
@@ -106,6 +110,15 @@ export const setCurrentObjectId = (objectId) => (dispatch, getState) => {
   });
 };
 
+export const setCurrentDotId = (dotId) => (dispatch, getState) => {
+  if (!dotId) history.pushState(null, null, ENV.static);
+
+  dispatch({
+    type: DOT_PAGE.SET_ID,
+    payload: dotId
+  });
+};
+
 //
 // Reducer
 //
@@ -128,7 +141,10 @@ export const map = (state = {
     title: '',
     layer: 'default',
     type: 'global'
-  }
+  },
+
+  currentObjectId: '',
+  currentDotId: ''
 }, action) => {
   switch (action.type) {
     case TOOLTIP.GET.REQUEST:
@@ -196,6 +212,11 @@ export const map = (state = {
     case OBJECT_PAGE.SET_ID:
       return Object.assign({}, state, {
         currentObjectId: action.payload
+      });
+
+    case DOT_PAGE.SET_ID:
+      return Object.assign({}, state, {
+        currentDotId: action.payload
       });
 
     default:

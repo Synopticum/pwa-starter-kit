@@ -8,10 +8,6 @@ store.addReducers({ objectPage });
 
 class UObject extends connect(store)(LitElement) {
 
-  constructor() {
-    super();
-  }
-
   static get properties() {
     return {
       id: {

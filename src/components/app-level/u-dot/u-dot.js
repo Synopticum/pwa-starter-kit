@@ -3,24 +3,23 @@ import { SharedStyles } from '../../shared-styles.js';
 
 import { store } from '../../../store';
 import { connect } from 'pwa-helpers/connect-mixin';
-import { hideDotInfo, putDot, dotPage } from './redux';
+import { getDot, putDot, dotPage } from './redux';
+import { clearDotState } from '../u-dot/redux';
 store.addReducers({ dotPage });
 
 class UDot extends connect(store)(LitElement) {
 
-  constructor() {
-    super();
-    this._dot = {};
-  }
-
   static get properties() {
     return {
-      _user: {
-        type: Object,
-        attribute: false
+      id: {
+        type: Object
       },
-      _dot: {
-        type: Object,
+
+      _user: {
+        type: Object
+      },
+      _isFetching: {
+        type: Boolean,
         attribute: false
       },
       _isUpdating: {
@@ -64,6 +63,19 @@ class UDot extends connect(store)(LitElement) {
             background-color: #ff0000;
         }
         
+        .wrapper {
+            display: flex;
+        }
+        
+        .form {
+            flex: 2;
+        }
+        
+        .comments {
+            margin-left: 20px;
+            flex: 1;
+        }
+        
         .submit {
             cursor: pointer;
             position: absolute;
@@ -100,9 +112,10 @@ class UDot extends connect(store)(LitElement) {
       </style>
       
       <div class="dot">
-        <div class="close" @click="${UDot.close}"></div>
+        <div class="close" @click="${UDot.close}"></div>        
         
-        <form>
+        <div class="wrapper">
+          <form class="form">
             <div id="dot-title" 
                  ?data-fetching="${this._isUpdating}" 
                  ?contentEditable="${this._user.isAdmin}">${this._dot.title ? this._dot.title : 'Название точки'}</div>
@@ -117,7 +130,12 @@ class UDot extends connect(store)(LitElement) {
             <hr>
             
             <button class="submit" type="submit" @click="${this.submit.bind(this)}"></button>
-        </form>
+          </form>
+          
+          <div class="comments">
+              <u-comments type="dot" id="${this.id}"></u-comments>
+          </div>
+        </div>
       </div> 
     `
   }
@@ -126,9 +144,12 @@ class UDot extends connect(store)(LitElement) {
     this._user = state.app.user;
     this._dot = state.dotPage.dot;
     this._isUpdating = state.dotPage.isUpdating;
+    this._isFetching = state.dotPage.isFetching;
   }
 
   firstUpdated() {
+    store.dispatch(getDot(this.id));
+
     // create references to the inputs
     this.$form = this.shadowRoot.querySelector('form');
     this.$dotTitle = this.shadowRoot.querySelector('#dot-title');
@@ -136,8 +157,12 @@ class UDot extends connect(store)(LitElement) {
     this.$dotFullDescription = this.shadowRoot.querySelector('#dot-full-description');
   }
 
+  disconnectedCallback() {
+    store.dispatch(clearDotState());
+  }
+
   static close() {
-    store.dispatch(hideDotInfo());
+    this.dispatchEvent(new CustomEvent('hide', { bubbles: true, composed: true }));
   }
 
   submit(e) {

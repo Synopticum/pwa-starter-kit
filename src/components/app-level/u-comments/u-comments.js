@@ -82,9 +82,11 @@ export class UComments extends connect(store)(LitElement) {
   }
 
   _stateChanged(state) {
+    let pageType = `${this.type}Page`;
+
     this._user = state.app.user;
-    this._comments = state.comments.objectPage.items;
-    this._currentMessage = state.comments.objectPage.currentMessage;
+    this._comments = state.comments[pageType].items;
+    this._currentMessage = state.comments[pageType].currentMessage;
   }
 
   firstUpdated() {
@@ -92,7 +94,7 @@ export class UComments extends connect(store)(LitElement) {
   }
 
   static typeComment(e) {
-    store.dispatch(typeComment(e.currentTarget.value));
+    store.dispatch(typeComment(this.type, e.currentTarget.value));
   }
 
   addComment() {

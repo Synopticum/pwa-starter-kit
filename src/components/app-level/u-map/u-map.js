@@ -13,10 +13,10 @@ import { SharedStyles } from '../../shared-styles.js';
 
 import { store } from '../../../store';
 import { connect } from 'pwa-helpers/connect-mixin';
-import { toggleTooltip, toggleContextMenu, toggleDotCreator, setCurrentObjectId, map } from '../../../components/app-level/u-map/redux';
-import { getDotInfoById, getDots, dotPage, dots } from '../../../components/app-level/u-dot/redux';
+import { toggleTooltip, toggleContextMenu, toggleDotCreator, setCurrentObjectId, setCurrentDotId, map } from '../../../components/app-level/u-map/redux';
+import { getDots, dots } from '../../../components/app-level/u-dot/redux';
 import { app } from '../../../components/app-level/u-app/redux';
-store.addReducers({ app, map, dotPage, dots });
+store.addReducers({ app, map, dots });
 
 const headers = {
   'Content-Type': 'application/json',
@@ -71,6 +71,11 @@ class UMap extends connect(store)(LitElement) {
         attribute: false
       },
 
+      _currentDotId: {
+        type: String,
+        attribute: false
+      },
+
       _tooltip: {
         type: Object,
         attribute: false
@@ -89,14 +94,6 @@ class UMap extends connect(store)(LitElement) {
         type: Object,
         attribute: false
         // need for storing temporary data about where a marker will be added
-      },
-      _isDotInfoVisible: {
-        type: Boolean,
-        attribute: false
-      },
-      _isDotUpdating: {
-        type: Boolean,
-        attribute: false
       },
 
       // debug
@@ -207,9 +204,12 @@ class UMap extends connect(store)(LitElement) {
         ${this._isObjectVisible() 
           ? html`<u-object .id="${this._currentObjectId}" @hide="${(e) => { this._toggleObject(false, e) }}"></u-object>`
           : ``
-        }
+        }        
         
-        <u-dot ?hidden="${!this._isDotInfoVisible}"></u-dot>
+        ${this._isDotVisible() 
+          ? html`<u-dot .id="${this._currentDotId}" @hide="${(e) => { this._toggleDot(false, e) }}"></u-dot>`
+          : ``
+        }
             
         <u-context-menu
             ?hidden="${!this._contextMenu.isVisible}"
@@ -259,16 +259,14 @@ class UMap extends connect(store)(LitElement) {
     }
     this._dots = state.dots.items;
 
-    this._isDotInfoVisible = state.dotPage.isVisible;
-    this._isDotUpdating = state.dotPage.isUpdating;
-
     this._contextMenu = state.map.contextMenu;
     this._tooltip = state.map.tooltip;
     this._dotCreator = state.map.dotCreator;
 
     this._currentObjectId = state.map.currentObjectId;
+    this._currentDotId = state.map.currentDotId;
 
-    if (this._tempDotRef && state.dotPage.isUpdating === false) {
+    if (this._tempDotRef) {
       this._enableDot();
     }
   }
@@ -362,7 +360,7 @@ class UMap extends connect(store)(LitElement) {
         if (this._layerControl) this._layerControl.remove();
         if (this._overlayMaps) Object.values(this._overlayMaps).forEach(layer => this._map.removeLayer(layer));
 
-        let getMarker = (dot) => L.marker(dot.coordinates, { id: dot.id, icon: UMap.getMarkerIcon(dot.type) }).on('click', this._showDotInfo.bind(this));
+        let getMarker = (dot) => L.marker(dot.coordinates, { id: dot.id, icon: UMap.getMarkerIcon(dot.type) }).on('click', (e) => { this._toggleDot(true, e) });
 
         let dotLayers = new Set(dots.map(dot => dot.layer));
         this._overlayMaps = {};
@@ -439,24 +437,33 @@ class UMap extends connect(store)(LitElement) {
     }
   }
 
-  _showDotInfo(e) {
-    if (!e.originalEvent.altKey) {
-      let dotId = e.target.options.id;
-      store.dispatch(getDotInfoById(dotId));
-      store.dispatch(toggleDotCreator(false, { x: this._dotCreator.position.x, y: this._dotCreator.position.y }));
-
-      if (this._dotCreator.isVisible) {
-        this._hideCreateDot();
-      }
-    }
-  }
-
   _isObjectVisible() {
     return this._currentObjectId;
   }
 
+  _toggleDot(isVisible, e) {
+    if (isVisible) {
+      if (!e.originalEvent.altKey) {
+        store.dispatch(setCurrentDotId(''));
+        requestAnimationFrame(() => store.dispatch(setCurrentDotId(e.target.options.id)));
+
+        store.dispatch(toggleDotCreator(false, { x: this._dotCreator.position.x, y: this._dotCreator.position.y }));
+
+        if (this._dotCreator.isVisible) {
+          this._hideCreateDot();
+        }
+      }
+    } else {
+      store.dispatch(setCurrentDotId(''));
+    }
+  }
+
+  _isDotVisible() {
+    return this._currentDotId;
+  }
+
   _handleClick(e) {
-    if (e.originalEvent.altKey && !this._isDotUpdating) {
+    if (e.originalEvent.altKey) {
       UMap._showContextMenu(e);
 
       this._tempDotCoordinates = {
@@ -504,7 +511,7 @@ class UMap extends connect(store)(LitElement) {
 
     // display ghost marker until a dot is created
     this._tempDotRef = new L.marker([this._tempDotCoordinates.lat, this._tempDotCoordinates.lng], { icon: UMap.getMarkerIcon('global') })
-      .on('click', this._showDotInfo.bind(this))
+      .on('click', (e) => { this._toggleDot(true, e) })
       .addTo(this._map);
     this._tempDotRef._icon.classList.add('leaflet-marker-icon--is-updating');
 
