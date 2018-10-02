@@ -3,25 +3,23 @@ import { SharedStyles } from '../../shared-styles.js';
 
 import { store } from '../../../store';
 import { connect } from 'pwa-helpers/connect-mixin';
-import { hideObjectInfo, putObject, objectPage } from './redux';
+import { putObject, getObject, objectPage, cleanObjectState } from './redux';
 store.addReducers({ objectPage });
 
 class UObject extends connect(store)(LitElement) {
 
   constructor() {
     super();
-    this._object = {};
   }
 
   static get properties() {
     return {
-      _user: {
-        type: Object,
-        attribute: false
+      id: {
+        type: Object
       },
-      _object: {
-        type: Object,
-        attribute: false
+
+      _user: {
+        type: Object
       },
       _isFetching: {
         type: Boolean,
@@ -48,13 +46,6 @@ class UObject extends connect(store)(LitElement) {
             transform: scale(1);
             transition: transform .3s;
             padding: 30px;
-        }
-        
-        :host([hidden]) {
-            display: block !important;
-            transform: scale(0);
-            width: 0;
-            height: 0;
         }
         
         .close {
@@ -147,8 +138,7 @@ class UObject extends connect(store)(LitElement) {
           </form>
           
           <div class="comments">
-              <!-- re-render each time an object is opened -->
-              ${!this._isFetching && this._object._id ? html`<u-comments type="object" id="${this._object._id}"></u-comments>` : ``}
+              <u-comments type="object" id="${this.id}"></u-comments>
           </div>
         </div>
       </div>
@@ -163,6 +153,8 @@ class UObject extends connect(store)(LitElement) {
   }
 
   firstUpdated() {
+    store.dispatch(getObject(this.id));
+
     // create references to the inputs
     this.$form = this.shadowRoot.querySelector('.form');
     this.$objectTitle = this.shadowRoot.querySelector('#object-title');
@@ -171,8 +163,12 @@ class UObject extends connect(store)(LitElement) {
     this.$objectFullDescription = this.shadowRoot.querySelector('#object-full-description');
   }
 
+  disconnectedCallback() {
+    store.dispatch(cleanObjectState());
+  }
+
   static close() {
-    store.dispatch(hideObjectInfo());
+    this.dispatchEvent(new CustomEvent('hide', { bubbles: true, composed: true }));
   }
 
   submit(e) {

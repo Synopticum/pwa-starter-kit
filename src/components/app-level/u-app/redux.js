@@ -2,7 +2,7 @@
 // Action
 //
 import { ENV } from '../../../constants';
-import { hideObjectInfo, getObjectInfoById } from '../../../components/app-level/u-object/redux';
+import { setCurrentObjectId } from '../../../components/app-level/u-map/redux';
 import { getDotInfoById } from '../../../components/app-level/u-dot/redux';
 
 const PAGE = {
@@ -41,7 +41,7 @@ const loadPage = (page) => async (dispatch, getState) => {
     case (page === '/'):
       break;
     case (/^(objects)\/(.+)$/.test(page)):
-      dispatch(getObjectInfoById(page.split('/')[1]));
+      dispatch(setCurrentObjectId(page.split('/')[1]));
       break;
     case (/^(dots)\/(.+)$/.test(page)):
       dispatch(getDotInfoById(page.split('/')[1]));
@@ -78,10 +78,6 @@ const loadPage = (page) => async (dispatch, getState) => {
     default:
       page = '404';
       import(`${PRESENTATIONAL_COMPONENTS_PATH}/u-404.js`);
-  }
-
-  if (getState().app.isInfoVisible) {
-    dispatch(hideObjectInfo());
   }
 
   dispatch(updatePage(page));

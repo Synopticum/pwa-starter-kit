@@ -13,10 +13,10 @@ import { SharedStyles } from '../../shared-styles.js';
 
 import { store } from '../../../store';
 import { connect } from 'pwa-helpers/connect-mixin';
-import { toggleTooltip, toggleContextMenu, toggleDotCreator, map } from '../../../components/app-level/u-map/redux';
-import { getObjectInfoById, objectPage } from '../../../components/app-level/u-object/redux';
+import { toggleTooltip, toggleContextMenu, toggleDotCreator, setCurrentObjectId, map } from '../../../components/app-level/u-map/redux';
 import { getDotInfoById, getDots, dotPage, dots } from '../../../components/app-level/u-dot/redux';
-store.addReducers({ map, objectPage, dotPage, dots });
+import { app } from '../../../components/app-level/u-app/redux';
+store.addReducers({ app, map, dotPage, dots });
 
 const headers = {
   'Content-Type': 'application/json',
@@ -66,6 +66,11 @@ class UMap extends connect(store)(LitElement) {
         // delay to show a tooltip
       },
 
+      _currentObjectId: {
+        type: String,
+        attribute: false
+      },
+
       _tooltip: {
         type: Object,
         attribute: false
@@ -76,11 +81,6 @@ class UMap extends connect(store)(LitElement) {
       },
       _dotCreator: {
         type: Object,
-        attribute: false
-      },
-
-      _isObjectInfoVisible: {
-        type: Boolean,
         attribute: false
       },
 
@@ -202,9 +202,12 @@ class UMap extends connect(store)(LitElement) {
             ?hidden="${!this._tooltip.isVisible}" 
             .x="${this._tooltip.position.x}"
             .y="${this._tooltip.position.y}"
-            .origin="${this._tooltip.position.origin}">${this._tooltip.object ? this._tooltip.object._id : ''}</u-object-tooltip>
+            .origin="${this._tooltip.position.origin}">${this._tooltip.object ? this._tooltip.object._id : ''}</u-object-tooltip>            
         
-        <u-object ?hidden="${!this._isObjectInfoVisible}"></u-object>
+        ${this._isObjectVisible() 
+          ? html`<u-object .id="${this._currentObjectId}" @hide="${this._hideObject.bind(this)}"></u-object>`
+          : ``
+        }    
         
         <u-dot ?hidden="${!this._isDotInfoVisible}"></u-dot>
             
@@ -256,14 +259,14 @@ class UMap extends connect(store)(LitElement) {
     }
     this._dots = state.dots.items;
 
-    this._isObjectInfoVisible = state.objectPage.isVisible;
-
     this._isDotInfoVisible = state.dotPage.isVisible;
     this._isDotUpdating = state.dotPage.isUpdating;
 
     this._contextMenu = state.map.contextMenu;
     this._tooltip = state.map.tooltip;
     this._dotCreator = state.map.dotCreator;
+
+    this._currentObjectId = state.map.currentObjectId;
 
     if (this._tempDotRef && state.dotPage.isUpdating === false) {
       this._enableDot();
@@ -322,7 +325,7 @@ class UMap extends connect(store)(LitElement) {
         })
           .on('mouseover', this._showTooltip.bind(this))
           .on('mouseout', this._hideTooltip.bind(this))
-          .on('click', this._showObjectInfo.bind(this))
+          .on('click', this._showObject.bind(this))
           .addTo(this._map);
       });
     } catch (e) {
@@ -344,7 +347,7 @@ class UMap extends connect(store)(LitElement) {
         })
           .on('mouseover', this._showTooltip.bind(this))
           .on('mouseout', this._hideTooltip.bind(this))
-          .on('click', this._showObjectInfo.bind(this))
+          .on('click', this._showObject.bind(this))
           .addTo(this._map);
       });
     } catch (e) {
@@ -378,14 +381,12 @@ class UMap extends connect(store)(LitElement) {
   }
 
   _showTooltip(e) {
-    if (!this._isObjectInfoVisible) {
-      this._objectHoverTimeOut = setTimeout(() => {
-        let objectId = e.target.options.id;
-        let position = UMap._calculateTooltipPosition(e.containerPoint.x, e.containerPoint.y);
+    this._objectHoverTimeOut = setTimeout(() => {
+      let objectId = e.target.options.id;
+      let position = UMap._calculateTooltipPosition(e.containerPoint.x, e.containerPoint.y);
 
-        store.dispatch(toggleTooltip(true, objectId, position));
-      }, 1000);
-    }
+      store.dispatch(toggleTooltip(true, objectId, position));
+    }, 1000);
   }
 
   _hideTooltip() {
@@ -419,19 +420,22 @@ class UMap extends connect(store)(LitElement) {
     return { x, y, origin };
   }
 
-  _showObjectInfo(e) {
+  _showObject(e) {
     if (!e.originalEvent.altKey) {
       if (this._tooltip.isVisible) {
         store.dispatch(toggleTooltip(false));
       }
 
-      let objectId = e.target.options.id;
-      store.dispatch(getObjectInfoById(objectId));
+      store.dispatch(setCurrentObjectId(e.target.options.id));
     }
 
     if (this._dotCreator.isVisible) {
       this._hideCreateDot();
     }
+  }
+
+  _hideObject() {
+    store.dispatch(setCurrentObjectId(''));
   }
 
   _showDotInfo(e) {
@@ -444,6 +448,10 @@ class UMap extends connect(store)(LitElement) {
         this._hideCreateDot();
       }
     }
+  }
+
+  _isObjectVisible() {
+    return this._currentObjectId;
   }
 
   _handleClick(e) {

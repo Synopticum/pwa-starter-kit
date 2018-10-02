@@ -14,10 +14,10 @@ export const OBJECT = {
     SUCCESS: 'OBJECT_PUT_SUCCESS',
     FAILURE: 'OBJECT_PUT_FAILURE'
   },
-  HIDE: 'OBJECT_HIDE'
+  CLEAN_STATE: 'OBJECT_CLEAN_STATE'
 };
 
-export const getObjectInfoById = (objectId) => async (dispatch, getState) => {
+export const getObject = (objectId) => async (dispatch, getState) => {
   dispatch({ type: OBJECT.GET.REQUEST });
 
   try {
@@ -70,11 +70,8 @@ export const putObject = (object, objectId) => async (dispatch, getState) => {
   }
 };
 
-export const hideObjectInfo = (dispatch, getState) => {
-  history.pushState(null, null, ENV.static);
-  return {
-    type: OBJECT.HIDE
-  }
+export const cleanObjectState = () => (dispatch, getState) => {
+  dispatch({ type: OBJECT.CLEAN_STATE });
 };
 
 //
@@ -82,7 +79,6 @@ export const hideObjectInfo = (dispatch, getState) => {
 //
 export const objectPage = (state = {
   object: {},
-  isVisible: false,
   isFetching: false,
   isUpdating: false
 }, action) => {
@@ -97,7 +93,6 @@ export const objectPage = (state = {
       return {
         ...state,
         object: action.payload,
-        isVisible: true,
         isFetching: false
       };
 
@@ -105,12 +100,6 @@ export const objectPage = (state = {
       return {
         ...state,
         isFetching: false
-      };
-
-    case OBJECT.HIDE:
-      return {
-        ...state,
-        isVisible: false
       };
 
     case OBJECT.PUT.REQUEST:
@@ -128,6 +117,13 @@ export const objectPage = (state = {
     case OBJECT.PUT.FAILURE:
       return {
         ...state,
+        isUpdating: false
+      };
+
+    case OBJECT.CLEAN_STATE:
+      return {
+        object: {},
+        isFetching: false,
         isUpdating: false
       };
 

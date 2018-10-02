@@ -21,12 +21,16 @@ const DOT_CREATOR = {
   UPDATE_FORM: 'DOT_CREATOR_UPDATE_FORM'
 };
 
+const OBJECT_PAGE = {
+  SET_ID: 'OBJECT_PAGE_SET_ID'
+};
+
 export const toggleTooltip = (enable, objectId, position = {}) => async (dispatch, getState) => {
   if (enable) {
     dispatch({ type: TOOLTIP.GET.REQUEST });
 
     try {
-      const object = await _getObjectById(objectId, dispatch);
+      const object = await _getObject(objectId, dispatch);
 
       dispatch({
         type: TOOLTIP.GET.SUCCESS,
@@ -51,7 +55,7 @@ export const toggleTooltip = (enable, objectId, position = {}) => async (dispatc
   }
 };
 
-const _getObjectById = async (objectId, dispatch) => {
+const _getObject = async (objectId, dispatch) => {
   let response = await fetch(`${ENV.api}/api/objects/${objectId}`, {
     headers: {
       'Token': localStorage.token
@@ -90,6 +94,15 @@ export const updateForm = (state) => (dispatch, getState) => {
   dispatch({
     type: DOT_CREATOR.UPDATE_FORM,
     payload: state
+  });
+};
+
+export const setCurrentObjectId = (objectId) => (dispatch, getState) => {
+  if (!objectId) history.pushState(null, null, ENV.static);
+
+  dispatch({
+    type: OBJECT_PAGE.SET_ID,
+    payload: objectId
   });
 };
 
@@ -178,6 +191,11 @@ export const map = (state = {
           ...state.dotCreator,
           ...action.payload
         }
+      });
+
+    case OBJECT_PAGE.SET_ID:
+      return Object.assign({}, state, {
+        currentObjectId: action.payload
       });
 
     default:
