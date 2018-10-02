@@ -23,6 +23,10 @@ class UObject extends connect(store)(LitElement) {
         type: Object,
         attribute: false
       },
+      _isFetching: {
+        type: Boolean,
+        attribute: false
+      },
       _isUpdating: {
         type: Boolean,
         attribute: false
@@ -143,7 +147,8 @@ class UObject extends connect(store)(LitElement) {
           </form>
           
           <div class="comments">
-              ${this._object._id ? html`<u-comments type="object" id="${this._object._id}"></u-comments>` : ``}
+              <!-- re-render each time an object is opened -->
+              ${!this._isFetching && this._object._id ? html`<u-comments type="object" id="${this._object._id}"></u-comments>` : ``}
           </div>
         </div>
       </div>
@@ -154,6 +159,7 @@ class UObject extends connect(store)(LitElement) {
     this._user = state.app.user;
     this._object = state.objectPage.object;
     this._isUpdating = state.objectPage.isUpdating;
+    this._isFetching = state.objectPage.isFetching;
   }
 
   firstUpdated() {

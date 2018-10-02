@@ -4,14 +4,10 @@ import { repeat } from 'lit-html/directives/repeat';
 
 import { store } from '../../../store';
 import { connect } from 'pwa-helpers';
-import { getComments, putComment, comments } from './redux';
+import { getComments, putComment, typeComment, comments } from './redux';
 store.addReducers({ comments });
 
 export class UComments extends connect(store)(LitElement) {
-  constructor() {
-    super();
-    this.addEventListener('change-comment', e => { this._text = e.detail });
-  }
 
   static get properties() {
     return {
@@ -22,7 +18,7 @@ export class UComments extends connect(store)(LitElement) {
         type: String
       },
 
-      _text: {
+      _currentMessage: {
         type: String,
         attribute: false
       },
@@ -79,8 +75,8 @@ export class UComments extends connect(store)(LitElement) {
       </div>
       
       <div class="add">
-        <textarea id="comment-to-add" @input="${this.changeComment.bind(this)}">${this._text}</textarea><br>
-        <button @click="${this.submitComment.bind(this)}">add</button>
+        <textarea id="comment-to-add" @input="${UComments.typeComment.bind(this)}" .value="${this._currentMessage}"></textarea><br>
+        <button @click="${this.addComment.bind(this)}">add</button>
       </div>
     `
   }
@@ -88,22 +84,23 @@ export class UComments extends connect(store)(LitElement) {
   _stateChanged(state) {
     this._user = state.app.user;
     this._comments = state.comments.objectPage.items;
+    this._currentMessage = state.comments.objectPage.currentMessage;
   }
 
   firstUpdated() {
     store.dispatch(getComments(this.type, this.id));
   }
 
-  changeComment(e) {
-    this.dispatchEvent(new CustomEvent('change-comment', { detail: e.currentTarget.value }));
+  static typeComment(e) {
+    store.dispatch(typeComment(e.currentTarget.value));
   }
 
-  submitComment() {
+  addComment() {
     store.dispatch(putComment(this.type, this.id, {
       id: uuidv4(),
       originType: this.type,
       originId: this.id,
-      text: this._text,
+      text: this._currentMessage,
       date: Date.now(),
       author: `${this._user.firstName} ${this._user.lastName}`
     }));

@@ -14,7 +14,8 @@ export const COMMENTS = {
       REQUEST: 'COMMENTS_OBJECT_PAGE_PUT_REQUEST',
       SUCCESS: 'COMMENTS_OBJECT_PAGE_PUT_SUCCESS',
       FAILURE: 'COMMENTS_OBJECT_PAGE_PUT_FAILURE'
-    }
+    },
+    TYPE: 'COMMENTS_OBJECT_PAGE_TYPE'
   }
 };
 
@@ -64,17 +65,35 @@ export const putComment = (originType, originId, comment) => async (dispatch, ge
       return dispatch({ type: COMMENTS.OBJECT_PAGE.PUT.FAILURE });
     }
 
-    dispatch({ type: COMMENTS.OBJECT_PAGE.PUT.SUCCESS });
+    let item = await response.json();
+
+    dispatch({
+      type: COMMENTS.OBJECT_PAGE.PUT.SUCCESS,
+      payload: item
+    });
   } catch(e) {
     console.error(e);
     dispatch({ type: COMMENTS.OBJECT_PAGE.PUT.FAILURE });
   }
 };
 
+export const typeComment = (currentMessage) => {
+  return {
+    type: COMMENTS.OBJECT_PAGE.TYPE,
+    payload: currentMessage
+  }
+};
+
 //
 // Reducer
 //
-export const comments = (state = { objectPage: { items: [], isFetching: false}, }, action) => {
+export const comments = (state = {
+  objectPage: {
+    items: [],
+    isFetching: false,
+    isUpdating: false,
+    currentMessage: ''
+  }, }, action) => {
   switch (action.type) {
     case COMMENTS.OBJECT_PAGE.GET.REQUEST:
       return Object.assign({}, state, {
@@ -100,6 +119,42 @@ export const comments = (state = { objectPage: { items: [], isFetching: false}, 
         objectPage: {
           ...state.objectPage,
           isFetching: false
+        }
+      });
+    case COMMENTS.OBJECT_PAGE.PUT.REQUEST:
+      return Object.assign({}, state, {
+        ...state,
+        objectPage: {
+          ...state.objectPage,
+          isUpdating: true
+        }
+      });
+
+    case COMMENTS.OBJECT_PAGE.PUT.SUCCESS:
+      return Object.assign({}, state, {
+        objectPage: {
+          ...state.objectPage,
+          items: [...state.objectPage.items, action.payload],
+          isUpdating: false,
+          currentMessage: ''
+        }
+      });
+
+    case COMMENTS.OBJECT_PAGE.PUT.FAILURE:
+      return Object.assign({}, state, {
+        ...state,
+        objectPage: {
+          ...state.objectPage,
+          isUpdating: false
+        }
+      });
+
+    case COMMENTS.OBJECT_PAGE.TYPE:
+      return Object.assign({}, state, {
+        ...state,
+        objectPage: {
+          ...state.objectPage,
+          currentMessage: action.payload
         }
       });
 
