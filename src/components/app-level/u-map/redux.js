@@ -143,8 +143,8 @@ export const map = (state = {
     type: 'global'
   },
 
-  currentObjectId: '',
-  currentDotId: ''
+  objectPage: { currentObjectId: '', isVisible: false },
+  dotPage: { currentDotId: '', isVisible: false },
 }, action) => {
   switch (action.type) {
     case TOOLTIP.GET.REQUEST:
@@ -211,12 +211,18 @@ export const map = (state = {
 
     case OBJECT_PAGE.SET_ID:
       return Object.assign({}, state, {
-        currentObjectId: action.payload
+        objectPage: {
+          isVisible: Boolean(action.payload),
+          currentObjectId: action.payload
+        }
       });
 
     case DOT_PAGE.SET_ID:
       return Object.assign({}, state, {
-        currentDotId: action.payload
+        dotPage: {
+          isVisible: Boolean(action.payload),
+          currentDotId: action.payload
+        }
       });
 
     default:

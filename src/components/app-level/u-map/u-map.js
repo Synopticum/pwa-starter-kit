@@ -1,12 +1,3 @@
-/**
- @license
- Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
- This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
- The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
- The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
- Code distributed by Google as part of the polymer project is also
- subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
- */
 import { ENV } from '../../../../constants';
 import { LitElement, html } from '@polymer/lit-element';
 import { SharedStyles } from '../../shared-styles.js';
@@ -27,6 +18,7 @@ class UMap extends connect(store)(LitElement) {
 
   static get properties() {
     return {
+      // setup leaflet
       minZoom: {
         type: Number,
         attribute: 'min-zoom'
@@ -66,13 +58,13 @@ class UMap extends connect(store)(LitElement) {
         // delay to show a tooltip
       },
 
-      _currentObjectId: {
-        type: String,
+      // setup interactive elements on map
+      _objectPage: {
+        type: Object,
         attribute: false
       },
-
-      _currentDotId: {
-        type: String,
+      _dotPage: {
+        type: Object,
         attribute: false
       },
 
@@ -89,7 +81,6 @@ class UMap extends connect(store)(LitElement) {
         attribute: false
       },
 
-      // dot
       _tempDotRef: {
         type: Object,
         attribute: false
@@ -201,13 +192,13 @@ class UMap extends connect(store)(LitElement) {
             .y="${this._tooltip.position.y}"
             .origin="${this._tooltip.position.origin}">${this._tooltip.object ? this._tooltip.object._id : ''}</u-object-tooltip>            
         
-        ${this._isObjectVisible() 
-          ? html`<u-object .id="${this._currentObjectId}" @hide="${(e) => { this._toggleObject(false, e) }}"></u-object>`
+        ${this._objectPage.isVisible
+          ? html`<u-object .id="${this._objectPage.currentObjectId}" @hide="${(e) => { this._toggleObject(false, e) }}"></u-object>`
           : ``
         }        
         
-        ${this._isDotVisible() 
-          ? html`<u-dot .id="${this._currentDotId}" @hide="${(e) => { this._toggleDot(false, e) }}"></u-dot>`
+        ${this._dotPage.isVisible
+          ? html`<u-dot .id="${this._dotPage.currentDotId}" @hide="${(e) => { this._toggleDot(false, e) }}"></u-dot>`
           : ``
         }
             
@@ -239,16 +230,6 @@ class UMap extends connect(store)(LitElement) {
     this.__currentObject = [];
   }
 
-  async init() {
-    this._createMap();
-    this._setDefaultSettings();
-    this._setMaxBounds();
-    this._initializeTiles();
-    this._setListeners();
-    await this._drawObjects();
-    store.dispatch(getDots());
-  }
-
   firstUpdated() {
     this.init().catch(e => { throw new Error(e) });
   }
@@ -263,14 +244,25 @@ class UMap extends connect(store)(LitElement) {
     this._tooltip = state.map.tooltip;
     this._dotCreator = state.map.dotCreator;
 
-    this._currentObjectId = state.map.currentObjectId;
-    this._currentDotId = state.map.currentDotId;
+    this._objectPage = state.map.objectPage;
+    this._dotPage = state.map.dotPage;
 
     if (this._tempDotRef) {
       this._enableDot();
     }
   }
 
+  async init() {
+    this._createMap();
+    this._setDefaultSettings();
+    this._setMaxBounds();
+    this._initializeTiles();
+    this._setListeners();
+    await this._drawObjects();
+    store.dispatch(getDots());
+  }
+
+  // leaflet init methods
   _createMap() {
     this._map = L.map('map', {});
   }
@@ -302,7 +294,7 @@ class UMap extends connect(store)(LitElement) {
   _setListeners() {
     this._map.on('load', UMap._triggerResize());
     this._map.on('click', this._handleClick.bind(this));
-    this._map.on('dragstart', this._hideElements.bind(this));
+    this._map.on('dragstart', this._hideControls.bind(this));
     this._map.on('keypress', this.__drawHelper.bind(this));
   }
 
@@ -378,6 +370,40 @@ class UMap extends connect(store)(LitElement) {
     }
   }
 
+  static getMarkerIcon(type) {
+    return L.icon({
+      iconUrl: `${ENV.static}/static/images/markers/${type}.png`,
+      iconSize: [32, 32], // size of the icon
+    })
+  }
+
+  // global control
+  _handleClick(e) {
+    if (e.originalEvent.altKey) {
+      this._toggleContextMenu(true, e);
+
+      this._tempDotCoordinates = {
+        x: e.containerPoint.x,
+        y: e.containerPoint.y,
+        lat: e.latlng.lat,
+        lng: e.latlng.lng
+      }
+    } else {
+      this._toggleContextMenu(false);
+      this._toggleDotCreator(false);
+    }
+  }
+
+  _hideControls() {
+    this._toggleContextMenu(false);
+    this._toggleDotCreator(false);
+  }
+
+  static _triggerResize() {
+    window.dispatchEvent(new Event('resize'));
+  }
+
+  // tooltip control
   _toggleTooltip(isVisible, e) {
     if (isVisible) {
       this._objectHoverTimeOut = setTimeout(() => {
@@ -418,6 +444,7 @@ class UMap extends connect(store)(LitElement) {
     return { x, y, origin };
   }
 
+  // object page control
   _toggleObject(isVisible, e) {
     if (isVisible) {
       if (!e.originalEvent.altKey) {
@@ -430,17 +457,14 @@ class UMap extends connect(store)(LitElement) {
       }
 
       if (this._dotCreator.isVisible) {
-        this._hideCreateDot();
+        this._toggleDotCreator(false);
       }
     } else {
       store.dispatch(setCurrentObjectId(''));
     }
   }
 
-  _isObjectVisible() {
-    return this._currentObjectId;
-  }
-
+  // dot page control
   _toggleDot(isVisible, e) {
     if (isVisible) {
       if (!e.originalEvent.altKey) {
@@ -450,7 +474,7 @@ class UMap extends connect(store)(LitElement) {
         store.dispatch(toggleDotCreator(false, { x: this._dotCreator.position.x, y: this._dotCreator.position.y }));
 
         if (this._dotCreator.isVisible) {
-          this._hideCreateDot();
+          this._toggleDotCreator(false);
         }
       }
     } else {
@@ -458,56 +482,26 @@ class UMap extends connect(store)(LitElement) {
     }
   }
 
-  _isDotVisible() {
-    return this._currentDotId;
-  }
-
-  _handleClick(e) {
-    if (e.originalEvent.altKey) {
-      UMap._showContextMenu(e);
-
-      this._tempDotCoordinates = {
-        x: e.containerPoint.x,
-        y: e.containerPoint.y,
-        lat: e.latlng.lat,
-        lng: e.latlng.lng
-      }
+  // context menu control
+  _toggleContextMenu(isVisible, e) {
+    if (isVisible) {
+      store.dispatch(toggleContextMenu(true, { x: e.containerPoint.x, y: e.containerPoint.y }));
     } else {
-      this._hideContextMenu();
-      this._hideCreateDot();
+      store.dispatch(toggleContextMenu(false, { x: this._contextMenu.position.x, y: this._contextMenu.position.y }));
     }
   }
 
-  static _showContextMenu(e) {
-    store.dispatch(toggleContextMenu(true, { x: e.containerPoint.x, y: e.containerPoint.y }));
-  }
-
-  _hideElements() {
-    this._hideContextMenu();
-    this._hideCreateDot();
-  }
-
-  _hideContextMenu() {
-    store.dispatch(toggleContextMenu(false, { x: this._contextMenu.position.x, y: this._contextMenu.position.y }));
-  }
-
-  _showCreateDot() {
-    store.dispatch(toggleDotCreator(true, this._tempDotCoordinates));
-  }
-
-  _hideCreateDot() {
-    store.dispatch(toggleDotCreator(false, { x: this._dotCreator.position.x, y: this._dotCreator.position.y }));
-  }
-
-  static getMarkerIcon(type) {
-    return L.icon({
-      iconUrl: `${ENV.static}/static/images/markers/${type}.png`,
-      iconSize: [32, 32], // size of the icon
-    })
+  // dot creator control
+  _toggleDotCreator(isVisible) {
+    if (isVisible) {
+      store.dispatch(toggleDotCreator(true, this._tempDotCoordinates));
+    } else {
+      store.dispatch(toggleDotCreator(false, { x: this._dotCreator.position.x, y: this._dotCreator.position.y }));
+    }
   }
 
   _createDot() {
-    this._showCreateDot();
+    this._toggleDotCreator(true);
 
     // display ghost marker until a dot is created
     this._tempDotRef = new L.marker([this._tempDotCoordinates.lat, this._tempDotCoordinates.lng], { icon: UMap.getMarkerIcon('global') })
@@ -515,7 +509,7 @@ class UMap extends connect(store)(LitElement) {
       .addTo(this._map);
     this._tempDotRef._icon.classList.add('leaflet-marker-icon--is-updating');
 
-    this._hideContextMenu();
+    this._toggleContextMenu(false);
   }
 
   _enableDot() {
@@ -523,6 +517,7 @@ class UMap extends connect(store)(LitElement) {
     this._tempDotRef = null;
   }
 
+  // debug
   __getCoordinates(e) {
     this.__currentObject.push([e.latlng.lat.toFixed(2), e.latlng.lng.toFixed(2)]);
   }
@@ -540,21 +535,6 @@ class UMap extends connect(store)(LitElement) {
       console.log(path);
       this.__currentObject = [];
     }
-  }
-
-  static _triggerResize() {
-    window.dispatchEvent(new Event('resize'));
-  }
-
-  showCursorSpinner(value) {
-    // let leafletStyles = document.styleSheets[1];
-    // if (value) {
-    //   this._map._container.style.cursor = 'wait';
-    //   if (leafletStyles) leafletStyles.insertRule('.leaflet-interactive { cursor: wait !important }', 0);
-    // } else {
-    //   this._map._container.style.cursor = 'default';
-    //   if (leafletStyles && leafletStyles.cssRules && leafletStyles.cssRules[0]) leafletStyles.deleteRule(0);
-    // }
   }
 }
 

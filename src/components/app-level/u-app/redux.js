@@ -87,8 +87,7 @@ const updatePage = (page) => {
   return {
     type: PAGE.UPDATE,
     payload: {
-      page,
-      pageTitle: pageTitles.get(page)
+      page
     }
   };
 };
@@ -120,8 +119,7 @@ export const app = (state = {}, action) => {
     case PAGE.UPDATE:
       return {
         ...state,
-        page: action.payload.page,
-        pageTitle: action.payload.pageTitle
+        page: action.payload.page
       };
 
     case USER.GET:
