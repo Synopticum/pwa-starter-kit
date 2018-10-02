@@ -14,7 +14,7 @@ export const OBJECT = {
     SUCCESS: 'OBJECT_PUT_SUCCESS',
     FAILURE: 'OBJECT_PUT_FAILURE'
   },
-  CLEAN_STATE: 'OBJECT_CLEAN_STATE'
+  CLEAR_STATE: 'OBJECT_CLEAR_STATE'
 };
 
 export const getObject = (objectId) => async (dispatch, getState) => {
@@ -71,7 +71,7 @@ export const putObject = (object, objectId) => async (dispatch, getState) => {
 };
 
 export const cleanObjectState = () => (dispatch, getState) => {
-  dispatch({ type: OBJECT.CLEAN_STATE });
+  dispatch({ type: OBJECT.CLEAR_STATE });
 };
 
 //
@@ -120,7 +120,7 @@ export const objectPage = (state = {
         isUpdating: false
       };
 
-    case OBJECT.CLEAN_STATE:
+    case OBJECT.CLEAR_STATE:
       return {
         object: {},
         isFetching: false,
