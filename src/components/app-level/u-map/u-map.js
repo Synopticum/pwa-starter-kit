@@ -252,8 +252,10 @@ class UMap extends connect(store)(LitElement) {
     }
   }
 
+  // leaflet init methods
   async init() {
     this._createMap();
+    this._apply1pxGapFix();
     this._setDefaultSettings();
     this._setMaxBounds();
     this._initializeTiles();
@@ -262,9 +264,22 @@ class UMap extends connect(store)(LitElement) {
     store.dispatch(getDots());
   }
 
-  // leaflet init methods
   _createMap() {
     this._map = L.map('map', {});
+  }
+
+  _apply1pxGapFix() {
+    if (window.navigator.userAgent.indexOf('Chrome') > -1) {
+      var originalInitTile = L.GridLayer.prototype._initTile;
+      L.GridLayer.include({
+        _initTile: function (tile) {
+          originalInitTile.call(this, tile);
+          var tileSize = this.getTileSize();
+          tile.style.width = tileSize.x + 1 + 'px';
+          tile.style.height = tileSize.y + 1 + 'px';
+        }
+      });
+    }
   }
 
   _setDefaultSettings() {
