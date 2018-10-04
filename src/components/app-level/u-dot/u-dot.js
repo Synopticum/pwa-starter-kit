@@ -162,7 +162,7 @@ class UDot extends connect(store)(LitElement) {
   }
 
   static close() {
-    this.dispatchEvent(new CustomEvent('hide', { bubbles: true, composed: true }));
+    this.dispatchEvent(new CustomEvent('hide', { composed: true }));
   }
 
   submit(e) {

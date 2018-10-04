@@ -35,6 +35,7 @@ const loadPage = (page) => async (dispatch, getState) => {
   import(`${CONTAINER_COMPONENTS_PATH}/u-dot-creator/u-dot-creator.js`);
 
   import(`${CONTAINER_COMPONENTS_PATH}/u-comments/u-comments.js`);
+  import(`${CONTAINER_COMPONENTS_PATH}/u-comments/u-comment/u-comment.js`);
 
   switch (true) {
     case (page === '/'):

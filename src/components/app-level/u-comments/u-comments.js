@@ -4,7 +4,7 @@ import { repeat } from 'lit-html/directives/repeat';
 
 import { store } from '../../../store';
 import { connect } from 'pwa-helpers';
-import { getComments, putComment, typeComment, comments } from './redux';
+import { getComments, putComment, typeComment, deleteComment, comments } from './redux';
 store.addReducers({ comments });
 
 export class UComments extends connect(store)(LitElement) {
@@ -25,7 +25,7 @@ export class UComments extends connect(store)(LitElement) {
       _comments: {
         type: Array,
         attribute: false
-      },
+      }
     }
   }
 
@@ -40,37 +40,13 @@ export class UComments extends connect(store)(LitElement) {
         .title {
             font-size: 24px;
         }
-        
-        .comment {
-            padding: 10px 0;
-            margin: 10px;
-            border-bottom: 1px solid #ccc;
-            line-height: 1.3;
-        }
-        
-        .comment__meta {
-            display: flex;
-            justify-content: flex-end;
-            font-size: 12px;
-            margin-top: 5px;
-        }
-        
-        .comment__date {
-            margin-left: 5px;
-        }
       </style>
       
       <div class="title">Комментарии ${this.id}</div>
       
       <div class="comments">
         ${repeat(this._comments, comment => comment.id, comment => html`
-          <div class="comment">
-              <div class="comment__text">${comment.text}</div>
-              <div class="comment__meta">
-                  <div class="comment__author">${comment.author} /</div>
-                  <div class="comment__date">${comment.date}</div>
-              </div>
-          </div>
+          <u-comment .user="${this._user}" .comment="${comment}" @delete="${this.deleteComment.bind(this)}"></u-comment>
         `)}
       </div>
       
@@ -106,6 +82,11 @@ export class UComments extends connect(store)(LitElement) {
       date: Date.now(),
       author: `${this._user.firstName} ${this._user.lastName}`
     }));
+  }
+
+  deleteComment(e) {
+    let commentId = e.detail;
+    store.dispatch(deleteComment(this.type, this.id, commentId));
   }
 }
 
