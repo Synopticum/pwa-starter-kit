@@ -227,7 +227,7 @@ export const comments = (state = {
       return Object.assign({}, state, {
         objectPage: {
           ...state.objectPage,
-          items: [...state.objectPage.items].filter(comment => comment.id !== action.payload),
+          items: state.objectPage.items.filter(comment => comment.id !== action.payload),
           isUpdating: false
         }
       });
@@ -321,7 +321,7 @@ export const comments = (state = {
       return Object.assign({}, state, {
         dotPage: {
           ...state.dotPage,
-          items: [...state.dotPage.items].filter(comment => comment.id !== action.payload),
+          items: state.dotPage.items.filter(comment => comment.id !== action.payload),
           isUpdating: false
         }
       });
