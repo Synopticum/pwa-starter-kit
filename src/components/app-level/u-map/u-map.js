@@ -283,7 +283,15 @@ class UMap extends connect(store)(LitElement) {
   }
 
   _setDefaultSettings() {
-    this._map.setView([70, 30], 5);
+    let lat = 70;
+    let lng = 30;
+
+    if (location.search) {
+      let params = new URLSearchParams(location.search);
+      lat = params.get('lat');
+      lng = params.get('lng');
+    }
+    this._map.setView([lat, lng], 5);
   }
 
   _setMaxBounds() {
@@ -310,7 +318,8 @@ class UMap extends connect(store)(LitElement) {
     this._map.on('load', UMap._triggerResize());
     this._map.on('click', this._handleClick.bind(this));
     this._map.on('dragstart', this._hideControls.bind(this));
-    this._map.on('keypress', this.__drawHelper.bind(this));
+    this._map.on('drag', this._updateCenterPosition.bind(this));
+    this._map.on('dragstart', this._hideControls.bind(this));
   }
 
   async _drawObjects() {
@@ -530,6 +539,12 @@ class UMap extends connect(store)(LitElement) {
   _enableDot() {
     this._tempDotRef.remove();
     this._tempDotRef = null;
+  }
+
+  _updateCenterPosition() {
+    let { lat, lng } = this._map.getCenter();
+    window.history.replaceState( {}, '', `?lat=${lat.toFixed(2)}&lng=${lng.toFixed(2)}`);
+    // location.search = `?lat=${lat.toFixed(2)}&lng=${lng.toFixed(2)}`;
   }
 
   // debug
