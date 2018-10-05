@@ -79,25 +79,28 @@ class UObject extends connect(store)(LitElement) {
         
         #object-title {
             font-size: 24px;
+            background-color: rgba(0,0,0,.1);
+            margin-bottom: 3px;
         }
         
         #object-address {
             font-size: 16px;
             font-style: italic;
+            background-color: rgba(0,0,0,.1);
         }
         
         #object-short-description {
-            border-top: 1px solid #ccc;
             margin-top: 10px;
             padding-top: 10px;
             font-size: 16px;
+            background-color: rgba(0,0,0,.1);
         }
         
         #object-full-description {
-            border-top: 1px solid #ccc;
             margin-top: 10px;
             padding-top: 10px;
             font-size: 16px;
+            background-color: rgba(0,0,0,.1);
         }
         
         #object-title[data-fetching],
@@ -115,19 +118,19 @@ class UObject extends connect(store)(LitElement) {
           <form class="form">
               <div id="object-title" 
                    ?data-fetching="${this._isUpdating}" 
-                   ?contentEditable="${this._user.isAdmin}">${this._object.title ? this._object.title : 'Название объекта'}</div>
+                   ?contentEditable="${this._user.isAdmin}">${this._object.title ? this._object.title : ''}</div>
                    
               <div id="object-address" 
                    ?data-fetching="${this._isUpdating}" 
-                   ?contentEditable="${this._user.isAdmin}">${this._object.address ? this._object.address : 'Адрес объекта'}</div>
+                   ?contentEditable="${this._user.isAdmin}">${this._object.address ? this._object.address : ''}</div>
                    
               <div id="object-short-description" 
                    ?data-fetching="${this._isUpdating}" 
-                   ?contentEditable="${this._user.isAdmin}">${this._object.shortDescription ? this._object.shortDescription : 'Краткое описание'}</div>
+                   ?contentEditable="${this._user.isAdmin}">${this._object.shortDescription ? this._object.shortDescription : ''}</div>
                    
               <div id="object-full-description" 
                    ?data-fetching="${this._isUpdating}" 
-                   ?contentEditable="${this._user.isAdmin}">${this._object.fullDescription ? this._object.fullDescription : 'Полное описание'}</div>
+                   ?contentEditable="${this._user.isAdmin}">${this._object.fullDescription ? this._object.fullDescription : ''}</div>
               <hr>
               
               <button class="submit" type="submit" @click="${this.submit.bind(this)}"></button>
