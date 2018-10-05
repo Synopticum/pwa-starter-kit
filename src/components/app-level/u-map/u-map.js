@@ -192,7 +192,7 @@ class UMap extends connect(store)(LitElement) {
             ?hidden="${!this._tooltip.isVisible}" 
             .x="${this._tooltip.position.x}"
             .y="${this._tooltip.position.y}"
-            .origin="${this._tooltip.position.origin}">${this._tooltip.object ? this._tooltip.object._id : ''}</u-object-tooltip>            
+            .origin="${this._tooltip.position.origin}">${this._tooltip.object ? html`${this._tooltip.object.title}<br>${this._tooltip.object.shortDescription}` : ''}</u-object-tooltip>            
         
         ${this._objectPage.isVisible
           ? html`<u-object .id="${this._objectPage.currentObjectId}" @hide="${(e) => { this._toggleObject(false, e) }}"></u-object>`
