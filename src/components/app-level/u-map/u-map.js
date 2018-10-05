@@ -2,6 +2,8 @@ import { ENV } from '../../../../constants';
 import { LitElement, html } from '@polymer/lit-element';
 import { SharedStyles } from '../../shared-styles.js';
 
+import debounce from 'lodash-es/debounce';
+
 import { store } from '../../../store';
 import { connect } from 'pwa-helpers/connect-mixin';
 import { toggleTooltip, toggleContextMenu, toggleDotCreator, setCurrentObjectId, setCurrentDotId, map } from '../../../components/app-level/u-map/redux';
@@ -318,8 +320,7 @@ class UMap extends connect(store)(LitElement) {
     this._map.on('load', UMap._triggerResize());
     this._map.on('click', this._handleClick.bind(this));
     this._map.on('dragstart', this._hideControls.bind(this));
-    this._map.on('drag', this._updateCenterPosition.bind(this));
-    this._map.on('dragstart', this._hideControls.bind(this));
+    this._map.on('drag', debounce(this._updateCenterPosition, 300).bind(this));
   }
 
   async _drawObjects() {
