@@ -133,7 +133,7 @@ class UDot extends connect(store)(LitElement) {
           </form>
           
           <div class="comments">
-              <u-comments type="dot" id="${this.id}"></u-comments>
+              <u-comments origin-type="dot" origin-id="${this.id}"></u-comments>
           </div>
         </div>
       </div> 

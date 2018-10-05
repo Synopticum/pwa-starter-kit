@@ -11,11 +11,13 @@ export class UComments extends connect(store)(LitElement) {
 
   static get properties() {
     return {
-      type: {
-        type: String
+      originType: {
+        type: String,
+        attribute: 'origin-type'
       },
-      id: {
-        type: String
+      originId: {
+        type: String,
+        attribute: 'origin-id'
       },
 
       _currentMessage: {
@@ -42,7 +44,7 @@ export class UComments extends connect(store)(LitElement) {
         }
       </style>
       
-      <div class="title">Комментарии ${this.id}</div>
+      <div class="title">Комментарии</div>
       
       <div class="comments">
         ${repeat(this._comments, comment => comment.id, comment => html`
@@ -58,7 +60,7 @@ export class UComments extends connect(store)(LitElement) {
   }
 
   _stateChanged(state) {
-    let pageType = `${this.type}Page`;
+    let pageType = `${this.originType}Page`;
 
     this._user = state.app.user;
     this._comments = state.comments[pageType].items;
@@ -66,18 +68,18 @@ export class UComments extends connect(store)(LitElement) {
   }
 
   firstUpdated() {
-    store.dispatch(getComments(this.type, this.id));
+    store.dispatch(getComments(this.originType, this.originId));
   }
 
   static typeComment(e) {
-    store.dispatch(typeComment(this.type, e.currentTarget.value));
+    store.dispatch(typeComment(this.originType, e.currentTarget.value));
   }
 
   addComment() {
-    store.dispatch(putComment(this.type, this.id, {
+    store.dispatch(putComment(this.originType, this.originId, {
       id: uuidv4(),
-      originType: this.type,
-      originId: this.id,
+      originType: this.originType,
+      originId: this.originId,
       text: this._currentMessage,
       date: Date.now(),
       author: `${this._user.firstName} ${this._user.lastName}`
@@ -86,7 +88,7 @@ export class UComments extends connect(store)(LitElement) {
 
   deleteComment(e) {
     let commentId = e.detail;
-    store.dispatch(deleteComment(this.type, this.id, commentId));
+    store.dispatch(deleteComment(this.originType, this.originId, commentId));
   }
 }
 

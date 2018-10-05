@@ -134,7 +134,7 @@ class UObject extends connect(store)(LitElement) {
           </form>
           
           <div class="comments">
-              <u-comments type="object" id="${this.id}"></u-comments>
+              <u-comments origin-type="object" origin-id="${this.id}"></u-comments>
           </div>
         </div>
       </div>
