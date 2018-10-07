@@ -233,7 +233,7 @@ class UMap extends connect(store)(LitElement) {
   }
 
   firstUpdated() {
-    this.init().catch(e => { throw new Error(e) });
+    this._init().catch(e => { throw new Error(e) });
   }
 
   _stateChanged(state) {
@@ -254,8 +254,8 @@ class UMap extends connect(store)(LitElement) {
     }
   }
 
-  // leaflet init methods
-  async init() {
+  // leaflet _init methods
+  async _init() {
     this._createMap();
     this._apply1pxGapFix();
     this._setDefaultSettings();
@@ -377,7 +377,7 @@ class UMap extends connect(store)(LitElement) {
         if (this._layerControl) this._layerControl.remove();
         if (this._overlayMaps) Object.values(this._overlayMaps).forEach(layer => this._map.removeLayer(layer));
 
-        let getMarker = (dot) => L.marker(dot.coordinates, { id: dot.id, icon: UMap.getMarkerIcon(dot.type) }).on('click', (e) => { this._toggleDot(true, e) });
+        let getMarker = (dot) => L.marker(dot.coordinates, { id: dot.id, icon: UMap._getMarkerIcon(dot.type) }).on('click', (e) => { this._toggleDot(true, e) });
 
         let dotLayers = new Set(dots.map(dot => dot.layer));
         this._overlayMaps = {};
@@ -395,7 +395,7 @@ class UMap extends connect(store)(LitElement) {
     }
   }
 
-  static getMarkerIcon(type) {
+  static _getMarkerIcon(type) {
     return L.icon({
       iconUrl: `${ENV.static}/static/images/markers/${type}.png`,
       iconSize: [32, 32], // size of the icon
@@ -529,7 +529,7 @@ class UMap extends connect(store)(LitElement) {
     this._toggleDotCreator(true);
 
     // display ghost marker until a dot is created
-    this._tempDotRef = new L.marker([this._tempDotCoordinates.lat, this._tempDotCoordinates.lng], { icon: UMap.getMarkerIcon('global') })
+    this._tempDotRef = new L.marker([this._tempDotCoordinates.lat, this._tempDotCoordinates.lng], { icon: UMap._getMarkerIcon('global') })
       .on('click', (e) => { this._toggleDot(true, e) })
       .addTo(this._map);
     this._tempDotRef._icon.classList.add('leaflet-marker-icon--is-updating');

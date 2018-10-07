@@ -71,16 +71,16 @@ class UDotCreator extends connect(store)(LitElement) {
       </style>
       
       <div class="create">
-        <input type="text" .value="${this._title}" @input="${UDotCreator.inputTitle.bind(this)}" placeholder="Enter dot title"><br>
-        <input type="text" .value="${this._layer}" @input="${UDotCreator.inputLayer.bind(this)}" placeholder="Enter dot layer"><br>
+        <input type="text" .value="${this._title}" @input="${UDotCreator._inputTitle.bind(this)}" placeholder="Enter dot title"><br>
+        <input type="text" .value="${this._layer}" @input="${UDotCreator._inputLayer.bind(this)}" placeholder="Enter dot layer"><br>
         
-        <select @change="${UDotCreator.changeType.bind(this)}">
+        <select @change="${UDotCreator._changeType.bind(this)}">
             <option value="global" ?selected="${this._type === 'global'}">Global</option>
             <option value="local1" ?selected="${this._type === 'local1'}">Local 1</option>
             <option value="local2" ?selected="${this._type === 'local2'}">Local 2</option>
         </select>
         
-        <button type="submit" @click="${this.create.bind(this)}">ok</button>
+        <button type="submit" @click="${this._create.bind(this)}">ok</button>
       </div>
     `;
   }
@@ -91,7 +91,7 @@ class UDotCreator extends connect(store)(LitElement) {
     this._type = state.map.dotCreator.type;
   }
 
-  create() {
+  _create() {
     let dot = new Dot({
       title: this._title,
       layer: this._layer,
@@ -104,15 +104,15 @@ class UDotCreator extends connect(store)(LitElement) {
     store.dispatch(updateForm({ title: '', layer: 'default', type: 'global' }));
   }
 
-  static inputTitle(e) {
+  static _inputTitle(e) {
     store.dispatch(updateForm({ title: e.currentTarget.value }));
   }
 
-  static inputLayer(e) {
+  static _inputLayer(e) {
     store.dispatch(updateForm({ layer: e.currentTarget.value }));
   }
 
-  static changeType(e) {
+  static _changeType(e) {
     store.dispatch(updateForm({ type: e.currentTarget.value }));
   }
 }

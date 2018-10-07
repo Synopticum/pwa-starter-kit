@@ -133,7 +133,7 @@ class UObject extends connect(store)(LitElement) {
                    ?contentEditable="${this._user.isAdmin}">${this._object.fullDescription ? this._object.fullDescription : ''}</div>
               <hr>
               
-              <button class="submit" type="submit" @click="${this.submit.bind(this)}"></button>
+              <button class="submit" type="submit" @click="${this._submit.bind(this)}"></button>
           </form>
           
           <div class="comments">
@@ -154,7 +154,7 @@ class UObject extends connect(store)(LitElement) {
   firstUpdated() {
     store.dispatch(getObject(this.id));
 
-    // create references to the inputs
+    // _create references to the inputs
     this.$form = this.shadowRoot.querySelector('.form');
     this.$objectTitle = this.shadowRoot.querySelector('#object-title');
     this.$objectAddress = this.shadowRoot.querySelector('#object-address');
@@ -170,7 +170,7 @@ class UObject extends connect(store)(LitElement) {
     this.dispatchEvent(new CustomEvent('hide', { composed: true }));
   }
 
-  submit(e) {
+  _submit(e) {
     e.preventDefault();
 
     if (this._object._id && this.$form.checkValidity()) {
