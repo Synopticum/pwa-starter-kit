@@ -2,7 +2,7 @@
 // Action
 //
 import { ENV } from '../../../constants';
-import { setCurrentObjectId, setCurrentDotId } from '../../../components/app-level/u-map/redux';
+import { setCurrentObjectId, setCurrentDotId } from '../u-map/redux';
 
 const PAGE = {
   UPDATE: 'PAGE_UPDATE'
@@ -22,17 +22,17 @@ export const navigate = (path) => (dispatch) => {
 };
 
 const loadPage = (page) => async (dispatch, getState) => {
-  await import('../../../components/app-level/u-map/u-map.js');
-  import('../../../components/reusable/u-context-menu/u-context-menu.js');
+  await import('../u-map/u-map.js');
+  import('../../presentational/u-context-menu/u-context-menu.js');
 
-  import('../../../components/app-level/u-object-tooltip/u-object-tooltip.js');
-  import('../../../components/app-level/u-object/u-object.js');
+  import('../u-object-tooltip/u-object-tooltip.js');
+  import('../u-object/u-object.js');
 
-  import('../../../components/app-level/u-dot/u-dot.js');
-  import('../../../components/app-level/u-dot-creator/u-dot-creator.js');
+  import('../u-dot/u-dot.js');
+  import('../u-dot-creator/u-dot-creator.js');
 
-  import('../../../components/app-level/u-comments/u-comments.js');
-  import('../../../components/app-level/u-comments/u-comment/u-comment.js');
+  import('../u-comments/u-comments.js');
+  import('../u-comments/u-comment/u-comment.js');
 
   switch (true) {
     case (page === '/'):
@@ -48,7 +48,7 @@ const loadPage = (page) => async (dispatch, getState) => {
       break;
     default:
       page = '404';
-      import('../../../components/reusable/u-404.js');
+      import('../../presentational/u-404.js');
   }
 
   dispatch(updatePage(page));

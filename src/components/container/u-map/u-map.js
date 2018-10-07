@@ -6,9 +6,9 @@ import debounce from 'lodash-es/debounce';
 
 import { store } from '../../../store';
 import { connect } from 'pwa-helpers/connect-mixin';
-import { toggleTooltip, toggleContextMenu, toggleDotCreator, setCurrentObjectId, setCurrentDotId, map } from '../../../components/app-level/u-map/redux';
-import { getDots, dots } from '../../../components/app-level/u-dot/redux';
-import { app } from '../../../components/app-level/u-app/redux';
+import { toggleTooltip, toggleContextMenu, toggleDotCreator, setCurrentObjectId, setCurrentDotId, map } from '../u-map/redux';
+import { getDots, dots } from '../u-dot/redux';
+import { app } from '../u-app/redux';
 store.addReducers({ app, map, dots });
 
 const headers = {

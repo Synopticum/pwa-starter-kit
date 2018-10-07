@@ -5,7 +5,7 @@ import { installRouter } from 'pwa-helpers/router.js';
 
 import { store } from '../../../store.js';
 import { navigate } from './redux';
-import { getUserInfo } from '../../../components/app-level/u-app/redux';
+import { getUserInfo } from '../u-app/redux';
 
 class UApp extends connect(store)(LitElement) {
 
