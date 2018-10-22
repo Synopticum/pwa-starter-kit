@@ -85,7 +85,7 @@ class UDotCreator extends connect(store)(LitElement) {
     `;
   }
 
-  _stateChanged(state) {
+  stateChanged(state) {
     this._title = state.map.dotCreator.title;
     this._layer = state.map.dotCreator.layer;
     this._type = state.map.dotCreator.type;

@@ -49,7 +49,7 @@ class UApp extends connect(store)(LitElement) {
     installRouter(location => store.dispatch(navigate(window.decodeURIComponent(location.pathname))));
   }
 
-  _stateChanged(state) {
+  stateChanged(state) {
     this._page = state.app.page;
     this.pageTitle = state.app.pageTitle;
 

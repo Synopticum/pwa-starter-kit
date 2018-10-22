@@ -236,7 +236,7 @@ class UMap extends connect(store)(LitElement) {
     this._init().catch(e => { throw new Error(e) });
   }
 
-  _stateChanged(state) {
+  stateChanged(state) {
     if (this._dots !== state.dots.items) {
       this._drawDots(state.dots.items);
     }

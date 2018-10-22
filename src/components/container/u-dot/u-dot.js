@@ -140,7 +140,7 @@ class UDot extends connect(store)(LitElement) {
     `
   }
 
-  _stateChanged(state) {
+  stateChanged(state) {
     this._user = state.app.user;
     this._dot = state.dotPage.dot;
     this._isUpdating = state.dotPage.isUpdating;

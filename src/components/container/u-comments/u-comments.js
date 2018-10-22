@@ -59,7 +59,7 @@ export class UComments extends connect(store)(LitElement) {
     `
   }
 
-  _stateChanged(state) {
+  stateChanged(state) {
     let pageType = `${this.originType}Page`;
 
     this._user = state.app.user;
