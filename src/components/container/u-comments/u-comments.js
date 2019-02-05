@@ -1,6 +1,6 @@
-import { html, LitElement } from '@polymer/lit-element';
+import { html, LitElement } from 'lit-element';
 import { SharedStyles } from '../../shared-styles';
-import { repeat } from 'lit-html/directives/repeat';
+import { repeat } from 'lit-element/node_modules/lit-html/directives/repeat';
 
 import { store } from '../../../store';
 import { connect } from 'pwa-helpers';

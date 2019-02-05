@@ -1,5 +1,5 @@
 import { ENV } from '../../../../constants';
-import { LitElement, html } from '@polymer/lit-element';
+import { LitElement, html } from 'lit-element';
 import { SharedStyles } from '../../shared-styles.js';
 
 import debounce from 'lodash-es/debounce';
@@ -259,7 +259,7 @@ class UMap extends connect(store)(LitElement) {
     this._createMap();
     this._apply1pxGapFix();
     this._setDefaultSettings();
-    this._setMaxBounds();
+    // this._setMaxBounds();
     this._initializeTiles();
     this._setListeners();
     await this._drawObjects();
