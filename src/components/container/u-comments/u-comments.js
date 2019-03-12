@@ -45,6 +45,8 @@ export class UComments extends connect(store)(LitElement) {
         
         .no-comments {
             margin: 10px 0;
+            padding: 10px;
+            border: 1px dashed #eee;
             font-size: 14px;
         }
         
@@ -55,6 +57,7 @@ export class UComments extends connect(store)(LitElement) {
         
         #comment-to-add {
             margin-bottom: 10px;
+            width: 100%;
         }
         
         #add-comment {

@@ -35,27 +35,29 @@ export const SharedStyles = html`
     outline: none;
   }
   
-  input {
+  .textbox {
+    padding: 5px 10px;
     font-family: 'PT Serif', Helvetica, 'Times New Roman', serif;
     font-size: 18px;
     background-color: #fff;
-    border: 1px solid #ccc;
+    border: 1px solid #000;
     outline: none;
   }
-  input:focus {
-    border-color: #000;
+  .textbox:focus {
+    border-color: #ddd;
+    border-style: dashed;
   }
-  input:valid {
-    border-color: #00bb00;
+  .textbox::-webkit-input-placeholder {
+    font-style: italic;
   }
-  input:invalid {
-    border-color: #bb0000;
+  .textbox::-moz-placeholder {
+    font-style: italic;
   }
         
   .textarea {
     font-family: 'PT Serif', Helvetica, 'Times New Roman', serif;
     border: 1px solid #000;
-    width: 100%;
+    background-color: #fff;
     font-size: 14px;
     padding: 10px;
     resize: none;

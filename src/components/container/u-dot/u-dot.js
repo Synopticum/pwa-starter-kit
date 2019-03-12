@@ -74,6 +74,10 @@ class UDot extends connect(store)(LitElement) {
             flex: 2;
         }
         
+        .textbox {
+            width: 100%;
+        }
+        
         .comments {
             margin-left: 20px;
             flex: 1;
@@ -92,19 +96,25 @@ class UDot extends connect(store)(LitElement) {
             border-radius: 50%;
         }
         
+        .textbox {
+          padding-left: 0;
+          border-color: transparent;
+        }
+        
+        .textbox.textbox--empty {
+        }
+        
         #dot-title {
             font-size: 24px;
         }
         
         #dot-short-description {
-            border-top: 1px solid #ccc;
             margin-top: 10px;
             padding-top: 10px;
             font-size: 16px;
         }
         
         #dot-full-description {
-            border-top: 1px solid #ccc;
             margin-top: 10px;
             padding-top: 10px;
             font-size: 16px;
@@ -122,18 +132,29 @@ class UDot extends connect(store)(LitElement) {
         
         <div class="wrapper">
           <form class="form">
-            <div id="dot-title" 
+            <input 
+                 class="textbox ${this._dot.title ? '' : 'textbox--empty'}" 
+                 id="dot-title" 
                  ?data-fetching="${this._isUpdating}" 
-                 ?contentEditable="${this._user.isAdmin}">${this._dot.title ? this._dot.title : 'Название точки'}</div>
+                 ?disabled="${!this._user.isAdmin}"
+                 value="${this._dot.title ? this._dot.title : ''}"
+                 placeholder="Введите название точки">
                  
-            <div id="dot-short-description" 
+            <input 
+                 class="textbox ${this._dot.shortDescription ? '' : 'textbox--empty'}" 
+                 id="dot-short-description" 
                  ?data-fetching="${this._isUpdating}" 
-                 ?contentEditable="${this._user.isAdmin}">${this._dot.shortDescription ? this._dot.shortDescription : 'Краткое описание'}</div>
+                 ?disabled="${!this._user.isAdmin}"
+                 value="${this._dot.shortDescription ? this._dot.shortDescription : ''}"
+                 placeholder="Введите краткое описание">
                  
-            <div id="dot-full-description" 
+            <input 
+                 class="textbox ${this._dot.fullDescription ? '' : 'textbox--empty'}" 
+                 id="dot-full-description" 
                  ?data-fetching="${this._isUpdating}" 
-                 ?contentEditable="${this._user.isAdmin}">${this._dot.fullDescription ? this._dot.fullDescription : 'Полное описание'}</div>
-            <hr>
+                 ?disabled="${!this._user.isAdmin}"
+                 value="${this._dot.fullDescription ? this._dot.fullDescription : ''}"
+                 placeholder="Введите полное описание">
             
             <button class="submit" type="submit" @click="${this._submit.bind(this)}"></button>
           </form>

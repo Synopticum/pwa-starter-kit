@@ -287,7 +287,7 @@ class UMap extends connect(store)(LitElement) {
     this._setMaxBounds();
     this._initializeTiles();
     this._setListeners();
-    await this._drawObjects();
+    // await this._drawObjects();
     store.dispatch(getDots());
   }
 
