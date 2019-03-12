@@ -232,8 +232,8 @@ class UMap extends connect(store)(LitElement) {
             ?hidden="${!this._contextMenu.isVisible}"
             .x="${this._contextMenu.position.x}"
             .y="${this._contextMenu.position.y}">
-              <div class="menu__item" @click="${this._createDot.bind(this)}" slot="context-menu-items">Add a dot</div>
-              <div class="menu__item" @click="${() => { alert(1) }}" slot="context-menu-items">Alert</div>   
+              <div class="menu__item" @click="${this._createDot.bind(this)}" slot="context-menu-items">Добавить точку</div>
+              <div class="menu__item" @click="${() => { alert(1) }}" slot="context-menu-items">Проверить</div>   
         </u-context-menu>
         
         <u-dot-creator 
