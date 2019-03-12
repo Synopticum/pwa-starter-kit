@@ -39,7 +39,7 @@ export const SharedStyles = html`
     padding: 5px 10px;
     font-family: 'PT Serif', Helvetica, 'Times New Roman', serif;
     font-size: 18px;
-    background-color: #fff;
+    background-color: #f9f9f9;
     border: 1px dashed #ccc;
     outline: none;
   }
@@ -57,7 +57,7 @@ export const SharedStyles = html`
   .textarea {
     font-family: 'PT Serif', Helvetica, 'Times New Roman', serif;
     border: 1px dashed #ccc;
-    background-color: #fff;
+    background-color: #f9f9f9;
     font-size: 14px;
     padding: 10px;
     resize: none;

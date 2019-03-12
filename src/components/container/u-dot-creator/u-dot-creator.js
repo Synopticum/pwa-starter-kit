@@ -61,7 +61,10 @@ class UDotCreator extends connect(store)(LitElement) {
             max-width: 300px;
             transform: scale(1);
             transition: transform .3s;
-            border-radius: 0 7px 7px 7px;
+            border: 3px solid #6B9B29;
+            border-radius: 3px;
+            background-color: #f9f9f9;
+            box-shadow: 4px 4px 4px rgba(0,0,0,.15);
         }
         
         :host([hidden]) {

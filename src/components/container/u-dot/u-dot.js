@@ -42,14 +42,15 @@ class UDot extends connect(store)(LitElement) {
         :host {
             width: 100%;
             max-width: 900px;
-            background-color: #fff;
             z-index: 200;
             pointer-events: all;
             transform: scale(1);
             transition: transform .3s;
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 2px 2px 10px rgba(0,0,0,.3);
+            border: 3px solid #6B9B29;
+            border-radius: 3px;
+            background-color: #f9f9f9;
+            box-shadow: 4px 4px 4px rgba(0,0,0,.15);
         }
         
         :host([hidden]) {
