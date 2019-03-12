@@ -35,8 +35,7 @@ class UObject extends connect(store)(LitElement) {
       <style>
         :host {
             width: 900px;
-            background-color: #fee;
-            border: 1px solid green;
+            background-color: #fff;
             z-index: 200;
             pointer-events: all;
             transform: scale(1);
@@ -51,7 +50,8 @@ class UObject extends connect(store)(LitElement) {
             top: -15px;
             width: 30px;
             height: 30px;
-            background-color: #ff0000;
+            background: url("static/images/close.svg") no-repeat 50% 50% #fff;
+            border-radius: 50%;
         }
         
         .wrapper {
@@ -74,7 +74,10 @@ class UObject extends connect(store)(LitElement) {
             bottom: -15px;
             width: 30px;
             height: 30px;
-            background-color: #00bb00;
+            border: 0;
+            outline: none;
+            background: url("static/images/ok.svg") no-repeat 50% 50% #fff;
+            border-radius: 50%;
         }
         
         #object-title {

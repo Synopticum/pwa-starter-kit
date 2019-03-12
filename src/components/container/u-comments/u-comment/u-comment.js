@@ -24,6 +24,10 @@ export class UComment extends LitElement {
             line-height: 1.3;
         }
         
+        .text {
+            font-size: 14px;
+        }
+        
         .meta {
             display: flex;
             justify-content: flex-end;
@@ -38,13 +42,15 @@ export class UComment extends LitElement {
         .controls {
             position: absolute;
             right: 0;
-            top: 0;
+            top: 10px;
         }
         
         .controls__delete {
             cursor: pointer;
-            font-family: Arial, sans-serif;
-            font-size: 10px;
+            display: block;
+            width: 12px;
+            height: 12px;
+            background: url("static/images/x.svg") no-repeat 50% 50%;
         }
       </style>
       
@@ -56,7 +62,7 @@ export class UComment extends LitElement {
       </div>
       
       <div class="controls">
-        <span class="controls__delete" @click="${this.delete.bind(this)}">X</span>
+        <div class="controls__delete" @click="${this.delete.bind(this)}"></div>
       </div>
     `
   }

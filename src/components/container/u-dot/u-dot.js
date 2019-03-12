@@ -36,14 +36,16 @@ class UDot extends connect(store)(LitElement) {
       ${SharedStyles}
       <style>
         :host {
-            width: 900px;
-            background-color: #fee;
-            border: 1px solid green;
+            width: 100%;
+            max-width: 900px;
+            background-color: #fff;
             z-index: 200;
             pointer-events: all;
             transform: scale(1);
             transition: transform .3s;
             padding: 30px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,.3);
         }
         
         :host([hidden]) {
@@ -60,7 +62,8 @@ class UDot extends connect(store)(LitElement) {
             top: -15px;
             width: 30px;
             height: 30px;
-            background-color: #ff0000;
+            background: url("static/images/close.svg") no-repeat 50% 50% #fff;
+            border-radius: 50%;
         }
         
         .wrapper {
@@ -83,7 +86,10 @@ class UDot extends connect(store)(LitElement) {
             bottom: -15px;
             width: 30px;
             height: 30px;
-            background-color: #00bb00;
+            border: 0;
+            outline: none;
+            background: url("static/images/ok.svg") no-repeat 50% 50% #fff;
+            border-radius: 50%;
         }
         
         #dot-title {

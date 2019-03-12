@@ -42,19 +42,48 @@ export class UComments extends connect(store)(LitElement) {
         .title {
             font-size: 24px;
         }
+        
+        .no-comments {
+            margin: 10px 0;
+            font-size: 14px;
+        }
+        
+        .add {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        #comment-to-add {
+            margin-bottom: 10px;
+        }
+        
+        #add-comment {
+            align-self: flex-end;
+        }
       </style>
       
       <div class="title">Комментарии</div>
       
       <div class="comments">
+        ${this._comments.length ? '' : html`<div class="no-comments">Нет комментариев</div>`}
+        
         ${repeat(this._comments, comment => comment.id, comment => html`
           <u-comment .user="${this._user}" .comment="${comment}" @delete="${this.deleteComment.bind(this)}"></u-comment>
         `)}
       </div>
       
       <div class="add">
-        <textarea id="comment-to-add" @input="${UComments.typeComment.bind(this)}" .value="${this._currentMessage}"></textarea><br>
-        <button @click="${this.addComment.bind(this)}">add</button>
+        <textarea 
+            class="textarea"
+            id="comment-to-add" 
+            placeholder="Добавить комментарий"
+            @input="${UComments.typeComment.bind(this)}" 
+            .value="${this._currentMessage}"></textarea>
+            
+        <button 
+            class="button"
+            id="add-comment"
+            @click="${this.addComment.bind(this)}">Добавить</button>
       </div>
     `
   }

@@ -6,7 +6,7 @@ import debounce from 'lodash-es/debounce';
 
 import { store } from '../../../store';
 import { connect } from 'pwa-helpers/connect-mixin';
-import { toggleTooltip, toggleContextMenu, toggleDotCreator, setCurrentObjectId, setCurrentDotId, map } from '../u-map/redux';
+import { toggleTooltip, toggleContextMenu, toggleDotCreator, setCurrentObjectId, setCurrentDotId, setCloudsVisibility, map } from '../u-map/redux';
 import { getDots, dots } from '../u-dot/redux';
 import { app } from '../u-app/redux';
 store.addReducers({ app, map, dots });
@@ -142,6 +142,11 @@ class UMap extends connect(store)(LitElement) {
         .container.container--clouds-visibility-none::before {
           opacity: .2;
           pointer-events: none;
+        }
+        
+        .container.container--clouds-visibility-partly::before {
+          opacity: .35;
+          pointer-events: all;
         }
         
         .container.container--clouds-visibility-full::before {
