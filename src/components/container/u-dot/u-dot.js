@@ -11,8 +11,8 @@ class UDot extends connect(store)(LitElement) {
 
   static get properties() {
     return {
-      id: {
-        type: Object
+      dotId: {
+        type: String
       },
 
       _user: {
@@ -36,7 +36,6 @@ class UDot extends connect(store)(LitElement) {
       <style>
         :host {
             width: 900px;
-            height: 600px;
             background-color: #fee;
             border: 1px solid green;
             z-index: 200;
@@ -133,7 +132,7 @@ class UDot extends connect(store)(LitElement) {
           </form>
           
           <div class="comments">
-              <u-comments origin-type="dot" origin-id="${this.id}"></u-comments>
+              <u-comments origin-type="dot" origin-id="${this.dotId}"></u-comments>
           </div>
         </div>
       </div> 
@@ -148,7 +147,7 @@ class UDot extends connect(store)(LitElement) {
   }
 
   firstUpdated() {
-    store.dispatch(getDot(this.id));
+    store.dispatch(getDot(this.dotId));
 
     // _create references to the inputs
     this.$form = this.shadowRoot.querySelector('form');

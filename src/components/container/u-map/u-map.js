@@ -195,12 +195,12 @@ class UMap extends connect(store)(LitElement) {
             .origin="${this._tooltip.position.origin}">${this._tooltip.object ? html`${this._tooltip.object.title}<br>${this._tooltip.object.shortDescription}` : ''}</u-object-tooltip>            
         
         ${this._objectPage.isVisible
-          ? html`<u-object .id="${this._objectPage.currentObjectId}" @hide="${(e) => { this._toggleObject(false, e) }}"></u-object>`
+          ? html`<u-object .objectId="${this._objectPage.currentObjectId}" @hide="${(e) => { this._toggleObject(false, e) }}"></u-object>`
           : ``
         }        
         
         ${this._dotPage.isVisible
-          ? html`<u-dot .id="${this._dotPage.currentDotId}" @hide="${(e) => { this._toggleDot(false, e) }}"></u-dot>`
+          ? html`<u-dot .dotId="${this._dotPage.currentDotId}" @hide="${(e) => { this._toggleDot(false, e) }}"></u-dot>`
           : ``
         }
             

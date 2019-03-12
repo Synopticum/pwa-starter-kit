@@ -10,7 +10,7 @@ class UObject extends connect(store)(LitElement) {
 
   static get properties() {
     return {
-      id: {
+      objectId: {
         type: Object
       },
 
@@ -34,7 +34,6 @@ class UObject extends connect(store)(LitElement) {
       <style>
         :host {
             width: 900px;
-            height: 600px;
             background-color: #fee;
             border: 1px solid green;
             z-index: 200;
@@ -137,7 +136,7 @@ class UObject extends connect(store)(LitElement) {
           </form>
           
           <div class="comments">
-              <u-comments origin-type="object" origin-id="${this.id}"></u-comments>
+              <u-comments origin-type="object" origin-id="${this.objectId}"></u-comments>
           </div>
         </div>
       </div>
@@ -152,7 +151,7 @@ class UObject extends connect(store)(LitElement) {
   }
 
   firstUpdated() {
-    store.dispatch(getObject(this.id));
+    store.dispatch(getObject(this.objectId));
 
     // _create references to the inputs
     this.$form = this.shadowRoot.querySelector('.form');
