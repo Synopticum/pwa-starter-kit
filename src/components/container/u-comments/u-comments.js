@@ -20,8 +20,8 @@ export class UComments extends connect(store)(LitElement) {
         attribute: 'origin-id'
       },
 
-      _currentMessage: {
-        type: String,
+      _isValid: {
+        type: Boolean,
         attribute: false
       },
       _comments: {
@@ -50,17 +50,17 @@ export class UComments extends connect(store)(LitElement) {
             font-size: 14px;
         }
         
-        .add {
+        .form {
             display: flex;
             flex-direction: column;
         }
         
-        #comment-to-add {
+        .textarea {
             margin-bottom: 10px;
             width: 100%;
         }
         
-        #add-comment {
+        .button {
             align-self: flex-end;
         }
       </style>
@@ -75,20 +75,26 @@ export class UComments extends connect(store)(LitElement) {
         `)}
       </div>
       
-      <div class="add">
+      <form class="form">
         <textarea 
             class="textarea"
             id="comment-to-add" 
             placeholder="Добавить комментарий"
-            @input="${UComments.typeComment.bind(this)}" 
-            .value="${this._currentMessage}"></textarea>
+            @keyup="${this._validate}"
+            required></textarea>
             
         <button 
             class="button"
             id="add-comment"
+            ?disabled="${!this._isValid}"
             @click="${this.addComment.bind(this)}">Добавить</button>
-      </div>
+      </form>
     `
+  }
+
+  constructor() {
+    super();
+    this._isValid = false;
   }
 
   stateChanged(state) {
@@ -96,23 +102,23 @@ export class UComments extends connect(store)(LitElement) {
 
     this._user = state.app.user;
     this._comments = state.comments[pageType].items;
-    this._currentMessage = state.comments[pageType].currentMessage;
   }
 
   firstUpdated() {
+    this.$form = this.shadowRoot.querySelector('form');
+    this.$textarea = this.shadowRoot.querySelector('#comment-to-add');
+
     store.dispatch(getComments(this.originType, this.originId));
   }
 
-  static typeComment(e) {
-    store.dispatch(typeComment(this.originType, e.currentTarget.value));
-  }
+  addComment(e) {
+    e.preventDefault();
 
-  addComment() {
     store.dispatch(putComment(this.originType, this.originId, {
       id: uuidv4(),
       originType: this.originType,
       originId: this.originId,
-      text: this._currentMessage,
+      text: this.$textarea.value,
       date: Date.now(),
       author: `${this._user.firstName} ${this._user.lastName}`
     }));
@@ -121,6 +127,10 @@ export class UComments extends connect(store)(LitElement) {
   deleteComment(e) {
     let commentId = e.detail;
     store.dispatch(deleteComment(this.originType, this.originId, commentId));
+  }
+
+  _validate() {
+    this.$form.checkValidity() ? this._isValid = true : this._isValid = false;
   }
 }
 

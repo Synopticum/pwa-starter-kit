@@ -18,10 +18,6 @@ const TOGGLE = {
   CLOUDS: 'TOGGLE_CLOUDS'
 };
 
-const DOT_CREATOR = {
-  UPDATE_FORM: 'DOT_CREATOR_UPDATE_FORM'
-};
-
 const OBJECT_PAGE = {
   SET_ID: 'OBJECT_PAGE_SET_ID'
 };
@@ -104,13 +100,6 @@ export const setCloudsVisibility = (visibility = {}) => {
   }
 };
 
-export const updateForm = (state) => (dispatch, getState) => {
-  dispatch({
-    type: DOT_CREATOR.UPDATE_FORM,
-    payload: state
-  });
-};
-
 export const setCurrentObjectId = (objectId) => (dispatch, getState) => {
   if (!objectId) history.pushState(null, null, ENV.static);
 
@@ -147,10 +136,7 @@ export const map = (state = {
 
   dotCreator: {
     isVisible: false,
-    position: {},
-    title: '',
-    layer: 'official',
-    type: 'global'
+    position: {}
   },
 
   clouds: {
@@ -226,15 +212,6 @@ export const map = (state = {
         clouds: {
           ...state.clouds,
           visibility: action.payload.visibility
-        }
-      };
-
-    case DOT_CREATOR.UPDATE_FORM:
-      return {
-        ...state,
-        dotCreator: {
-          ...state.dotCreator,
-          ...action.payload
         }
       };
 

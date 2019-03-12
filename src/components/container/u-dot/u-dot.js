@@ -97,7 +97,7 @@ class UDot extends connect(store)(LitElement) {
             border-radius: 50%;
         }
         
-        .submit--invalid {
+        .submit:disabled {
             cursor: not-allowed;
             opacity: .3;
         }
@@ -164,8 +164,9 @@ class UDot extends connect(store)(LitElement) {
                  placeholder="Введите полное описание">
             
             <button 
-                class="submit ${this._isValid ? '' : 'submit--invalid'}" 
-                type="submit" 
+                class="submit" 
+                type="submit"
+                ?disabled="${!this._isValid}" 
                 @click="${this._submit.bind(this)}"></button>
           </form>
           
@@ -188,6 +189,7 @@ class UDot extends connect(store)(LitElement) {
     this._dot = state.dotPage.dot;
     this._isUpdating = state.dotPage.isUpdating;
     this._isFetching = state.dotPage.isFetching;
+    _.defer(this._validate.bind(this));
   }
 
   firstUpdated() {
@@ -224,7 +226,6 @@ class UDot extends connect(store)(LitElement) {
       fullDescription: this.$dotFullDescription.value
     });
 
-    debugger;
     store.dispatch(putDot(updatedDot, dotId));
   }
 }
