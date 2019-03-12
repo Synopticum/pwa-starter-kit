@@ -172,80 +172,89 @@ export const map = (state = {
       };
 
     case TOOLTIP.GET.SUCCESS:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         tooltip: {
           ...state.tooltip,
           isFetching: false,
           object: action.payload.object,
           position: action.payload.position
         }
-      });
+      };
 
     case TOOLTIP.GET.FAILURE:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         tooltip: {
           ...state.tooltip,
           isFetching: false
         }
-      });
+      };
 
     case TOGGLE.TOOLTIP:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         tooltip: {
           ...state.tooltip,
           isVisible: action.payload
         }
-      });
+      };
 
     case TOGGLE.CONTEXT_MENU:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         contextMenu: {
           ...state.contextMenu,
           isVisible: action.payload.isVisible,
           position: action.payload.position
         }
-      });
+      };
 
     case TOGGLE.DOT_CREATOR:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         dotCreator: {
           ...state.dotCreator,
           isVisible: action.payload.isVisible,
           position: action.payload.position
         }
-      });
+      };
 
     case TOGGLE.CLOUDS:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         clouds: {
           ...state.clouds,
           visibility: action.payload.visibility
         }
-      });
+      };
 
     case DOT_CREATOR.UPDATE_FORM:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         dotCreator: {
           ...state.dotCreator,
           ...action.payload
         }
-      });
+      };
 
     case OBJECT_PAGE.SET_ID:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         objectPage: {
           isVisible: Boolean(action.payload),
           currentObjectId: action.payload
         }
-      });
+      };
 
     case DOT_PAGE.SET_ID:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         dotPage: {
           isVisible: Boolean(action.payload),
           currentDotId: action.payload
         }
-      });
+      };
 
     default:
       return state;

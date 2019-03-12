@@ -158,191 +158,197 @@ export const comments = (state = {
   switch (action.type) {
     // Object page - GET
     case COMMENTS.OBJECT_PAGE.GET.REQUEST:
-      return Object.assign({}, state, {
+      return {
         ...state,
         objectPage: {
           ...state.objectPage,
           isFetching: true
         }
-      });
+      };
 
     case COMMENTS.OBJECT_PAGE.GET.SUCCESS:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         objectPage: {
           ...state.objectPage,
           items: action.payload,
           isFetching: false
         }
-      });
+      };
 
     case COMMENTS.OBJECT_PAGE.GET.FAILURE:
-      return Object.assign({}, state, {
+      return {
         ...state,
         objectPage: {
           ...state.objectPage,
           isFetching: false
         }
-      });
+      };
 
     // Object page - PUT
     case COMMENTS.OBJECT_PAGE.PUT.REQUEST:
-      return Object.assign({}, state, {
+      return {
         ...state,
         objectPage: {
           ...state.objectPage,
           isUpdating: true
         }
-      });
+      };
 
     case COMMENTS.OBJECT_PAGE.PUT.SUCCESS:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         objectPage: {
           ...state.objectPage,
           items: [...state.objectPage.items, action.payload],
           isUpdating: false,
           currentMessage: ''
         }
-      });
+      };
 
     case COMMENTS.OBJECT_PAGE.PUT.FAILURE:
-      return Object.assign({}, state, {
+      return {
         ...state,
         objectPage: {
           ...state.objectPage,
           isUpdating: false
         }
-      });
+      };
 
     // Object page - DELETE
     case COMMENTS.OBJECT_PAGE.DELETE.REQUEST:
-      return Object.assign({}, state, {
+      return {
         ...state,
         objectPage: {
           ...state.objectPage,
           isUpdating: true
         }
-      });
+      };
 
     case COMMENTS.OBJECT_PAGE.DELETE.SUCCESS:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         objectPage: {
           ...state.objectPage,
           items: state.objectPage.items.filter(comment => comment.id !== action.payload),
           isUpdating: false
         }
-      });
+      };
 
     case COMMENTS.OBJECT_PAGE.DELETE.FAILURE:
-      return Object.assign({}, state, {
+      return {
         ...state,
         objectPage: {
           ...state.objectPage,
           isUpdating: false
         }
-      });
+      };
 
     case COMMENTS.OBJECT_PAGE.TYPE:
-      return Object.assign({}, state, {
+      return {
         ...state,
         objectPage: {
           ...state.objectPage,
           currentMessage: action.payload
         }
-      });
+      };
 
     // Dot page - GET
     case COMMENTS.DOT_PAGE.GET.REQUEST:
-      return Object.assign({}, state, {
+      return {
         ...state,
         dotPage: {
           ...state.dotPage,
           isFetching: true
         }
-      });
+      };
 
     case COMMENTS.DOT_PAGE.GET.SUCCESS:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         dotPage: {
           ...state.dotPage,
           items: action.payload,
           isFetching: false
         }
-      });
+      };
 
     case COMMENTS.DOT_PAGE.GET.FAILURE:
-      return Object.assign({}, state, {
+      return {
         ...state,
         dotPage: {
           ...state.dotPage,
           isFetching: false
         }
-      });
+      };
 
     // Dot page - PUT
     case COMMENTS.DOT_PAGE.PUT.REQUEST:
-      return Object.assign({}, state, {
+      return {
         ...state,
         dotPage: {
           ...state.dotPage,
           isUpdating: true
         }
-      });
+      };
 
     case COMMENTS.DOT_PAGE.PUT.SUCCESS:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         dotPage: {
           ...state.dotPage,
           items: [...state.dotPage.items, action.payload],
           isUpdating: false,
           currentMessage: ''
         }
-      });
+      };
 
     case COMMENTS.DOT_PAGE.PUT.FAILURE:
-      return Object.assign({}, state, {
+      return {
         ...state,
         dotPage: {
           ...state.dotPage,
           isUpdating: false
         }
-      });
+      };
 
     // Object page - DELETE
     case COMMENTS.DOT_PAGE.DELETE.REQUEST:
-      return Object.assign({}, state, {
+      return {
         ...state,
         dotPage: {
           ...state.dotPage,
           isUpdating: true
         }
-      });
+      };
 
     case COMMENTS.DOT_PAGE.DELETE.SUCCESS:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         dotPage: {
           ...state.dotPage,
           items: state.dotPage.items.filter(comment => comment.id !== action.payload),
           isUpdating: false
         }
-      });
+      };
 
     case COMMENTS.DOT_PAGE.DELETE.FAILURE:
-      return Object.assign({}, state, {
+      return {
         ...state,
         dotPage: {
           ...state.dotPage,
           isUpdating: false
         }
-      });
+      };
 
     case COMMENTS.DOT_PAGE.TYPE:
-      return Object.assign({}, state, {
+      return {
         ...state,
         dotPage: {
           ...state.dotPage,
           currentMessage: action.payload
         }
-      });
+      };
 
     default:
       return state;
