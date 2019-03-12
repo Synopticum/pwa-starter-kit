@@ -145,7 +145,7 @@ class UMap extends connect(store)(LitElement) {
         }
         
         .container.container--clouds-visibility-partly::before {
-          opacity: .35;
+          opacity: .45;
           pointer-events: all;
         }
         
@@ -544,8 +544,10 @@ class UMap extends connect(store)(LitElement) {
   // dot creator control
   _toggleDotCreator(isVisible) {
     if (isVisible) {
+      store.dispatch(setCloudsVisibility('full'));
       store.dispatch(toggleDotCreator(true, this._tempDotCoordinates));
     } else {
+      store.dispatch(setCloudsVisibility('none'));
       store.dispatch(toggleDotCreator(false, { x: this._dotCreator.position.x, y: this._dotCreator.position.y }));
     }
   }

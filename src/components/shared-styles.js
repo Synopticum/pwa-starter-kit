@@ -40,11 +40,11 @@ export const SharedStyles = html`
     font-family: 'PT Serif', Helvetica, 'Times New Roman', serif;
     font-size: 18px;
     background-color: #fff;
-    border: 1px solid #000;
+    border: 1px dashed #ccc;
     outline: none;
   }
   .textbox:focus {
-    border-color: #ddd;
+    border-color: #ccc;
     border-style: dashed;
   }
   .textbox::-webkit-input-placeholder {
@@ -56,7 +56,7 @@ export const SharedStyles = html`
         
   .textarea {
     font-family: 'PT Serif', Helvetica, 'Times New Roman', serif;
-    border: 1px solid #000;
+    border: 1px dashed #ccc;
     background-color: #fff;
     font-size: 14px;
     padding: 10px;

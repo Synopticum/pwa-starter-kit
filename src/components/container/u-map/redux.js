@@ -149,7 +149,7 @@ export const map = (state = {
     isVisible: false,
     position: {},
     title: '',
-    layer: 'default',
+    layer: 'official',
     type: 'global'
   },
 
