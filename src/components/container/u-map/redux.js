@@ -95,11 +95,11 @@ export const toggleDotCreator = (isVisible, position = {}) => {
   }
 };
 
-export const toggleClouds = (isVisible = {}) => {
+export const setCloudsVisibility = (visibility = {}) => {
   return {
     type: TOGGLE.CLOUDS,
     payload: {
-      isVisible
+      visibility
     }
   }
 };
@@ -154,7 +154,7 @@ export const map = (state = {
   },
 
   clouds: {
-    isVisible: false
+    visibility: 'none'
   },
 
   objectPage: { currentObjectId: '', isVisible: false },
@@ -219,7 +219,7 @@ export const map = (state = {
       return Object.assign({}, state, {
         clouds: {
           ...state.clouds,
-          isVisible: action.payload.isVisible
+          visibility: action.payload.visibility
         }
       });
 

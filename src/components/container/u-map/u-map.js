@@ -89,6 +89,10 @@ class UMap extends connect(store)(LitElement) {
         type: Object,
         attribute: false
       },
+      _clouds: {
+        type: Object,
+        attribute: false
+      },
 
       _tempDotRef: {
         type: Object,
@@ -130,11 +134,19 @@ class UMap extends connect(store)(LitElement) {
           width: 100vw;
           height: 100vh;
           background: url('../../../../static/images/clouds65.jpg') no-repeat 50% 50%;
-          transition: opacity ease .6s;
+          transition: opacity ease .3s;
           will-change: opacity;
+          z-index: 10;
+        }
+        
+        .container.container--clouds-visibility-none::before {
           opacity: .2;
           pointer-events: none;
-          z-index: 10;
+        }
+        
+        .container.container--clouds-visibility-full::before {
+          opacity: .75;
+          pointer-events: all;
         }
 
         #map {
@@ -194,9 +206,7 @@ class UMap extends connect(store)(LitElement) {
         }
       </style>
       
-      <div class="container">
-        ${this._clouds.isVisible ? html`<div style="position: absolute;left: 0;top: 0;z-index: 999;background: red;color: #fff;">clouds</div>` : ''}
-        
+      <div class="container container--clouds-visibility-${this._clouds.visibility}">        
         <u-object-tooltip 
             ?hidden="${!this._tooltip.isVisible}" 
             .x="${this._tooltip.position.x}"

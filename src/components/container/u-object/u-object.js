@@ -4,6 +4,7 @@ import { SharedStyles } from '../../shared-styles.js';
 import { store } from '../../../store';
 import { connect } from 'pwa-helpers/connect-mixin';
 import { putObject, getObject, objectPage, cleanObjectState } from './redux';
+import {setCloudsVisibility} from "../u-map/redux";
 store.addReducers({ objectPage });
 
 class UObject extends connect(store)(LitElement) {
@@ -151,6 +152,7 @@ class UObject extends connect(store)(LitElement) {
   }
 
   firstUpdated() {
+    store.dispatch(setCloudsVisibility('full'));
     store.dispatch(getObject(this.objectId));
 
     // _create references to the inputs
@@ -166,6 +168,7 @@ class UObject extends connect(store)(LitElement) {
   }
 
   static close() {
+    store.dispatch(setCloudsVisibility('none'));
     this.dispatchEvent(new CustomEvent('hide', { composed: true }));
   }
 
