@@ -26,6 +26,10 @@ class UDot extends connect(store)(LitElement) {
       _isUpdating: {
         type: Boolean,
         attribute: false
+      },
+      _isValid: {
+        type: Boolean,
+        attribute: false
       }
     };
   }
@@ -74,10 +78,6 @@ class UDot extends connect(store)(LitElement) {
             flex: 2;
         }
         
-        .textbox {
-            width: 100%;
-        }
-        
         .comments {
             margin-left: 20px;
             flex: 1;
@@ -96,12 +96,15 @@ class UDot extends connect(store)(LitElement) {
             border-radius: 50%;
         }
         
-        .textbox {
-          padding-left: 0;
-          border-color: transparent;
+        .submit--invalid {
+            cursor: not-allowed;
+            opacity: .3;
         }
         
-        .textbox.textbox--empty {
+        .textbox {
+          width: 100%;
+          padding-left: 0;
+          border-color: transparent;
         }
         
         #dot-title {
@@ -138,7 +141,9 @@ class UDot extends connect(store)(LitElement) {
                  ?data-fetching="${this._isUpdating}" 
                  ?disabled="${!this._user.isAdmin}"
                  value="${this._dot.title ? this._dot.title : ''}"
-                 placeholder="Введите название точки">
+                 @keyup="${this._validate}"
+                 placeholder="Введите название точки"
+                 required>
                  
             <input 
                  class="textbox ${this._dot.shortDescription ? '' : 'textbox--empty'}" 
@@ -149,6 +154,7 @@ class UDot extends connect(store)(LitElement) {
                  placeholder="Введите краткое описание">
                  
             <input 
+                 hidden
                  class="textbox ${this._dot.fullDescription ? '' : 'textbox--empty'}" 
                  id="dot-full-description" 
                  ?data-fetching="${this._isUpdating}" 
@@ -156,7 +162,10 @@ class UDot extends connect(store)(LitElement) {
                  value="${this._dot.fullDescription ? this._dot.fullDescription : ''}"
                  placeholder="Введите полное описание">
             
-            <button class="submit" type="submit" @click="${this._submit.bind(this)}"></button>
+            <button 
+                class="submit ${this._isValid ? '' : 'submit--invalid'}" 
+                type="submit" 
+                @click="${this._submit.bind(this)}"></button>
           </form>
           
           <div class="comments">
@@ -166,6 +175,12 @@ class UDot extends connect(store)(LitElement) {
       </div> 
     `
   }
+
+  constructor() {
+    super();
+    this._isValid = false;
+  }
+
 
   stateChanged(state) {
     this._user = state.app.user;
@@ -194,21 +209,22 @@ class UDot extends connect(store)(LitElement) {
     this.dispatchEvent(new CustomEvent('hide', { composed: true }));
   }
 
+  _validate() {
+    this._dot.id && this.$form.checkValidity() ? this._isValid = true : this._isValid = false;
+  }
+
   _submit(e) {
     e.preventDefault();
+    let dotId = this._dot.id;
 
-    if (this._dot.id && this.$form.checkValidity()) {
-      let dotId = this._dot.id;
-      let updatedDot = Object.assign(this._dot, {
-        title: this.$dotTitle.textContent.trim(),
-        shortDescription: this.$dotShortDescription.textContent.trim(),
-        fullDescription: this.$dotFullDescription.textContent.trim()
-      });
+    let updatedDot = Object.assign(this._dot, {
+      title: this.$dotTitle.value,
+      shortDescription: this.$dotShortDescription.value,
+      fullDescription: this.$dotFullDescription.value
+    });
 
-      store.dispatch(putDot(updatedDot, dotId));
-    } else {
-      alert('error!');
-    }
+    debugger;
+    store.dispatch(putDot(updatedDot, dotId));
   }
 }
 
