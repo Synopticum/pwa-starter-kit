@@ -30,7 +30,14 @@ class UMap extends connect(store)(LitElement) {
         attribute: 'max-zoom'
       },
       maxBounds: {
-        type: { fromAttribute: JSON.parse, toAttribute: JSON.stringify },
+        converter: {
+          toAttribute(value) {
+            return JSON.stringify(value);
+          },
+          fromAttribute(value) {
+            return JSON.parse(value);
+          }
+        },
         attribute: 'max-bounds'
       },
       width: {
@@ -106,7 +113,7 @@ class UMap extends connect(store)(LitElement) {
       ${SharedStyles}
       
       <style>        
-        .controls {
+        .container {
             width: 100vw;
             height: 100vh;
             z-index: 200;
@@ -115,7 +122,7 @@ class UMap extends connect(store)(LitElement) {
             align-items: center;
         }
         
-        .controls::before {
+        .container::before {
           content: '';
           position: fixed;
           left: 0;
@@ -187,7 +194,9 @@ class UMap extends connect(store)(LitElement) {
         }
       </style>
       
-      <div class="controls">
+      <div class="container">
+        ${this._clouds.isVisible ? html`<div style="position: absolute;left: 0;top: 0;z-index: 999;background: red;color: #fff;">clouds</div>` : ''}
+        
         <u-object-tooltip 
             ?hidden="${!this._tooltip.isVisible}" 
             .x="${this._tooltip.position.x}"
@@ -245,6 +254,7 @@ class UMap extends connect(store)(LitElement) {
     this._contextMenu = state.map.contextMenu;
     this._tooltip = state.map.tooltip;
     this._dotCreator = state.map.dotCreator;
+    this._clouds = state.map.clouds;
 
     this._objectPage = state.map.objectPage;
     this._dotPage = state.map.dotPage;
@@ -259,7 +269,7 @@ class UMap extends connect(store)(LitElement) {
     this._createMap();
     this._apply1pxGapFix();
     this._setDefaultSettings();
-    // this._setMaxBounds();
+    this._setMaxBounds();
     this._initializeTiles();
     this._setListeners();
     await this._drawObjects();

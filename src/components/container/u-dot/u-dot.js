@@ -5,6 +5,7 @@ import { store } from '../../../store';
 import { connect } from 'pwa-helpers/connect-mixin';
 import { getDot, putDot, dotPage } from './redux';
 import { clearDotState } from '../u-dot/redux';
+import { toggleClouds } from '../u-map/redux';
 store.addReducers({ dotPage });
 
 class UDot extends connect(store)(LitElement) {
@@ -147,6 +148,7 @@ class UDot extends connect(store)(LitElement) {
   }
 
   firstUpdated() {
+    store.dispatch(toggleClouds(true));
     store.dispatch(getDot(this.dotId));
 
     // _create references to the inputs
@@ -157,6 +159,7 @@ class UDot extends connect(store)(LitElement) {
   }
 
   disconnectedCallback() {
+    store.dispatch(toggleClouds(false));
     store.dispatch(clearDotState());
   }
 

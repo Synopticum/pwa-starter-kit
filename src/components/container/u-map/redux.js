@@ -14,7 +14,8 @@ const TOOLTIP = {
 const TOGGLE = {
   TOOLTIP: 'TOGGLE_TOOLTIP',
   CONTEXT_MENU: 'TOGGLE_CONTEXT_MENU',
-  DOT_CREATOR: 'TOGGLE_DOT_CREATOR'
+  DOT_CREATOR: 'TOGGLE_DOT_CREATOR',
+  CLOUDS: 'TOGGLE_CLOUDS'
 };
 
 const DOT_CREATOR = {
@@ -72,7 +73,7 @@ const _getObject = async (objectId, dispatch) => {
   }
 
   return await response.json();
-}
+};
 
 export const toggleContextMenu = (isVisible, position = {}) => {
   return {
@@ -90,6 +91,15 @@ export const toggleDotCreator = (isVisible, position = {}) => {
     payload: {
       isVisible,
       position
+    }
+  }
+};
+
+export const toggleClouds = (isVisible = {}) => {
+  return {
+    type: TOGGLE.CLOUDS,
+    payload: {
+      isVisible
     }
   }
 };
@@ -141,6 +151,10 @@ export const map = (state = {
     title: '',
     layer: 'default',
     type: 'global'
+  },
+
+  clouds: {
+    isVisible: false
   },
 
   objectPage: { currentObjectId: '', isVisible: false },
@@ -198,6 +212,14 @@ export const map = (state = {
           ...state.dotCreator,
           isVisible: action.payload.isVisible,
           position: action.payload.position
+        }
+      });
+
+    case TOGGLE.CLOUDS:
+      return Object.assign({}, state, {
+        clouds: {
+          ...state.clouds,
+          isVisible: action.payload.isVisible
         }
       });
 
