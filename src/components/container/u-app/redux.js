@@ -2,7 +2,7 @@
 // Action
 //
 import { ENV } from '../../../constants';
-import { setCurrentObjectId, setCurrentDotId } from '../u-map/redux';
+import { setCurrentDotId } from '../u-map/redux';
 
 const PAGE = {
   UPDATE: 'PAGE_UPDATE'
@@ -26,7 +26,7 @@ const loadPage = (page) => async (dispatch, getState) => {
   import('../../presentational/u-context-menu/u-context-menu.js');
   import('../../presentational/u-textbox/u-textbox.js');
 
-  import('../u-dot-tooltip/u-dot-tooltip.js');
+  import('../../presentational/u-tooltip/u-tooltip.js');
 
   import('../u-dot/u-dot.js');
   import('../u-dot-creator/u-dot-creator.js');

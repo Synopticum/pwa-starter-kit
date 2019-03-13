@@ -6,7 +6,7 @@ import debounce from 'lodash-es/debounce';
 
 import { store } from '../../../store';
 import { connect } from 'pwa-helpers/connect-mixin';
-import { toggleTooltip, toggleContextMenu, toggleDotCreator, setCurrentObjectId, setCurrentDotId, setCloudsVisibility, map } from '../u-map/redux';
+import { toggleTooltip, toggleContextMenu, toggleDotCreator, setCurrentDotId, setCloudsVisibility, map } from '../u-map/redux';
 import { getDots, dots } from '../u-dot/redux';
 import { app } from '../u-app/redux';
 store.addReducers({ app, map, dots });
@@ -61,7 +61,7 @@ class UMap extends connect(store)(LitElement) {
         type: Object,
         attribute: false
       },
-      _objectHoverTimeOut: {
+      _tooltipHoverTimeOut: {
         type: Number,
         attribute: false
         // delay to show a tooltip
@@ -94,12 +94,6 @@ class UMap extends connect(store)(LitElement) {
         type: Object,
         attribute: false
         // need for storing temporary data about where a marker will be added
-      },
-
-      // debug
-      __currentObject: {
-        type: Array,
-        attribute: false
       }
     };
   }
@@ -135,17 +129,17 @@ class UMap extends connect(store)(LitElement) {
           z-index: 10;
         }
         
-        .container.container--clouds-visibility-none::before {
+        .container.container--clouds-none::before {
           opacity: .2;
           pointer-events: none;
         }
         
-        .container.container--clouds-visibility-partly::before {
+        .container.container--clouds-partly::before {
           opacity: .45;
           pointer-events: all;
         }
         
-        .container.container--clouds-visibility-full::before {
+        .container.container--clouds-full::before {
           opacity: .75;
           pointer-events: all;
         }
@@ -207,12 +201,17 @@ class UMap extends connect(store)(LitElement) {
         }
       </style>
       
-      <div class="container container--clouds-visibility-${this._clouds.visibility}">        
-        <u-dot-tooltip 
+      <div class="container container--clouds-${this._clouds.visibility}">        
+        <u-tooltip 
             ?hidden="${!this._tooltip.isVisible}" 
             .x="${this._tooltip.position.x}"
             .y="${this._tooltip.position.y}"
-            .origin="${this._tooltip.position.origin}">${this._tooltip.object ? html`${this._tooltip.object.title}<br>${this._tooltip.object.shortDescription}` : ''}</u-dot-tooltip>               
+            .origin="${this._tooltip.position.origin}">
+                ${this._tooltip.item ? html`
+                    ${this._tooltip.item.title}<br>
+                    ${this._tooltip.item.shortDescription}
+            ` : ''}
+        </u-tooltip>               
         
         ${this._dotPage.isVisible
           ? html`<u-dot .dotId="${this._dotPage.currentDotId}" @hide="${(e) => { this._toggleDot(false, e) }}"></u-dot>`
@@ -242,9 +241,7 @@ class UMap extends connect(store)(LitElement) {
   constructor() {
     super();
 
-    this._map = null;
-    this._objectHoverTimeOut = null;
-    this.__currentObject = [];
+    this._tooltipHoverTimeOut = null;
   }
 
   firstUpdated() {
@@ -392,7 +389,13 @@ class UMap extends connect(store)(LitElement) {
         if (this._layerControl) this._layerControl.remove();
         if (this._overlayMaps) Object.values(this._overlayMaps).forEach(layer => this._map.removeLayer(layer));
 
-        let getMarker = (dot) => L.marker(dot.coordinates, { id: dot.id, icon: UMap._getMarkerIcon(dot.type) }).on('click', (e) => { this._toggleDot(true, e) });
+        let getMarker = (dot) => L.marker(dot.coordinates, {
+            id: dot.id,
+            icon: UMap._getMarkerIcon(dot.type) })
+              .on('mouseover', e => { this._toggleTooltip(true, e) })
+              .on('mouseout', e => { this._toggleTooltip(false, e) })
+              .on('click', (e) => { this._toggleDot(true, e)
+          });
 
         let dotLayers = new Set(dots.map(dot => dot.layer));
         this._overlayMaps = {};
@@ -446,14 +449,14 @@ class UMap extends connect(store)(LitElement) {
   // tooltip control
   _toggleTooltip(isVisible, e) {
     if (isVisible) {
-      this._objectHoverTimeOut = setTimeout(() => {
-        let objectId = e.target.options.id;
+      this._tooltipHoverTimeOut = setTimeout(() => {
+        let id = e.target.options.id;
         let position = UMap._calculateTooltipPosition(e.containerPoint.x, e.containerPoint.y);
 
-        store.dispatch(toggleTooltip(true, objectId, position));
+        store.dispatch(toggleTooltip(true, id, position));
       }, 1000);
     } else {
-      clearTimeout(this._objectHoverTimeOut);
+      clearTimeout(this._tooltipHoverTimeOut);
 
       if (this._tooltip.isVisible) {
         store.dispatch(toggleTooltip(false));
@@ -482,26 +485,6 @@ class UMap extends connect(store)(LitElement) {
     }
 
     return { x, y, origin };
-  }
-
-  // object page control
-  _toggleObject(isVisible, e) {
-    if (isVisible) {
-      if (!e.originalEvent.altKey) {
-        if (this._tooltip.isVisible) {
-          store.dispatch(toggleTooltip(false));
-        }
-
-        store.dispatch(setCurrentObjectId(''));
-        requestAnimationFrame(() => store.dispatch(setCurrentObjectId(e.target.options.id)));
-      }
-
-      if (this._dotCreator.isVisible) {
-        this._toggleDotCreator(false);
-      }
-    } else {
-      store.dispatch(setCurrentObjectId(''));
-    }
   }
 
   // dot page control
@@ -563,26 +546,6 @@ class UMap extends connect(store)(LitElement) {
     let { lat, lng } = this._map.getCenter();
     window.history.replaceState( {}, '', `?lat=${lat.toFixed(2)}&lng=${lng.toFixed(2)}`);
     // location.search = `?lat=${lat.toFixed(2)}&lng=${lng.toFixed(2)}`;
-  }
-
-  // debug
-  __getCoordinates(e) {
-    this.__currentObject.push([e.latlng.lat.toFixed(2), e.latlng.lng.toFixed(2)]);
-  }
-
-  __drawHelper(e) {
-    if (e.originalEvent.code === 'Enter') {
-      let path = '[[';
-      this.__currentObject.forEach(dot => {
-        path += `${dot.toString()}],[`;
-      });
-      path += ']';
-      path = path.substring(0, path.length - 3);
-      path += '],';
-
-      console.log(path);
-      this.__currentObject = [];
-    }
   }
 }
 

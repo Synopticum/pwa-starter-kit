@@ -4,24 +4,6 @@
 import { ENV } from '../../../constants';
 
 export const COMMENTS = {
-  OBJECT_PAGE: {
-    GET: {
-      REQUEST: 'COMMENTS_OBJECT_PAGE_GET_REQUEST',
-      SUCCESS: 'COMMENTS_OBJECT_PAGE_GET_SUCCESS',
-      FAILURE: 'COMMENTS_OBJECT_PAGE_GET_FAILURE'
-    },
-    PUT: {
-      REQUEST: 'COMMENTS_OBJECT_PAGE_PUT_REQUEST',
-      SUCCESS: 'COMMENTS_OBJECT_PAGE_PUT_SUCCESS',
-      FAILURE: 'COMMENTS_OBJECT_PAGE_PUT_FAILURE'
-    },
-    DELETE: {
-      REQUEST: 'COMMENTS_OBJECT_PAGE_DELETE_REQUEST',
-      SUCCESS: 'COMMENTS_OBJECT_PAGE_DELETE_SUCCESS',
-      FAILURE: 'COMMENTS_OBJECT_PAGE_DELETE_FAILURE'
-    },
-    TYPE: 'COMMENTS_OBJECT_PAGE_TYPE'
-  },
   DOT_PAGE: {
     GET: {
       REQUEST: 'COMMENTS_DOT_PAGE_GET_REQUEST',
@@ -156,103 +138,6 @@ export const comments = (state = {
     currentMessage: ''
   }, }, action) => {
   switch (action.type) {
-    // Object page - GET
-    case COMMENTS.OBJECT_PAGE.GET.REQUEST:
-      return {
-        ...state,
-        objectPage: {
-          ...state.objectPage,
-          isFetching: true
-        }
-      };
-
-    case COMMENTS.OBJECT_PAGE.GET.SUCCESS:
-      return {
-        ...state,
-        objectPage: {
-          ...state.objectPage,
-          items: action.payload,
-          isFetching: false
-        }
-      };
-
-    case COMMENTS.OBJECT_PAGE.GET.FAILURE:
-      return {
-        ...state,
-        objectPage: {
-          ...state.objectPage,
-          isFetching: false
-        }
-      };
-
-    // Object page - PUT
-    case COMMENTS.OBJECT_PAGE.PUT.REQUEST:
-      return {
-        ...state,
-        objectPage: {
-          ...state.objectPage,
-          isUpdating: true
-        }
-      };
-
-    case COMMENTS.OBJECT_PAGE.PUT.SUCCESS:
-      return {
-        ...state,
-        objectPage: {
-          ...state.objectPage,
-          items: [...state.objectPage.items, action.payload],
-          isUpdating: false,
-          currentMessage: ''
-        }
-      };
-
-    case COMMENTS.OBJECT_PAGE.PUT.FAILURE:
-      return {
-        ...state,
-        objectPage: {
-          ...state.objectPage,
-          isUpdating: false
-        }
-      };
-
-    // Object page - DELETE
-    case COMMENTS.OBJECT_PAGE.DELETE.REQUEST:
-      return {
-        ...state,
-        objectPage: {
-          ...state.objectPage,
-          isUpdating: true
-        }
-      };
-
-    case COMMENTS.OBJECT_PAGE.DELETE.SUCCESS:
-      return {
-        ...state,
-        objectPage: {
-          ...state.objectPage,
-          items: state.objectPage.items.filter(comment => comment.id !== action.payload),
-          isUpdating: false
-        }
-      };
-
-    case COMMENTS.OBJECT_PAGE.DELETE.FAILURE:
-      return {
-        ...state,
-        objectPage: {
-          ...state.objectPage,
-          isUpdating: false
-        }
-      };
-
-    case COMMENTS.OBJECT_PAGE.TYPE:
-      return {
-        ...state,
-        objectPage: {
-          ...state.objectPage,
-          currentMessage: action.payload
-        }
-      };
-
     // Dot page - GET
     case COMMENTS.DOT_PAGE.GET.REQUEST:
       return {
@@ -312,7 +197,7 @@ export const comments = (state = {
         }
       };
 
-    // Object page - DELETE
+    // Dot page - DELETE
     case COMMENTS.DOT_PAGE.DELETE.REQUEST:
       return {
         ...state,

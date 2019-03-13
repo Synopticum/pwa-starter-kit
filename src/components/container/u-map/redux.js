@@ -18,25 +18,22 @@ const TOGGLE = {
   CLOUDS: 'TOGGLE_CLOUDS'
 };
 
-const OBJECT_PAGE = {
-  SET_ID: 'OBJECT_PAGE_SET_ID'
-};
-
 const DOT_PAGE = {
   SET_ID: 'DOT_PAGE_SET_ID'
 };
 
-export const toggleTooltip = (enable, objectId, position = {}) => async (dispatch, getState) => {
+export const toggleTooltip = (enable, id, position = {}) => async (dispatch, getState) => {
   if (enable) {
     dispatch({ type: TOOLTIP.GET.REQUEST });
 
     try {
-      const object = await _getObject(objectId, dispatch);
+      const type = 'dot';
+      const item = await _getById(id, type, dispatch);
 
       dispatch({
         type: TOOLTIP.GET.SUCCESS,
         payload: {
-          object,
+          item,
           position
         }
       });
@@ -56,8 +53,8 @@ export const toggleTooltip = (enable, objectId, position = {}) => async (dispatc
   }
 };
 
-const _getObject = async (objectId, dispatch) => {
-  let response = await fetch(`${ENV.api}/api/objects/${objectId}`, {
+const _getById = async (id, type, dispatch) => {
+  let response = await fetch(`${ENV.api}/api/${type}s/${id}`, {
     headers: {
       'Token': localStorage.token
     }
@@ -100,15 +97,6 @@ export const setCloudsVisibility = (visibility = {}) => {
   }
 };
 
-export const setCurrentObjectId = (objectId) => (dispatch, getState) => {
-  if (!objectId) history.pushState(null, null, ENV.static);
-
-  dispatch({
-    type: OBJECT_PAGE.SET_ID,
-    payload: objectId
-  });
-};
-
 export const setCurrentDotId = (dotId) => (dispatch, getState) => {
   if (!dotId) history.pushState(null, null, ENV.static);
 
@@ -125,7 +113,7 @@ export const map = (state = {
   tooltip: {
     isVisible: false,
     isFetching: false,
-    object: {},
+    item: {},
     position: {},
   },
 
@@ -143,7 +131,6 @@ export const map = (state = {
     visibility: 'none'
   },
 
-  objectPage: { currentObjectId: '', isVisible: false },
   dotPage: { currentDotId: '', isVisible: false },
 }, action) => {
   switch (action.type) {
@@ -163,7 +150,7 @@ export const map = (state = {
         tooltip: {
           ...state.tooltip,
           isFetching: false,
-          object: action.payload.object,
+          item: action.payload.item,
           position: action.payload.position
         }
       };
@@ -212,15 +199,6 @@ export const map = (state = {
         clouds: {
           ...state.clouds,
           visibility: action.payload.visibility
-        }
-      };
-
-    case OBJECT_PAGE.SET_ID:
-      return {
-        ...state,
-        objectPage: {
-          isVisible: Boolean(action.payload),
-          currentObjectId: action.payload
         }
       };
 
