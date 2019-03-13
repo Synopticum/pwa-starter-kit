@@ -67,7 +67,7 @@ export class UComments extends connect(store)(LitElement) {
         ${this._comments.length ? '' : html`<div class="no-comments">Нет комментариев</div>`}
         
         ${repeat(this._comments, comment => comment.id, comment => html`
-          <u-comment .user="${this._user}" .comment="${comment}" @delete="${this.deleteComment.bind(this)}"></u-comment>
+          <u-comment .user="${this._user}" .comment="${comment}" @delete="${this.delete.bind(this)}"></u-comment>
         `)}
       </div>
       
@@ -77,21 +77,21 @@ export class UComments extends connect(store)(LitElement) {
             id="comment-to-add" 
             class="textarea"
             placeholder="Добавить комментарий"
-            @keyup="${this._validate}"
+            @keyup="${this.validate}"
             required></u-textarea>
             
         <button 
             class="button"
             id="add-comment"
             ?disabled="${!this._isValid}"
-            @click="${this.addComment.bind(this)}">Добавить</button>
+            @click="${this.add.bind(this)}">Добавить</button>
       </form>
     `
   }
 
   constructor() {
     super();
-    this._isValid = false;
+    this._setDefaults();
   }
 
   stateChanged(state) {
@@ -102,12 +102,11 @@ export class UComments extends connect(store)(LitElement) {
   }
 
   firstUpdated() {
-    this.$textarea = this.shadowRoot.querySelector('#comment-to-add');
-
-    store.dispatch(getComments(this.originType, this.originId));
+    this._init();
+    this._setReferences();
   }
 
-  addComment(e) {
+  add(e) {
     e.preventDefault();
 
     store.dispatch(putComment(this.originType, this.originId, {
@@ -120,13 +119,25 @@ export class UComments extends connect(store)(LitElement) {
     }));
   }
 
-  deleteComment(e) {
+  delete(e) {
     let commentId = e.detail;
     store.dispatch(deleteComment(this.originType, this.originId, commentId));
   }
 
-  _validate() {
+  validate() {
     this.$textarea.value ? this._isValid = true : this._isValid = false;
+  }
+
+  _setDefaults() {
+    this._isValid = false;
+  }
+
+  _init() {
+    store.dispatch(getComments(this.originType, this.originId));
+  }
+
+  _setReferences() {
+    this.$textarea = this.shadowRoot.querySelector('#comment-to-add');
   }
 }
 

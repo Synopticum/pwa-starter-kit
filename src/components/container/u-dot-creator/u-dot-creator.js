@@ -38,7 +38,7 @@ class UDotCreator extends connect(store)(LitElement) {
 
     constructor() {
         super();
-        this._isValid = false;
+        this._setDefaults();
     }
 
     render() {
@@ -112,7 +112,7 @@ class UDotCreator extends connect(store)(LitElement) {
                 ?is-updating="${this._isUpdating}" 
                 ?disabled="${!this._user.isAdmin}"
                 value=""
-                @keyup="${this._validate}"
+                @keyup="${this.validate}"
                 placeholder="Введите название точки"></u-textbox><br>
             
             <div class="advanced-controls" ?hidden="${!this._user.isAdmin}"">
@@ -139,9 +139,7 @@ class UDotCreator extends connect(store)(LitElement) {
     }
 
     firstUpdated() {
-        this.$title = this.shadowRoot.querySelector('#dot-title');
-        this.$layer = this.shadowRoot.querySelector('#dot-layer');
-        this.$type = this.shadowRoot.querySelector('#dot-type');
+        this._setReferences();
     }
 
     stateChanged(state) {
@@ -162,7 +160,7 @@ class UDotCreator extends connect(store)(LitElement) {
         store.dispatch(toggleDotCreator(false, {x: this.x, y: this.y}));
         store.dispatch(setCloudsVisibility('none'));
 
-        this._resetState();
+        this.resetState();
         store.dispatch(navigate(`/dots/${dot.id}`));
     }
 
@@ -171,14 +169,28 @@ class UDotCreator extends connect(store)(LitElement) {
         store.dispatch(setCloudsVisibility('none'));
     }
 
-    _validate() {
+    validate() {
         this.$title.value ? this._isValid = true : this._isValid = false;
     }
 
-    _resetState() {
+    resetState() {
         this.$title.value = '';
         this.$layer.value = 'official';
         this.$type.value = 'global';
+    }
+
+    _setDefaults() {
+        this._isValid = false;
+    }
+
+    _init() {
+
+    }
+
+    _setReferences() {
+        this.$title = this.shadowRoot.querySelector('#dot-title');
+        this.$layer = this.shadowRoot.querySelector('#dot-layer');
+        this.$type = this.shadowRoot.querySelector('#dot-type');
     }
 }
 

@@ -241,8 +241,7 @@ class UMap extends connect(store)(LitElement) {
 
   constructor() {
     super();
-
-    this._tooltipHoverTimeOut = null;
+    this._setDefaults();
   }
 
   firstUpdated() {
@@ -277,6 +276,10 @@ class UMap extends connect(store)(LitElement) {
     this._setListeners();
     // await this._drawObjects();
     store.dispatch(getDots());
+  }
+
+  _setDefaults() {
+    this._tooltipHoverTimeOut = null;
   }
 
   _createMap() {
