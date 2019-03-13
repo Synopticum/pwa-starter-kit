@@ -1,7 +1,7 @@
 //
 // Action
 //
-import { ENV } from '../../../constants';
+import { ENV } from '../../../../environments/environments';
 
 export const COMMENTS = {
   DOT_PAGE: {
@@ -30,7 +30,7 @@ export const getComments = (originType, id) => async (dispatch, getState) => {
   dispatch({ type: COMMENTS[pageType].GET.REQUEST });
 
   try {
-    let response = await fetch(`${ENV.api}/api/${originType}/${id}/comments`, {
+    let response = await fetch(`${ENV[window.ENV].api}/api/${originType}/${id}/comments`, {
       headers: {
         'Token': localStorage.token
       }
@@ -59,7 +59,7 @@ export const putComment = (originType, originId, comment) => async (dispatch, ge
   dispatch({ type: COMMENTS[pageType].PUT.REQUEST });
 
   try {
-    let response = await fetch(`${ENV.api}/api/${originType}/${originId}/comments/${comment.id}`, {
+    let response = await fetch(`${ENV[window.ENV].api}/api/${originType}/${originId}/comments/${comment.id}`, {
       method: 'PUT',
       body: JSON.stringify(comment),
       headers: {
@@ -90,7 +90,7 @@ export const deleteComment = (originType, originId, commentId) => async (dispatc
   dispatch({ type: COMMENTS[pageType].DELETE.REQUEST });
 
   try {
-    let response = await fetch(`${ENV.api}/api/${originType}/${originId}/comments/${commentId}`, {
+    let response = await fetch(`${ENV[window.ENV].api}/api/${originType}/${originId}/comments/${commentId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

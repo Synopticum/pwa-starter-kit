@@ -1,4 +1,4 @@
-import { ENV } from '../../../constants';
+import { ENV } from '../../../../environments/environments';
 
 export async function authenticate() {
   let token = await getToken();
@@ -30,7 +30,7 @@ export async function authenticate() {
   }
 
   async function isTokenValid(token) {
-    let response = await fetch(`${ENV.api}/api/checkToken?token=${token}`);
+    let response = await fetch(`${ENV[window.ENV].api}/api/checkToken?token=${token}`);
     let json = await response.json();
 
     if (json.error) {
@@ -42,7 +42,7 @@ export async function authenticate() {
   }
 
   async function getNewToken(code) {
-    let response = await fetch(`${ENV.api}/api/authenticate?code=${code}`);
+    let response = await fetch(`${ENV[window.ENV].api}/api/authenticate?code=${code}`);
     let json = await response.json();
 
     if (json.error) {

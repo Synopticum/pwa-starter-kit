@@ -1,3 +1,4 @@
+import '../../../../environments/current';
 import { LitElement, html } from 'lit-element';
 
 import { connect } from 'pwa-helpers/connect-mixin.js';

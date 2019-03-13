@@ -1,5 +1,5 @@
 // Login page is a pure web component that doesn't require any library as a dependency
-import { ENV } from '../../../constants';
+import { ENV } from '../../../../environments/environments';
 
 class ULogin extends HTMLElement {
   constructor() {
@@ -140,7 +140,7 @@ class ULogin extends HTMLElement {
                 }
             </style>
             
-            <a href="https://oauth.vk.com/authorize?client_id=4447151&display=page&redirect_uri=${ENV.static}&response_type=code&v=5.78" class="explore"">
+            <a href="https://oauth.vk.com/authorize?client_id=4447151&display=page&redirect_uri=${ENV[window.ENV].static}&response_type=code&v=5.78" class="explore"">
                 <span class="title">Войти через </span>
                 <img src="static/images/vk_logo.svg" alt="">
                 <span class="icon-right"></span><span class="icon-right after"></span>

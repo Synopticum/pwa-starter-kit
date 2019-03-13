@@ -1,7 +1,7 @@
 //
 // Action
 //
-import { ENV } from '../../../constants';
+import { ENV } from '../../../../environments/environments';
 
 const DOT = {
   GET: {
@@ -30,7 +30,7 @@ export const getDot = dotId => async (dispatch, getState) => {
   dispatch({ type: DOT.GET.REQUEST });
 
   try {
-    let response = await fetch(`${ENV.api}/api/dots/${dotId}`, { headers: { 'Token': localStorage.token } });
+    let response = await fetch(`${ENV[window.ENV].api}/api/dots/${dotId}`, { headers: { 'Token': localStorage.token } });
 
     if (!response.ok) {
       if (response.status === 401) location.reload();
@@ -38,7 +38,7 @@ export const getDot = dotId => async (dispatch, getState) => {
     }
 
     let dot = await response.json();
-    history.pushState(null, null, `${ENV.static}/dots/${dot.id}`);
+    history.pushState(null, null, `${ENV[window.ENV].static}/dots/${dot.id}`);
 
     dispatch({
       type: DOT.GET.SUCCESS,
@@ -57,7 +57,7 @@ export const putDot = dotToPut => async (dispatch, getState) => {
   });
 
   try {
-    let response = await fetch(`${ENV.api}/api/dots/${dotToPut.id}`, {
+    let response = await fetch(`${ENV[window.ENV].api}/api/dots/${dotToPut.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -95,7 +95,7 @@ export const getDots = () => async (dispatch, getState) => {
   dispatch({ type: DOTS.GET.REQUEST });
 
   try {
-    let response = await fetch(`${ENV.api}/api/dots`, {
+    let response = await fetch(`${ENV[window.ENV].api}/api/dots`, {
       headers: {
         'Token': localStorage.token
       }

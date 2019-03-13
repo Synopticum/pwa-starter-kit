@@ -1,7 +1,7 @@
 //
 // Action
 //
-import { ENV } from '../../../constants';
+import { ENV } from '../../../../environments/environments';
 
 const TOOLTIP = {
   GET: {
@@ -54,7 +54,7 @@ export const toggleTooltip = (enable, id, position = {}) => async (dispatch, get
 };
 
 const _getById = async (id, type, dispatch) => {
-  let response = await fetch(`${ENV.api}/api/${type}s/${id}`, {
+  let response = await fetch(`${ENV[window.ENV].api}/api/${type}s/${id}`, {
     headers: {
       'Token': localStorage.token
     }
@@ -98,7 +98,7 @@ export const setCloudsVisibility = (visibility = {}) => {
 };
 
 export const setCurrentDotId = (dotId) => (dispatch, getState) => {
-  if (!dotId) history.pushState(null, null, ENV.static);
+  if (!dotId) history.pushState(null, null, ENV[window.ENV].static);
 
   dispatch({
     type: DOT_PAGE.SET_ID,

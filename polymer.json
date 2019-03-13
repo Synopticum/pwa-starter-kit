@@ -3,8 +3,7 @@
   "shell": "src/components/container/u-app/u-app.js",
   "sources": [
     "static/images/**/*",
-    "static/libs/**/*",
-    "src/constants.js"
+    "static/libs/**/*"
   ],
   "extraDependencies": [
     "manifest.json",

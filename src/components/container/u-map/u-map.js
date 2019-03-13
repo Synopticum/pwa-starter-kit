@@ -1,4 +1,4 @@
-import { ENV } from '../../../constants';
+import { ENV } from '../../../../environments/environments';
 import { LitElement, html } from 'lit-element';
 
 import debounce from 'lodash-es/debounce';
@@ -324,7 +324,7 @@ class UMap extends connect(store)(LitElement) {
   }
 
   _initializeTiles() {
-    L.tileLayer(`${ENV.static}/static/images/tiles/{z}/{x}/{y}.jpg`, {
+    L.tileLayer(`${ENV[window.ENV].static}/static/images/tiles/{z}/{x}/{y}.jpg`, {
       minZoom: this.minZoom,
       maxZoom: this.maxZoom,
       bounds: this._getBounds(),
@@ -345,7 +345,7 @@ class UMap extends connect(store)(LitElement) {
 
   async _drawPaths() {
     try {
-      let response = await fetch(`${ENV.api}/api/objects?include=paths`, { headers });
+      let response = await fetch(`${ENV[window.ENV].api}/api/objects?include=paths`, { headers });
       const paths = await response.json();
 
       paths.forEach(item => {
@@ -366,7 +366,7 @@ class UMap extends connect(store)(LitElement) {
 
   async _drawCircles() {
     try {
-      let response = await fetch(`${ENV.api}/api/objects?include=circles`, { headers });
+      let response = await fetch(`${ENV[window.ENV].api}/api/objects?include=circles`, { headers });
       let circles = await response.json();
 
       circles.forEach(item => {
@@ -419,7 +419,7 @@ class UMap extends connect(store)(LitElement) {
 
   static _getMarkerIcon(type) {
     return L.icon({
-      iconUrl: `${ENV.static}/static/images/markers/${type}.png`,
+      iconUrl: `${ENV[window.ENV].static}/static/images/markers/${type}.png`,
       iconSize: [32, 32], // size of the icon
     })
   }

@@ -1,7 +1,7 @@
 //
 // Action
 //
-import { ENV } from '../../../constants';
+import { ENV } from '../../../../environments/environments';
 import { setCurrentDotId } from '../u-map/redux';
 
 const PAGE = {
@@ -66,7 +66,7 @@ const updatePage = (page) => {
 };
 
 export const getUserInfo = () => async (dispatch, getState) => {
-  let response = await fetch(`${ENV.api}/api/user`, {
+  let response = await fetch(`${ENV[window.ENV].api}/api/user`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

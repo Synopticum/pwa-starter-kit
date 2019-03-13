@@ -1,1 +1,0 @@
-export const ENV = { api: 'http://localhost:3000', static: 'http://localhost:5000' };
