@@ -1,6 +1,5 @@
 import { ENV } from '../../../../constants';
 import { LitElement, html } from 'lit-element';
-import { SharedStyles } from '../../shared-styles.js';
 
 import debounce from 'lodash-es/debounce';
 
@@ -103,10 +102,12 @@ class UMap extends connect(store)(LitElement) {
   }
 
   render() {
-    return html`
-      ${SharedStyles}
-      
-      <style>        
+    return html`      
+      <style>
+        [hidden] {
+          display: none;
+        }
+        
         .container {
             width: 100vw;
             height: 100vh;

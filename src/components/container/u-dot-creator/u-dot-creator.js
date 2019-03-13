@@ -1,13 +1,10 @@
 import {html, LitElement} from 'lit-element';
-import {SharedStyles} from '../../shared-styles.js';
 
 import {store} from '../../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
 import {putDot} from '../u-dot/redux';
 import {toggleDotCreator, map, setCloudsVisibility} from '../u-map/redux';
-import {ENV} from '../../../constants';
 import {navigate} from "../u-app/redux";
-import {getComments} from "../u-comments/redux";
 
 store.addReducers({map});
 
@@ -46,7 +43,6 @@ class UDotCreator extends connect(store)(LitElement) {
 
     render() {
         return html`
-          ${SharedStyles}
           
           <style>
             :host {

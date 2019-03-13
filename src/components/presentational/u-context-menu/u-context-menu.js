@@ -1,5 +1,4 @@
 import { html, LitElement } from 'lit-element';
-import { SharedStyles } from '../../shared-styles';
 
 export class UContextMenu extends LitElement {
 
@@ -15,9 +14,7 @@ export class UContextMenu extends LitElement {
   }
 
   render() {
-    return html`
-      ${SharedStyles}
-      
+    return html`      
       <style>
         :host {
           position: fixed;

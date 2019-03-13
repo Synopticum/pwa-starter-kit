@@ -1,5 +1,4 @@
 import {html, LitElement} from 'lit-element';
-import {SharedStyles} from '../../shared-styles.js';
 
 import {store} from '../../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
@@ -50,9 +49,8 @@ class UDot extends connect(store)(LitElement) {
     }
 
     render() {
-        return html`
+      return html`
       
-      ${SharedStyles}
       <style>
         :host {
             width: 100%;

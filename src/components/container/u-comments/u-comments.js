@@ -1,5 +1,4 @@
 import { html, LitElement } from 'lit-element';
-import { SharedStyles } from '../../shared-styles';
 import { repeat } from 'lit-element/node_modules/lit-html/directives/repeat';
 
 import { store } from '../../../store';
@@ -32,9 +31,7 @@ export class UComments extends connect(store)(LitElement) {
   }
 
   render() {
-    return html`
-      ${SharedStyles}
-      
+    return html`      
       <style>
         :host {
         }

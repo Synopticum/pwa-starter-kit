@@ -10,13 +10,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { html } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
-import { SharedStyles } from '../shared-styles.js';
 
 class U404 extends PageViewElement {
   render() {
-    return html`
-      ${SharedStyles}
-      
+    return html`      
       <style>
         :host {
           position: fixed;

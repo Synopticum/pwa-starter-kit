@@ -1,5 +1,4 @@
 import { html, LitElement } from 'lit-element';
-import { SharedStyles } from '../../shared-styles.js';
 
 class UTooltip extends LitElement {
 
@@ -19,7 +18,6 @@ class UTooltip extends LitElement {
 
   render() {
     return html`
-      ${SharedStyles}
       <style>
         :host {
             position: fixed;

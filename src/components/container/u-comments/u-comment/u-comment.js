@@ -1,6 +1,4 @@
 import { html, LitElement } from 'lit-element';
-import { SharedStyles } from '../../../shared-styles';
-
 export class UComment extends LitElement {
 
   static get properties() {
@@ -12,9 +10,7 @@ export class UComment extends LitElement {
   }
 
   render() {
-    return html`
-      ${SharedStyles}
-      
+    return html`      
       <style>
         :host {
             position: relative;
