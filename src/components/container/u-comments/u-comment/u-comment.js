@@ -1,4 +1,5 @@
 import { html, LitElement } from 'lit-element';
+
 export class UComment extends LitElement {
 
   static get properties() {
@@ -54,8 +55,8 @@ export class UComment extends LitElement {
       <div class="text">${this.comment.text}</div>
         
       <div class="meta">
-          <div class="author">${this.comment.author} /</div>
-          <div class="date">${this.comment.date}</div>
+          <div class="author">${this.comment.author} / </div>
+          <div class="date">${moment.unix(this.comment.date).format("DD.MM.YYYY")}</div>
       </div>
       
       <div class="controls">

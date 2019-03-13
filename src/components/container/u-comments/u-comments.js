@@ -114,7 +114,7 @@ export class UComments extends connect(store)(LitElement) {
       originType: this.originType,
       originId: this.originId,
       text: this.$textarea.value,
-      date: Date.now(),
+      date: moment().unix(),
       author: `${this._user.firstName} ${this._user.lastName}`
     }));
   }
