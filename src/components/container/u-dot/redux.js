@@ -2,7 +2,6 @@
 // Action
 //
 import { ENV } from '../../../constants';
-import { OBJECT } from '../u-object/redux';
 
 const DOT = {
   GET: {

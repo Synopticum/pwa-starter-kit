@@ -4,7 +4,6 @@ import { lazyReducerEnhancer } from 'pwa-helpers/lazy-reducer-enhancer.js';
 
 import { app } from './components/container/u-app/redux';
 import { map } from './components/container/u-map/redux';
-import { objectPage } from './components/container/u-object/redux';
 
 // Sets up a Chrome extension for time travel debugging.
 // See https://github.com/zalmoxisus/redux-devtools-extension for more information.
@@ -23,6 +22,5 @@ export const store = createStore(
 // Initially loaded reducers.
 store.addReducers({
   app,
-  map,
-  objectPage
+  map
 });

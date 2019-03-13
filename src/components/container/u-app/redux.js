@@ -26,8 +26,7 @@ const loadPage = (page) => async (dispatch, getState) => {
   import('../../presentational/u-context-menu/u-context-menu.js');
   import('../../presentational/u-textbox/u-textbox.js');
 
-  import('../u-object-tooltip/u-object-tooltip.js');
-  import('../u-object/u-object.js');
+  import('../u-dot-tooltip/u-dot-tooltip.js');
 
   import('../u-dot/u-dot.js');
   import('../u-dot-creator/u-dot-creator.js');
@@ -38,15 +37,15 @@ const loadPage = (page) => async (dispatch, getState) => {
   switch (true) {
     case (page === '/'):
       break;
-    case (/^(objects)\/(.+)$/.test(page)):
-      dispatch(setCurrentObjectId(page.split('/')[1]));
-      break;
+
     case (/^(dots)\/(.+)$/.test(page)):
       dispatch(setCurrentDotId(page.split('/')[1]));
       break;
+
     case (page === 'success'):
       // do nothing
       break;
+
     default:
       page = '404';
       import('../../presentational/u-404.js');

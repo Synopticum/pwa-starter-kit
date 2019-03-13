@@ -1,7 +1,7 @@
 import { html, LitElement } from 'lit-element';
 import { SharedStyles } from '../../shared-styles.js';
 
-class UObjectTooltip extends LitElement {
+class UDotTooltip extends LitElement {
 
   static get properties() {
     return {
@@ -48,4 +48,4 @@ class UObjectTooltip extends LitElement {
   }
 }
 
-window.customElements.define('u-object-tooltip', UObjectTooltip);
+window.customElements.define('u-dot-tooltip', UDotTooltip);

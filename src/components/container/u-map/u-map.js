@@ -68,10 +68,6 @@ class UMap extends connect(store)(LitElement) {
       },
 
       // setup interactive elements on map
-      _objectPage: {
-        type: Object,
-        attribute: false
-      },
       _dotPage: {
         type: Object,
         attribute: false
@@ -212,16 +208,11 @@ class UMap extends connect(store)(LitElement) {
       </style>
       
       <div class="container container--clouds-visibility-${this._clouds.visibility}">        
-        <u-object-tooltip 
+        <u-dot-tooltip 
             ?hidden="${!this._tooltip.isVisible}" 
             .x="${this._tooltip.position.x}"
             .y="${this._tooltip.position.y}"
-            .origin="${this._tooltip.position.origin}">${this._tooltip.object ? html`${this._tooltip.object.title}<br>${this._tooltip.object.shortDescription}` : ''}</u-object-tooltip>            
-        
-        ${this._objectPage.isVisible
-          ? html`<u-object .objectId="${this._objectPage.currentObjectId}" @hide="${(e) => { this._toggleObject(false, e) }}"></u-object>`
-          : ``
-        }        
+            .origin="${this._tooltip.position.origin}">${this._tooltip.object ? html`${this._tooltip.object.title}<br>${this._tooltip.object.shortDescription}` : ''}</u-dot-tooltip>               
         
         ${this._dotPage.isVisible
           ? html`<u-dot .dotId="${this._dotPage.currentDotId}" @hide="${(e) => { this._toggleDot(false, e) }}"></u-dot>`
@@ -271,7 +262,6 @@ class UMap extends connect(store)(LitElement) {
     this._dotCreator = state.map.dotCreator;
     this._clouds = state.map.clouds;
 
-    this._objectPage = state.map.objectPage;
     this._dotPage = state.map.dotPage;
 
     if (this._tempDotRef) {
