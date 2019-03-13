@@ -1,6 +1,6 @@
 {
   "entrypoint": "index.html",
-  "shell": "src/components/app-level/u-app/u-app.js",
+  "shell": "src/components/container/u-app/u-app.js",
   "sources": [
     "static/images/**/*",
     "static/libs/**/*",
@@ -10,7 +10,7 @@
     "manifest.json",
     "node_modules/@webcomponents/webcomponentsjs/**",
     "node_modules/leaflet/**",
-    "src/components/app-level/u-login/**",
+    "src/components/container/u-login/**",
     "push-manifest.json"
   ],
   "builds": [

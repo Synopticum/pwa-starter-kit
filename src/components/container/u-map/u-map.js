@@ -1,4 +1,4 @@
-import { ENV } from '../../../../constants';
+import { ENV } from '../../../constants';
 import { LitElement, html } from 'lit-element';
 
 import debounce from 'lodash-es/debounce';

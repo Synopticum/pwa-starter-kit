@@ -8,7 +8,6 @@
   "license": "BSD-3-Clause",
   "scripts": {
     "start": "node ./env.js && polymer serve",
-    "build": "npm run build:prpl-server && npm run build:static",
     "build:static": "node ./env.js && polymer build",
     "serve:static": "polymer serve --port 5000 build/esm-bundled"
   },
