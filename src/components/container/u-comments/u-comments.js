@@ -57,7 +57,6 @@ export class UComments extends connect(store)(LitElement) {
         
         .textarea {
             margin-bottom: 10px;
-            width: 100%;
         }
         
         .button {
@@ -76,12 +75,13 @@ export class UComments extends connect(store)(LitElement) {
       </div>
       
       <form class="form">
-        <textarea 
-            class="textarea"
+        <u-textarea
+            type="default"
             id="comment-to-add" 
+            class="textarea"
             placeholder="Добавить комментарий"
             @keyup="${this._validate}"
-            required></textarea>
+            required></u-textarea>
             
         <button 
             class="button"

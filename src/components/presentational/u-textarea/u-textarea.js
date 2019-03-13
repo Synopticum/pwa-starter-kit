@@ -1,6 +1,6 @@
 import {html, LitElement} from 'lit-element';
 
-export class UTextbox extends LitElement {
+export class UTextarea extends LitElement {
 
     static get properties() {
         return {
@@ -44,57 +44,50 @@ export class UTextbox extends LitElement {
                 display: inline-block;
               }
           
-              .textbox__element {
+              .textarea__element {
                 width: 100%;
-                padding: 5px 10px;
                 font-family: 'PT Serif', Helvetica, 'Times New Roman', serif;
-                font-size: 18px;
-                background-color: #f9f9f9;
                 border: 1px dashed #ccc;
+                background-color: #f9f9f9;
+                font-size: 14px;
+                padding: 10px;
+                resize: none;
                 outline: none;
               }
             
-              .textbox__element:focus {
+              .textarea__element:focus {
                 border-color: #ccc;
                 border-style: dashed;
               }
             
-              .textbox__element::-webkit-input-placeholder {
+              .textarea__element::-webkit-input-placeholder {
                 font-style: italic;
               }
             
-              .textbox__element::-moz-placeholder {
+              .textarea__element::-moz-placeholder {
                 font-style: italic;
               }
               
-              .textbox.textbox--is-updating .textbox__element {
+              .textarea.textarea--is-updating .textarea__element {
                 user-select: none;
                 /*background-color: #ff0000;*/
               }
               
-              .textbox__element.textbox__element--default {
+              .textarea__element.textarea__element--default {
                 
               }
           </style>
           
-          <div class="textbox ${this.isUpdating ? 'textbox--is-updating' : ''}">
-            <input 
-                type="text" 
-                id="${this.id}"
-                class="textbox__element"
-                value="${this.value}" 
-                @keyup="${this._update}"
+          <div class="textarea textarea--${this.type} ${this.isUpdating ? 'textarea--is-updating' : ''}">
+            <textarea
+                class="textarea__element"
+                id="${this.id}" 
                 placeholder="${this.placeholder}"
                 ?disabled="${this.disabled}"
-                ?required="${this.required}"
-                autocomplete="off">
+                ?required="${this.required}">${this.value}</textarea>
           </div>
     `;
     }
-
-    _update(e) {
-        this.value = e.currentTarget.value;
-    }
 }
 
-window.customElements.define('u-textbox', UTextbox);
+window.customElements.define('u-textarea', UTextarea);

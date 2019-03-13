@@ -26,6 +26,7 @@ const loadPage = (page) => async (dispatch, getState) => {
 
   import('../../presentational/u-context-menu/u-context-menu.js');
   import('../../presentational/u-textbox/u-textbox.js');
+  import('../../presentational/u-textarea/u-textarea.js');
   import('../../presentational/u-round-button/u-round-button.js');
   import('../../presentational/u-tooltip/u-tooltip.js');
 

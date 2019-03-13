@@ -126,6 +126,7 @@ class UDot extends connect(store)(LitElement) {
         <div class="wrapper">
           <div class="form">
             <u-textbox
+                 type="default"
                  id="dot-title"
                  ?is-updating="${this._isUpdating}" 
                  ?disabled="${!this._user.isAdmin}"
@@ -134,6 +135,7 @@ class UDot extends connect(store)(LitElement) {
                  placeholder="Введите название точки"></u-textbox>
                  
             <u-textbox
+                 type="default"
                  id="dot-short-description"
                  ?is-updating="${this._isUpdating}" 
                  ?disabled="${!this._user.isAdmin}"

@@ -111,6 +111,7 @@ class UDotCreator extends connect(store)(LitElement) {
             <div class="bounce"></div>
             
              <u-textbox
+                type="default"
                 id="dot-title"
                 ?is-updating="${this._isUpdating}" 
                 ?disabled="${!this._user.isAdmin}"
