@@ -14,7 +14,7 @@ export class UTextarea extends LitElement {
             },
             value: {
                 type: String,
-                attribute: 'value'
+                attribute: false
             },
             placeholder: {
                 type: String,
@@ -33,6 +33,11 @@ export class UTextarea extends LitElement {
                 attribute: 'is-updating'
             }
         }
+    }
+
+    constructor() {
+        super();
+        this.addEventListener('update', this.valueChanged);
     }
 
     render() {
@@ -83,10 +88,15 @@ export class UTextarea extends LitElement {
                 class="textarea__element"
                 id="${this.id}" 
                 placeholder="${this.placeholder}"
+                @keyup="${this.valueChanged}"
                 ?disabled="${this.disabled}"
                 ?required="${this.required}">${this.value}</textarea>
           </div>
     `;
+    }
+
+    valueChanged(e) {
+        this.value = e.currentTarget.value ? e.currentTarget.value : '';
     }
 }
 

@@ -13,9 +13,10 @@ export class UComment extends LitElement {
     return html`      
       <style>
         :host {
+            display: block;
             position: relative;
             padding: 10px 0;
-            margin: 10px;
+            margin: 10px 0;
             border-bottom: 1px solid #ccc;
             line-height: 1.3;
         }
@@ -46,7 +47,7 @@ export class UComment extends LitElement {
             display: block;
             width: 12px;
             height: 12px;
-            background: url("static/images/x.svg") no-repeat 50% 50%;
+            background: url("static/images/button-icons/x.svg") no-repeat 50% 50%;
         }
       </style>
       

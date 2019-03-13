@@ -102,7 +102,6 @@ export class UComments extends connect(store)(LitElement) {
   }
 
   firstUpdated() {
-    this.$form = this.shadowRoot.querySelector('form');
     this.$textarea = this.shadowRoot.querySelector('#comment-to-add');
 
     store.dispatch(getComments(this.originType, this.originId));
@@ -127,7 +126,7 @@ export class UComments extends connect(store)(LitElement) {
   }
 
   _validate() {
-    this.$form.checkValidity() ? this._isValid = true : this._isValid = false;
+    this.$textarea.value ? this._isValid = true : this._isValid = false;
   }
 }
 
