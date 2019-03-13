@@ -6,6 +6,7 @@ import {connect} from 'pwa-helpers/connect-mixin';
 import {getDot, putDot, dotPage} from './redux';
 import {clearDotState} from '../u-dot/redux';
 import {setCloudsVisibility} from '../u-map/redux';
+import _ from 'lodash-es';
 
 store.addReducers({dotPage});
 
