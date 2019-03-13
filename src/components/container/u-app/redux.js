@@ -23,9 +23,10 @@ export const navigate = (path) => (dispatch) => {
 
 const loadPage = (page) => async (dispatch, getState) => {
   await import('../u-map/u-map.js');
+
   import('../../presentational/u-context-menu/u-context-menu.js');
   import('../../presentational/u-textbox/u-textbox.js');
-
+  import('../../presentational/u-round-button/u-round-button.js');
   import('../../presentational/u-tooltip/u-tooltip.js');
 
   import('../u-dot/u-dot.js');

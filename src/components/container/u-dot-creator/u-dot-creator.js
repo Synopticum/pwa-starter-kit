@@ -46,117 +46,98 @@ class UDotCreator extends connect(store)(LitElement) {
 
     render() {
         return html`
-      ${SharedStyles}
-      
-      <style>
-        :host {
-            position: fixed;
-            left: ${this.x}px;
-            top: ${this.y}px;
-            padding: 10px;
-            z-index: 200;
-            width: 100%;
-            max-width: 300px;
-            transform: scale(1);
-            transition: transform .3s;
-            border: 3px solid #6B9B29;
-            border-radius: 3px;
-            background-color: #f9f9f9;
-            box-shadow: 4px 4px 4px rgba(0,0,0,.15);
-        }
-        
-        :host([hidden]) {
-            display: block !important;
-            transform: scale(0);
-        }
-        
-        @keyframes bounce { 
-          0% {transform: scale(.2);}
-          50% {transform: scale(1);}
-        }
-        
-        .bounce {
-            content: '';
-            position: absolute;
-            left: -7.5px;
-            top: -7.5px;
-            width: 15px;
-            height: 15px;
-            background-color: #f00;
-            border-radius: 50%;
-            user-select: none;
-            animation: bounce 1s alternate infinite linear;
-        }
-        
-        .cancel {
-            cursor: pointer;
-            position: absolute;
-            right: 20px;
-            bottom: -15px;
-            width: 30px;
-            height: 30px;
-            border: 0;
-            outline: none;
-            background: url("static/images/close.svg") no-repeat 50% 50% #fff;
-            border-radius: 50%;
-        }
-        
-        .submit {
-            cursor: pointer;
-            position: absolute;
-            right: -15px;
-            bottom: -15px;
-            width: 30px;
-            height: 30px;
-            border: 0;
-            outline: none;
-            background: url("static/images/ok.svg") no-repeat 50% 50% #fff;
-            border-radius: 50%;
-        }
-        
-        .submit:disabled {
-            cursor: not-allowed;
-            opacity: .3;
-        }
-        
-        #dot-title {
-            margin: 5px 0;
-            width: 100%;
-            border: 0;
-        }
-      </style>
-      
-      <form class="form">
-        <div class="bounce"></div>
-        
-         <u-textbox
-            id="dot-title"
-            ?is-updating="${this._isUpdating}" 
-            ?disabled="${!this._user.isAdmin}"
-            value=""
-            @keyup="${this._validate}"
-            placeholder="Введите название точки"></u-textbox><br>
-        
-        <div class="advanced-controls" ?hidden="${!this._user.isAdmin}"">
-          <select id="dot-layer">
-              <option value="official" selected>Official</option>
-              <option value="non-official">Non-official</option>
-          </select>
+          ${SharedStyles}
           
-          <select id="dot-type">
-              <option value="global" selected>Global</option>
-              <option value="local">Local</option>
-          </select>
-        </form>
-        
-        <button class="cancel" type="button" @click="${this._cancel.bind(this)}"></button>
-        
-        <button 
-            class="submit" 
-            type="submit" 
-            ?disabled="${!this._isValid}" 
-            @click="${this._create.bind(this)}"></button>
-      </div>
+          <style>
+            :host {
+                position: fixed;
+                left: ${this.x}px;
+                top: ${this.y}px;
+                padding: 10px;
+                z-index: 200;
+                width: 100%;
+                max-width: 300px;
+                transform: scale(1);
+                transition: transform .3s;
+                border: 3px solid #6B9B29;
+                border-radius: 3px;
+                background-color: #f9f9f9;
+                box-shadow: 4px 4px 4px rgba(0,0,0,.15);
+            }
+            
+            :host([hidden]) {
+                display: block !important;
+                transform: scale(0);
+            }
+            
+            @keyframes bounce { 
+              0% {transform: scale(.3);}
+              50% {transform: scale(1.3);}
+            }
+            
+            .bounce {
+                content: '';
+                position: absolute;
+                left: -7.5px;
+                top: -7.5px;
+                width: 15px;
+                height: 15px;
+                background-color: #f00;
+                border-radius: 50%;
+                user-select: none;
+                animation: bounce 1s alternate infinite linear;
+            }
+            
+            .close {
+                position: absolute;
+                right: 20px;
+                bottom: -15px;
+            }
+            
+            .submit {
+                position: absolute;
+                right: -15px;
+                bottom: -15px;
+            }
+            
+            #dot-title {
+                margin: 5px 0;
+                width: 100%;
+                border: 0;
+            }
+          </style>
+          
+          <form class="form">
+            <div class="bounce"></div>
+            
+             <u-textbox
+                id="dot-title"
+                ?is-updating="${this._isUpdating}" 
+                ?disabled="${!this._user.isAdmin}"
+                value=""
+                @keyup="${this._validate}"
+                placeholder="Введите название точки"></u-textbox><br>
+            
+            <div class="advanced-controls" ?hidden="${!this._user.isAdmin}"">
+              <select id="dot-layer">
+                  <option value="official" selected>Official</option>
+                  <option value="non-official">Non-official</option>
+              </select>
+              
+              <select id="dot-type">
+                  <option value="global" selected>Global</option>
+                  <option value="local">Local</option>
+              </select>
+            </form>
+            
+            <u-round-button type="close" class="close" @click="${this.close.bind(this)}"></u-round-button>  
+            
+            <u-round-button 
+                type="submit" 
+                class="submit" 
+                ?disabled="${!this._isValid}" 
+                @click="${this.create.bind(this)}"></u-round-button>  
+          </div>
     `;
     }
 
@@ -170,7 +151,7 @@ class UDotCreator extends connect(store)(LitElement) {
         this._user = state.app.user;
     }
 
-    _create(e) {
+    create(e) {
         e.preventDefault();
 
         let dot = new Dot({
@@ -188,7 +169,7 @@ class UDotCreator extends connect(store)(LitElement) {
         store.dispatch(navigate(`/dots/${dot.id}`));
     }
 
-    _cancel() {
+    close() {
         store.dispatch(toggleDotCreator(false, {x: this.x, y: this.y}));
         store.dispatch(setCloudsVisibility('none'));
     }

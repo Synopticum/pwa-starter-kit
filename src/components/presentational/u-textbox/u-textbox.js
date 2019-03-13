@@ -78,7 +78,8 @@ export class UTextbox extends LitElement {
                 @keyup="${this._update}"
                 placeholder="${this.placeholder}"
                 ?disabled="${this.disabled}"
-                ?required="${this.required}">
+                ?required="${this.required}"
+                autocomplete="off">
           </div>
     `;
     }

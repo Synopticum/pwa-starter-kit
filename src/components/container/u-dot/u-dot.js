@@ -76,14 +76,9 @@ class UDot extends connect(store)(LitElement) {
         }
         
         .close {
-            cursor: pointer;
             position: absolute;
             right: -15px;
             top: -15px;
-            width: 30px;
-            height: 30px;
-            background: url("static/images/close.svg") no-repeat 50% 50% #fff;
-            border-radius: 50%;
         }
         
         .wrapper {
@@ -100,21 +95,9 @@ class UDot extends connect(store)(LitElement) {
         }
         
         .submit {
-            cursor: pointer;
             position: absolute;
             right: -15px;
             bottom: -15px;
-            width: 30px;
-            height: 30px;
-            border: 0;
-            outline: none;
-            background: url("static/images/ok.svg") no-repeat 50% 50% #fff;
-            border-radius: 50%;
-        }
-        
-        .submit:disabled {
-            cursor: not-allowed;
-            opacity: .3;
         }
         
         #dot-title,
@@ -138,7 +121,7 @@ class UDot extends connect(store)(LitElement) {
       </style>
       
       <div class="dot">
-        <div class="close" @click="${UDot.close}"></div>        
+        <u-round-button type="close" class="close" @click="${UDot.close}"></u-round-button>  
         
         <div class="wrapper">
           <div class="form">
@@ -156,12 +139,12 @@ class UDot extends connect(store)(LitElement) {
                  ?disabled="${!this._user.isAdmin}"
                  value="${this.shortDescription ? this.shortDescription : ''}"
                  placeholder="Введите краткое описание"></u-textbox>
-            
-            <button 
-                class="submit" 
+                 
+            <u-round-button
                 type="submit"
-                ?disabled="${!this._isValid}" 
-                @click="${this.submit.bind(this)}"></button>
+                class="submit"
+                ?disabled="${!this._isValid}"
+                @click="${this.submit.bind(this)}"></u-round-button>  
           </div>
           
           <div class="comments">
