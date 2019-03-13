@@ -1,58 +1,55 @@
-import { html, LitElement } from 'lit-element';
-import { SharedStyles } from '../../shared-styles.js';
+import {html, LitElement} from 'lit-element';
+import {SharedStyles} from '../../shared-styles.js';
 
-import { store } from '../../../store';
-import { connect } from 'pwa-helpers/connect-mixin';
-import { getDot, putDot, dotPage } from './redux';
-import { clearDotState } from '../u-dot/redux';
-import { setCloudsVisibility } from '../u-map/redux';
-store.addReducers({ dotPage });
+import {store} from '../../../store';
+import {connect} from 'pwa-helpers/connect-mixin';
+import {getDot, putDot, dotPage} from './redux';
+import {clearDotState} from '../u-dot/redux';
+import {setCloudsVisibility} from '../u-map/redux';
+
+store.addReducers({dotPage});
 
 class UDot extends connect(store)(LitElement) {
 
-  static get properties() {
-    return {
-      dotId: {
-        type: String
-      },
-      title: {
-        type: String,
-        attribute: false
-      },
-      shortDescription: {
-        type: String,
-        attribute: false
-      },
-      fullDescription: {
-        type: String,
-        attribute: false
-      },
+    static get properties() {
+        return {
+            dotId: {
+                type: String
+            },
+            title: {
+                type: String,
+                attribute: false
+            },
+            shortDescription: {
+                type: String,
+                attribute: false
+            },
 
-      _user: {
-        type: Object,
-        attribute: false
-      },
-      _dot: {
-        type: Object,
-        attribute: false
-      },
-      _isFetching: {
-        type: Boolean,
-        attribute: false
-      },
-      _isUpdating: {
-        type: Boolean,
-        attribute: false
-      },
-      _isValid: {
-        type: Boolean,
-        attribute: false
-      }
-    };
-  }
+            _user: {
+                type: Object,
+                attribute: false
+            },
+            _dot: {
+                type: Object,
+                attribute: false
+            },
+            _isFetching: {
+                type: Boolean,
+                attribute: false
+            },
+            _isUpdating: {
+                type: Boolean,
+                attribute: false
+            },
+            _isValid: {
+                type: Boolean,
+                attribute: false
+            }
+        };
+    }
 
-  render() {
-    return html`
+    render() {
+        return html`
       
       ${SharedStyles}
       <style>
@@ -143,13 +140,13 @@ class UDot extends connect(store)(LitElement) {
         <div class="close" @click="${UDot.close}"></div>        
         
         <div class="wrapper">
-          <form class="form">
+          <div class="form">
             <u-textbox
                  id="dot-title"
                  ?is-updating="${this._isUpdating}" 
                  ?disabled="${!this._user.isAdmin}"
                  value="${this.title ? this.title : ''}"
-                 @keyup="${this._validate}"
+                 @keyup="${this.validate}"
                  placeholder="Введите название точки"></u-textbox>
                  
             <u-textbox
@@ -158,21 +155,13 @@ class UDot extends connect(store)(LitElement) {
                  ?disabled="${!this._user.isAdmin}"
                  value="${this.shortDescription ? this.shortDescription : ''}"
                  placeholder="Введите краткое описание"></u-textbox>
-                 
-            <u-textbox
-                 hidden
-                 id="dot-full-description"
-                 ?is-updating="${this._isUpdating}" 
-                 ?disabled="${!this._user.isAdmin}"
-                 value="${this.fullDescription ? this.fullDescription : ''}"
-                 placeholder="Введите полное описание"></u-textbox>
             
             <button 
                 class="submit" 
                 type="submit"
                 ?disabled="${!this._isValid}" 
-                @click="${this._submit.bind(this)}"></button>
-          </form>
+                @click="${this.submit.bind(this)}"></button>
+          </div>
           
           <div class="comments">
               <u-comments origin-type="dot" origin-id="${this.dotId}"></u-comments>
@@ -180,68 +169,71 @@ class UDot extends connect(store)(LitElement) {
         </div>
       </div> 
     `
-  }
+    }
 
-  constructor() {
-    super();
-    this._isValid = false;
+    constructor() {
+        super();
+        this._setDefaults();
+    }
 
-    this.title = '';
-    this.shortDescription = '';
-    this.fullDescription = '';
-  }
+    stateChanged(state) {
+        this._user = state.app.user;
+        this._dot = state.dotPage.dot;
 
-  stateChanged(state) {
-    this._user = state.app.user;
-    this._dot = state.dotPage.dot;
+        // form state being fetched once from store
+        // after that it is internal and not reflected to store
+        this.title = state.dotPage.dot.title;
+        this.shortDescription = state.dotPage.dot.shortDescription;
 
-    // form state being fetched once from store
-    // after that it is internal and not reflected to store
-    this.title = state.dotPage.dot.title;
-    this.shortDescription = state.dotPage.dot.shortDescription;
-    this.fullDescription = state.dotPage.dot.fullDescription;
+        this._isUpdating = state.dotPage.isUpdating;
+        this._isFetching = state.dotPage.isFetching;
 
-    this._isUpdating = state.dotPage.isUpdating;
-    this._isFetching = state.dotPage.isFetching;
+        _.defer(this.validate.bind(this));
+    }
 
-    _.defer(this._validate.bind(this));
-  }
+    firstUpdated() {
+        this._init();
+        this._setReferences();
+    }
 
-  firstUpdated() {
-    store.dispatch(setCloudsVisibility('full'));
-    store.dispatch(getDot(this.dotId));
+    static close() {
+        store.dispatch(setCloudsVisibility('none'));
+        store.dispatch(clearDotState());
+        this.dispatchEvent(new CustomEvent('hide', {composed: true}));
+    }
 
-    // _create references to the inputs
-    this.$dotTitle = this.shadowRoot.querySelector('#dot-title');
-    this.$shortDescription = this.shadowRoot.querySelector('#dot-short-description');
-    this.$fullDescription = this.shadowRoot.querySelector('#dot-full-description');
-  }
+    validate() {
+        this.$dotTitle.value ? this._isValid = true : this._isValid = false;
+    }
 
-  disconnectedCallback() {
-    store.dispatch(clearDotState());
-  }
+    submit(e) {
+        e.preventDefault();
 
-  static close() {
-    store.dispatch(setCloudsVisibility('none'));
-    this.dispatchEvent(new CustomEvent('hide', { composed: true }));
-  }
+        let updatedDot = {
+            ...this._dot,
+            title: this.$dotTitle.value,
+            shortDescription: this.$shortDescription.value
+        };
 
-  _validate() {
-    this.$dotTitle.value ? this._isValid = true : this._isValid = false;
-  }
+        store.dispatch(putDot(updatedDot, this.dotId));
+    }
 
-  _submit(e) {
-    e.preventDefault();
+    _init() {
+        store.dispatch(setCloudsVisibility('full'));
+        store.dispatch(getDot(this.dotId));
+    }
 
-    let updatedDot = {
-      ...this._dot,
-      title: this.$dotTitle.value,
-      shortDescription: this.$shortDescription.value,
-      fullDescription: this.$fullDescription.value
-    };
+    _setDefaults() {
+        this._isValid = false;
 
-    store.dispatch(putDot(updatedDot, this.dotId));
-  }
+        this.title = '';
+        this.shortDescription = '';
+    }
+
+    _setReferences() {
+        this.$dotTitle = this.shadowRoot.querySelector('#dot-title');
+        this.$shortDescription = this.shadowRoot.querySelector('#dot-short-description');
+    }
 }
 
 window.customElements.define('u-dot', UDot);
