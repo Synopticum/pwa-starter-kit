@@ -24,6 +24,7 @@ export const navigate = (path) => (dispatch) => {
 const loadPage = (page) => async (dispatch, getState) => {
   await import('../u-map/u-map.js');
   import('../../presentational/u-context-menu/u-context-menu.js');
+  import('../../presentational/u-textbox/u-textbox.js');
 
   import('../u-object-tooltip/u-object-tooltip.js');
   import('../u-object/u-object.js');

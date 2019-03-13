@@ -34,25 +34,6 @@ export const SharedStyles = html`
   [contentEditable] {
     outline: none;
   }
-  
-  .textbox {
-    padding: 5px 10px;
-    font-family: 'PT Serif', Helvetica, 'Times New Roman', serif;
-    font-size: 18px;
-    background-color: #f9f9f9;
-    border: 1px dashed #ccc;
-    outline: none;
-  }
-  .textbox:focus {
-    border-color: #ccc;
-    border-style: dashed;
-  }
-  .textbox::-webkit-input-placeholder {
-    font-style: italic;
-  }
-  .textbox::-moz-placeholder {
-    font-style: italic;
-  }
         
   .textarea {
     font-family: 'PT Serif', Helvetica, 'Times New Roman', serif;

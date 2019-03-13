@@ -15,9 +15,26 @@ class UDot extends connect(store)(LitElement) {
       dotId: {
         type: String
       },
+      title: {
+        type: String,
+        attribute: false
+      },
+      shortDescription: {
+        type: String,
+        attribute: false
+      },
+      fullDescription: {
+        type: String,
+        attribute: false
+      },
 
       _user: {
-        type: Object
+        type: Object,
+        attribute: false
+      },
+      _dot: {
+        type: Object,
+        attribute: false
       },
       _isFetching: {
         type: Boolean,
@@ -102,7 +119,9 @@ class UDot extends connect(store)(LitElement) {
             opacity: .3;
         }
         
-        .textbox {
+        #dot-title,
+        #dot-short-description,
+        #dot-full-description {
           width: 100%;
           padding-left: 0;
           border-color: transparent;
@@ -112,22 +131,11 @@ class UDot extends connect(store)(LitElement) {
             font-size: 24px;
         }
         
+        #dot-short-description,
         #dot-short-description {
             margin-top: 10px;
             padding-top: 10px;
             font-size: 16px;
-        }
-        
-        #dot-full-description {
-            margin-top: 10px;
-            padding-top: 10px;
-            font-size: 16px;
-        }
-        
-        #dot-title[data-fetching],
-        #dot-short-description[data-fetching],
-        #dot-full-description[data-fetching] {
-            color: #ccc;
         }
       </style>
       
@@ -136,32 +144,28 @@ class UDot extends connect(store)(LitElement) {
         
         <div class="wrapper">
           <form class="form">
-            <input 
-                 class="textbox ${this._dot.title ? '' : 'textbox--empty'}" 
-                 id="dot-title" 
-                 ?data-fetching="${this._isUpdating}" 
+            <u-textbox
+                 id="dot-title"
+                 ?is-updating="${this._isUpdating}" 
                  ?disabled="${!this._user.isAdmin}"
-                 value="${this._dot.title ? this._dot.title : ''}"
+                 value="${this.title ? this.title : ''}"
                  @keyup="${this._validate}"
-                 placeholder="Введите название точки"
-                 required>
+                 placeholder="Введите название точки"></u-textbox>
                  
-            <input 
-                 class="textbox ${this._dot.shortDescription ? '' : 'textbox--empty'}" 
-                 id="dot-short-description" 
-                 ?data-fetching="${this._isUpdating}" 
+            <u-textbox
+                 id="dot-short-description"
+                 ?is-updating="${this._isUpdating}" 
                  ?disabled="${!this._user.isAdmin}"
-                 value="${this._dot.shortDescription ? this._dot.shortDescription : ''}"
-                 placeholder="Введите краткое описание">
+                 value="${this.shortDescription ? this.shortDescription : ''}"
+                 placeholder="Введите краткое описание"></u-textbox>
                  
-            <input 
+            <u-textbox
                  hidden
-                 class="textbox ${this._dot.fullDescription ? '' : 'textbox--empty'}" 
-                 id="dot-full-description" 
-                 ?data-fetching="${this._isUpdating}" 
+                 id="dot-full-description"
+                 ?is-updating="${this._isUpdating}" 
                  ?disabled="${!this._user.isAdmin}"
-                 value="${this._dot.fullDescription ? this._dot.fullDescription : ''}"
-                 placeholder="Введите полное описание">
+                 value="${this.fullDescription ? this.fullDescription : ''}"
+                 placeholder="Введите полное описание"></u-textbox>
             
             <button 
                 class="submit" 
@@ -181,14 +185,25 @@ class UDot extends connect(store)(LitElement) {
   constructor() {
     super();
     this._isValid = false;
-  }
 
+    this.title = '';
+    this.shortDescription = '';
+    this.fullDescription = '';
+  }
 
   stateChanged(state) {
     this._user = state.app.user;
     this._dot = state.dotPage.dot;
+
+    // form state being fetched once from store
+    // after that it is internal and not reflected to store
+    this.title = state.dotPage.dot.title;
+    this.shortDescription = state.dotPage.dot.shortDescription;
+    this.fullDescription = state.dotPage.dot.fullDescription;
+
     this._isUpdating = state.dotPage.isUpdating;
     this._isFetching = state.dotPage.isFetching;
+
     _.defer(this._validate.bind(this));
   }
 
@@ -197,10 +212,9 @@ class UDot extends connect(store)(LitElement) {
     store.dispatch(getDot(this.dotId));
 
     // _create references to the inputs
-    this.$form = this.shadowRoot.querySelector('form');
     this.$dotTitle = this.shadowRoot.querySelector('#dot-title');
-    this.$dotShortDescription = this.shadowRoot.querySelector('#dot-short-description');
-    this.$dotFullDescription = this.shadowRoot.querySelector('#dot-full-description');
+    this.$shortDescription = this.shadowRoot.querySelector('#dot-short-description');
+    this.$fullDescription = this.shadowRoot.querySelector('#dot-full-description');
   }
 
   disconnectedCallback() {
@@ -213,20 +227,20 @@ class UDot extends connect(store)(LitElement) {
   }
 
   _validate() {
-    this._dot.id && this.$form.checkValidity() ? this._isValid = true : this._isValid = false;
+    this.$dotTitle.value ? this._isValid = true : this._isValid = false;
   }
 
   _submit(e) {
     e.preventDefault();
-    let dotId = this._dot.id;
 
-    let updatedDot = Object.assign(this._dot, {
+    let updatedDot = {
+      ...this._dot,
       title: this.$dotTitle.value,
-      shortDescription: this.$dotShortDescription.value,
-      fullDescription: this.$dotFullDescription.value
-    });
+      shortDescription: this.$shortDescription.value,
+      fullDescription: this.$fullDescription.value
+    };
 
-    store.dispatch(putDot(updatedDot, dotId));
+    store.dispatch(putDot(updatedDot, this.dotId));
   }
 }
 
