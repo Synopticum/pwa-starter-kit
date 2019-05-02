@@ -7,8 +7,7 @@ export const COMMENTS = {
   DOT_PAGE: {
     FETCH: 'COMMENTS_DOT_PAGE_FETCH',
     PUT: 'COMMENTS_DOT_PAGE_PUT',
-    DELETE: 'COMMENTS_DOT_PAGE_DELETE',
-    TYPE: 'COMMENTS_DOT_PAGE_TYPE'
+    DELETE: 'COMMENTS_DOT_PAGE_DELETE'
   }
 };
 
@@ -106,15 +105,5 @@ const _deleteComment = async (originType, originId, commentId) => {
   } catch(e) {
     console.error(e);
     return null;
-  }
-};
-
-// -------
-export const typeComment = (originType, currentMessage) => {
-  let pageType = `${originType.toUpperCase()}_PAGE`;
-
-  return {
-    type: COMMENTS[pageType].TYPE,
-    payload: currentMessage
   }
 };

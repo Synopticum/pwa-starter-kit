@@ -110,15 +110,6 @@ export const comments = (state = {
                 }
             };
 
-        case COMMENTS.DOT_PAGE.TYPE:
-            return {
-                ...state,
-                dotPage: {
-                    ...state.dotPage,
-                    currentMessage: action.payload
-                }
-            };
-
         default:
             return state;
     }
