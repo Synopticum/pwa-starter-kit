@@ -5,6 +5,7 @@ import { ENV } from '../../../environments/environments';
 
 export const COMMENTS = {
   DOT_PAGE: {
+    FETCH: 'COMMENTS_DOT_PAGE_FETCH',
     GET: {
       REQUEST: 'COMMENTS_DOT_PAGE_GET_REQUEST',
       SUCCESS: 'COMMENTS_DOT_PAGE_GET_SUCCESS',
@@ -24,10 +25,43 @@ export const COMMENTS = {
   }
 };
 
+export const fetchComments = (originType, id) => async (dispatch) => {
+  let pageType = `${originType.toUpperCase()}_PAGE`;
+
+  dispatch({
+    type: COMMENTS[pageType].FETCH,
+    async: true,
+    httpMethodToInvoke: _fetchComments,
+    params: [originType, id, dispatch]
+  });
+};
+
+const _fetchComments = async (originType, id, dispatch) => {
+  try {
+    let response = await fetch(`${ENV[window.ENV].api}/api/${originType}/${id}/comments`, {
+      headers: {
+        'Token': localStorage.token
+      }
+    });
+
+    if (!response.ok) {
+      if (response.status === 401) location.reload();
+      throw new Error('Error while fetching comments');
+    }
+
+    return await response.json();
+  } catch (e) {
+    console.error(e);
+    return '';
+  }
+};
+
 export const getComments = (originType, id) => async (dispatch, getState) => {
   let pageType = `${originType.toUpperCase()}_PAGE`;
 
-  dispatch({ type: COMMENTS[pageType].GET.REQUEST });
+  dispatch({
+    type: COMMENTS[pageType].GET.REQUEST
+  });
 
   try {
     let response = await fetch(`${ENV[window.ENV].api}/api/${originType}/${id}/comments`, {

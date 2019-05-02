@@ -2,6 +2,11 @@
 // Reducer
 //
 import {COMMENTS} from "../components/u-comments/UComments.actions";
+import {
+    generateErrorActionTypeName,
+    generateInProgressActionTypeName,
+    generateSuccessActionTypeName
+} from "../middleware/asyncActionsMiddleware";
 
 export const comments = (state = {
     objectPage: {
@@ -18,7 +23,7 @@ export const comments = (state = {
     }, }, action) => {
     switch (action.type) {
         // Dot page - GET
-        case COMMENTS.DOT_PAGE.GET.REQUEST:
+        case generateInProgressActionTypeName(COMMENTS.DOT_PAGE.FETCH):
             return {
                 ...state,
                 dotPage: {
@@ -27,7 +32,7 @@ export const comments = (state = {
                 }
             };
 
-        case COMMENTS.DOT_PAGE.GET.SUCCESS:
+        case generateSuccessActionTypeName(COMMENTS.DOT_PAGE.FETCH):
             return {
                 ...state,
                 dotPage: {
@@ -37,7 +42,7 @@ export const comments = (state = {
                 }
             };
 
-        case COMMENTS.DOT_PAGE.GET.FAILURE:
+        case generateErrorActionTypeName(COMMENTS.DOT_PAGE.FETCH):
             return {
                 ...state,
                 dotPage: {
