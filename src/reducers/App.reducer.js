@@ -1,4 +1,9 @@
-import {PAGE, USER} from "../components/u-app/UApp.actions";
+import {PAGE, APP} from "../components/u-app/UApp.actions";
+import {
+    generateInProgressActionTypeName,
+    generateSuccessActionTypeName,
+    generateErrorActionTypeName
+} from "../middleware/asyncActionsMiddleware";
 
 export const app = (state = {}, action) => {
     switch (action.type) {
@@ -8,11 +13,20 @@ export const app = (state = {}, action) => {
                 page: action.payload.page
             };
 
-        case USER.GET:
+        // -------
+        case generateInProgressActionTypeName(APP.USER.FETCH):
+            // TODO
+            return state;
+
+        case generateSuccessActionTypeName(APP.USER.FETCH):
             return {
                 ...state,
                 user: action.payload
             };
+
+        case generateErrorActionTypeName(APP.USER.FETCH):
+            // TODO
+            return state;
 
         default:
             return state;

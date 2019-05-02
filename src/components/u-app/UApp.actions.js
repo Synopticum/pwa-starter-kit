@@ -8,8 +8,10 @@ export const PAGE = {
   UPDATE: 'PAGE_UPDATE'
 };
 
-export const USER = {
-  GET: 'USER_GET'
+export const APP = {
+  USER: {
+    FETCH: 'APP_USER_FETCH'
+  }
 };
 
 export const navigate = (path) => (dispatch) => {
@@ -65,21 +67,40 @@ const updatePage = (page) => {
   };
 };
 
-export const getUserInfo = () => async (dispatch, getState) => {
-  let response = await fetch(`${ENV[window.ENV].api}/api/user`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'Token': localStorage.token
-    }
-  });
-  const info = await response.json();
 
+// -------
+export const fetchUserInfo = () => async (dispatch) => {
   dispatch({
-    type: USER.GET,
-    payload: {
+    type: APP.USER.FETCH,
+    async: true,
+    httpMethodToInvoke: _fetchUserInfo,
+    params: []
+  });
+};
+
+const _fetchUserInfo = async (originType, id) => {
+  try {
+    let response = await fetch(`${ENV[window.ENV].api}/api/user`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Token': localStorage.token
+      }
+    });
+
+    const info = await response.json();
+
+    if (!response.ok) {
+      if (response.status === 401) location.reload();
+      throw new Error('Error while fetching comments');
+    }
+
+    return {
       ...info,
       isAdmin: info.role === 'admin'
-    }
-  });
+    };
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
 };
