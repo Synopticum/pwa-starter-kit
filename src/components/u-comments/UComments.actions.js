@@ -7,11 +7,7 @@ export const COMMENTS = {
   DOT_PAGE: {
     FETCH: 'COMMENTS_DOT_PAGE_FETCH',
     PUT: 'COMMENTS_DOT_PAGE_PUT',
-    DELETE: {
-      REQUEST: 'COMMENTS_DOT_PAGE_DELETE_REQUEST',
-      SUCCESS: 'COMMENTS_DOT_PAGE_DELETE_SUCCESS',
-      FAILURE: 'COMMENTS_DOT_PAGE_DELETE_FAILURE'
-    },
+    DELETE: 'COMMENTS_DOT_PAGE_DELETE',
     TYPE: 'COMMENTS_DOT_PAGE_TYPE'
   }
 };
@@ -81,11 +77,18 @@ const _putComment = async (originType, originId, comment) => {
 };
 
 // -------
-export const deleteComment = (originType, originId, commentId) => async (dispatch, getState) => {
+export const deleteComment = (originType, originId, commentId) => async (dispatch) => {
   let pageType = `${originType.toUpperCase()}_PAGE`;
 
-  dispatch({ type: COMMENTS[pageType].DELETE.REQUEST });
+  dispatch({
+    type: COMMENTS[pageType].DELETE,
+    async: true,
+    httpMethodToInvoke: _deleteComment,
+    params: [originType, originId, commentId]
+  });
+};
 
+const _deleteComment = async (originType, originId, commentId) => {
   try {
     let response = await fetch(`${ENV[window.ENV].api}/api/${originType}/${originId}/comments/${commentId}`, {
       method: 'DELETE',
@@ -96,19 +99,17 @@ export const deleteComment = (originType, originId, commentId) => async (dispatc
     });
 
     if (!response.ok) {
-      return dispatch({ type: COMMENTS[pageType].DELETE.FAILURE });
+      throw new Error('Error while deleting a comment');
     }
 
-    dispatch({
-      type: COMMENTS[pageType].DELETE.SUCCESS,
-      payload: commentId
-    });
+    return commentId;
   } catch(e) {
     console.error(e);
-    dispatch({ type: COMMENTS[pageType].DELETE.FAILURE });
+    return null;
   }
 };
 
+// -------
 export const typeComment = (originType, currentMessage) => {
   let pageType = `${originType.toUpperCase()}_PAGE`;
 

@@ -82,7 +82,7 @@ export const comments = (state = {
             };
 
         // Dot page - DELETE
-        case COMMENTS.DOT_PAGE.DELETE.REQUEST:
+        case generateInProgressActionTypeName(COMMENTS.DOT_PAGE.DELETE):
             return {
                 ...state,
                 dotPage: {
@@ -91,7 +91,7 @@ export const comments = (state = {
                 }
             };
 
-        case COMMENTS.DOT_PAGE.DELETE.SUCCESS:
+        case generateSuccessActionTypeName(COMMENTS.DOT_PAGE.DELETE):
             return {
                 ...state,
                 dotPage: {
@@ -101,7 +101,7 @@ export const comments = (state = {
                 }
             };
 
-        case COMMENTS.DOT_PAGE.DELETE.FAILURE:
+        case generateErrorActionTypeName(COMMENTS.DOT_PAGE.DELETE):
             return {
                 ...state,
                 dotPage: {
