@@ -9,6 +9,9 @@ export const PAGE = {
 };
 
 export const APP = {
+  PAGE: {
+    UPDATE: 'APP_PAGE_UPDATE'
+  },
   USER: {
     FETCH: 'APP_USER_FETCH'
   }
@@ -61,9 +64,7 @@ const loadPage = (page) => async (dispatch, getState) => {
 const updatePage = (page) => {
   return {
     type: PAGE.UPDATE,
-    payload: {
-      page
-    }
+    payload: page
   };
 };
 
@@ -78,7 +79,7 @@ export const fetchUserInfo = () => async (dispatch) => {
   });
 };
 
-const _fetchUserInfo = async (originType, id) => {
+const _fetchUserInfo = async () => {
   try {
     let response = await fetch(`${ENV[window.ENV].api}/api/user`, {
       method: 'GET',

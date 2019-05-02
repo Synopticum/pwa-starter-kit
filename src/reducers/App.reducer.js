@@ -1,4 +1,4 @@
-import {PAGE, APP} from "../components/u-app/UApp.actions";
+import {APP} from "../components/u-app/UApp.actions";
 import {
     generateInProgressActionTypeName,
     generateSuccessActionTypeName,
@@ -7,7 +7,7 @@ import {
 
 export const app = (state = {}, action) => {
     switch (action.type) {
-        case PAGE.UPDATE:
+        case APP.PAGE.UPDATE:
             return {
                 ...state,
                 page: action.payload.page
