@@ -2,21 +2,12 @@
 // Action
 //
 import { ENV } from '../../../environments/environments';
-import {COMMENTS} from "../u-comments/UComments.actions";
+import {MAP} from "../u-map/UMap.actions";
 
 export const DOT = {
   FETCH: 'DOT_FETCH',
   PUT: 'DOT_PUT',
   CLEAR_STATE: 'DOT_CLEAR_STATE'
-};
-
-export const DOTS = {
-  GET: {
-    REQUEST: 'DOTS_GET_REQUEST',
-    SUCCESS: 'DOTS_GET_SUCCESS',
-    FAILURE: 'DOTS_GET_FAILURE'
-  },
-  UPDATE: 'DOTS_UPDATE'
 };
 
 // -------
@@ -75,7 +66,7 @@ const _putDot = async (dotToPut, dispatch) => {
 
     let dot = await response.json();
 
-    dispatch({ type: DOTS.UPDATE, payload: dot });
+    dispatch({ type: MAP.DOTS.UPDATE, payload: dot });
 
     return dot;
   } catch (e) {
@@ -86,31 +77,4 @@ const _putDot = async (dotToPut, dispatch) => {
 
 export const clearDotState = () => (dispatch, getState) => {
   dispatch({ type: DOT.CLEAR_STATE });
-};
-
-export const getDots = () => async (dispatch, getState) => {
-  dispatch({ type: DOTS.GET.REQUEST });
-
-  try {
-    let response = await fetch(`${ENV[window.ENV].api}/api/dots`, {
-      headers: {
-        'Token': localStorage.token
-      }
-    });
-
-    if (!response.ok) {
-      if (response.status === 401) location.reload();
-      return dispatch({ type: DOTS.GET.FAILURE });
-    }
-
-    let dots = await response.json();
-
-    dispatch({
-      type: DOTS.GET.SUCCESS,
-      payload: dots
-    });
-  } catch (e) {
-    console.error(e);
-    dispatch({ type: DOTS.GET.FAILURE });
-  }
 };

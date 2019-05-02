@@ -22,6 +22,42 @@ export const DOT_PAGE = {
   SET_ID: 'DOT_PAGE_SET_ID'
 };
 
+export const MAP = {
+  DOTS: {
+    FETCH: 'MAP_DOTS_FETCH',
+    UPDATE: 'MAP_DOTS_UPDATE'
+  }
+};
+
+// -------
+export const fetchDots = () => async (dispatch) => {
+  dispatch({
+    type: MAP.DOTS.FETCH,
+    async: true,
+    httpMethodToInvoke: _fetchDots,
+    params: []
+  });
+};
+
+const _fetchDots = async () => {
+  try {
+    let response = await fetch(`${ENV[window.ENV].api}/api/dots`, {
+      headers: { 'Token': localStorage.token }
+    });
+
+    if (!response.ok) {
+      if (response.status === 401) location.reload();
+      throw new Error('Error while fetching dots');
+    }
+
+    return await response.json();
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
+};
+
+// -------
 export const toggleTooltip = (enable, id, position = {}) => async (dispatch, getState) => {
   if (enable) {
     dispatch({ type: TOOLTIP.GET.REQUEST });

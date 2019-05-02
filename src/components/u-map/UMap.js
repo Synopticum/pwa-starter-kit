@@ -6,7 +6,7 @@ import debounce from 'lodash-es/debounce';
 import { store } from '../../store';
 import { connect } from 'pwa-helpers/connect-mixin';
 import { toggleTooltip, toggleContextMenu, toggleDotCreator, setCurrentDotId, setCloudsVisibility } from './UMap.actions';
-import { getDots } from '../u-dot/UDot.actions';
+import { fetchDots } from '../u-map/UMap.actions';
 import { dots } from "../../reducers/Dots.reducer";
 import { app } from "../../reducers/App.reducer";
 import { map } from "../../reducers/Map.reducer";
@@ -294,7 +294,7 @@ class UMap extends connect(store)(LitElement) {
     this._initializeTiles();
     this._setListeners();
     // await this._drawObjects();
-    store.dispatch(getDots());
+    store.dispatch(fetchDots());
   }
 
   _setDefaults() {
