@@ -5,7 +5,7 @@ import {connect} from 'pwa-helpers/connect-mixin';
 import {getDot, putDot, clearDotState} from './UDot.actions';
 import {setCloudsVisibility} from '../u-map/UMap.actions';
 import {dotPage} from "../../reducers/Dot.reducer";
-import _ from 'lodash-es';
+import defer from 'lodash-es/defer';
 
 store.addReducers({dotPage});
 
@@ -172,7 +172,7 @@ class UDot extends connect(store)(LitElement) {
         this._isUpdating = state.dotPage.isUpdating;
         this._isFetching = state.dotPage.isFetching;
 
-        _.defer(this.validate.bind(this));
+        defer(this.validate.bind(this));
     }
 
     firstUpdated() {
