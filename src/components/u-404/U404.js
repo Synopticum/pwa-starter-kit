@@ -9,7 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { html } from 'lit-element/lit-element';
-import { PageViewElement } from './page-view-element.js';
+import { PageViewElement } from './PageViewElement/page-view-element.js';
 
 class U404 extends PageViewElement {
   render() {

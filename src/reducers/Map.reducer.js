@@ -1,5 +1,5 @@
-import {TOGGLE, TOOLTIP} from "../components/u-map/redux";
-import {DOT_PAGE} from "../components/u-map/redux";
+import {TOGGLE, TOOLTIP} from "../components/u-map/UMap.actions";
+import {DOT_PAGE} from "../components/u-map/UMap.actions";
 
 export const map = (state = {
     tooltip: {

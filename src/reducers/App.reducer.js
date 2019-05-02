@@ -1,4 +1,4 @@
-import {PAGE, USER} from "../components/u-app/redux";
+import {PAGE, USER} from "../components/u-app/UApp.actions";
 
 export const app = (state = {}, action) => {
     switch (action.type) {

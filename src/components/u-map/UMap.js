@@ -5,8 +5,8 @@ import debounce from 'lodash-es/debounce';
 
 import { store } from '../../store';
 import { connect } from 'pwa-helpers/connect-mixin';
-import { toggleTooltip, toggleContextMenu, toggleDotCreator, setCurrentDotId, setCloudsVisibility } from './redux';
-import { getDots } from '../u-dot/redux';
+import { toggleTooltip, toggleContextMenu, toggleDotCreator, setCurrentDotId, setCloudsVisibility } from './UMap.actions';
+import { getDots } from '../u-dot/UDot.actions';
 import { dots } from "../../reducers/Dots.reducer";
 import { app } from "../../reducers/App.reducer";
 import { map } from "../../reducers/Map.reducer";

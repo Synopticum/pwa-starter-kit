@@ -1,4 +1,4 @@
-import {DOTS} from "../components/u-dot/redux";
+import {DOTS} from "../components/u-dot/UDot.actions";
 
 export const dots = (state = {
     items: [],

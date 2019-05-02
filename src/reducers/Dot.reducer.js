@@ -1,4 +1,4 @@
-import {DOT} from "../components/u-dot/redux";
+import {DOT} from "../components/u-dot/UDot.actions";
 
 export const dotPage = (state = {
     dot: {},

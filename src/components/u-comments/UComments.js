@@ -3,7 +3,7 @@ import { repeat } from 'lit-element/node_modules/lit-html/directives/repeat';
 
 import { store } from '../../store';
 import { connect } from 'pwa-helpers';
-import { getComments, putComment, typeComment, deleteComment } from './redux';
+import { getComments, putComment, typeComment, deleteComment } from './UComments.actions';
 import { comments } from "../../reducers/Comments.reducer";
 
 store.addReducers({ comments });

@@ -2,10 +2,10 @@ import {html, LitElement} from 'lit-element/lit-element';
 
 import {store} from '../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
-import {putDot} from '../u-dot/redux';
-import {toggleDotCreator, setCloudsVisibility} from '../u-map/redux';
+import {putDot} from '../u-dot/UDot.actions';
+import {toggleDotCreator, setCloudsVisibility} from '../u-map/UMap.actions';
 import {map} from "../../reducers/Map.reducer";
-import {navigate} from "../u-app/redux";
+import {navigate} from "../u-app/UApp.actions";
 
 store.addReducers({map});
 

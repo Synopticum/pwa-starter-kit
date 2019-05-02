@@ -2,7 +2,7 @@
 // Action
 //
 import { ENV } from '../../../environments/environments';
-import { setCurrentDotId } from '../u-map/redux';
+import { setCurrentDotId } from '../u-map/UMap.actions';
 
 export const PAGE = {
   UPDATE: 'PAGE_UPDATE'
@@ -22,19 +22,19 @@ export const navigate = (path) => (dispatch) => {
 };
 
 const loadPage = (page) => async (dispatch, getState) => {
-  await import('../u-map/u-map.js');
+  await import('../u-map/UMap.js');
 
-  import('../u-context-menu/u-context-menu.js');
-  import('../u-textbox/u-textbox.js');
-  import('../u-textarea/u-textarea.js');
-  import('../u-round-button/u-round-button.js');
-  import('../u-tooltip/u-tooltip.js');
+  import('../u-context-menu/UContextMenu.js');
+  import('../u-textbox/UTextbox.js');
+  import('../u-textarea/UTextarea.js');
+  import('../u-round-button/URoundButton.js');
+  import('../u-tooltip/UTooltip.js');
 
-  import('../u-dot/u-dot.js');
-  import('../u-dot-creator/u-dot-creator.js');
+  import('../u-dot/UDot.js');
+  import('../u-dot-creator/UDotCreator.js');
 
-  import('../u-comments/u-comments.js');
-  import('../u-comment/u-comment.js');
+  import('../u-comments/UComments.js');
+  import('../u-comment/UComment.js');
 
   switch (true) {
     case (page === '/'):
@@ -50,7 +50,7 @@ const loadPage = (page) => async (dispatch, getState) => {
 
     default:
       page = '404';
-      import('../u-404.js');
+      import('../u-404/U404.js');
   }
 
   dispatch(updatePage(page));

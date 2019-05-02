@@ -1,7 +1,7 @@
 //
 // Reducer
 //
-import {COMMENTS} from "../components/u-comments/redux";
+import {COMMENTS} from "../components/u-comments/UComments.actions";
 
 export const comments = (state = {
     objectPage: {

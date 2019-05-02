@@ -1,12 +1,10 @@
-import '../../../environments/current';
 import { LitElement, html } from 'lit-element';
 
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { installRouter } from 'pwa-helpers/router.js';
 
 import { store } from '../../store.js';
-import { navigate } from './redux';
-import { getUserInfo } from '../u-app/redux';
+import { navigate, getUserInfo } from './UApp.actions';
 
 class UApp extends connect(store)(LitElement) {
 
