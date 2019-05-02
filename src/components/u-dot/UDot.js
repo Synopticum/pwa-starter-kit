@@ -2,7 +2,7 @@ import {html, LitElement} from 'lit-element/lit-element';
 
 import {store} from '../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
-import {getDot, putDot, clearDotState} from './UDot.actions';
+import {fetchDot, putDot, clearDotState} from './UDot.actions';
 import {setCloudsVisibility} from '../u-map/UMap.actions';
 import {dotPage} from "../../reducers/Dot.reducer";
 import defer from 'lodash-es/defer';
@@ -204,7 +204,7 @@ class UDot extends connect(store)(LitElement) {
 
     _init() {
         store.dispatch(setCloudsVisibility('full'));
-        store.dispatch(getDot(this.dotId));
+        store.dispatch(fetchDot(this.dotId));
     }
 
     _setDefaults() {

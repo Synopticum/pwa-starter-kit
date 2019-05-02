@@ -2,18 +2,11 @@
 // Action
 //
 import { ENV } from '../../../environments/environments';
+import {COMMENTS} from "../u-comments/UComments.actions";
 
 export const DOT = {
-  GET: {
-    REQUEST: 'DOT_GET_REQUEST',
-    SUCCESS: 'DOT_GET_SUCCESS',
-    FAILURE: 'DOT_GET_FAILURE'
-  },
-  PUT: {
-    REQUEST: 'DOT_PUT_REQUEST',
-    SUCCESS: 'DOT_PUT_SUCCESS',
-    FAILURE: 'DOT_PUT_FAILURE'
-  },
+  FETCH: 'DOT_FETCH',
+  PUT: 'DOT_PUT',
   CLEAR_STATE: 'DOT_CLEAR_STATE'
 };
 
@@ -26,36 +19,46 @@ export const DOTS = {
   UPDATE: 'DOTS_UPDATE'
 };
 
-export const getDot = dotId => async (dispatch, getState) => {
-  dispatch({ type: DOT.GET.REQUEST });
+// -------
+export const fetchDot = (dotId) => async (dispatch) => {
+  dispatch({
+    type: DOT.FETCH,
+    async: true,
+    httpMethodToInvoke: _fetchDot,
+    params: [dotId]
+  });
+};
 
+const _fetchDot = async (dotId) => {
   try {
     let response = await fetch(`${ENV[window.ENV].api}/api/dots/${dotId}`, { headers: { 'Token': localStorage.token } });
 
     if (!response.ok) {
       if (response.status === 401) location.reload();
-      return dispatch({ type: DOT.GET.FAILURE });
+      throw new Error('Error while fetching a dot');
     }
 
     let dot = await response.json();
     history.pushState(null, null, `${ENV[window.ENV].static}/dots/${dot.id}`);
 
-    dispatch({
-      type: DOT.GET.SUCCESS,
-      payload: dot
-    });
+    return dot;
   } catch (e) {
     console.error(e);
-    dispatch({ type: DOT.GET.FAILURE });
+    return null;
   }
 };
 
-export const putDot = dotToPut => async (dispatch, getState) => {
+// -------
+export const putDot = (dotToPut) => async (dispatch) => {
   dispatch({
-    type: DOT.PUT.REQUEST,
-    payload: dotToPut
+    type: DOT.FETCH,
+    async: true,
+    httpMethodToInvoke: _putDot,
+    params: [dotToPut, dispatch]
   });
+};
 
+const _putDot = async (dotToPut, dispatch) => {
   try {
     let response = await fetch(`${ENV[window.ENV].api}/api/dots/${dotToPut.id}`, {
       method: 'PUT',
@@ -67,23 +70,17 @@ export const putDot = dotToPut => async (dispatch, getState) => {
     });
 
     if (!response.ok) {
-      return dispatch({ type: DOT.PUT.FAILURE });
+      throw new Error('Error while putting a dot');
     }
 
     let dot = await response.json();
 
-    dispatch({
-      type: DOT.PUT.SUCCESS,
-      payload: dot
-    });
+    dispatch({ type: DOTS.UPDATE, payload: dot });
 
-    dispatch({
-      type: DOTS.UPDATE,
-      payload: dot
-    });
-  } catch(e) {
+    return dot;
+  } catch (e) {
     console.error(e);
-    dispatch({ type: DOT.PUT.FAILURE });
+    return null;
   }
 };
 

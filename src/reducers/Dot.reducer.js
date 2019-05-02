@@ -1,4 +1,9 @@
 import {DOT} from "../components/u-dot/UDot.actions";
+import {
+    generateInProgressActionTypeName,
+    generateSuccessActionTypeName,
+    generateErrorActionTypeName,
+} from "../middleware/asyncActionsMiddleware";
 
 export const dotPage = (state = {
     dot: {},
@@ -7,41 +12,41 @@ export const dotPage = (state = {
 }, action) => {
     switch (action.type) {
         // GET
-        case DOT.GET.REQUEST:
+        case generateInProgressActionTypeName(DOT.FETCH):
             return {
                 ...state,
                 isFetching: true
             };
 
-        case DOT.GET.SUCCESS:
+        case generateSuccessActionTypeName(DOT.FETCH):
             return {
                 ...state,
                 isFetching: false,
                 dot: action.payload
             };
 
-        case DOT.GET.FAILURE:
+        case generateErrorActionTypeName(DOT.FETCH):
             return {
                 ...state,
                 isFetching: false
             };
 
-        // CREATE/UPDATE
-        case DOT.PUT.REQUEST:
+        // PUT
+        case generateInProgressActionTypeName(DOT.PUT):
             return {
                 ...state,
                 isUpdating: true,
                 dotToBeUpdated: action.payload
             };
 
-        case DOT.PUT.SUCCESS:
+        case generateSuccessActionTypeName(DOT.PUT):
             return {
                 ...state,
                 isUpdating: false,
                 dot: action.payload
             };
 
-        case DOT.PUT.FAILURE:
+        case generateErrorActionTypeName(DOT.PUT):
             return {
                 ...state,
                 isUpdating: false
