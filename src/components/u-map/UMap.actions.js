@@ -3,14 +3,6 @@
 //
 import { ENV } from '../../../environments/environments';
 
-export const TOOLTIP = {
-  GET: {
-    REQUEST: 'TOOLTIP_GET_REQUEST',
-    SUCCESS: 'TOOLTIP_GET_SUCCESS',
-    FAILURE: 'TOOLTIP_GET_FAILURE',
-  }
-};
-
 export const TOGGLE = {
   TOOLTIP: 'TOGGLE_TOOLTIP',
   CONTEXT_MENU: 'TOGGLE_CONTEXT_MENU',
@@ -26,6 +18,9 @@ export const MAP = {
   DOTS: {
     FETCH: 'MAP_DOTS_FETCH',
     UPDATE: 'MAP_DOTS_UPDATE'
+  },
+  TOOLTIP: {
+    FETCH: 'MAP_TOOLTIP_FETCH'
   }
 };
 
@@ -58,52 +53,47 @@ const _fetchDots = async () => {
 };
 
 // -------
-export const toggleTooltip = (enable, id, position = {}) => async (dispatch, getState) => {
+export const toggleTooltip = (enable, id, position = {}) => async (dispatch) => {
   if (enable) {
-    dispatch({ type: TOOLTIP.GET.REQUEST });
-
-    try {
-      const type = 'dot';
-      const item = await _getById(id, type, dispatch);
-
-      dispatch({
-        type: TOOLTIP.GET.SUCCESS,
-        payload: {
-          item,
-          position
-        }
-      });
-
-      dispatch({
-        type: TOGGLE.TOOLTIP,
-        payload: true
-      });
-    } catch (e) {
-      dispatch({ type: TOOLTIP.GET.FAILURE });
-    }
+    dispatch({
+      type: MAP.TOOLTIP.FETCH,
+      async: true,
+      httpMethodToInvoke: _fetchById,
+      params: [enable, id, position, dispatch]
+    });
   } else {
     dispatch({
       type: TOGGLE.TOOLTIP,
       payload: false
-    })
+    });
   }
 };
 
-const _getById = async (id, type, dispatch) => {
-  let response = await fetch(`${ENV[window.ENV].api}/api/${type}s/${id}`, {
-    headers: {
-      'Token': localStorage.token
+const _fetchById = async (enable, id, position, dispatch) => {
+  // TODO: dehardcode type
+  const type = 'dot';
+
+  try {
+    let response = await fetch(`${ENV[window.ENV].api}/api/${type}s/${id}`, {
+      headers: { 'Token': localStorage.token }
+    });
+
+    if (!response.ok) {
+      if (response.status === 401) location.reload();
+      throw new Error(`Error while fetching a ${type}`);
     }
-  });
 
-  if (!response.ok) {
-    if (response.status === 401) location.reload();
-    return dispatch({ type: TOOLTIP.GET.FAILURE });
+    let item = await response.json();
+
+    dispatch({ type: TOGGLE.TOOLTIP, payload: true });
+    return { item, position };
+  } catch (e) {
+    console.error(e);
+    return null;
   }
-
-  return await response.json();
 };
 
+// -------
 export const toggleContextMenu = (isVisible, position = {}) => {
   return {
     type: TOGGLE.CONTEXT_MENU,

@@ -1,5 +1,10 @@
-import {TOGGLE, TOOLTIP} from "../components/u-map/UMap.actions";
+import {TOGGLE, MAP} from "../components/u-map/UMap.actions";
 import {DOT_PAGE} from "../components/u-map/UMap.actions";
+import {
+    generateInProgressActionTypeName,
+    generateSuccessActionTypeName,
+    generateErrorActionTypeName,
+} from "../middleware/asyncActionsMiddleware";
 
 export const map = (state = {
     tooltip: {
@@ -26,7 +31,7 @@ export const map = (state = {
     dotPage: { currentDotId: '', isVisible: false },
 }, action) => {
     switch (action.type) {
-        case TOOLTIP.GET.REQUEST:
+        case generateInProgressActionTypeName(MAP.TOOLTIP.FETCH):
             return {
                 ...state,
                 tooltip: {
@@ -36,7 +41,7 @@ export const map = (state = {
                 }
             };
 
-        case TOOLTIP.GET.SUCCESS:
+        case generateSuccessActionTypeName(MAP.TOOLTIP.FETCH):
             return {
                 ...state,
                 tooltip: {
@@ -47,7 +52,7 @@ export const map = (state = {
                 }
             };
 
-        case TOOLTIP.GET.FAILURE:
+        case generateErrorActionTypeName(MAP.TOOLTIP.FETCH):
             return {
                 ...state,
                 tooltip: {
