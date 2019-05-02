@@ -200,6 +200,15 @@ class UMap extends connect(store)(LitElement) {
         .leaflet-control-container {
             z-index: 200;
         }
+        
+        #user-role {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            background-color: #ff0000;
+            color: #ffffff;
+            padding: 10px;
+        }
       </style>
       
       <div class="container container--clouds-${this._clouds.visibility}">        
@@ -236,6 +245,7 @@ class UMap extends connect(store)(LitElement) {
       </div>
       
       <div id="map"></div>
+      ${!this._user.isAdmin ? `<div id="user-role">you don't have admin rights</div>`: ''}
     `;
   }
 
@@ -264,6 +274,8 @@ class UMap extends connect(store)(LitElement) {
     if (this._tempDotRef) {
       this._enableDot();
     }
+
+    this._user = state.app.user;
   }
 
   // leaflet _init methods
