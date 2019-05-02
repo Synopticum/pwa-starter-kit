@@ -3,7 +3,7 @@
 //
 import { ENV } from '../../../environments/environments';
 
-const DOT = {
+export const DOT = {
   GET: {
     REQUEST: 'DOT_GET_REQUEST',
     SUCCESS: 'DOT_GET_SUCCESS',
@@ -17,7 +17,7 @@ const DOT = {
   CLEAR_STATE: 'DOT_CLEAR_STATE'
 };
 
-const DOTS = {
+export const DOTS = {
   GET: {
     REQUEST: 'DOTS_GET_REQUEST',
     SUCCESS: 'DOTS_GET_SUCCESS',
@@ -115,102 +115,5 @@ export const getDots = () => async (dispatch, getState) => {
   } catch (e) {
     console.error(e);
     dispatch({ type: DOTS.GET.FAILURE });
-  }
-};
-
-//
-// Reducer
-//
-export const dotPage = (state = {
-  dot: {},
-  isFetching: false,
-  isUpdating: false
-}, action) => {
-  switch (action.type) {
-    // GET
-    case DOT.GET.REQUEST:
-      return {
-        ...state,
-        isFetching: true
-      };
-
-    case DOT.GET.SUCCESS:
-      return {
-        ...state,
-        isFetching: false,
-        dot: action.payload
-      };
-
-    case DOT.GET.FAILURE:
-      return {
-        ...state,
-        isFetching: false
-      };
-
-    // CREATE/UPDATE
-    case DOT.PUT.REQUEST:
-      return {
-        ...state,
-        isUpdating: true,
-        dotToBeUpdated: action.payload
-      };
-
-    case DOT.PUT.SUCCESS:
-      return {
-        ...state,
-        isUpdating: false,
-        dot: action.payload
-      };
-
-    case DOT.PUT.FAILURE:
-      return {
-        ...state,
-        isUpdating: false
-      };
-
-    case DOT.CLEAR_STATE:
-      return {
-        dot: {},
-        isFetching: false,
-        isUpdating: false
-      };
-
-    default:
-      return state;
-  }
-};
-
-export const dots = (state = {
-  items: [],
-  isFetching: false
-}, action) => {
-  switch (action.type) {
-    case DOTS.GET.REQUEST:
-      return {
-        ...state,
-        isFetching: true
-      };
-
-    case DOTS.GET.SUCCESS:
-      return {
-        ...state,
-        isFetching: false,
-        items: action.payload
-      };
-
-    case DOTS.GET.FAILURE:
-      return {
-        ...state,
-        isFetching: false
-      };
-
-    case DOTS.UPDATE:
-      return {
-        ...state,
-        items: [...state.items, action.payload]
-      };
-
-    default:
-      return state;
   }
 };

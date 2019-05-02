@@ -3,7 +3,7 @@
 //
 import { ENV } from '../../../environments/environments';
 
-const TOOLTIP = {
+export const TOOLTIP = {
   GET: {
     REQUEST: 'TOOLTIP_GET_REQUEST',
     SUCCESS: 'TOOLTIP_GET_SUCCESS',
@@ -11,14 +11,14 @@ const TOOLTIP = {
   }
 };
 
-const TOGGLE = {
+export const TOGGLE = {
   TOOLTIP: 'TOGGLE_TOOLTIP',
   CONTEXT_MENU: 'TOGGLE_CONTEXT_MENU',
   DOT_CREATOR: 'TOGGLE_DOT_CREATOR',
   CLOUDS: 'TOGGLE_CLOUDS'
 };
 
-const DOT_PAGE = {
+export const DOT_PAGE = {
   SET_ID: 'DOT_PAGE_SET_ID'
 };
 
@@ -104,115 +104,5 @@ export const setCurrentDotId = (dotId) => (dispatch, getState) => {
     type: DOT_PAGE.SET_ID,
     payload: dotId
   });
-};
-
-//
-// Reducer
-//
-export const map = (state = {
-  tooltip: {
-    isVisible: false,
-    isFetching: false,
-    item: {},
-    position: {},
-  },
-
-  contextMenu: {
-    isVisible: false,
-    position: {}
-  },
-
-  dotCreator: {
-    isVisible: false,
-    position: {}
-  },
-
-  clouds: {
-    visibility: 'none'
-  },
-
-  dotPage: { currentDotId: '', isVisible: false },
-}, action) => {
-  switch (action.type) {
-    case TOOLTIP.GET.REQUEST:
-      return {
-        ...state,
-        tooltip: {
-          ...state.tooltip,
-          isFetching: true
-
-        }
-      };
-
-    case TOOLTIP.GET.SUCCESS:
-      return {
-        ...state,
-        tooltip: {
-          ...state.tooltip,
-          isFetching: false,
-          item: action.payload.item,
-          position: action.payload.position
-        }
-      };
-
-    case TOOLTIP.GET.FAILURE:
-      return {
-        ...state,
-        tooltip: {
-          ...state.tooltip,
-          isFetching: false
-        }
-      };
-
-    case TOGGLE.TOOLTIP:
-      return {
-        ...state,
-        tooltip: {
-          ...state.tooltip,
-          isVisible: action.payload
-        }
-      };
-
-    case TOGGLE.CONTEXT_MENU:
-      return {
-        ...state,
-        contextMenu: {
-          ...state.contextMenu,
-          isVisible: action.payload.isVisible,
-          position: action.payload.position
-        }
-      };
-
-    case TOGGLE.DOT_CREATOR:
-      return {
-        ...state,
-        dotCreator: {
-          ...state.dotCreator,
-          isVisible: action.payload.isVisible,
-          position: action.payload.position
-        }
-      };
-
-    case TOGGLE.CLOUDS:
-      return {
-        ...state,
-        clouds: {
-          ...state.clouds,
-          visibility: action.payload.visibility
-        }
-      };
-
-    case DOT_PAGE.SET_ID:
-      return {
-        ...state,
-        dotPage: {
-          isVisible: Boolean(action.payload),
-          currentDotId: action.payload
-        }
-      };
-
-    default:
-      return state;
-  }
 };
 

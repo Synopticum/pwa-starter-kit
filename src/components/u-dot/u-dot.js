@@ -2,9 +2,10 @@ import {html, LitElement} from 'lit-element/lit-element';
 
 import {store} from '../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
-import {getDot, putDot, dotPage} from './redux';
+import {getDot, putDot} from './redux';
 import {clearDotState} from './redux';
 import {setCloudsVisibility} from '../u-map/redux';
+import {dotPage} from "../../reducers/Dot.reducer";
 import _ from 'lodash-es';
 
 store.addReducers({dotPage});

@@ -3,7 +3,8 @@ import {html, LitElement} from 'lit-element/lit-element';
 import {store} from '../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
 import {putDot} from '../u-dot/redux';
-import {toggleDotCreator, map, setCloudsVisibility} from '../u-map/redux';
+import {toggleDotCreator, setCloudsVisibility} from '../u-map/redux';
+import {map} from "../../reducers/Map.reducer";
 import {navigate} from "../u-app/redux";
 
 store.addReducers({map});

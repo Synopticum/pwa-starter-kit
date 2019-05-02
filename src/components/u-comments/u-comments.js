@@ -3,7 +3,9 @@ import { repeat } from 'lit-element/node_modules/lit-html/directives/repeat';
 
 import { store } from '../../store';
 import { connect } from 'pwa-helpers';
-import { getComments, putComment, typeComment, deleteComment, comments } from './redux';
+import { getComments, putComment, typeComment, deleteComment } from './redux';
+import { comments } from "../../reducers/Comments.reducer";
+
 store.addReducers({ comments });
 
 export class UComments extends connect(store)(LitElement) {

@@ -4,11 +4,11 @@
 import { ENV } from '../../../environments/environments';
 import { setCurrentDotId } from '../u-map/redux';
 
-const PAGE = {
+export const PAGE = {
   UPDATE: 'PAGE_UPDATE'
 };
 
-const USER = {
+export const USER = {
   GET: 'USER_GET'
 };
 
@@ -82,26 +82,4 @@ export const getUserInfo = () => async (dispatch, getState) => {
       isAdmin: info.role === 'admin'
     }
   });
-};
-
-//
-// Reducer
-//
-export const app = (state = {}, action) => {
-  switch (action.type) {
-    case PAGE.UPDATE:
-      return {
-        ...state,
-        page: action.payload.page
-      };
-
-    case USER.GET:
-      return {
-        ...state,
-        user: action.payload
-      };
-
-    default:
-      return state;
-  }
 };
