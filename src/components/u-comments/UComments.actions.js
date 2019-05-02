@@ -6,16 +6,7 @@ import { ENV } from '../../../environments/environments';
 export const COMMENTS = {
   DOT_PAGE: {
     FETCH: 'COMMENTS_DOT_PAGE_FETCH',
-    GET: {
-      REQUEST: 'COMMENTS_DOT_PAGE_GET_REQUEST',
-      SUCCESS: 'COMMENTS_DOT_PAGE_GET_SUCCESS',
-      FAILURE: 'COMMENTS_DOT_PAGE_GET_FAILURE'
-    },
-    PUT: {
-      REQUEST: 'COMMENTS_DOT_PAGE_PUT_REQUEST',
-      SUCCESS: 'COMMENTS_DOT_PAGE_PUT_SUCCESS',
-      FAILURE: 'COMMENTS_DOT_PAGE_PUT_FAILURE'
-    },
+    PUT: 'COMMENTS_DOT_PAGE_PUT',
     DELETE: {
       REQUEST: 'COMMENTS_DOT_PAGE_DELETE_REQUEST',
       SUCCESS: 'COMMENTS_DOT_PAGE_DELETE_SUCCESS',
@@ -25,6 +16,7 @@ export const COMMENTS = {
   }
 };
 
+// -------
 export const fetchComments = (originType, id) => async (dispatch) => {
   let pageType = `${originType.toUpperCase()}_PAGE`;
 
@@ -36,12 +28,10 @@ export const fetchComments = (originType, id) => async (dispatch) => {
   });
 };
 
-const _fetchComments = async (originType, id, dispatch) => {
+const _fetchComments = async (originType, id) => {
   try {
     let response = await fetch(`${ENV[window.ENV].api}/api/${originType}/${id}/comments`, {
-      headers: {
-        'Token': localStorage.token
-      }
+      headers: { 'Token': localStorage.token }
     });
 
     if (!response.ok) {
@@ -52,46 +42,23 @@ const _fetchComments = async (originType, id, dispatch) => {
     return await response.json();
   } catch (e) {
     console.error(e);
-    return '';
+    return null;
   }
 };
 
-export const getComments = (originType, id) => async (dispatch, getState) => {
+// -------
+export const putComment = (originType, originId, comment) => async (dispatch) => {
   let pageType = `${originType.toUpperCase()}_PAGE`;
 
   dispatch({
-    type: COMMENTS[pageType].GET.REQUEST
+    type: COMMENTS[pageType].PUT,
+    async: true,
+    httpMethodToInvoke: _putComment,
+    params: [originType, originId, comment]
   });
-
-  try {
-    let response = await fetch(`${ENV[window.ENV].api}/api/${originType}/${id}/comments`, {
-      headers: {
-        'Token': localStorage.token
-      }
-    });
-
-    if (!response.ok) {
-      if (response.status === 401) location.reload();
-      return dispatch({ type: COMMENTS[pageType].GET.FAILURE });
-    }
-
-    let items = await response.json();
-
-    dispatch({
-      type: COMMENTS[pageType].GET.SUCCESS,
-      payload: items
-    });
-  } catch (e) {
-    console.error(e);
-    dispatch({ type: COMMENTS[pageType].GET.FAILURE });
-  }
 };
 
-export const putComment = (originType, originId, comment) => async (dispatch, getState) => {
-  let pageType = `${originType.toUpperCase()}_PAGE`;
-
-  dispatch({ type: COMMENTS[pageType].PUT.REQUEST });
-
+const _putComment = async (originType, originId, comment) => {
   try {
     let response = await fetch(`${ENV[window.ENV].api}/api/${originType}/${originId}/comments/${comment.id}`, {
       method: 'PUT',
@@ -103,21 +70,17 @@ export const putComment = (originType, originId, comment) => async (dispatch, ge
     });
 
     if (!response.ok) {
-      return dispatch({ type: COMMENTS[pageType].PUT.FAILURE });
+      throw new Error('Error while putting a comment');
     }
 
-    let item = await response.json();
-
-    dispatch({
-      type: COMMENTS[pageType].PUT.SUCCESS,
-      payload: item
-    });
+    return await response.json();
   } catch(e) {
     console.error(e);
-    dispatch({ type: COMMENTS[pageType].PUT.FAILURE });
+    return null;
   }
 };
 
+// -------
 export const deleteComment = (originType, originId, commentId) => async (dispatch, getState) => {
   let pageType = `${originType.toUpperCase()}_PAGE`;
 

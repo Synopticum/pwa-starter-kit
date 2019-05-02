@@ -52,7 +52,7 @@ export const comments = (state = {
             };
 
         // Dot page - PUT
-        case COMMENTS.DOT_PAGE.PUT.REQUEST:
+        case generateInProgressActionTypeName(COMMENTS.DOT_PAGE.PUT):
             return {
                 ...state,
                 dotPage: {
@@ -61,7 +61,7 @@ export const comments = (state = {
                 }
             };
 
-        case COMMENTS.DOT_PAGE.PUT.SUCCESS:
+        case generateSuccessActionTypeName(COMMENTS.DOT_PAGE.PUT):
             return {
                 ...state,
                 dotPage: {
@@ -72,7 +72,7 @@ export const comments = (state = {
                 }
             };
 
-        case COMMENTS.DOT_PAGE.PUT.FAILURE:
+        case generateErrorActionTypeName(COMMENTS.DOT_PAGE.PUT):
             return {
                 ...state,
                 dotPage: {
