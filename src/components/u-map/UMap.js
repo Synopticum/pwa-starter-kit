@@ -1,8 +1,7 @@
 import { ENV } from '../../../environments/environments';
 import { LitElement, html } from 'lit-element/lit-element';
-
 import debounce from 'lodash-es/debounce';
-
+import isEmpty from 'lodash-es/isEmpty';
 import { store } from '../../store';
 import { connect } from 'pwa-helpers/connect-mixin';
 import { toggleTooltip, toggleContextMenu, toggleDotCreator, setCurrentDotId, setCloudsVisibility } from './UMap.actions';
@@ -406,7 +405,7 @@ class UMap extends connect(store)(LitElement) {
   }
 
   _drawDots(dots) {
-    if (dots.length) {
+    if (!isEmpty(dots)) {
       try {
         // remove current layers and markers
         if (this._layerControl) this._layerControl.remove();

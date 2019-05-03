@@ -1,6 +1,6 @@
 import { html, LitElement } from 'lit-element/lit-element';
 import { repeat } from 'lit-element/node_modules/lit-html/directives/repeat';
-
+import isEmpty from 'lodash-es/isEmpty';
 import { store } from '../../store';
 import { connect } from 'pwa-helpers';
 import {putComment, deleteComment, fetchComments} from './UComments.actions';
@@ -66,7 +66,7 @@ export class UComments extends connect(store)(LitElement) {
       <div class="title">Комментарии</div>
       
       <div class="comments">
-        ${this._comments.length ? '' : html`<div class="no-comments">Нет комментариев</div>`}
+        ${isEmpty(this._comments) ? html`<div class="no-comments">Нет комментариев</div>` : ''}
         
         ${repeat(this._comments, comment => comment.id, comment => html`
           <u-comment .user="${this._user}" .comment="${comment}" @delete="${(e) => this.delete(e)}"></u-comment>
