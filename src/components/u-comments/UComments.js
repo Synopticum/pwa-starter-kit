@@ -21,6 +21,10 @@ export class UComments extends connect(store)(LitElement) {
         attribute: 'origin-id'
       },
 
+      _isFetching: {
+        type: Boolean,
+        attribute: false
+      },
       _isValid: {
         type: Boolean,
         attribute: false
@@ -40,6 +44,11 @@ export class UComments extends connect(store)(LitElement) {
         
         .title {
             font-size: 24px;
+        }
+        
+        .loading {
+            display: block;
+            margin: 10px 0;
         }
         
         .no-comments {
@@ -66,7 +75,9 @@ export class UComments extends connect(store)(LitElement) {
       <div class="title">Комментарии</div>
       
       <div class="comments">
-        ${isEmpty(this._comments) ? html`<div class="no-comments">Нет комментариев</div>` : ''}
+        ${this._isFetching ? html`<u-default-spinner class="loading"/>` : ''}
+      
+        ${!this._isFetching && isEmpty(this._comments) ? html`<div class="no-comments">Нет комментариев</div>` : ''}
         
         ${repeat(this._comments, comment => comment.id, comment => html`
           <u-comment .user="${this._user}" .comment="${comment}" @delete="${(e) => this.delete(e)}"></u-comment>
@@ -85,7 +96,7 @@ export class UComments extends connect(store)(LitElement) {
         <button 
             class="button"
             id="add-comment"
-            ?disabled="${!this._isValid}"
+            ?disabled="${!this._isValid || this._isFetching}"
             @click="${(e) => this.add(e)}">Добавить</button>
       </form>
     `
@@ -101,6 +112,7 @@ export class UComments extends connect(store)(LitElement) {
 
     this._user = state.app.user;
     this._comments = state.comments[pageType].items;
+    this._isFetching = state.comments[pageType].isFetching;
   }
 
   firstUpdated() {

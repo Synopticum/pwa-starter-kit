@@ -22,6 +22,7 @@ export const navigate = (path) => (dispatch) => {
 const loadPage = (page) => async (dispatch, getState) => {
   await import('../u-map/UMap.js');
 
+  import('../u-default-spinner/UDefaultSpinner.js');
   import('../u-context-menu/UContextMenu.js');
   import('../u-textbox/UTextbox.js');
   import('../u-textarea/UTextarea.js');
