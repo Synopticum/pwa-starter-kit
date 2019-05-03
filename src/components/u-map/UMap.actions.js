@@ -1,13 +1,6 @@
-//
-// Action
-//
 import { ENV } from '../../../environments/environments';
 
-export const DOT_PAGE = {
-  SET_ID: 'DOT_PAGE_SET_ID'
-};
-
-export const MAP = {
+export const MapConstants = Object.freeze({
   DOTS: {
     FETCH: 'MAP_DOTS_FETCH',
     UPDATE: 'MAP_DOTS_UPDATE'
@@ -27,12 +20,12 @@ export const MAP = {
   DOT_PAGE: {
     SET_ID: 'DOT_PAGE_SET_ID'
   }
-};
+});
 
 // -------
 export const fetchDots = () => async (dispatch) => {
   dispatch({
-    type: MAP.DOTS.FETCH,
+    type: MapConstants.DOTS.FETCH,
     async: true,
     httpMethodToInvoke: _fetchDots,
     params: []
@@ -61,14 +54,14 @@ const _fetchDots = async () => {
 export const toggleTooltip = (enable, id, position = {}) => async (dispatch) => {
   if (enable) {
     dispatch({
-      type: MAP.TOOLTIP.FETCH,
+      type: MapConstants.TOOLTIP.FETCH,
       async: true,
       httpMethodToInvoke: _fetchById,
       params: [enable, id, position, dispatch]
     });
   } else {
     dispatch({
-      type: MAP.TOGGLE.TOOLTIP,
+      type: MapConstants.TOGGLE.TOOLTIP,
       payload: false
     });
   }
@@ -90,7 +83,7 @@ const _fetchById = async (enable, id, position, dispatch) => {
 
     let item = await response.json();
 
-    dispatch({ type: MAP.TOGGLE.TOOLTIP, payload: true });
+    dispatch({ type: MapConstants.TOGGLE.TOOLTIP, payload: true });
     return { item, position };
   } catch (e) {
     console.error(e);
@@ -101,7 +94,7 @@ const _fetchById = async (enable, id, position, dispatch) => {
 // -------
 export const toggleContextMenu = (isVisible, position = {}) => {
   return {
-    type: MAP.TOGGLE.CONTEXT_MENU,
+    type: MapConstants.TOGGLE.CONTEXT_MENU,
     payload: {
       isVisible,
       position
@@ -111,7 +104,7 @@ export const toggleContextMenu = (isVisible, position = {}) => {
 
 export const toggleDotCreator = (isVisible, position = {}) => {
   return {
-    type: MAP.TOGGLE.DOT_CREATOR,
+    type: MapConstants.TOGGLE.DOT_CREATOR,
     payload: {
       isVisible,
       position
@@ -121,18 +114,18 @@ export const toggleDotCreator = (isVisible, position = {}) => {
 
 export const setCloudsVisibility = (visibility = {}) => {
   return {
-    type: MAP.TOGGLE.CLOUDS,
+    type: MapConstants.TOGGLE.CLOUDS,
     payload: {
       visibility
     }
   }
 };
 
-export const setCurrentDotId = (dotId) => (dispatch, getState) => {
+export const setCurrentDotId = (dotId) => (dispatch) => {
   if (!dotId) history.pushState(null, null, ENV[window.ENV].static);
 
   dispatch({
-    type: DOT_PAGE.SET_ID,
+    type: MapConstants.DOT_PAGE.SET_ID,
     payload: dotId
   });
 };

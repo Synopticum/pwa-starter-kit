@@ -1,5 +1,5 @@
 import { ENV } from '../../../environments/environments';
-import {MAP} from "../u-map/UMap.actions";
+import {MapConstants} from "../u-map/UMap.actions";
 
 export const DotConstants = Object.freeze({
   FETCH: 'DOT_FETCH',
@@ -63,7 +63,7 @@ const _putDot = async (dotToPut, dispatch) => {
 
     let dot = await response.json();
 
-    dispatch({ type: MAP.DOTS.UPDATE, payload: dot });
+    dispatch({ type: MapConstants.DOTS.UPDATE, payload: dot });
 
     return dot;
   } catch (e) {

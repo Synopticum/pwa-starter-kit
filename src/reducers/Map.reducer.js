@@ -1,4 +1,4 @@
-import {MAP} from "../components/u-map/UMap.actions";
+import {MapConstants} from "../components/u-map/UMap.actions";
 import {
     generateInProgressActionTypeName,
     generateSuccessActionTypeName,
@@ -30,7 +30,7 @@ export const map = (state = {
     dotPage: { currentDotId: '', isVisible: false },
 }, action) => {
     switch (action.type) {
-        case generateInProgressActionTypeName(MAP.TOOLTIP.FETCH):
+        case generateInProgressActionTypeName(MapConstants.TOOLTIP.FETCH):
             return {
                 ...state,
                 tooltip: {
@@ -40,7 +40,7 @@ export const map = (state = {
                 }
             };
 
-        case generateSuccessActionTypeName(MAP.TOOLTIP.FETCH):
+        case generateSuccessActionTypeName(MapConstants.TOOLTIP.FETCH):
             return {
                 ...state,
                 tooltip: {
@@ -51,7 +51,7 @@ export const map = (state = {
                 }
             };
 
-        case generateErrorActionTypeName(MAP.TOOLTIP.FETCH):
+        case generateErrorActionTypeName(MapConstants.TOOLTIP.FETCH):
             return {
                 ...state,
                 tooltip: {
@@ -60,7 +60,7 @@ export const map = (state = {
                 }
             };
 
-        case MAP.TOGGLE.TOOLTIP:
+        case MapConstants.TOGGLE.TOOLTIP:
             return {
                 ...state,
                 tooltip: {
@@ -69,7 +69,7 @@ export const map = (state = {
                 }
             };
 
-        case MAP.TOGGLE.CONTEXT_MENU:
+        case MapConstants.TOGGLE.CONTEXT_MENU:
             return {
                 ...state,
                 contextMenu: {
@@ -79,7 +79,7 @@ export const map = (state = {
                 }
             };
 
-        case MAP.TOGGLE.DOT_CREATOR:
+        case MapConstants.TOGGLE.DOT_CREATOR:
             return {
                 ...state,
                 dotCreator: {
@@ -89,7 +89,7 @@ export const map = (state = {
                 }
             };
 
-        case MAP.TOGGLE.CLOUDS:
+        case MapConstants.TOGGLE.CLOUDS:
             return {
                 ...state,
                 clouds: {
@@ -98,7 +98,7 @@ export const map = (state = {
                 }
             };
 
-        case MAP.DOT_PAGE.SET_ID:
+        case MapConstants.DOT_PAGE.SET_ID:
             return {
                 ...state,
                 dotPage: {

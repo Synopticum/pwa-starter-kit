@@ -1,4 +1,4 @@
-import { MAP } from "../components/u-map/UMap.actions";
+import { MapConstants } from "../components/u-map/UMap.actions";
 import {
     generateInProgressActionTypeName,
     generateSuccessActionTypeName,
@@ -10,26 +10,26 @@ export const dots = (state = {
     isFetching: false
 }, action) => {
     switch (action.type) {
-        case generateInProgressActionTypeName(MAP.DOTS.FETCH):
+        case generateInProgressActionTypeName(MapConstants.DOTS.FETCH):
             return {
                 ...state,
                 isFetching: true
             };
 
-        case generateSuccessActionTypeName(MAP.DOTS.FETCH):
+        case generateSuccessActionTypeName(MapConstants.DOTS.FETCH):
             return {
                 ...state,
                 isFetching: false,
                 items: action.payload
             };
 
-        case generateErrorActionTypeName(MAP.DOTS.FETCH):
+        case generateErrorActionTypeName(MapConstants.DOTS.FETCH):
             return {
                 ...state,
                 isFetching: false
             };
 
-        case MAP.DOTS.UPDATE:
+        case MapConstants.DOTS.UPDATE:
             return {
                 ...state,
                 items: [...state.items, action.payload]
