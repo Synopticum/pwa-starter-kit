@@ -1,22 +1,19 @@
-//
-// Action
-//
 import { ENV } from '../../../environments/environments';
 
-export const COMMENTS = {
+export const CommentsConstants = Object.freeze({
   DOT_PAGE: {
     FETCH: 'COMMENTS_DOT_PAGE_FETCH',
     PUT: 'COMMENTS_DOT_PAGE_PUT',
     DELETE: 'COMMENTS_DOT_PAGE_DELETE'
   }
-};
+});
 
 // -------
 export const fetchComments = (originType, id) => async (dispatch) => {
   let pageType = `${originType.toUpperCase()}_PAGE`;
 
   dispatch({
-    type: COMMENTS[pageType].FETCH,
+    type: CommentsConstants[pageType].FETCH,
     async: true,
     httpMethodToInvoke: _fetchComments,
     params: [originType, id, dispatch]
@@ -46,7 +43,7 @@ export const putComment = (originType, originId, comment) => async (dispatch) =>
   let pageType = `${originType.toUpperCase()}_PAGE`;
 
   dispatch({
-    type: COMMENTS[pageType].PUT,
+    type: CommentsConstants[pageType].PUT,
     async: true,
     httpMethodToInvoke: _putComment,
     params: [originType, originId, comment]
@@ -80,7 +77,7 @@ export const deleteComment = (originType, originId, commentId) => async (dispatc
   let pageType = `${originType.toUpperCase()}_PAGE`;
 
   dispatch({
-    type: COMMENTS[pageType].DELETE,
+    type: CommentsConstants[pageType].DELETE,
     async: true,
     httpMethodToInvoke: _deleteComment,
     params: [originType, originId, commentId]

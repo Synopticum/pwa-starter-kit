@@ -1,7 +1,7 @@
 //
 // Reducer
 //
-import {COMMENTS} from "../components/u-comments/UComments.actions";
+import {CommentsConstants} from "../components/u-comments/UComments.actions";
 import {
     generateInProgressActionTypeName,
     generateSuccessActionTypeName,
@@ -23,7 +23,7 @@ export const comments = (state = {
     }, }, action) => {
     switch (action.type) {
         // Dot page - GET
-        case generateInProgressActionTypeName(COMMENTS.DOT_PAGE.FETCH):
+        case generateInProgressActionTypeName(CommentsConstants.DOT_PAGE.FETCH):
             return {
                 ...state,
                 dotPage: {
@@ -32,7 +32,7 @@ export const comments = (state = {
                 }
             };
 
-        case generateSuccessActionTypeName(COMMENTS.DOT_PAGE.FETCH):
+        case generateSuccessActionTypeName(CommentsConstants.DOT_PAGE.FETCH):
             return {
                 ...state,
                 dotPage: {
@@ -42,7 +42,7 @@ export const comments = (state = {
                 }
             };
 
-        case generateErrorActionTypeName(COMMENTS.DOT_PAGE.FETCH):
+        case generateErrorActionTypeName(CommentsConstants.DOT_PAGE.FETCH):
             return {
                 ...state,
                 dotPage: {
@@ -52,7 +52,7 @@ export const comments = (state = {
             };
 
         // Dot page - PUT
-        case generateInProgressActionTypeName(COMMENTS.DOT_PAGE.PUT):
+        case generateInProgressActionTypeName(CommentsConstants.DOT_PAGE.PUT):
             return {
                 ...state,
                 dotPage: {
@@ -61,7 +61,7 @@ export const comments = (state = {
                 }
             };
 
-        case generateSuccessActionTypeName(COMMENTS.DOT_PAGE.PUT):
+        case generateSuccessActionTypeName(CommentsConstants.DOT_PAGE.PUT):
             return {
                 ...state,
                 dotPage: {
@@ -72,7 +72,7 @@ export const comments = (state = {
                 }
             };
 
-        case generateErrorActionTypeName(COMMENTS.DOT_PAGE.PUT):
+        case generateErrorActionTypeName(CommentsConstants.DOT_PAGE.PUT):
             return {
                 ...state,
                 dotPage: {
@@ -82,7 +82,7 @@ export const comments = (state = {
             };
 
         // Dot page - DELETE
-        case generateInProgressActionTypeName(COMMENTS.DOT_PAGE.DELETE):
+        case generateInProgressActionTypeName(CommentsConstants.DOT_PAGE.DELETE):
             return {
                 ...state,
                 dotPage: {
@@ -91,7 +91,7 @@ export const comments = (state = {
                 }
             };
 
-        case generateSuccessActionTypeName(COMMENTS.DOT_PAGE.DELETE):
+        case generateSuccessActionTypeName(CommentsConstants.DOT_PAGE.DELETE):
             return {
                 ...state,
                 dotPage: {
@@ -101,7 +101,7 @@ export const comments = (state = {
                 }
             };
 
-        case generateErrorActionTypeName(COMMENTS.DOT_PAGE.DELETE):
+        case generateErrorActionTypeName(CommentsConstants.DOT_PAGE.DELETE):
             return {
                 ...state,
                 dotPage: {
