@@ -1,6 +1,6 @@
 import { ENV } from '../../../environments/environments';
 
-export const MapConstants = Object.freeze({
+export const MapConstants = {
   DOTS: {
     FETCH: 'MAP_DOTS_FETCH',
     UPDATE: 'MAP_DOTS_UPDATE'
@@ -20,7 +20,7 @@ export const MapConstants = Object.freeze({
   DOT_PAGE: {
     SET_ID: 'DOT_PAGE_SET_ID'
   }
-});
+};
 
 // -------
 export const fetchDots = () => async (dispatch) => {

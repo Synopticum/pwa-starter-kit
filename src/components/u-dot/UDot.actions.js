@@ -1,11 +1,11 @@
 import { ENV } from '../../../environments/environments';
 import {MapConstants} from "../u-map/UMap.actions";
 
-export const DotConstants = Object.freeze({
+export const DotConstants = {
   FETCH: 'DOT_FETCH',
   PUT: 'DOT_PUT',
   CLEAR_STATE: 'DOT_CLEAR_STATE'
-});
+};
 
 // -------
 export const fetchDot = (dotId) => async (dispatch) => {

@@ -1,14 +1,14 @@
 import { ENV } from '../../../environments/environments';
 import { setCurrentDotId } from '../u-map/UMap.actions';
 
-export const AppConstants = Object.freeze({
+export const AppConstants = {
   PAGE: {
     UPDATE: 'APP_PAGE_UPDATE'
   },
   USER: {
     FETCH: 'APP_USER_FETCH'
   }
-});
+};
 
 export const navigate = (path) => (dispatch) => {
   // Extract the page name from path.

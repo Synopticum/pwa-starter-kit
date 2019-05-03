@@ -1,12 +1,12 @@
 import { ENV } from '../../../environments/environments';
 
-export const CommentsConstants = Object.freeze({
+export const CommentsConstants = {
   DOT_PAGE: {
     FETCH: 'COMMENTS_DOT_PAGE_FETCH',
     PUT: 'COMMENTS_DOT_PAGE_PUT',
     DELETE: 'COMMENTS_DOT_PAGE_DELETE'
   }
-});
+};
 
 // -------
 export const fetchComments = (originType, id) => async (dispatch) => {
