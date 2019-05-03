@@ -119,6 +119,8 @@ export class UComments extends connect(store)(LitElement) {
       date: moment().unix(),
       author: `${this._user.firstName} ${this._user.lastName}`
     }));
+
+    this.$textarea.dispatchEvent(new CustomEvent('reset'));
   }
 
   delete(e) {

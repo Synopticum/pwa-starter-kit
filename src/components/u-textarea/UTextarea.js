@@ -38,6 +38,7 @@ export class UTextarea extends LitElement {
     constructor() {
         super();
         this.addEventListener('update', this.valueChanged);
+        this.addEventListener('reset', this.valueReset);
     }
 
     render() {
@@ -86,7 +87,7 @@ export class UTextarea extends LitElement {
           <div class="textarea textarea--${this.type} ${this.isUpdating ? 'textarea--is-updating' : ''}">
             <textarea
                 class="textarea__element"
-                id="${this.id}" 
+                id="textarea__${this.id}" 
                 placeholder="${this.placeholder}"
                 @keyup="${this.valueChanged}"
                 ?disabled="${this.disabled}"
@@ -95,8 +96,21 @@ export class UTextarea extends LitElement {
     `;
     }
 
+    firstUpdated() {
+        this._setReferences();
+    }
+
     valueChanged(e) {
         this.value = e.currentTarget.value ? e.currentTarget.value : '';
+    }
+
+    valueReset() {
+        this.value = '';
+        this.$textarea.value = '';
+    }
+
+    _setReferences() {
+        this.$textarea = this.shadowRoot.querySelector(`#textarea__${this.id}`);
     }
 }
 
