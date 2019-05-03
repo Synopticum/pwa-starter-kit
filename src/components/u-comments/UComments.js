@@ -69,7 +69,7 @@ export class UComments extends connect(store)(LitElement) {
         ${this._comments.length ? '' : html`<div class="no-comments">Нет комментариев</div>`}
         
         ${repeat(this._comments, comment => comment.id, comment => html`
-          <u-comment .user="${this._user}" .comment="${comment}" @delete="${this.delete.bind(this)}"></u-comment>
+          <u-comment .user="${this._user}" .comment="${comment}" @delete="${(e) => this.delete(e)}"></u-comment>
         `)}
       </div>
       
@@ -86,7 +86,7 @@ export class UComments extends connect(store)(LitElement) {
             class="button"
             id="add-comment"
             ?disabled="${!this._isValid}"
-            @click="${this.add.bind(this)}">Добавить</button>
+            @click="${(e) => this.add(e)}">Добавить</button>
       </form>
     `
   }

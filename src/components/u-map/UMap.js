@@ -237,7 +237,7 @@ class UMap extends connect(store)(LitElement) {
             ?hidden="${!this._contextMenu.isVisible}"
             .x="${this._contextMenu.position.x}"
             .y="${this._contextMenu.position.y}">
-              <div class="menu__item" @click="${this._createDot.bind(this)}" slot="context-menu-items">Добавить точку</div>
+              <div class="menu__item" @click="${() => this._createDot()}" slot="context-menu-items">Добавить точку</div>
               <div class="menu__item" @click="${() => {
         alert(1)
     }}" slot="context-menu-items">Проверить</div>   
@@ -353,8 +353,8 @@ class UMap extends connect(store)(LitElement) {
 
   _setListeners() {
     this._map.on('load', UMap._triggerResize());
-    this._map.on('click', this._handleClick.bind(this));
-    this._map.on('dragstart', this._hideControls.bind(this));
+    this._map.on('click', (e) => this._handleClick(e));
+    this._map.on('dragstart', () => this._hideControls());
     this._map.on('drag', debounce(this._updateCenterPosition, 300).bind(this));
   }
 

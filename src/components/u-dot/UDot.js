@@ -144,7 +144,7 @@ class UDot extends connect(store)(LitElement) {
                 type="submit"
                 class="submit"
                 ?disabled="${!this._isValid}"
-                @click="${this.submit.bind(this)}"></u-round-button>  
+                @click="${(e) => this.submit(e)}"></u-round-button>  
           </div>
           
           <div class="comments">
@@ -172,7 +172,7 @@ class UDot extends connect(store)(LitElement) {
         this._isUpdating = state.dotPage.isUpdating;
         this._isFetching = state.dotPage.isFetching;
 
-        defer(this.validate.bind(this));
+        defer(() => this.validate());
     }
 
     firstUpdated() {

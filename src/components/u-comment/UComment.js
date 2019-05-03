@@ -60,7 +60,7 @@ export class UComment extends LitElement {
       </div>
       
       <div class="controls">
-        <div class="controls__delete" @click="${this.delete.bind(this)}"></div>
+        <div class="controls__delete" @click="${() => this.delete()}"></div>
       </div>
     `
   }

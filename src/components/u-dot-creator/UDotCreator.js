@@ -128,13 +128,13 @@ class UDotCreator extends connect(store)(LitElement) {
               </select>
             </form>
             
-            <u-round-button type="close" class="close" @click="${this.close.bind(this)}"></u-round-button>  
+            <u-round-button type="close" class="close" @click="${() => this.close()}"></u-round-button>  
             
             <u-round-button 
                 type="submit" 
                 class="submit" 
                 ?disabled="${!this._isValid}" 
-                @click="${this.create.bind(this)}"></u-round-button>  
+                @click="${(e) => this.create(e)}"></u-round-button>  
           </div>
     `;
     }
