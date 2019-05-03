@@ -1,4 +1,4 @@
-import {DOT} from "../components/u-dot/UDot.actions";
+import {DotConstants} from "../components/u-dot/UDot.actions";
 import {
     generateInProgressActionTypeName,
     generateSuccessActionTypeName,
@@ -12,47 +12,47 @@ export const dotPage = (state = {
 }, action) => {
     switch (action.type) {
         // GET
-        case generateInProgressActionTypeName(DOT.FETCH):
+        case generateInProgressActionTypeName(DotConstants.FETCH):
             return {
                 ...state,
                 isFetching: true
             };
 
-        case generateSuccessActionTypeName(DOT.FETCH):
+        case generateSuccessActionTypeName(DotConstants.FETCH):
             return {
                 ...state,
                 isFetching: false,
                 dot: action.payload
             };
 
-        case generateErrorActionTypeName(DOT.FETCH):
+        case generateErrorActionTypeName(DotConstants.FETCH):
             return {
                 ...state,
                 isFetching: false
             };
 
         // PUT
-        case generateInProgressActionTypeName(DOT.PUT):
+        case generateInProgressActionTypeName(DotConstants.PUT):
             return {
                 ...state,
                 isUpdating: true,
                 dotToBeUpdated: action.payload
             };
 
-        case generateSuccessActionTypeName(DOT.PUT):
+        case generateSuccessActionTypeName(DotConstants.PUT):
             return {
                 ...state,
                 isUpdating: false,
                 dot: action.payload
             };
 
-        case generateErrorActionTypeName(DOT.PUT):
+        case generateErrorActionTypeName(DotConstants.PUT):
             return {
                 ...state,
                 isUpdating: false
             };
 
-        case DOT.CLEAR_STATE:
+        case DotConstants.CLEAR_STATE:
             return {
                 dot: {},
                 isFetching: false,

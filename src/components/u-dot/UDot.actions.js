@@ -1,19 +1,16 @@
-//
-// Action
-//
 import { ENV } from '../../../environments/environments';
 import {MAP} from "../u-map/UMap.actions";
 
-export const DOT = {
+export const DotConstants = Object.freeze({
   FETCH: 'DOT_FETCH',
   PUT: 'DOT_PUT',
   CLEAR_STATE: 'DOT_CLEAR_STATE'
-};
+});
 
 // -------
 export const fetchDot = (dotId) => async (dispatch) => {
   dispatch({
-    type: DOT.FETCH,
+    type: DotConstants.FETCH,
     async: true,
     httpMethodToInvoke: _fetchDot,
     params: [dotId]
@@ -42,7 +39,7 @@ const _fetchDot = async (dotId) => {
 // -------
 export const putDot = (dotToPut) => async (dispatch) => {
   dispatch({
-    type: DOT.FETCH,
+    type: DotConstants.FETCH,
     async: true,
     httpMethodToInvoke: _putDot,
     params: [dotToPut, dispatch]
@@ -76,5 +73,5 @@ const _putDot = async (dotToPut, dispatch) => {
 };
 
 export const clearDotState = () => (dispatch, getState) => {
-  dispatch({ type: DOT.CLEAR_STATE });
+  dispatch({ type: DotConstants.CLEAR_STATE });
 };
