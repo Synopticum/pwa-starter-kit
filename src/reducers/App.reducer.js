@@ -1,4 +1,4 @@
-import {APP} from "../components/u-app/UApp.actions";
+import {AppConstants} from "../components/u-app/UApp.actions";
 import {
     generateInProgressActionTypeName,
     generateSuccessActionTypeName,
@@ -7,24 +7,24 @@ import {
 
 export const app = (state = {}, action) => {
     switch (action.type) {
-        case APP.PAGE.UPDATE:
+        case AppConstants.PAGE.UPDATE:
             return {
                 ...state,
                 page: action.payload.page
             };
 
         // -------
-        case generateInProgressActionTypeName(APP.USER.FETCH):
+        case generateInProgressActionTypeName(AppConstants.USER.FETCH):
             // TODO
             return state;
 
-        case generateSuccessActionTypeName(APP.USER.FETCH):
+        case generateSuccessActionTypeName(AppConstants.USER.FETCH):
             return {
                 ...state,
                 user: action.payload
             };
 
-        case generateErrorActionTypeName(APP.USER.FETCH):
+        case generateErrorActionTypeName(AppConstants.USER.FETCH):
             // TODO
             return state;
 
