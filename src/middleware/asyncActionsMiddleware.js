@@ -1,4 +1,4 @@
-const asyncActionsMiddleware = store => next => action => {
+const asyncActionsMiddleware = ({ dispatch }) => next => action => {
     const isActionAsync = action.hasOwnProperty('async');
 
     if (!isActionAsync) {
@@ -8,13 +8,13 @@ const asyncActionsMiddleware = store => next => action => {
     const {httpMethodToInvoke, params, type} = action;
     const inProgressType = generateInProgressActionTypeName(type);
 
-    Promise.resolve(1).then(() => store.dispatch({type: inProgressType}));
+    Promise.resolve(1).then(() => dispatch({type: inProgressType}));
 
     httpMethodToInvoke(...params)
         .then(response => {
             const successType = generateSuccessActionTypeName(type);
 
-            Promise.resolve(1).then(() => store.dispatch({
+            Promise.resolve(1).then(() => dispatch({
                 type: successType,
                 payload: response
             }));
@@ -22,7 +22,7 @@ const asyncActionsMiddleware = store => next => action => {
         .catch(err => {
             console.log(err);
             const errorType = generateErrorActionTypeName(type);
-            Promise.resolve(1).then(() => store.dispatch({type: errorType, err}));
+            Promise.resolve(1).then(() => dispatch({type: errorType, err}));
         });
 
     return next(action);
