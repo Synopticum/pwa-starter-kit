@@ -3,13 +3,6 @@
 //
 import { ENV } from '../../../environments/environments';
 
-export const TOGGLE = {
-  TOOLTIP: 'TOGGLE_TOOLTIP',
-  CONTEXT_MENU: 'TOGGLE_CONTEXT_MENU',
-  DOT_CREATOR: 'TOGGLE_DOT_CREATOR',
-  CLOUDS: 'TOGGLE_CLOUDS'
-};
-
 export const DOT_PAGE = {
   SET_ID: 'DOT_PAGE_SET_ID'
 };
@@ -19,8 +12,20 @@ export const MAP = {
     FETCH: 'MAP_DOTS_FETCH',
     UPDATE: 'MAP_DOTS_UPDATE'
   },
+
   TOOLTIP: {
     FETCH: 'MAP_TOOLTIP_FETCH'
+  },
+
+  TOGGLE: {
+    TOOLTIP: 'MAP_TOGGLE_TOOLTIP',
+    CONTEXT_MENU: 'MAP_TOGGLE_CONTEXT_MENU',
+    DOT_CREATOR: 'MAP_TOGGLE_DOT_CREATOR',
+    CLOUDS: 'MAP_TOGGLE_CLOUDS'
+  },
+
+  DOT_PAGE: {
+    SET_ID: 'DOT_PAGE_SET_ID'
   }
 };
 
@@ -63,7 +68,7 @@ export const toggleTooltip = (enable, id, position = {}) => async (dispatch) => 
     });
   } else {
     dispatch({
-      type: TOGGLE.TOOLTIP,
+      type: MAP.TOGGLE.TOOLTIP,
       payload: false
     });
   }
@@ -85,7 +90,7 @@ const _fetchById = async (enable, id, position, dispatch) => {
 
     let item = await response.json();
 
-    dispatch({ type: TOGGLE.TOOLTIP, payload: true });
+    dispatch({ type: MAP.TOGGLE.TOOLTIP, payload: true });
     return { item, position };
   } catch (e) {
     console.error(e);
@@ -96,7 +101,7 @@ const _fetchById = async (enable, id, position, dispatch) => {
 // -------
 export const toggleContextMenu = (isVisible, position = {}) => {
   return {
-    type: TOGGLE.CONTEXT_MENU,
+    type: MAP.TOGGLE.CONTEXT_MENU,
     payload: {
       isVisible,
       position
@@ -106,7 +111,7 @@ export const toggleContextMenu = (isVisible, position = {}) => {
 
 export const toggleDotCreator = (isVisible, position = {}) => {
   return {
-    type: TOGGLE.DOT_CREATOR,
+    type: MAP.TOGGLE.DOT_CREATOR,
     payload: {
       isVisible,
       position
@@ -116,7 +121,7 @@ export const toggleDotCreator = (isVisible, position = {}) => {
 
 export const setCloudsVisibility = (visibility = {}) => {
   return {
-    type: TOGGLE.CLOUDS,
+    type: MAP.TOGGLE.CLOUDS,
     payload: {
       visibility
     }

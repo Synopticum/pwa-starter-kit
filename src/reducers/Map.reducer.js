@@ -1,5 +1,4 @@
-import {TOGGLE, MAP} from "../components/u-map/UMap.actions";
-import {DOT_PAGE} from "../components/u-map/UMap.actions";
+import {MAP} from "../components/u-map/UMap.actions";
 import {
     generateInProgressActionTypeName,
     generateSuccessActionTypeName,
@@ -61,7 +60,7 @@ export const map = (state = {
                 }
             };
 
-        case TOGGLE.TOOLTIP:
+        case MAP.TOGGLE.TOOLTIP:
             return {
                 ...state,
                 tooltip: {
@@ -70,7 +69,7 @@ export const map = (state = {
                 }
             };
 
-        case TOGGLE.CONTEXT_MENU:
+        case MAP.TOGGLE.CONTEXT_MENU:
             return {
                 ...state,
                 contextMenu: {
@@ -80,7 +79,7 @@ export const map = (state = {
                 }
             };
 
-        case TOGGLE.DOT_CREATOR:
+        case MAP.TOGGLE.DOT_CREATOR:
             return {
                 ...state,
                 dotCreator: {
@@ -90,7 +89,7 @@ export const map = (state = {
                 }
             };
 
-        case TOGGLE.CLOUDS:
+        case MAP.TOGGLE.CLOUDS:
             return {
                 ...state,
                 clouds: {
@@ -99,7 +98,7 @@ export const map = (state = {
                 }
             };
 
-        case DOT_PAGE.SET_ID:
+        case MAP.DOT_PAGE.SET_ID:
             return {
                 ...state,
                 dotPage: {
