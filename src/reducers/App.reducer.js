@@ -10,7 +10,7 @@ export const app = (state = {}, action) => {
         case AppConstants.PAGE.UPDATE:
             return {
                 ...state,
-                page: action.payload.page
+                page: action.payload
             };
 
         // -------
