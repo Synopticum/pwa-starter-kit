@@ -91,6 +91,10 @@ class UMap extends connect(store)(LitElement) {
         attribute: false
       },
 
+      _$clouds: {
+        type: Object,
+        attribute: false
+      },
       _$tempDot: {
         type: Object,
         attribute: false
@@ -283,6 +287,7 @@ class UMap extends connect(store)(LitElement) {
     this._setMaxBounds();
     this._initializeTiles();
     this._setListeners();
+    this._setReferences();
     // await this._drawObjects();
     store.dispatch(fetchDots());
   }
@@ -346,6 +351,12 @@ class UMap extends connect(store)(LitElement) {
     this._map.on('click', (e) => this._handleClick(e));
     this._map.on('dragstart', () => this._hideControls());
     this._map.on('drag', debounce(this._updateCenterPosition, 300).bind(this));
+    this.addEventListener('click', this._handleOutsideClicks);
+  }
+
+  _setReferences() {
+    this._$tempDot = null;
+    this._$clouds = this.querySelector('.container');
   }
 
   async _drawObjects() {
@@ -558,6 +569,13 @@ class UMap extends connect(store)(LitElement) {
     let { lat, lng } = this._map.getCenter();
     window.history.replaceState( {}, '', `?lat=${lat.toFixed(2)}&lng=${lng.toFixed(2)}`);
     // location.search = `?lat=${lat.toFixed(2)}&lng=${lng.toFixed(2)}`;
+  }
+
+  _handleOutsideClicks(e) {
+    if (e.target === this._$clouds) {
+      this._toggleDotCreator(false);
+      this._toggleDot(false);
+    }
   }
 }
 

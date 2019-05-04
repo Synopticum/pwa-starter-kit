@@ -140,7 +140,7 @@ class UDotCreator extends connect(store)(LitElement) {
     }
 
     firstUpdated() {
-        this._setReferences();
+        this._init();
     }
 
     stateChanged(state) {
@@ -184,13 +184,18 @@ class UDotCreator extends connect(store)(LitElement) {
     }
 
     _init() {
-
+        this._setReferences();
+        this._setListeners();
     }
 
     _setReferences() {
         this.$title = this.shadowRoot.querySelector('#dot-title');
         this.$layer = this.shadowRoot.querySelector('#dot-layer');
         this.$type = this.shadowRoot.querySelector('#dot-type');
+    }
+
+    _setListeners() {
+        this.addEventListener('click', e => e.stopPropagation());
     }
 }
 
