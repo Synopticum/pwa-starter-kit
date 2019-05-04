@@ -2,6 +2,12 @@ import {html, LitElement} from 'lit-element/lit-element';
 
 export class UTextbox extends LitElement {
 
+    constructor() {
+        super();
+        this.addEventListener('update', this.valueChanged);
+        this.addEventListener('reset', this.valueReset);
+    }
+
     static get properties() {
         return {
             id: {
@@ -101,10 +107,10 @@ export class UTextbox extends LitElement {
           <div class="textbox ${this.isFetching || this.isUpdating ? 'textbox--is-loading' : ''}">
             <input 
                 type="text" 
-                id="${this.id}"
+                id="textbox__${this.id}"
                 class="textbox__element"
                 value="${this.value}" 
-                @keyup="${this._update}"
+                @keyup="${this.valueChanged}"
                 placeholder="${this.placeholder}"
                 ?disabled="${this.disabled || this.isFetching  || this.isUpdating}"
                 ?required="${this.required}"
@@ -113,8 +119,21 @@ export class UTextbox extends LitElement {
     `;
     }
 
-    _update(e) {
-        this.value = e.currentTarget.value;
+    firstUpdated() {
+        this._setReferences();
+    }
+
+    valueChanged(e) {
+        this.value = e.currentTarget.value ? e.currentTarget.value : '';
+    }
+
+    valueReset() {
+        this.value = '';
+        this.$textarea.value = '';
+    }
+
+    _setReferences() {
+        this.$textarea = this.shadowRoot.querySelector(`#textbox__${this.id}`);
     }
 }
 

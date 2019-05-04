@@ -175,7 +175,7 @@ class UDotCreator extends connect(store)(LitElement) {
     }
 
     resetState() {
-        this.$title.value = '';
+        this.$title.dispatchEvent(new CustomEvent('reset'));
         this.$layer.value = 'official';
         this.$type.value = 'global';
     }
