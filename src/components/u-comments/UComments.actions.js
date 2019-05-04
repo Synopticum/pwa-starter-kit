@@ -98,9 +98,14 @@ const _deleteComment = async (originType, originId, commentId) => {
       throw new Error('Error while deleting a comment');
     }
 
+    await timeout(2000);
     return commentId;
   } catch(e) {
     console.error(e);
     return null;
   }
 };
+
+function timeout(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}

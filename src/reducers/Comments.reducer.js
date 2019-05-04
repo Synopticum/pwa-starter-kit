@@ -12,13 +12,13 @@ export const comments = (state = {
     objectPage: {
         items: [],
         isFetching: false,
-        isUpdating: false,
+        isCommentAdding: false,
         currentMessage: ''
     },
     dotPage: {
         items: [],
         isFetching: false,
-        isUpdating: false,
+        isCommentAdding: false,
         currentMessage: ''
     }, }, action) => {
     switch (action.type) {
@@ -57,7 +57,7 @@ export const comments = (state = {
                 ...state,
                 dotPage: {
                     ...state.dotPage,
-                    isUpdating: true
+                    isCommentAdding: true
                 }
             };
 
@@ -67,7 +67,7 @@ export const comments = (state = {
                 dotPage: {
                     ...state.dotPage,
                     items: [...state.dotPage.items, action.payload],
-                    isUpdating: false,
+                    isCommentAdding: false,
                     currentMessage: ''
                 }
             };
@@ -77,38 +77,25 @@ export const comments = (state = {
                 ...state,
                 dotPage: {
                     ...state.dotPage,
-                    isUpdating: false
+                    isCommentAdding: false
                 }
             };
 
         // Dot page - DELETE
         case generateInProgressActionTypeName(CommentsConstants.DOT_PAGE.DELETE):
-            return {
-                ...state,
-                dotPage: {
-                    ...state.dotPage,
-                    isUpdating: true
-                }
-            };
+            return state;
 
         case generateSuccessActionTypeName(CommentsConstants.DOT_PAGE.DELETE):
             return {
                 ...state,
                 dotPage: {
                     ...state.dotPage,
-                    items: state.dotPage.items.filter(comment => comment.id !== action.payload),
-                    isUpdating: false
+                    items: state.dotPage.items.filter(comment => comment.id !== action.payload)
                 }
             };
 
         case generateErrorActionTypeName(CommentsConstants.DOT_PAGE.DELETE):
-            return {
-                ...state,
-                dotPage: {
-                    ...state.dotPage,
-                    isUpdating: false
-                }
-            };
+            return state;
 
         default:
             return state;

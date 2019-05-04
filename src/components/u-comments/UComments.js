@@ -25,7 +25,7 @@ export class UComments extends connect(store)(LitElement) {
         type: Boolean,
         attribute: false
       },
-      _isUpdating: {
+      _isCommentAdding: {
         type: Boolean,
         attribute: false
       },
@@ -94,14 +94,14 @@ export class UComments extends connect(store)(LitElement) {
             id="comment-to-add" 
             class="textarea"
             placeholder="Добавить комментарий"
-            ?is-updating="${this._isUpdating}" 
+            ?is-updating="${this._isCommentAdding}" 
             @keyup="${this.validate}"
             required></u-textarea>
             
         <button 
             class="button"
             id="add-comment"
-            ?disabled="${!this._isValid || this._isFetching || this._isUpdating}"
+            ?disabled="${!this._isValid || this._isFetching || this._isCommentAdding}"
             @click="${(e) => this.add(e)}">Добавить</button>
       </form>
     `
@@ -118,7 +118,7 @@ export class UComments extends connect(store)(LitElement) {
     this._user = state.app.user;
     this._comments = state.comments[pageType].items;
     this._isFetching = state.comments[pageType].isFetching;
-    this._isUpdating = state.comments[pageType].isUpdating;
+    this._isCommentAdding = state.comments[pageType].isCommentAdding;
   }
 
   firstUpdated() {
