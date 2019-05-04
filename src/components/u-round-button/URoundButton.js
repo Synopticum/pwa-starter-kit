@@ -46,6 +46,7 @@ export class URoundButton extends LitElement {
                 background-position: 50% 50%;
                 background-color: #fff;
                 border-radius: 50%;
+                transition: opacity .3s;
             }
             
             .button__element:disabled {
