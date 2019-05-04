@@ -4,6 +4,7 @@ import {
     generateSuccessActionTypeName,
     generateErrorActionTypeName,
 } from "../middleware/asyncActionsMiddleware";
+import {DotConstants} from "../components/u-dot/UDot.actions";
 
 export const map = (state = {
     tooltip: {
@@ -20,6 +21,7 @@ export const map = (state = {
 
     dotCreator: {
         isVisible: false,
+        tempDot: null,
         position: {}
     },
 
@@ -27,7 +29,10 @@ export const map = (state = {
         visibility: 'none'
     },
 
-    dotPage: { currentDotId: '', isVisible: false },
+    dotPage: {
+        currentDotId: '',
+        isVisible: false
+    },
 }, action) => {
     switch (action.type) {
         case generateInProgressActionTypeName(MapConstants.TOOLTIP.FETCH):
@@ -104,6 +109,28 @@ export const map = (state = {
                 dotPage: {
                     isVisible: Boolean(action.payload),
                     currentDotId: action.payload
+                }
+            };
+
+        case DotConstants.PUT:
+            const [ dot ] = action.params;
+
+            return {
+                ...state,
+                dotCreator: {
+                    ...state.dotCreator,
+                    tempDot: dot
+                }
+            };
+
+
+        case generateSuccessActionTypeName(DotConstants.PUT):
+        case generateErrorActionTypeName(DotConstants.PUT):
+            return {
+                ...state,
+                dotCreator: {
+                    ...state.dotCreator,
+                    tempDot: null
                 }
             };
 

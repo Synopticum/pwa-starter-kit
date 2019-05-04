@@ -91,7 +91,7 @@ class UMap extends connect(store)(LitElement) {
         attribute: false
       },
 
-      _tempDotRef: {
+      _$tempDot: {
         type: Object,
         attribute: false
         // need for storing temporary data about where a marker will be added
@@ -259,16 +259,19 @@ class UMap extends connect(store)(LitElement) {
     if (this._dots !== state.dots.items) {
       this._drawDots(state.dots.items);
     }
-    this._dots = state.dots.items;
 
+    this._dots = state.dots.items;
     this._contextMenu = state.map.contextMenu;
     this._tooltip = state.map.tooltip;
     this._dotCreator = state.map.dotCreator;
     this._clouds = state.map.clouds;
-
     this._dotPage = state.map.dotPage;
-
     this._user = state.app.user;
+
+    // show a temporary dot until a real dot is creating
+    // remove it when a real one has been created
+    if (state.map.dotCreator.tempDot !== null && !this._$tempDot) this._addTempDot(state.map.dotCreator.tempDot.coordinates);
+    if (state.map.dotCreator.tempDot === null && this._$tempDot) this._removeTempDot();
   }
 
   // leaflet _init methods
@@ -536,19 +539,19 @@ class UMap extends connect(store)(LitElement) {
 
   _createDot() {
     this._toggleDotCreator(true);
-
-    // display ghost marker until a dot is created
-    this._tempDotRef = new L.marker([this._tempDotCoordinates.lat, this._tempDotCoordinates.lng], { icon: UMap._getMarkerIcon('global') })
-      .on('click', (e) => { this._toggleDot(true, e) })
-      .addTo(this._map);
-    this._tempDotRef._icon.classList.add('leaflet-marker-icon--is-updating');
-
     this._toggleContextMenu(false);
   }
 
-  _enableDot() {
-    this._tempDotRef.remove();
-    this._tempDotRef = null;
+  _addTempDot(coordinates) {
+    this._$tempDot = new L.marker(coordinates, { icon: UMap._getMarkerIcon('global') })
+        .on('click', (e) => { this._toggleDot(true, e) })
+        .addTo(this._map);
+    this._$tempDot._icon.classList.add('leaflet-marker-icon--is-updating');
+  }
+
+  _removeTempDot() {
+    this._$tempDot.remove();
+    this._$tempDot = null;
   }
 
   _updateCenterPosition() {
