@@ -229,7 +229,8 @@ class UMap extends connect(store)(LitElement) {
         <u-context-menu
             ?hidden="${!this._contextMenu.isVisible}"
             .x="${this._contextMenu.position.x}"
-            .y="${this._contextMenu.position.y}">
+            .y="${this._contextMenu.position.y}"
+            .origin="${this._contextMenu.position.origin}">
               <div class="menu__item" @click="${() => this._createDot()}" slot="context-menu-items">Добавить точку</div>
               <div class="menu__item" @click="${() => alert(1)}" slot="context-menu-items">Проверить</div>   
         </u-context-menu>
@@ -463,7 +464,7 @@ class UMap extends connect(store)(LitElement) {
     if (isVisible) {
       this._tooltipHoverTimeOut = setTimeout(() => {
         let id = e.target.options.id;
-        let position = UMap._calculateTooltipPosition(e.containerPoint.x, e.containerPoint.y);
+        let position = UMap._calculatePosition(e.containerPoint.x, e.containerPoint.y, 310, 160);
 
         store.dispatch(toggleTooltip(true, id, position));
       }, 1000);
@@ -476,14 +477,12 @@ class UMap extends connect(store)(LitElement) {
     }
   }
 
-  static _calculateTooltipPosition(mouseX, mouseY) {
-    let html = document.querySelector('html');
-    let x;
-    let y;
-    let origin;
+  static _calculatePosition(mouseX, mouseY, containerWidth, containerHeight) {
+    let html = document.querySelector('html'),
+        x, y, origin;
 
-    html.clientWidth/2 < mouseX ? x = mouseX - 310 : x = mouseX;
-    html.clientHeight/2 < mouseY ? y = mouseY - 160 : y = mouseY;
+    html.clientWidth/2 < mouseX ? x = mouseX - containerWidth : x = mouseX;
+    html.clientHeight/2 < mouseY ? y = mouseY - containerHeight : y = mouseY;
 
     // calculate transform-origin
     if (html.clientWidth/2 < mouseX && html.clientHeight/2 < mouseY) {
@@ -520,7 +519,8 @@ class UMap extends connect(store)(LitElement) {
   // context menu control
   _toggleContextMenu(isVisible, e) {
     if (isVisible) {
-      store.dispatch(toggleContextMenu(true, { x: e.containerPoint.x, y: e.containerPoint.y }));
+      let position = UMap._calculatePosition(e.containerPoint.x, e.containerPoint.y, 150, 63);
+      store.dispatch(toggleContextMenu(true, position));
     } else {
       store.dispatch(toggleContextMenu(false, { x: this._contextMenu.position.x, y: this._contextMenu.position.y }));
     }

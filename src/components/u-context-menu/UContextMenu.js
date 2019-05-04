@@ -9,6 +9,9 @@ export class UContextMenu extends LitElement {
       },
       y: {
         type: Number
+      },
+      origin: {
+        type: String
       }
     };
   }
@@ -27,6 +30,9 @@ export class UContextMenu extends LitElement {
           overflow: hidden;
           color: #000;
           z-index: 100;
+          transform: scale(1);
+          transition: transform .3s;
+          transform-origin: ${this.origin};
         }
 
         ::slotted(.menu__item) {
