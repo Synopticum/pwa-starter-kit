@@ -75,8 +75,25 @@ export class UTextarea extends LitElement {
               }
               
               .textarea.textarea--is-updating .textarea__element {
-                user-select: none;
-                /*background-color: #ff0000;*/
+                background-image: 
+                 repeating-linear-gradient(
+                  -45deg,
+                   #eaeaea,
+                   #eaeaea 11px,
+                   #fff 10px,
+                   #fff 20px
+                 );
+                background-size: 28px 28px;
+                animation: move .5s linear infinite;
+              }
+              
+              @keyframes move {
+                0% {
+                  background-position: 0 0;
+                }
+                100% {
+                  background-position: 28px 0;
+                }
               }
               
               .textarea__element.textarea__element--default {
