@@ -128,7 +128,7 @@ class UDot extends connect(store)(LitElement) {
                  id="dot-title"
                  ?is-updating="${this._isUpdating}" 
                  ?disabled="${!this._user.isAdmin}"
-                 value="${!this._isFetching ? (this.title || '') : 'Loading...'}"
+                 value="${this.title || ''}"
                  @keyup="${this.validate}"
                  placeholder="Введите название точки"></u-textbox>
                  
@@ -137,7 +137,7 @@ class UDot extends connect(store)(LitElement) {
                  id="dot-short-description"
                  ?is-updating="${this._isUpdating}" 
                  ?disabled="${!this._user.isAdmin}"
-                 value="${!this._isFetching ? (this.shortDescription || '') : 'Loading...'}"
+                 value="${this.shortDescription || ''}"
                  placeholder="Введите краткое описание"></u-textbox>
                  
             <u-round-button
