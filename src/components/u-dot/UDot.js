@@ -126,6 +126,7 @@ class UDot extends connect(store)(LitElement) {
             <u-textbox
                  type="default"
                  id="dot-title"
+                 ?is-fetching="${this._isFetching}" 
                  ?is-updating="${this._isUpdating}" 
                  ?disabled="${!this._user.isAdmin}"
                  value="${this.title || ''}"
@@ -135,6 +136,7 @@ class UDot extends connect(store)(LitElement) {
             <u-textbox
                  type="default"
                  id="dot-short-description"
+                 ?is-fetching="${this._isFetching}" 
                  ?is-updating="${this._isUpdating}" 
                  ?disabled="${!this._user.isAdmin}"
                  value="${this.shortDescription || ''}"
@@ -143,7 +145,7 @@ class UDot extends connect(store)(LitElement) {
             <u-round-button
                 type="submit"
                 class="submit"
-                ?disabled="${!this._isValid || this._isFetching}"
+                ?disabled="${!this._isValid || this._isFetching || this._isUpdating}"
                 @click="${(e) => this.submit(e)}"></u-round-button>  
           </div>
           
@@ -169,8 +171,8 @@ class UDot extends connect(store)(LitElement) {
         this.title = state.dotPage.dot.title;
         this.shortDescription = state.dotPage.dot.shortDescription;
 
-        this._isUpdating = state.dotPage.isUpdating;
         this._isFetching = state.dotPage.isFetching;
+        this._isUpdating = state.dotPage.isUpdating;
 
         defer(() => this.validate());
     }

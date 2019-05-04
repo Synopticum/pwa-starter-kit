@@ -39,7 +39,7 @@ const _fetchDot = async (dotId) => {
 // -------
 export const putDot = (dotToPut) => async (dispatch) => {
   dispatch({
-    type: DotConstants.FETCH,
+    type: DotConstants.PUT,
     async: true,
     httpMethodToInvoke: _putDot,
     params: [dotToPut, dispatch]

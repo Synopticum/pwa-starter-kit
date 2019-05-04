@@ -28,6 +28,10 @@ export class UTextbox extends LitElement {
                 type: Boolean,
                 attribute: 'disabled'
             },
+            isFetching: {
+                type: Boolean,
+                attribute: 'is-fetching'
+            },
             isUpdating: {
                 type: Boolean,
                 attribute: 'is-updating'
@@ -67,7 +71,7 @@ export class UTextbox extends LitElement {
                 font-style: italic;
               }
               
-              .textbox.textbox--is-updating .textbox__element {
+              .textbox.textbox--is-loading .textbox__element {
                 background-image: 
                  repeating-linear-gradient(
                   -45deg,
@@ -94,7 +98,7 @@ export class UTextbox extends LitElement {
               }
           </style>
           
-          <div class="textbox ${this.isUpdating ? 'textbox--is-updating' : ''}">
+          <div class="textbox ${this.isFetching || this.isUpdating ? 'textbox--is-loading' : ''}">
             <input 
                 type="text" 
                 id="${this.id}"
@@ -102,7 +106,7 @@ export class UTextbox extends LitElement {
                 value="${this.value}" 
                 @keyup="${this._update}"
                 placeholder="${this.placeholder}"
-                ?disabled="${this.disabled || this.isUpdating}"
+                ?disabled="${this.disabled || this.isFetching  || this.isUpdating}"
                 ?required="${this.required}"
                 autocomplete="off">
           </div>
