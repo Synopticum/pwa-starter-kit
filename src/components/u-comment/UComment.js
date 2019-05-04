@@ -1,4 +1,5 @@
 import { html, LitElement } from 'lit-element/lit-element';
+import { DateTime } from "luxon";
 
 export class UComment extends LitElement {
 
@@ -71,7 +72,7 @@ export class UComment extends LitElement {
           
         <div class="comment-meta">
             <div class="comment-meta__author">${this.comment.author} / </div>
-            <div class="comment-meta__date">${moment.unix(this.comment.date).format("DD.MM.YYYY")}</div>
+            <div class="comment-meta__date">${UComment._getDate(this.comment.date)}</div>
         </div>
         
         <div class="comment-controls">
@@ -83,6 +84,13 @@ export class UComment extends LitElement {
 
   delete() {
     this.dispatchEvent(new CustomEvent('delete', { detail: this.comment.id, composed: true }));
+  }
+
+  static _getDate(unixtime) {
+    return DateTime
+            .fromMillis(parseInt(unixtime))
+            .setLocale('ru')
+            .toLocaleString(DateTime.DATETIME_MED);
   }
 }
 

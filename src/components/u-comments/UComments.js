@@ -1,4 +1,5 @@
 import { html, LitElement } from 'lit-element/lit-element';
+import { DateTime } from "luxon";
 import { repeat } from 'lit-element/node_modules/lit-html/directives/repeat';
 import isEmpty from 'lodash-es/isEmpty';
 import { store } from '../../store';
@@ -144,7 +145,7 @@ export class UComments extends connect(store)(LitElement) {
       originType: this.originType,
       originId: this.originId,
       text: this.$textarea.value,
-      date: moment().unix(),
+      date: DateTime.local().toMillis(),
       author: `${this._user.firstName} ${this._user.lastName}`
     }));
 
