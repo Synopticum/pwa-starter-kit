@@ -13,12 +13,14 @@ export const comments = (state = {
         items: [],
         isFetching: false,
         isCommentAdding: false,
+        itemsToDelete: [],
         currentMessage: ''
     },
     dotPage: {
         items: [],
         isFetching: false,
         isCommentAdding: false,
+        itemsToDelete: [],
         currentMessage: ''
     }, }, action) => {
     switch (action.type) {
@@ -82,6 +84,17 @@ export const comments = (state = {
             };
 
         // Dot page - DELETE
+        case CommentsConstants.DOT_PAGE.DELETE:
+            const [originType, originId, commentId] = action.params;
+
+            return {
+                ...state,
+                dotPage: {
+                    ...state.dotPage,
+                    itemsToDelete: [...state.dotPage.itemsToDelete, commentId]
+                }
+            };
+
         case generateInProgressActionTypeName(CommentsConstants.DOT_PAGE.DELETE):
             return state;
 
@@ -90,12 +103,20 @@ export const comments = (state = {
                 ...state,
                 dotPage: {
                     ...state.dotPage,
-                    items: state.dotPage.items.filter(comment => comment.id !== action.payload)
+                    items: state.dotPage.items.filter(comment => comment.id !== action.payload),
+                    itemsToDelete: state.dotPage.itemsToDelete.filter(commentId => commentId !== commentId)
                 }
             };
 
         case generateErrorActionTypeName(CommentsConstants.DOT_PAGE.DELETE):
-            return state;
+
+            return {
+                ...state,
+                dotPage: {
+                    ...state.dotPage,
+                    itemsToDelete: state.dotPage.itemsToDelete.filter(commentId => commentId !== commentId)
+                }
+            };
 
         default:
             return state;

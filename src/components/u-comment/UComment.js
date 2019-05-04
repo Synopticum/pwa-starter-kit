@@ -6,6 +6,10 @@ export class UComment extends LitElement {
     return {
       comment: {
         type: Object
+      },
+      isDeleting: {
+        type: Boolean,
+        attribute: false
       }
     }
   }
@@ -22,28 +26,38 @@ export class UComment extends LitElement {
             line-height: 1.3;
         }
         
-        .text {
+        .comment {
+            opacity: 1;
+            transition: opacity .3s;
+        }
+        
+        .comment--is-deleting {
+            opacity: .1;
+            text-decoration: line-through;
+        }
+        
+        .comment__text {
             font-size: 14px;
         }
         
-        .meta {
+        .comment-meta {
             display: flex;
             justify-content: flex-end;
             font-size: 12px;
             margin-top: 5px;
         }
         
-        .date {
+        .comment-meta__date {
             margin-left: 5px;
         }
         
-        .controls {
+        .comment-controls {
             position: absolute;
             right: 0;
             top: 10px;
         }
         
-        .controls__delete {
+        .comment-controls__delete {
             cursor: pointer;
             display: block;
             width: 12px;
@@ -52,15 +66,17 @@ export class UComment extends LitElement {
         }
       </style>
       
-      <div class="text">${this.comment.text}</div>
+      <div class="comment ${this.isDeleting ? 'comment--is-deleting' : ''}">
+        <div class="comment__text">${this.comment.text}</div>
+          
+        <div class="comment-meta">
+            <div class="comment-meta__author">${this.comment.author} / </div>
+            <div class="comment-meta__date">${moment.unix(this.comment.date).format("DD.MM.YYYY")}</div>
+        </div>
         
-      <div class="meta">
-          <div class="author">${this.comment.author} / </div>
-          <div class="date">${moment.unix(this.comment.date).format("DD.MM.YYYY")}</div>
-      </div>
-      
-      <div class="controls">
-        <div class="controls__delete" @click="${() => this.delete()}"></div>
+        <div class="comment-controls">
+          <div class="comment-controls__delete" @click="${() => this.delete()}"></div>
+        </div>
       </div>
     `
   }
