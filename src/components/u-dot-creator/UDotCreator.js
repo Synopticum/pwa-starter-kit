@@ -162,7 +162,6 @@ class UDotCreator extends connect(store)(LitElement) {
         store.dispatch(setCloudsVisibility('none'));
 
         this.resetState();
-        store.dispatch(navigate(`/dots/${dot.id}`));
     }
 
     close() {

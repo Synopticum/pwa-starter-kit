@@ -196,7 +196,9 @@ class UMap extends connect(store)(LitElement) {
         }
         
         .leaflet-marker-icon--is-updating {
-            opacity: .5;
+            cursor: default;
+            pointer-events: none;
+            opacity: .3;
         }
         
         .leaflet-control-container {
@@ -219,27 +221,17 @@ class UMap extends connect(store)(LitElement) {
             .x="${this._tooltip.position.x}"
             .y="${this._tooltip.position.y}"
             .origin="${this._tooltip.position.origin}">
-                ${this._tooltip.item ? html`
-                    ${this._tooltip.item.title}<br>
-                    ${this._tooltip.item.shortDescription}
-            ` : ''}
+                ${this._tooltip.item ? html`${this._tooltip.item.title}<br>${this._tooltip.item.shortDescription}` : ''}
         </u-tooltip>               
         
-        ${this._dotPage.isVisible
-        ? html`<u-dot .dotId="${this._dotPage.currentDotId}" @hide="${(e) => {
-            this._toggleDot(false, e)
-        }}"></u-dot>`
-        : ``
-        }
+        ${this._dotPage.isVisible ? html`<u-dot .dotId="${this._dotPage.currentDotId}" @hide="${(e) => this._toggleDot(false, e)}"></u-dot>` : ``}
             
         <u-context-menu
             ?hidden="${!this._contextMenu.isVisible}"
             .x="${this._contextMenu.position.x}"
             .y="${this._contextMenu.position.y}">
               <div class="menu__item" @click="${() => this._createDot()}" slot="context-menu-items">Добавить точку</div>
-              <div class="menu__item" @click="${() => {
-        alert(1)
-    }}" slot="context-menu-items">Проверить</div>   
+              <div class="menu__item" @click="${() => alert(1)}" slot="context-menu-items">Проверить</div>   
         </u-context-menu>
         
         <u-dot-creator 
@@ -251,8 +243,7 @@ class UMap extends connect(store)(LitElement) {
       </div>
       
       <div id="map"></div>
-      ${!this._user.isAdmin ? `<div id="user-role">you don't have admin rights</div>` : ''}
-    `;
+      ${!this._user.isAdmin ? `<div id="user-role">you don't have admin rights</div>` : ''}`;
   }
 
   constructor() {
@@ -276,10 +267,6 @@ class UMap extends connect(store)(LitElement) {
     this._clouds = state.map.clouds;
 
     this._dotPage = state.map.dotPage;
-
-    if (this._tempDotRef) {
-      this._enableDot();
-    }
 
     this._user = state.app.user;
   }
