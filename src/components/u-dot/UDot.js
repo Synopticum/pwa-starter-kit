@@ -215,6 +215,7 @@ class UDot extends connect(store)(LitElement) {
         };
 
         store.dispatch(putDot(updatedDot, this.dotId));
+        this.close();
     }
 
     remove() {
