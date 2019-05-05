@@ -406,37 +406,35 @@ class UMap extends connect(store)(LitElement) {
   }
 
   _drawDots(dots) {
-    if (!isEmpty(dots)) {
-      try {
-        // remove current layers and markers
-        if (this._layerControl) this._layerControl.remove();
-        if (this._overlayMaps) Object.values(this._overlayMaps).forEach(layer => this._map.removeLayer(layer));
+    try {
+      // remove current layers and markers
+      if (this._layerControl) this._layerControl.remove();
+      if (this._overlayMaps) Object.values(this._overlayMaps).forEach(layer => this._map.removeLayer(layer));
 
-        let createMarker = (dot) => {
-          const marker = L.marker(dot.coordinates, {
-            id: dot.id,
-            icon: UMap._getMarkerIcon(dot.type) })
-              .on('mouseover', e => { this._toggleTooltip(true, e) })
-              .on('mouseout', e => { this._toggleTooltip(false, e) })
-              .on('click', (e) => { this._toggleDot(true, e)
-              });
+      let createMarker = (dot) => {
+        const marker = L.marker(dot.coordinates, {
+          id: dot.id,
+          icon: UMap._getMarkerIcon(dot.type) })
+            .on('mouseover', e => { this._toggleTooltip(true, e) })
+            .on('mouseout', e => { this._toggleTooltip(false, e) })
+            .on('click', (e) => { this._toggleDot(true, e)
+            });
 
-          return marker;
-        };
+        return marker;
+      };
 
-        let dotLayers = new Set(dots.map(dot => dot.layer));
-        this._overlayMaps = {};
+      let dotLayers = new Set(dots.map(dot => dot.layer));
+      this._overlayMaps = {};
 
-        for (let layerName of dotLayers) {
-          let layerDots = dots.filter(dot => dot.layer === layerName);
-          this._overlayMaps[layerName] = L.layerGroup(layerDots.map(createMarker));
-        }
-
-        Object.values(this._overlayMaps).forEach(layer => layer.addTo(this._map));
-        this._layerControl = L.control.layers(null, this._overlayMaps).addTo(this._map);
-      } catch (e) {
-        console.error(`Unable to draw dots`, e);
+      for (let layerName of dotLayers) {
+        let layerDots = dots.filter(dot => dot.layer === layerName);
+        this._overlayMaps[layerName] = L.layerGroup(layerDots.map(createMarker));
       }
+
+      Object.values(this._overlayMaps).forEach(layer => layer.addTo(this._map));
+      this._layerControl = L.control.layers(null, this._overlayMaps).addTo(this._map);
+    } catch (e) {
+      !isEmpty(dots) ? console.error('Unable to draw dots\n\n', e) : '';
     }
   }
 
