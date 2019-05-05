@@ -228,7 +228,10 @@ class UMap extends connect(store)(LitElement) {
                 ${this._tooltip.item ? html`${this._tooltip.item.title}<br>${this._tooltip.item.shortDescription}` : ''}
         </u-tooltip>               
         
-        ${this._dotPage.isVisible ? html`<u-dot .dotId="${this._dotPage.currentDotId}" @hide="${(e) => this._toggleDot(false, e)}"></u-dot>` : ``}
+        ${this._dotPage.isVisible ? html`
+            <u-dot 
+                .dotId="${this._dotPage.currentDotId}" 
+                @hide-dot="${(e) => this._toggleDot(false, e)}"></u-dot>` : ``}
             
         <u-context-menu
             ?hidden="${!this._contextMenu.isVisible}"
@@ -413,20 +416,24 @@ class UMap extends connect(store)(LitElement) {
         if (this._layerControl) this._layerControl.remove();
         if (this._overlayMaps) Object.values(this._overlayMaps).forEach(layer => this._map.removeLayer(layer));
 
-        let getMarker = (dot) => L.marker(dot.coordinates, {
+        let createMarker = (dot) => {
+          const marker = L.marker(dot.coordinates, {
             id: dot.id,
             icon: UMap._getMarkerIcon(dot.type) })
               .on('mouseover', e => { this._toggleTooltip(true, e) })
               .on('mouseout', e => { this._toggleTooltip(false, e) })
               .on('click', (e) => { this._toggleDot(true, e)
-          });
+              });
+
+          return marker;
+        };
 
         let dotLayers = new Set(dots.map(dot => dot.layer));
         this._overlayMaps = {};
 
         for (let layerName of dotLayers) {
           let layerDots = dots.filter(dot => dot.layer === layerName);
-          this._overlayMaps[layerName] = L.layerGroup(layerDots.map(getMarker));
+          this._overlayMaps[layerName] = L.layerGroup(layerDots.map(createMarker));
         }
 
         Object.values(this._overlayMaps).forEach(layer => layer.addTo(this._map));

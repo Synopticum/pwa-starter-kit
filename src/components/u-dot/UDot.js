@@ -2,10 +2,11 @@ import {html, LitElement} from 'lit-element/lit-element';
 
 import {store} from '../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
-import {fetchDot, putDot, clearDotState} from './UDot.actions';
+import {fetchDot, putDot, clearDotState, deleteDot} from './UDot.actions';
 import {setCloudsVisibility} from '../u-map/UMap.actions';
 import {dotPage} from "../../reducers/Dot.reducer";
 import defer from 'lodash-es/defer';
+import {navigate} from "../u-app/UApp.actions";
 
 store.addReducers({dotPage});
 
@@ -98,6 +99,12 @@ class UDot extends connect(store)(LitElement) {
             bottom: -15px;
         }
         
+        .remove {
+            position: absolute;
+            right: 25px;
+            bottom: -15px;
+        }
+        
         #dot-title,
         #dot-short-description,
         #dot-full-description {
@@ -119,7 +126,7 @@ class UDot extends connect(store)(LitElement) {
       </style>
       
       <div class="dot">
-        <u-round-button type="close" class="close" @click="${UDot.close}"></u-round-button>  
+        <u-round-button type="close" class="close" @click="${this.close}"></u-round-button>  
         
         <div class="wrapper">
           <div class="form">
@@ -141,6 +148,12 @@ class UDot extends connect(store)(LitElement) {
                  ?disabled="${!this._user.isAdmin}"
                  value="${this.shortDescription || ''}"
                  placeholder="Введите краткое описание"></u-textbox>
+                 
+            <u-round-button
+                type="remove"
+                class="remove"
+                ?disabled="${this._isFetching || this._isUpdating}"
+                @click="${(e) => this.remove(e)}"></u-round-button>  
                  
             <u-round-button
                 type="submit"
@@ -182,10 +195,10 @@ class UDot extends connect(store)(LitElement) {
         this._setReferences();
     }
 
-    static close() {
+    close() {
         store.dispatch(setCloudsVisibility('none'));
         store.dispatch(clearDotState());
-        this.dispatchEvent(new CustomEvent('hide', {composed: true}));
+        this.dispatchEvent(new CustomEvent('hide-dot', {composed: true}));
     }
 
     validate() {
@@ -202,6 +215,11 @@ class UDot extends connect(store)(LitElement) {
         };
 
         store.dispatch(putDot(updatedDot, this.dotId));
+    }
+
+    remove() {
+        store.dispatch(deleteDot(this.dotId));
+        this.close();
     }
 
     _init() {

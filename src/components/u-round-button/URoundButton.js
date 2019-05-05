@@ -66,6 +66,10 @@ export class URoundButton extends LitElement {
             .button.button--x .button__element {
                 background-image: url("static/images/button-icons/x.svg");
             }
+            
+            .button.button--remove .button__element {
+                background-image: url("static/images/button-icons/remove.svg");
+            }
           </style>
           
           <div class="button button--${this.type} ${this.isUpdating ? 'button--is-updating' : ''}">

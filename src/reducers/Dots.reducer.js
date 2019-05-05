@@ -4,6 +4,7 @@ import {
     generateSuccessActionTypeName,
     generateErrorActionTypeName,
 } from "../middleware/asyncActionsMiddleware";
+import {DotConstants} from "../components/u-dot/UDot.actions";
 
 export const dots = (state = {
     items: [],
@@ -33,6 +34,14 @@ export const dots = (state = {
             return {
                 ...state,
                 items: [...state.items, action.payload]
+            };
+
+        case DotConstants.DELETE:
+            const dotId = action.params[0];
+
+            return {
+                ...state,
+                items: state.items.filter(dot => dot.id !== dotId)
             };
 
         default:
