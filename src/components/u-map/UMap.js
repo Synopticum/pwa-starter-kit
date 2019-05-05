@@ -198,6 +198,7 @@ class UMap extends connect(store)(LitElement) {
     if (state.map.dotCreator.tempDot === null && this._$tempDot) this._removeTempDot();
   }
 
+
   // ----- start of init methods -----
   async _init() {
     this._createMap();
@@ -247,6 +248,7 @@ class UMap extends connect(store)(LitElement) {
 
   _setDefaults() {
     this._tooltipHoverTimeOut = null;
+    this._overlayMaps = {};
   }
 
   _initializeTiles() {
@@ -275,9 +277,10 @@ class UMap extends connect(store)(LitElement) {
     this._$tempDot = null;
     this._$clouds = this.querySelector('.container');
   }
-
   // ----- end of init methods -----
 
+
+  // ----- start of drawing methods -----
   async _drawObjects() {
     return Promise.all[this._drawPaths(), this._drawCircles()];
   }
@@ -327,43 +330,49 @@ class UMap extends connect(store)(LitElement) {
 
   _drawDots(dots) {
     try {
-      // remove current layers and markers
-      if (this._layerControl) this._layerControl.remove();
-      if (this._overlayMaps) Object.values(this._overlayMaps).forEach(layer => this._map.removeLayer(layer));
-
-      let createMarker = (dot) => {
-        const marker = L.marker(dot.coordinates, {
-          id: dot.id,
-          icon: UMap._getMarkerIcon(dot.type) })
-            .on('mouseover', e => { this._toggleTooltip(true, e) })
-            .on('mouseout', e => { this._toggleTooltip(false, e) })
-            .on('click', (e) => { this._toggleDot(true, e)
-            });
-
-        return marker;
-      };
-
-      let dotLayers = new Set(dots.map(dot => dot.layer));
-      this._overlayMaps = {};
-
-      for (let layerName of dotLayers) {
-        let layerDots = dots.filter(dot => dot.layer === layerName);
-        this._overlayMaps[layerName] = L.layerGroup(layerDots.map(createMarker));
-      }
-
-      Object.values(this._overlayMaps).forEach(layer => layer.addTo(this._map));
-      this._layerControl = L.control.layers(null, this._overlayMaps).addTo(this._map);
+      this._removeCurrentLayersAndMarkers();
+      this._addMarkersToMap(dots);
+      this._addLayersToMap();
     } catch (e) {
       !isEmpty(dots) ? console.error('Unable to draw dots\n\n', e) : '';
     }
   }
 
-  static _getMarkerIcon(type) {
-    return L.icon({
-      iconUrl: `${ENV[window.ENV].static}/static/images/markers/${type}.png`,
-      iconSize: [32, 32], // size of the icon
-    })
+  _removeCurrentLayersAndMarkers() {
+    if (this._layerControl) this._layerControl.remove();
+    if (this._overlayMaps) Object.values(this._overlayMaps).forEach(layer => this._map.removeLayer(layer));
   }
+
+  _addMarkersToMap(dots) {
+    for (let layerName of UMap._getDotLayers(dots)) {
+      let layerDots = dots.filter(dot => dot.layer === layerName);
+      this._overlayMaps[layerName] = L.layerGroup(layerDots.map(dot => this._createMarker(dot)));
+    }
+  }
+
+  _addLayersToMap() {
+    Object.values(this._overlayMaps).forEach(layer => layer.addTo(this._map));
+    this._layerControl = L.control.layers(null, this._overlayMaps).addTo(this._map);
+  }
+
+  static _getDotLayers(dots) {
+    return new Set(dots.map(dot => dot.layer));
+  }
+
+  _createMarker(dot) {
+    return L.marker(dot.coordinates, {
+      id: dot.id,
+      icon: L.icon({
+              iconUrl: `${ENV[window.ENV].static}/static/images/markers/${dot.type}.png`,
+              iconSize: [32, 32], // size of the icon
+            })
+    })
+        .on('mouseover', e => { this._toggleTooltip(true, e) })
+        .on('mouseout', e => { this._toggleTooltip(false, e) })
+        .on('click', (e) => { this._toggleDot(true, e) });
+  }
+  // ----- end of drawing methods -----
+
 
   // global control
   _handleClick(e) {
