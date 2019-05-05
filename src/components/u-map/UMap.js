@@ -5,8 +5,8 @@ import debounce from 'lodash-es/debounce';
 import isEmpty from 'lodash-es/isEmpty';
 import { store } from '../../store';
 import { connect } from 'pwa-helpers/connect-mixin';
-import { toggleTooltip, toggleContextMenu, toggleDotCreator, setCurrentDotId, setCloudsVisibility } from './UMap.actions';
-import { fetchDots } from '../u-map/UMap.actions';
+import { toggleTooltip, toggleContextMenu, toggleDotCreator, setCurrentDotId, setCloudsVisibility, fetchDots } from './UMap.actions';
+import props from './UMap.props';
 import { dots } from "../../reducers/Dots.reducer";
 import { app } from "../../reducers/App.reducer";
 import { map } from "../../reducers/Map.reducer";
@@ -16,87 +16,7 @@ store.addReducers({ app, map, dots });
 class UMap extends connect(store)(LitElement) {
 
   static get properties() {
-    return {
-      // setup leaflet
-      minZoom: {
-        type: Number,
-        attribute: 'min-zoom'
-      },
-      maxZoom: {
-        type: Number,
-        attribute: 'max-zoom'
-      },
-      maxBounds: {
-        converter: {
-          toAttribute(value) {
-            return JSON.stringify(value);
-          },
-          fromAttribute(value) {
-            return JSON.parse(value);
-          }
-        },
-        attribute: 'max-bounds'
-      },
-      width: {
-        type: Number,
-        attribute: 'width'
-      },
-      height: {
-        type: Number,
-        attribute: 'height'
-      },
-      objectFillColor: {
-        type: String,
-        attribute: 'object-fill-color'
-      },
-      objectStrokeWidth: {
-        type: Number,
-        attribute: 'object-stroke-width'
-      },
-
-      _map: {
-        type: Object,
-        attribute: false
-      },
-      _tooltipHoverTimeOut: {
-        type: Number,
-        attribute: false
-        // delay to show a tooltip
-      },
-
-      // setup interactive elements on map
-      _dotPage: {
-        type: Object,
-        attribute: false
-      },
-
-      _tooltip: {
-        type: Object,
-        attribute: false
-      },
-      _contextMenu: {
-        type: Object,
-        attribute: false
-      },
-      _dotCreator: {
-        type: Object,
-        attribute: false
-      },
-      _clouds: {
-        type: Object,
-        attribute: false
-      },
-
-      _$clouds: {
-        type: Object,
-        attribute: false
-      },
-      _$tempDot: {
-        type: Object,
-        attribute: false
-        // need for storing temporary data about where a marker will be added
-      }
-    };
+    return props;
   }
 
   createRenderRoot() {
