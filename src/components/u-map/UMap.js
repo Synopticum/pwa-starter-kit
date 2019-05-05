@@ -269,7 +269,7 @@ class UMap extends connect(store)(LitElement) {
     this._map.on('load', UMap._triggerResize());
     this._map.on('click', (e) => this._handleClick(e));
     this._map.on('dragstart', () => this._hideControls());
-    this._map.on('drag', debounce(this._updateCenterPosition, 300).bind(this));
+    this._map.on('drag', debounce(this._updateUrl, 300).bind(this));
     this.addEventListener('click', this._handleOutsideClicks);
   }
 
@@ -374,33 +374,7 @@ class UMap extends connect(store)(LitElement) {
   // ----- end of drawing methods -----
 
 
-  // global control
-  _handleClick(e) {
-    if (e.originalEvent.altKey) {
-      this._toggleContextMenu(true, e);
-
-      this._tempDotCoordinates = {
-        x: e.containerPoint.x,
-        y: e.containerPoint.y,
-        lat: e.latlng.lat,
-        lng: e.latlng.lng
-      }
-    } else {
-      this._toggleContextMenu(false);
-      this._toggleDotCreator(false);
-    }
-  }
-
-  _hideControls() {
-    this._toggleContextMenu(false);
-    this._toggleDotCreator(false);
-  }
-
-  static _triggerResize() {
-    window.dispatchEvent(new Event('resize'));
-  }
-
-  // tooltip control
+  // ----- start of map UI control methods -----
   _toggleTooltip(isVisible, e) {
     if (isVisible) {
       this._tooltipHoverTimeOut = setTimeout(() => {
@@ -417,6 +391,44 @@ class UMap extends connect(store)(LitElement) {
       }
     }
   }
+
+  _toggleDot(isVisible, e) {
+    if (isVisible) {
+      if (!e.originalEvent.altKey) {
+        store.dispatch(setCurrentDotId(''));
+        requestAnimationFrame(() => store.dispatch(setCurrentDotId(e.target.options.id)));
+
+        store.dispatch(toggleDotCreator(false, { x: this._dotCreator.position.x, y: this._dotCreator.position.y }));
+
+        if (this._dotCreator.isVisible) {
+          this._toggleDotCreator(false);
+        }
+      }
+    } else {
+      store.dispatch(setCurrentDotId(''));
+    }
+  }
+
+  _toggleContextMenu(isVisible, e) {
+    if (isVisible) {
+      let position = UMap._calculatePosition(e.containerPoint.x, e.containerPoint.y, 150, 63);
+      store.dispatch(toggleContextMenu(true, position));
+    } else {
+      store.dispatch(toggleContextMenu(false, { x: this._contextMenu.position.x, y: this._contextMenu.position.y }));
+    }
+  }
+
+  _toggleDotCreator(isVisible) {
+    if (isVisible) {
+      store.dispatch(setCloudsVisibility('full'));
+      store.dispatch(toggleDotCreator(true, this._tempDotCoordinates));
+    } else {
+      store.dispatch(setCloudsVisibility('none'));
+      store.dispatch(toggleDotCreator(false, { x: this._dotCreator.position.x, y: this._dotCreator.position.y }));
+    }
+  }
+  // ----- end of map UI control methods -----
+
 
   static _calculatePosition(mouseX, mouseY, containerWidth, containerHeight) {
     let html = document.querySelector('html'),
@@ -439,45 +451,8 @@ class UMap extends connect(store)(LitElement) {
     return { x, y, origin };
   }
 
-  // dot page control
-  _toggleDot(isVisible, e) {
-    if (isVisible) {
-      if (!e.originalEvent.altKey) {
-        store.dispatch(setCurrentDotId(''));
-        requestAnimationFrame(() => store.dispatch(setCurrentDotId(e.target.options.id)));
 
-        store.dispatch(toggleDotCreator(false, { x: this._dotCreator.position.x, y: this._dotCreator.position.y }));
-
-        if (this._dotCreator.isVisible) {
-          this._toggleDotCreator(false);
-        }
-      }
-    } else {
-      store.dispatch(setCurrentDotId(''));
-    }
-  }
-
-  // context menu control
-  _toggleContextMenu(isVisible, e) {
-    if (isVisible) {
-      let position = UMap._calculatePosition(e.containerPoint.x, e.containerPoint.y, 150, 63);
-      store.dispatch(toggleContextMenu(true, position));
-    } else {
-      store.dispatch(toggleContextMenu(false, { x: this._contextMenu.position.x, y: this._contextMenu.position.y }));
-    }
-  }
-
-  // dot creator control
-  _toggleDotCreator(isVisible) {
-    if (isVisible) {
-      store.dispatch(setCloudsVisibility('full'));
-      store.dispatch(toggleDotCreator(true, this._tempDotCoordinates));
-    } else {
-      store.dispatch(setCloudsVisibility('none'));
-      store.dispatch(toggleDotCreator(false, { x: this._dotCreator.position.x, y: this._dotCreator.position.y }));
-    }
-  }
-
+  // ----- start of dot creation methods -----
   _createDot() {
     this._toggleDotCreator(true);
     this._toggleContextMenu(false);
@@ -494,8 +469,36 @@ class UMap extends connect(store)(LitElement) {
     this._$tempDot.remove();
     this._$tempDot = null;
   }
+  // ----- end of dot creation methods -----
 
-  _updateCenterPosition() {
+
+  // ----- start of listeners -----
+  static _triggerResize() {
+    window.dispatchEvent(new Event('resize'));
+  }
+
+  _handleClick(e) {
+    if (e.originalEvent.altKey) {
+      this._toggleContextMenu(true, e);
+
+      this._tempDotCoordinates = {
+        x: e.containerPoint.x,
+        y: e.containerPoint.y,
+        lat: e.latlng.lat,
+        lng: e.latlng.lng
+      }
+    } else {
+      this._toggleContextMenu(false);
+      this._toggleDotCreator(false);
+    }
+  }
+
+  _hideControls() {
+    this._toggleContextMenu(false);
+    this._toggleDotCreator(false);
+  }
+
+  _updateUrl() {
     let { lat, lng } = this._map.getCenter();
     window.history.replaceState( {}, '', `?lat=${lat.toFixed(2)}&lng=${lng.toFixed(2)}`);
     // location.search = `?lat=${lat.toFixed(2)}&lng=${lng.toFixed(2)}`;
@@ -507,6 +510,7 @@ class UMap extends connect(store)(LitElement) {
       this._toggleDot(false);
     }
   }
+  // ----- end of listeners -----
 }
 
 window.customElements.define('u-map', UMap);
