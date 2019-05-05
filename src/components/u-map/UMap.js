@@ -198,7 +198,7 @@ class UMap extends connect(store)(LitElement) {
     if (state.map.dotCreator.tempDot === null && this._$tempDot) this._removeTempDot();
   }
 
-  // leaflet _init methods
+  // ----- start of init methods -----
   async _init() {
     this._createMap();
     this._apply1pxGapFix();
@@ -209,10 +209,6 @@ class UMap extends connect(store)(LitElement) {
     this._setReferences();
     // await this._drawObjects();
     store.dispatch(fetchDots());
-  }
-
-  _setDefaults() {
-    this._tooltipHoverTimeOut = null;
   }
 
   _createMap() {
@@ -249,18 +245,20 @@ class UMap extends connect(store)(LitElement) {
     this._map.setMaxBounds(this.maxBounds);
   }
 
-  _getBounds() {
-    return new L.LatLngBounds(
-      this._map.unproject([0, this.height], this.maxZoom),
-      this._map.unproject([this.width, 0], this.maxZoom)
-    );
+  _setDefaults() {
+    this._tooltipHoverTimeOut = null;
   }
 
   _initializeTiles() {
+    const bounds = new L.LatLngBounds(
+        this._map.unproject([0, this.height], this.maxZoom),
+        this._map.unproject([this.width, 0], this.maxZoom)
+    );
+
     L.tileLayer(`${ENV[window.ENV].static}/static/images/tiles/{z}/{x}/{y}.jpg`, {
       minZoom: this.minZoom,
       maxZoom: this.maxZoom,
-      bounds: this._getBounds(),
+      bounds,
       noWrap: true
     }).addTo(this._map);
   }
@@ -277,6 +275,8 @@ class UMap extends connect(store)(LitElement) {
     this._$tempDot = null;
     this._$clouds = this.querySelector('.container');
   }
+
+  // ----- end of init methods -----
 
   async _drawObjects() {
     return Promise.all[this._drawPaths(), this._drawCircles()];
