@@ -1,4 +1,5 @@
 import { ENV } from '../../../environments/environments';
+import { getApiHeaders } from '../../../environments/api';
 import {MapConstants} from "../u-map/UMap.actions";
 
 export const DotConstants = {
@@ -20,7 +21,9 @@ export const fetchDot = (dotId) => async (dispatch) => {
 
 const _fetchDot = async (dotId) => {
   try {
-    let response = await fetch(`${ENV[window.ENV].api}/api/dots/${dotId}`, { headers: { 'Token': localStorage.token } });
+    let response = await fetch(`${ENV[window.ENV].api}/api/dots/${dotId}`, {
+      headers: getApiHeaders(localStorage.token)
+    });
 
     if (!response.ok) {
       if (response.status === 401) location.reload();
@@ -51,10 +54,7 @@ const _putDot = async (dotToPut, dispatch) => {
   try {
     let response = await fetch(`${ENV[window.ENV].api}/api/dots/${dotToPut.id}`, {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Token': localStorage.token
-      },
+      headers: getApiHeaders(localStorage.token),
       body: JSON.stringify(dotToPut)
     });
 
@@ -87,10 +87,7 @@ const _deleteDot = async (dotId) => {
   try {
     let response = await fetch(`${ENV[window.ENV].api}/api/dots/${dotId}`, {
       method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        'Token': localStorage.token
-      }
+      headers: getApiHeaders(localStorage.token)
     });
 
     if (!response.ok) {

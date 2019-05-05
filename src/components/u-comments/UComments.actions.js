@@ -1,4 +1,5 @@
 import { ENV } from '../../../environments/environments';
+import { getApiHeaders } from '../../../environments/api';
 
 export const CommentsConstants = {
   DOT_PAGE: {
@@ -23,7 +24,7 @@ export const fetchComments = (originType, id) => async (dispatch) => {
 const _fetchComments = async (originType, id) => {
   try {
     let response = await fetch(`${ENV[window.ENV].api}/api/${originType}/${id}/comments`, {
-      headers: { 'Token': localStorage.token }
+      headers: getApiHeaders(localStorage.token)
     });
 
     if (!response.ok) {
@@ -55,10 +56,7 @@ const _putComment = async (originType, originId, comment) => {
     let response = await fetch(`${ENV[window.ENV].api}/api/${originType}/${originId}/comments/${comment.id}`, {
       method: 'PUT',
       body: JSON.stringify(comment),
-      headers: {
-        'Content-Type': 'application/json',
-        'Token': localStorage.token
-      }
+      headers: getApiHeaders(localStorage.token)
     });
 
     if (!response.ok) {
@@ -88,10 +86,7 @@ const _deleteComment = async (originType, originId, commentId) => {
   try {
     let response = await fetch(`${ENV[window.ENV].api}/api/${originType}/${originId}/comments/${commentId}`, {
       method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        'Token': localStorage.token
-      }
+      headers: getApiHeaders(localStorage.token)
     });
 
     if (!response.ok) {

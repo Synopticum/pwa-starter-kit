@@ -1,5 +1,6 @@
 import { ENV } from '../../../environments/environments';
 import { setCurrentDotId } from '../u-map/UMap.actions';
+import { getApiHeaders } from '../../../environments/api';
 
 export const AppConstants = {
   PAGE: {
@@ -77,10 +78,7 @@ const _fetchUserInfo = async () => {
   try {
     let response = await fetch(`${ENV[window.ENV].api}/api/user`, {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Token': localStorage.token
-      }
+      headers: getApiHeaders(localStorage.token)
     });
 
     const info = await response.json();

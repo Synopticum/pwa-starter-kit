@@ -1,4 +1,5 @@
 import { ENV } from '../../../environments/environments';
+import { getApiHeaders } from '../../../environments/api';
 
 export const MapConstants = {
   DOTS: {
@@ -35,7 +36,7 @@ export const fetchDots = () => async (dispatch) => {
 const _fetchDots = async () => {
   try {
     let response = await fetch(`${ENV[window.ENV].api}/api/dots`, {
-      headers: { 'Token': localStorage.token }
+      headers: getApiHeaders(localStorage.token)
     });
 
     if (!response.ok) {
@@ -73,7 +74,7 @@ const _fetchById = async (enable, id, position, dispatch) => {
 
   try {
     let response = await fetch(`${ENV[window.ENV].api}/api/${type}s/${id}`, {
-      headers: { 'Token': localStorage.token }
+      headers: getApiHeaders(localStorage.token)
     });
 
     if (!response.ok) {

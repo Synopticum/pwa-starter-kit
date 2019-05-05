@@ -1,4 +1,5 @@
 import { ENV } from '../../../environments/environments';
+import { getApiHeaders } from '../../../environments/api';
 import { LitElement, html } from 'lit-element/lit-element';
 import debounce from 'lodash-es/debounce';
 import isEmpty from 'lodash-es/isEmpty';
@@ -11,11 +12,6 @@ import { app } from "../../reducers/App.reducer";
 import { map } from "../../reducers/Map.reducer";
 
 store.addReducers({ app, map, dots });
-
-const headers = {
-  'Content-Type': 'application/json',
-  'Token': localStorage.token
-};
 
 class UMap extends connect(store)(LitElement) {
 
@@ -368,7 +364,7 @@ class UMap extends connect(store)(LitElement) {
 
   async _drawPaths() {
     try {
-      let response = await fetch(`${ENV[window.ENV].api}/api/objects?include=paths`, { headers });
+      let response = await fetch(`${ENV[window.ENV].api}/api/objects?include=paths`, { headers: getApiHeaders(localStorage.token) });
       const paths = await response.json();
 
       paths.forEach(item => {
@@ -389,7 +385,7 @@ class UMap extends connect(store)(LitElement) {
 
   async _drawCircles() {
     try {
-      let response = await fetch(`${ENV[window.ENV].api}/api/objects?include=circles`, { headers });
+      let response = await fetch(`${ENV[window.ENV].api}/api/objects?include=circles`, { headers: getApiHeaders(localStorage.token) });
       let circles = await response.json();
 
       circles.forEach(item => {
