@@ -167,7 +167,7 @@ class UMap extends connect(store)(LitElement) {
       </div>
       
       <div id="map"></div>
-      ${this._user.role !== 'admin' ? html`<div id="user-role">you don't have admin rights</div>` : ''}`;
+      <div id="user-role">your role is ${this._user.role}</div>`;
   }
 
   constructor() {
