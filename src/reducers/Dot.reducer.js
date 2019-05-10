@@ -8,7 +8,8 @@ import {
 export const dotPage = (state = {
     dot: {},
     isFetching: false,
-    isUpdating: false
+    isUpdating: false,
+    isLoadingError: false
 }, action) => {
     switch (action.type) {
         // GET
@@ -28,7 +29,8 @@ export const dotPage = (state = {
         case generateErrorActionTypeName(DotConstants.FETCH):
             return {
                 ...state,
-                isFetching: false
+                isFetching: false,
+                isLoadingError: true
             };
 
         // PUT

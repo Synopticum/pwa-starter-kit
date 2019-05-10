@@ -20,24 +20,19 @@ export const fetchDot = (dotId) => async (dispatch) => {
 };
 
 const _fetchDot = async (dotId) => {
-  try {
-    let response = await fetch(`${ENV[window.ENV].api}/api/dots/${dotId}`, {
-      headers: getApiHeaders(localStorage.token)
-    });
+  let response = await fetch(`${ENV[window.ENV].api}/api/dots/${dotId}`, {
+    headers: getApiHeaders(localStorage.token)
+  });
 
-    if (!response.ok) {
-      if (response.status === 401) location.reload();
-      throw new Error('Error while fetching a dot');
-    }
-
-    let dot = await response.json();
-    history.pushState(null, null, `${ENV[window.ENV].static}/dots/${dot.id}`);
-
-    return dot;
-  } catch (e) {
-    console.error(e);
-    return null;
+  if (!response.ok) {
+    if (response.status === 401) location.reload();
+    throw new Error('Error while fetching a dot');
   }
+
+  let dot = await response.json();
+  history.pushState(null, null, `${ENV[window.ENV].static}/dots/${dot.id}`);
+
+  return dot;
 };
 
 // -------

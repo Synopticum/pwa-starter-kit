@@ -89,10 +89,7 @@ const _fetchUserInfo = async () => {
       throw new Error('Error while fetching comments');
     }
 
-    return {
-      ...info,
-      isAdmin: info.role === 'admin'
-    };
+    return info;
   } catch (e) {
     console.error(e);
     return null;

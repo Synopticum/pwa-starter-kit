@@ -461,7 +461,12 @@ class UMap extends connect(store)(LitElement) {
   }
 
   _addTempDot(coordinates) {
-    this._$tempDot = new L.marker(coordinates, { icon: UMap._getMarkerIcon('global') })
+    this._$tempDot = new L.marker(coordinates, {
+      icon: L.icon({
+        iconUrl: `${ENV[window.ENV].static}/static/images/markers/global.png`,
+        iconSize: [32, 32], // size of the icon
+      })
+    })
         .on('click', (e) => { this._toggleDot(true, e) })
         .addTo(this._map);
     this._$tempDot._icon.classList.add('leaflet-marker-icon--is-updating');

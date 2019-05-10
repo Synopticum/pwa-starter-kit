@@ -42,6 +42,10 @@ class UDot extends connect(store)(LitElement) {
                 type: Boolean,
                 attribute: false
             },
+            _isLoadingError: {
+                type: Boolean,
+                attribute: false
+            },
             _isValid: {
                 type: Boolean,
                 attribute: false
@@ -128,46 +132,47 @@ class UDot extends connect(store)(LitElement) {
       <div class="dot">
         <u-round-button type="close" class="close" @click="${this.close}"></u-round-button>  
         
-        <div class="wrapper">
-          <div class="form">
-            <u-textbox
-                 type="default"
-                 id="dot-title"
-                 ?is-fetching="${this._isFetching}" 
-                 ?is-updating="${this._isUpdating}" 
-                 ?disabled="${this._user.role !== 'admin'}"
-                 value="${this.title || ''}"
-                 @keyup="${this.validate}"
-                 placeholder="Введите название точки"></u-textbox>
-                 
-            <u-textbox
-                 type="default"
-                 id="dot-short-description"
-                 ?is-fetching="${this._isFetching}" 
-                 ?is-updating="${this._isUpdating}" 
-                 ?disabled="${this._user.role !== 'admin'}"
-                 value="${this.shortDescription || ''}"
-                 placeholder="Введите краткое описание"></u-textbox>
-                 
-            ${this._user.role !== 'anonymous' ?
-                html`<u-round-button
-                    type="remove"
-                    class="remove"
-                    ?disabled="${this._isFetching || this._isUpdating}"
-                    @click="${(e) => this.remove(e)}"></u-round-button>` : ''}  
-                 
-            ${this._user.role !== 'anonymous' ?
-                html`<u-round-button
-                    type="submit"
-                    class="submit"
-                    ?disabled="${!this._isValid || this._isFetching || this._isUpdating}"
-                    @click="${(e) => this.submit(e)}"></u-round-button>  ` : ''} 
-          </div>
-          
-          <div class="comments">
-              <u-comments origin-type="dot" origin-id="${this.dotId}"></u-comments>
-          </div>
-        </div>
+        ${!this._isLoadingError ?
+          html`<div class="wrapper">
+                  <div class="form">
+                    <u-textbox
+                         type="default"
+                         id="dot-title"
+                         ?is-fetching="${this._isFetching}" 
+                         ?is-updating="${this._isUpdating}" 
+                         ?disabled="${this._user.role !== 'admin'}"
+                         value="${this.title || ''}"
+                         @keyup="${this.validate}"
+                         placeholder="Введите название точки"></u-textbox>
+                         
+                    <u-textbox
+                         type="default"
+                         id="dot-short-description"
+                         ?is-fetching="${this._isFetching}" 
+                         ?is-updating="${this._isUpdating}" 
+                         ?disabled="${this._user.role !== 'admin'}"
+                         value="${this.shortDescription || ''}"
+                         placeholder="Введите краткое описание"></u-textbox>
+                         
+                    ${this._user.role !== 'anonymous' ?
+                        html`<u-round-button
+                            type="remove"
+                            class="remove"
+                            ?disabled="${this._isFetching || this._isUpdating}"
+                            @click="${(e) => this.remove(e)}"></u-round-button>` : ''}  
+                         
+                    ${this._user.role !== 'anonymous' ?
+                        html`<u-round-button
+                            type="submit"
+                            class="submit"
+                            ?disabled="${!this._isValid || this._isFetching || this._isUpdating}"
+                            @click="${(e) => this.submit(e)}"></u-round-button>  ` : ''} 
+                  </div>
+              
+              <div class="comments">
+                  <u-comments origin-type="dot" origin-id="${this.dotId}"></u-comments>
+              </div>
+            </div>` : 'Dot not found'}
       </div>`
     }
 
@@ -187,6 +192,7 @@ class UDot extends connect(store)(LitElement) {
 
         this._isFetching = state.dotPage.isFetching;
         this._isUpdating = state.dotPage.isUpdating;
+        this._isLoadingError = state.dotPage.isLoadingError;
 
         defer(() => this.validate());
     }
