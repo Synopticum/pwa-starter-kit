@@ -22,21 +22,16 @@ export const fetchComments = (originType, id) => async (dispatch) => {
 };
 
 const _fetchComments = async (originType, id) => {
-  try {
-    let response = await fetch(`${ENV[window.ENV].api}/api/${originType}/${id}/comments`, {
-      headers: getApiHeaders(localStorage.token)
-    });
+  let response = await fetch(`${ENV[window.ENV].api}/api/${originType}/${id}/comments`, {
+    headers: getApiHeaders(localStorage.token)
+  });
 
-    if (!response.ok) {
-      if (response.status === 401) location.reload();
-      throw new Error('Error while fetching comments');
-    }
-
-    return await response.json();
-  } catch (e) {
-    console.error(e);
-    return null;
+  if (!response.ok) {
+    if (response.status === 401) location.reload();
+    throw new Error('Error while fetching comments');
   }
+
+  return await response.json();
 };
 
 // -------

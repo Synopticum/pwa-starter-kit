@@ -76,24 +76,19 @@ export const fetchUserInfo = () => async (dispatch) => {
 };
 
 const _fetchUserInfo = async () => {
-  try {
-    let response = await fetch(`${ENV[window.ENV].api}/api/user`, {
-      method: 'GET',
-      headers: getApiHeaders(localStorage.token)
-    });
+  let response = await fetch(`${ENV[window.ENV].api}/api/user`, {
+    method: 'GET',
+    headers: getApiHeaders(localStorage.token)
+  });
 
-    const info = await response.json();
+  const info = await response.json();
 
-    if (!response.ok) {
-      if (response.status === 401) location.reload();
-      throw new Error('Error while fetching comments');
-    }
-
-    return info;
-  } catch (e) {
-    console.error(e);
-    return null;
+  if (!response.ok) {
+    if (response.status === 401) location.reload();
+    throw new Error('Error while fetching comments');
   }
+
+  return info;
 };
 
 // -------

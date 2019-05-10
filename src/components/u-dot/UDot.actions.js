@@ -46,26 +46,21 @@ export const putDot = (dotToPut) => async (dispatch) => {
 };
 
 const _putDot = async (dotToPut, dispatch) => {
-  try {
-    let response = await fetch(`${ENV[window.ENV].api}/api/dots/${dotToPut.id}`, {
-      method: 'PUT',
-      headers: getApiHeaders(localStorage.token),
-      body: JSON.stringify(dotToPut)
-    });
+  let response = await fetch(`${ENV[window.ENV].api}/api/dots/${dotToPut.id}`, {
+    method: 'PUT',
+    headers: getApiHeaders(localStorage.token),
+    body: JSON.stringify(dotToPut)
+  });
 
-    if (!response.ok) {
-      throw new Error('Error while putting a dot');
-    }
-
-    let dot = await response.json();
-
-    dispatch({ type: MapConstants.DOTS.UPDATE, payload: dot });
-
-    return dot;
-  } catch (e) {
-    console.error(e);
-    return null;
+  if (!response.ok) {
+    throw new Error('Error while putting a dot');
   }
+
+  let dot = await response.json();
+
+  dispatch({ type: MapConstants.DOTS.UPDATE, payload: dot });
+
+  return dot;
 };
 
 // -------

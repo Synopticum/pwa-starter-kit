@@ -34,21 +34,16 @@ export const fetchDots = () => async (dispatch) => {
 };
 
 const _fetchDots = async () => {
-  try {
-    let response = await fetch(`${ENV[window.ENV].api}/api/dots`, {
-      headers: getApiHeaders(localStorage.token)
-    });
+  let response = await fetch(`${ENV[window.ENV].api}/api/dots`, {
+    headers: getApiHeaders(localStorage.token)
+  });
 
-    if (!response.ok) {
-      if (response.status === 401) location.reload();
-      throw new Error('Error while fetching dots');
-    }
-
-    return await response.json();
-  } catch (e) {
-    console.error(e);
-    return null;
+  if (!response.ok) {
+    if (response.status === 401) location.reload();
+    throw new Error('Error while fetching dots');
   }
+
+  return await response.json();
 };
 
 // -------
@@ -72,24 +67,19 @@ const _fetchById = async (enable, id, position, dispatch) => {
   // TODO: dehardcode type
   const type = 'dot';
 
-  try {
-    let response = await fetch(`${ENV[window.ENV].api}/api/${type}s/${id}`, {
-      headers: getApiHeaders(localStorage.token)
-    });
+  let response = await fetch(`${ENV[window.ENV].api}/api/${type}s/${id}`, {
+    headers: getApiHeaders(localStorage.token)
+  });
 
-    if (!response.ok) {
-      if (response.status === 401) location.reload();
-      throw new Error(`Error while fetching a ${type}`);
-    }
-
-    let item = await response.json();
-
-    dispatch({ type: MapConstants.TOGGLE.TOOLTIP, payload: true });
-    return { item, position };
-  } catch (e) {
-    console.error(e);
-    return null;
+  if (!response.ok) {
+    if (response.status === 401) location.reload();
+    throw new Error(`Error while fetching a ${type}`);
   }
+
+  let item = await response.json();
+
+  dispatch({ type: MapConstants.TOGGLE.TOOLTIP, payload: true });
+  return { item, position };
 };
 
 // -------
