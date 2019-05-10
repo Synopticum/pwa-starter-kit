@@ -4,7 +4,7 @@ import { connect } from 'pwa-helpers/connect-mixin.js';
 import { installRouter } from 'pwa-helpers/router.js';
 
 import { store } from '../../store.js';
-import { navigate, fetchUserInfo } from './UApp.actions';
+import {navigate, fetchUserInfo, enableAnonymousMode} from './UApp.actions';
 
 class UApp extends connect(store)(LitElement) {
 
@@ -44,7 +44,12 @@ class UApp extends connect(store)(LitElement) {
   }
 
   firstUpdated() {
-    store.dispatch(fetchUserInfo());
+    if (localStorage.token === 'anonymous') {
+      store.dispatch(enableAnonymousMode());
+    } else {
+      store.dispatch(fetchUserInfo());
+    }
+
     installRouter(location => store.dispatch(navigate(window.decodeURIComponent(location.pathname))));
   }
 

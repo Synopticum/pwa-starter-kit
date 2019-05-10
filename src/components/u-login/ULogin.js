@@ -64,7 +64,7 @@ class ULogin extends HTMLElement {
             <a href="https://oauth.vk.com/authorize?client_id=4447151&display=page&redirect_uri=${ENV[window.ENV].static}&response_type=code&v=5.95" 
                class="button button--vk button--first"></a>
                 
-            <a href="#" class="button button--anonymous button--last"></a>
+            <a href="${ENV[window.ENV].static}?mode=anonymous" class="button button--anonymous button--last"></a>
         `;
   }
 }

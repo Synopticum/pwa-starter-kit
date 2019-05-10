@@ -111,12 +111,12 @@ class UDotCreator extends connect(store)(LitElement) {
                 type="default"
                 id="dot-title"
                 ?is-updating="${this._isUpdating}" 
-                ?disabled="${!this._user.isAdmin}"
+                ?disabled="${this._user.role === 'admin'}"
                 value=""
                 @keyup="${this.validate}"
                 placeholder="Введите название точки"></u-textbox><br>
             
-            <div class="advanced-controls" ?hidden="${!this._user.isAdmin}"">
+            <div class="advanced-controls" ?hidden="${this._user.role === 'admin'}"">
               <select id="dot-layer">
                   <option value="official" selected>Official</option>
                   <option value="non-official">Non-official</option>

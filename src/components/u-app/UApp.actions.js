@@ -7,7 +7,8 @@ export const AppConstants = {
     UPDATE: 'APP_PAGE_UPDATE'
   },
   USER: {
-    FETCH: 'APP_USER_FETCH'
+    FETCH: 'APP_USER_FETCH',
+    ENABLE_ANONYMOUS_MODE: 'APP_USER_ENABLE_ANONYMOUS_MODE'
   }
 };
 
@@ -96,4 +97,11 @@ const _fetchUserInfo = async () => {
     console.error(e);
     return null;
   }
+};
+
+// -------
+export const enableAnonymousMode = () => {
+  return {
+    type: AppConstants.USER.ENABLE_ANONYMOUS_MODE
+  };
 };

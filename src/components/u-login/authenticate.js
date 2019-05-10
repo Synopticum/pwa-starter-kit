@@ -4,6 +4,11 @@ export async function authenticate() {
   let token = await getToken();
 
   if (token) {
+    if (token === 'anonymous') {
+      localStorage.token = token;
+      return token;
+    }
+
     await isTokenValid(token);
     localStorage.token = token;
     return token;
@@ -17,10 +22,16 @@ export async function authenticate() {
     }
 
     if (location.search) {
+      let mode = new URLSearchParams(location.search.slice(1)).get('mode');
       let code = new URLSearchParams(location.search.slice(1)).get('code');
 
+      history.pushState({}, '', location.origin);
+
+      if (mode === 'anonymous') {
+        return 'anonymous';
+      }
+
       if (code) {
-        history.pushState({}, '', location.origin);
         let token = await getNewToken(code);
         return token;
       }
