@@ -11,6 +11,10 @@ export class UComment extends LitElement {
       isDeleting: {
         type: Boolean,
         attribute: false
+      },
+      isDeletingAllowed: {
+        type: Boolean,
+        attribute: false
       }
     }
   }
@@ -76,7 +80,7 @@ export class UComment extends LitElement {
         </div>
         
         <div class="comment-controls">
-          <div class="comment-controls__delete" @click="${() => this.delete()}"></div>
+          ${this.isDeletingAllowed ? html`<div class="comment-controls__delete" @click="${() => this.delete()}"></div>` : ''}
         </div>
       </div>
     `

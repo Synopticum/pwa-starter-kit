@@ -93,28 +93,29 @@ export class UComments extends connect(store)(LitElement) {
             <u-comment 
                 .comment="${comment}" 
                 .isDeleting="${this._commentsToDelete.includes(comment.id)}"
+                .isDeletingAllowed="${this._user.role !== 'anonymous'}"
                 @delete="${(e) => this.delete(e)}"></u-comment>
           `;
         })}
       </div>
       
-      <form class="form">
-        <u-textarea
-            type="default"
-            id="comment-to-add" 
-            class="textarea"
-            placeholder="Добавить комментарий"
-            ?is-updating="${this._isCommentAdding}" 
-            @keyup="${this.validate}"
-            required></u-textarea>
-            
-        <button 
-            class="button"
-            id="add-comment"
-            ?disabled="${!this._isValid || this._isFetching || this._isCommentAdding}"
-            @click="${(e) => this.add(e)}">Добавить</button>
-      </form>
-    `
+      ${this._user.role !== 'anonymous'? 
+        html`<form class="form">
+              <u-textarea
+                  type="default"
+                  id="comment-to-add" 
+                  class="textarea"
+                  placeholder="Добавить комментарий"
+                  ?is-updating="${this._isCommentAdding}" 
+                  @keyup="${this.validate}"
+                  required></u-textarea>
+                  
+              <button 
+                  class="button"
+                  id="add-comment"
+                  ?disabled="${!this._isValid || this._isFetching || this._isCommentAdding}"
+                  @click="${(e) => this.add(e)}">Добавить</button>
+            </form>`: ''}`
   }
 
   constructor() {

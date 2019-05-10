@@ -410,11 +410,13 @@ class UMap extends connect(store)(LitElement) {
   }
 
   _toggleContextMenu(isVisible, e) {
-    if (isVisible) {
-      let position = UMap._calculatePosition(e.containerPoint.x, e.containerPoint.y, 150, 63);
-      store.dispatch(toggleContextMenu(true, position));
-    } else {
-      store.dispatch(toggleContextMenu(false, { x: this._contextMenu.position.x, y: this._contextMenu.position.y }));
+    if (this._user.role !== 'anonymous') {
+      if (isVisible) {
+        let position = UMap._calculatePosition(e.containerPoint.x, e.containerPoint.y, 150, 63);
+        store.dispatch(toggleContextMenu(true, position));
+      } else {
+        store.dispatch(toggleContextMenu(false, { x: this._contextMenu.position.x, y: this._contextMenu.position.y }));
+      }
     }
   }
 

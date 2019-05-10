@@ -149,25 +149,26 @@ class UDot extends connect(store)(LitElement) {
                  value="${this.shortDescription || ''}"
                  placeholder="Введите краткое описание"></u-textbox>
                  
-            <u-round-button
-                type="remove"
-                class="remove"
-                ?disabled="${this._isFetching || this._isUpdating}"
-                @click="${(e) => this.remove(e)}"></u-round-button>  
+            ${this._user.role !== 'anonymous' ?
+                html`<u-round-button
+                    type="remove"
+                    class="remove"
+                    ?disabled="${this._isFetching || this._isUpdating}"
+                    @click="${(e) => this.remove(e)}"></u-round-button>` : ''}  
                  
-            <u-round-button
-                type="submit"
-                class="submit"
-                ?disabled="${!this._isValid || this._isFetching || this._isUpdating}"
-                @click="${(e) => this.submit(e)}"></u-round-button>  
+            ${this._user.role !== 'anonymous' ?
+                html`<u-round-button
+                    type="submit"
+                    class="submit"
+                    ?disabled="${!this._isValid || this._isFetching || this._isUpdating}"
+                    @click="${(e) => this.submit(e)}"></u-round-button>  ` : ''} 
           </div>
           
           <div class="comments">
               <u-comments origin-type="dot" origin-id="${this.dotId}"></u-comments>
           </div>
         </div>
-      </div> 
-    `
+      </div>`
     }
 
     constructor() {
