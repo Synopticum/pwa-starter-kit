@@ -97,6 +97,10 @@ class UDot extends connect(store)(LitElement) {
             flex: 1;
         }
         
+        .upload {
+            margin: 20px 0;
+        }
+        
         .submit {
             position: absolute;
             right: -15px;
@@ -153,6 +157,9 @@ class UDot extends connect(store)(LitElement) {
                          ?disabled="${this._user.role !== 'admin'}"
                          value="${this.shortDescription || ''}"
                          placeholder="Введите краткое описание"></u-textbox>
+                         
+                    ${this._user.role !== 'anonymous' ?
+                        html`<u-photo-upload class="upload"></u-photo-upload>` : ''}                         
                          
                     ${this._user.role !== 'anonymous' ?
                         html`<u-round-button

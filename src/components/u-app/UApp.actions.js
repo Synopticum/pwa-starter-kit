@@ -37,6 +37,8 @@ const loadPage = (page) => async (dispatch, getState) => {
   import('../u-comments/UComments.js');
   import('../u-comment/UComment.js');
 
+  import('../u-photo-upload/UPhotoUpload.js');
+
   switch (true) {
     case (page === '/'):
       break;
