@@ -6,24 +6,30 @@ import {
 import {UPhotoUploadConstants} from "../components/u-photo-upload/UPhotoUpload.actions";
 
 export const photoUpload = (state = {
-    isFetching: false,
-    isUpdating: false,
-    isLoadingError: false
+    isUploading: false
 }, action) => {
     switch (action.type) {
 
         // -------
         case generateInProgressActionTypeName(UPhotoUploadConstants.PUT):
-            return state;
+            return {
+                ...state,
+                isUploading: true
+            };
 
         case generateSuccessActionTypeName(UPhotoUploadConstants.PUT):
             return {
                 ...state,
-                uploaded: action.payload
+                isUploading: false,
+                response: action.payload
             };
 
         case generateErrorActionTypeName(UPhotoUploadConstants.PUT):
-            return state;
+            // TODO
+            return {
+                ...state,
+                isUploading: false
+            };
 
         default:
             return state;

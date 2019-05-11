@@ -14,6 +14,11 @@ class UPhotoUpload extends connect(store)(LitElement) {
     */
     static get properties() {
         return {
+            _isUploading: {
+                type: String,
+                attribute: false
+            },
+
             albumName: {
                 type: String,
                 attribute: 'album-name'
@@ -38,9 +43,13 @@ class UPhotoUpload extends connect(store)(LitElement) {
           <div class="upload">        
             <input type="file"
                    id="upload" 
-                   accept="image/png, image/jpeg">
+                   accept="image/png, image/jpeg"
+                   ?disabled="${this._isUploading}">
                    
-             <button type="button" @click="${() => this.upload(this.albumName)}">Upload</button>
+             <button 
+                type="button" 
+                @click="${() => this.upload(this.albumName)}"
+                ?disabled="${this._isUploading}">Upload</button>
           </div>
     `
     }
@@ -52,6 +61,7 @@ class UPhotoUpload extends connect(store)(LitElement) {
 
     stateChanged(state) {
         this._user = state.app.user;
+        this._isUploading = state.photoUpload.isUploading;
     }
 
     firstUpdated() {
@@ -92,7 +102,8 @@ class UPhotoUpload extends connect(store)(LitElement) {
         }
 
         let photo = files[0];
-        let key = `${albumName}/${photo.name}`;
+        let extension = photo.name.split('.').pop().toLowerCase();
+        let key = `${albumName}/${uuidv4()}.${extension}`;
 
         store.dispatch(uploadPhoto(photo, key));
     }
