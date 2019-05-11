@@ -3,6 +3,7 @@ import {html, LitElement} from 'lit-element/lit-element';
 import {store} from '../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
 import {photoUpload} from "../../reducers/UPhotoUpload.reducer";
+import {uploadPhoto} from './UPhotoUpload.actions';
 
 store.addReducers({photoUpload});
 
@@ -13,7 +14,15 @@ class UPhotoUpload extends connect(store)(LitElement) {
     */
     static get properties() {
         return {
+            albumName: {
+                type: String,
+                attribute: 'album-name'
+            },
 
+            s3: {
+                type: Object,
+                attribute: false
+            }
         };
     }
 
@@ -31,7 +40,7 @@ class UPhotoUpload extends connect(store)(LitElement) {
                    id="upload" 
                    accept="image/png, image/jpeg">
                    
-             <button type="button" @click="${this.upload}">Upload</button>
+             <button type="button" @click="${() => this.upload(this.albumName)}">Upload</button>
           </div>
     `
     }
@@ -75,8 +84,17 @@ class UPhotoUpload extends connect(store)(LitElement) {
         List of custom component's methods
         Any other methods
     */
-    upload() {
-        console.log(this.$input);
+    upload(albumName) {
+        let files = this.$input.files;
+
+        if (!files.length) {
+            return alert('Please choose a file to upload first.');
+        }
+
+        let photo = files[0];
+        let key = `${encodeURIComponent(albumName)}/${photo.name}`;
+
+        store.dispatch(uploadPhoto(photo, key));
     }
 }
 

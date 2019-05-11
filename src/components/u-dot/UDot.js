@@ -167,21 +167,23 @@ class UDot extends connect(store)(LitElement) {
                          placeholder="Введите краткое описание"></u-textbox>
                          
                     ${this._user.role !== 'anonymous' ?
-                        html`<u-photo-upload class="upload"></u-photo-upload>` : ''}                         
+                        html`<u-photo-upload 
+                                class="upload"
+                                album-name="${this.dotId}"></u-photo-upload>` : ''}                         
                          
                     ${this._user.role !== 'anonymous' ?
                         html`<u-round-button
-                            type="remove"
-                            class="remove"
-                            ?disabled="${this._isFetching || this._isUpdating}"
-                            @click="${(e) => this.remove(e)}"></u-round-button>` : ''}  
+                                type="remove"
+                                class="remove"
+                                ?disabled="${this._isFetching || this._isUpdating}"
+                                @click="${(e) => this.remove(e)}"></u-round-button>` : ''}  
                          
                     ${this._user.role !== 'anonymous' ?
                         html`<u-round-button
-                            type="submit"
-                            class="submit"
-                            ?disabled="${!this._isValid || this._isFetching || this._isUpdating}"
-                            @click="${(e) => this.submit(e)}"></u-round-button>  ` : ''} 
+                                type="submit"
+                                class="submit"
+                                ?disabled="${!this._isValid || this._isFetching || this._isUpdating}"
+                                @click="${(e) => this.submit(e)}"></u-round-button>  ` : ''} 
                   </div>
               
               <div class="comments">

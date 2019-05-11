@@ -3,15 +3,28 @@ import {
     generateInProgressActionTypeName,
     generateSuccessActionTypeName
 } from "../middleware/asyncActionsMiddleware";
-import {DotConstants} from "../components/u-dot/UDot.actions";
+import {UPhotoUploadConstants} from "../components/u-photo-upload/UPhotoUpload.actions";
 
 export const photoUpload = (state = {
-    dot: {},
     isFetching: false,
     isUpdating: false,
     isLoadingError: false
 }, action) => {
     switch (action.type) {
+
+        // -------
+        case generateInProgressActionTypeName(UPhotoUploadConstants.PUT):
+            return state;
+
+        case generateSuccessActionTypeName(UPhotoUploadConstants.PUT):
+            return {
+                ...state,
+                uploaded: action.payload
+            };
+
+        case generateErrorActionTypeName(UPhotoUploadConstants.PUT):
+            return state;
+
         default:
             return state;
     }
