@@ -92,7 +92,7 @@ class UPhotoUpload extends connect(store)(LitElement) {
         }
 
         let photo = files[0];
-        let key = `${encodeURIComponent(albumName)}/${photo.name}`;
+        let key = `${albumName}/${photo.name}`;
 
         store.dispatch(uploadPhoto(photo, key));
     }

@@ -169,7 +169,7 @@ class UDot extends connect(store)(LitElement) {
                     ${this._user.role !== 'anonymous' ?
                         html`<u-photo-upload 
                                 class="upload"
-                                album-name="${this.dotId}"></u-photo-upload>` : ''}                         
+                                album-name="photos/dots/${this.dotId}"></u-photo-upload>` : ''}                         
                          
                     ${this._user.role !== 'anonymous' ?
                         html`<u-round-button
