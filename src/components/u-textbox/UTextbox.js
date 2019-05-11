@@ -1,7 +1,10 @@
 import {html, LitElement} from 'lit-element/lit-element';
 
 export class UTextbox extends LitElement {
-
+    /*
+        List of required methods
+        Needed for initialization, rendering, fetching and setting default values
+    */
     constructor() {
         super();
         this.addEventListener('update', this.valueChanged);
@@ -14,30 +17,37 @@ export class UTextbox extends LitElement {
                 type: String,
                 attribute: 'id'
             },
+
             type: {
                 type: String,
                 attribute: 'type'
             },
+
             value: {
                 type: String,
                 attribute: 'value'
             },
+
             placeholder: {
                 type: String,
                 attribute: 'placeholder'
             },
+
             required: {
                 type: Boolean,
                 attribute: 'required'
             },
+
             disabled: {
                 type: Boolean,
                 attribute: 'disabled'
             },
+
             isFetching: {
                 type: Boolean,
                 attribute: 'is-fetching'
             },
+
             isUpdating: {
                 type: Boolean,
                 attribute: 'is-updating'
@@ -120,9 +130,26 @@ export class UTextbox extends LitElement {
     }
 
     firstUpdated() {
-        this._setReferences();
+        this._init();
     }
 
+    _init() {
+        this._setReferences();
+        this._setListeners();
+    }
+
+    _setReferences() {
+        this.$textarea = this.shadowRoot.querySelector(`#textbox__${this.id}`);
+    }
+
+    _setListeners() {
+
+    }
+
+    /*
+        List of custom component's methods
+        Any other methods
+    */
     valueChanged(e) {
         this.value = e.currentTarget.value ? e.currentTarget.value : '';
     }
@@ -130,10 +157,6 @@ export class UTextbox extends LitElement {
     valueReset() {
         this.value = '';
         this.$textarea.value = '';
-    }
-
-    _setReferences() {
-        this.$textarea = this.shadowRoot.querySelector(`#textbox__${this.id}`);
     }
 }
 

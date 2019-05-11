@@ -10,13 +10,17 @@ import { comments } from "../../reducers/Comments.reducer";
 store.addReducers({ comments });
 
 export class UComments extends connect(store)(LitElement) {
-
+  /*
+      List of required methods
+      Needed for initialization, rendering, fetching and setting default values
+  */
   static get properties() {
     return {
       originType: {
         type: String,
         attribute: 'origin-type'
       },
+
       originId: {
         type: String,
         attribute: 'origin-id'
@@ -26,18 +30,22 @@ export class UComments extends connect(store)(LitElement) {
         type: Boolean,
         attribute: false
       },
+
       _isCommentAdding: {
         type: Boolean,
         attribute: false
       },
+
       _isValid: {
         type: Boolean,
         attribute: false
       },
+
       _comments: {
         type: Array,
         attribute: false
       },
+
       _commentsToDelete: {
         type: Array,
         attribute: false
@@ -135,9 +143,34 @@ export class UComments extends connect(store)(LitElement) {
 
   firstUpdated() {
     this._init();
-    this._setReferences();
   }
 
+  _init() {
+    this._setStore();
+    this._setReferences();
+    this._setListeners();
+  }
+
+  _setStore() {
+    store.dispatch(fetchComments(this.originType, this.originId));
+  }
+
+  _setReferences() {
+    this.$textarea = this.shadowRoot.querySelector('#comment-to-add');
+  }
+
+  _setListeners() {
+
+  }
+
+  _setDefaults() {
+    this._isValid = false;
+  }
+
+  /*
+      List of custom component's methods
+      Any other methods
+  */
   add(e) {
     e.preventDefault();
 
@@ -160,18 +193,6 @@ export class UComments extends connect(store)(LitElement) {
 
   validate() {
     this.$textarea.value ? this._isValid = true : this._isValid = false;
-  }
-
-  _setDefaults() {
-    this._isValid = false;
-  }
-
-  _init() {
-    store.dispatch(fetchComments(this.originType, this.originId));
-  }
-
-  _setReferences() {
-    this.$textarea = this.shadowRoot.querySelector('#comment-to-add');
   }
 }
 

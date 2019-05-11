@@ -2,16 +2,21 @@ import { html, LitElement } from 'lit-element/lit-element';
 import { DateTime } from "luxon";
 
 export class UComment extends LitElement {
-
+  /*
+      List of required methods
+      Needed for initialization, rendering, fetching and setting default values
+  */
   static get properties() {
     return {
       comment: {
         type: Object
       },
+
       isDeleting: {
         type: Boolean,
         attribute: false
       },
+
       isDeletingAllowed: {
         type: Boolean,
         attribute: false
@@ -86,6 +91,27 @@ export class UComment extends LitElement {
     `
   }
 
+  firstUpdated() {
+    this._init();
+  }
+
+  _init() {
+    this._setReferences();
+    this._setListeners();
+  }
+
+  _setReferences() {
+
+  }
+
+  _setListeners() {
+
+  }
+
+  /*
+      List of custom component's methods
+      Any other methods
+  */
   delete() {
     this.dispatchEvent(new CustomEvent('delete', { detail: this.comment.id, composed: true }));
   }

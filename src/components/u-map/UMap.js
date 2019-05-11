@@ -14,13 +14,12 @@ import { map } from "../../reducers/Map.reducer";
 store.addReducers({ app, map, dots });
 
 class UMap extends connect(store)(LitElement) {
-
+  /*
+      List of required methods
+      Needed for initialization, rendering, fetching and setting default values
+  */
   static get properties() {
     return props;
-  }
-
-  createRenderRoot() {
-    return this;
   }
 
   render() {
@@ -170,13 +169,13 @@ class UMap extends connect(store)(LitElement) {
       <div id="user-role">your role is ${this._user.role}</div>`;
   }
 
+  createRenderRoot() {
+    return this;
+  }
+
   constructor() {
     super();
     this._setDefaults();
-  }
-
-  firstUpdated() {
-    this._init().catch(e => { throw new Error(e) });
   }
 
   stateChanged(state) {
@@ -198,21 +197,54 @@ class UMap extends connect(store)(LitElement) {
     if (state.map.dotCreator.tempDot === null && this._$tempDot) this._removeTempDot();
   }
 
+  firstUpdated() {
+    this._init().catch(e => { throw new Error(e) });
+  }
 
-  // ----- start of init methods -----
   async _init() {
-    this._createMap();
+    this._drawMap();
+
+    this._setStore();
+    this._setListeners();
+    this._setReferences();
+  }
+
+  _setStore() {
+    store.dispatch(fetchDots());
+  }
+
+  _setListeners() {
+    this._map.on('load', UMap._triggerResize());
+    this._map.on('click', (e) => this._handleClick(e));
+    this._map.on('dragstart', () => this._hideControls());
+    this._map.on('drag', debounce(this._updateUrl, 300).bind(this));
+    this.addEventListener('click', this._handleOutsideClicks);
+  }
+
+  _setReferences() {
+    this._$tempDot = null;
+    this._$clouds = this.querySelector('.container');
+  }
+
+  _setDefaults() {
+    this._tooltipHoverTimeOut = null;
+    this._overlayMaps = {};
+  }
+
+  /*
+      List of custom component's methods
+      Any other methods
+  */
+  _drawMap() {
+    this._createMapInstance();
     this._apply1pxGapFix();
     this._setDefaultSettings();
     this._setMaxBounds();
     this._initializeTiles();
-    this._setListeners();
-    this._setReferences();
     // await this._drawObjects();
-    store.dispatch(fetchDots());
   }
 
-  _createMap() {
+  _createMapInstance() {
     this._map = L.map('map', {});
   }
 
@@ -246,11 +278,6 @@ class UMap extends connect(store)(LitElement) {
     this._map.setMaxBounds(this.maxBounds);
   }
 
-  _setDefaults() {
-    this._tooltipHoverTimeOut = null;
-    this._overlayMaps = {};
-  }
-
   _initializeTiles() {
     const bounds = new L.LatLngBounds(
         this._map.unproject([0, this.height], this.maxZoom),
@@ -264,21 +291,6 @@ class UMap extends connect(store)(LitElement) {
       noWrap: true
     }).addTo(this._map);
   }
-
-  _setListeners() {
-    this._map.on('load', UMap._triggerResize());
-    this._map.on('click', (e) => this._handleClick(e));
-    this._map.on('dragstart', () => this._hideControls());
-    this._map.on('drag', debounce(this._updateUrl, 300).bind(this));
-    this.addEventListener('click', this._handleOutsideClicks);
-  }
-
-  _setReferences() {
-    this._$tempDot = null;
-    this._$clouds = this.querySelector('.container');
-  }
-  // ----- end of init methods -----
-
 
   // ----- start of drawing methods -----
   async _drawObjects() {

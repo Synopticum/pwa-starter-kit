@@ -1,7 +1,10 @@
 import {html, LitElement} from 'lit-element/lit-element';
 
 export class UDefaultSpinner extends LitElement {
-
+    /*
+        List of required methods
+        Needed for initialization, rendering, fetching and setting default values
+    */
     static get properties() {
         return {}
     }
@@ -84,6 +87,28 @@ export class UDefaultSpinner extends LitElement {
           </div>
     `;
     }
+
+    firstUpdated() {
+        this._init();
+    }
+
+    _init() {
+        this._setReferences();
+        this._setListeners();
+    }
+
+    _setReferences() {
+
+    }
+
+    _setListeners() {
+
+    }
+
+    /*
+        List of custom component's methods
+        Any other methods
+    */
 }
 
 window.customElements.define('u-default-spinner', UDefaultSpinner);

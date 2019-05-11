@@ -1,33 +1,42 @@
 import {html, LitElement} from 'lit-element/lit-element';
 
 export class UTextarea extends LitElement {
-
+    /*
+        List of required methods
+        Needed for initialization, rendering, fetching and setting default values
+    */
     static get properties() {
         return {
             id: {
                 type: String,
                 attribute: 'id'
             },
+
             type: {
                 type: String,
                 attribute: 'type'
             },
+
             value: {
                 type: String,
                 attribute: false
             },
+
             placeholder: {
                 type: String,
                 attribute: 'placeholder'
             },
+
             required: {
                 type: Boolean,
                 attribute: 'required'
             },
+
             disabled: {
                 type: Boolean,
                 attribute: 'disabled'
             },
+
             isUpdating: {
                 type: Boolean,
                 attribute: 'is-updating'
@@ -114,9 +123,27 @@ export class UTextarea extends LitElement {
     }
 
     firstUpdated() {
+        this._init();
         this._setReferences();
     }
 
+    _init() {
+        this._setReferences();
+        this._setListeners();
+    }
+
+    _setReferences() {
+        this.$textarea = this.shadowRoot.querySelector(`#textarea__${this.id}`);
+    }
+
+    _setListeners() {
+
+    }
+
+    /*
+        List of custom component's methods
+        Any other methods
+    */
     valueChanged(e) {
         this.value = e.currentTarget.value ? e.currentTarget.value : '';
     }
@@ -124,10 +151,6 @@ export class UTextarea extends LitElement {
     valueReset() {
         this.value = '';
         this.$textarea.value = '';
-    }
-
-    _setReferences() {
-        this.$textarea = this.shadowRoot.querySelector(`#textarea__${this.id}`);
     }
 }
 

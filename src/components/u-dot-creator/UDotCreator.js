@@ -1,27 +1,31 @@
 import {html, LitElement} from 'lit-element/lit-element';
-
 import {store} from '../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
 import {putDot} from '../u-dot/UDot.actions';
 import {toggleDotCreator, setCloudsVisibility} from '../u-map/UMap.actions';
 import {map} from "../../reducers/Map.reducer";
-import {navigate} from "../u-app/UApp.actions";
 
 store.addReducers({map});
 
 class UDotCreator extends connect(store)(LitElement) {
-
+    /*
+        List of required methods
+        Needed for initialization, rendering, fetching and setting default values
+    */
     static get properties() {
         return {
             x: {
                 type: Number
             },
+
             y: {
                 type: Number
             },
+
             lat: {
                 type: Number
             },
+
             lng: {
                 type: Number
             },
@@ -139,14 +143,42 @@ class UDotCreator extends connect(store)(LitElement) {
     `;
     }
 
-    firstUpdated() {
-        this._init();
-    }
-
     stateChanged(state) {
         this._user = state.app.user;
     }
 
+    firstUpdated() {
+        this._init();
+    }
+
+    _init() {
+        this._setStore();
+        this._setReferences();
+        this._setListeners();
+    }
+
+    _setStore() {
+
+    }
+
+    _setReferences() {
+        this.$title = this.shadowRoot.querySelector('#dot-title');
+        this.$layer = this.shadowRoot.querySelector('#dot-layer');
+        this.$type = this.shadowRoot.querySelector('#dot-type');
+    }
+
+    _setListeners() {
+        this.addEventListener('click', e => e.stopPropagation());
+    }
+
+    _setDefaults() {
+        this._isValid = false;
+    }
+
+    /*
+        List of custom component's methods
+        Any other methods
+    */
     create(e) {
         e.preventDefault();
 
@@ -177,25 +209,6 @@ class UDotCreator extends connect(store)(LitElement) {
         this.$title.dispatchEvent(new CustomEvent('reset'));
         this.$layer.value = 'official';
         this.$type.value = 'global';
-    }
-
-    _setDefaults() {
-        this._isValid = false;
-    }
-
-    _init() {
-        this._setReferences();
-        this._setListeners();
-    }
-
-    _setReferences() {
-        this.$title = this.shadowRoot.querySelector('#dot-title');
-        this.$layer = this.shadowRoot.querySelector('#dot-layer');
-        this.$type = this.shadowRoot.querySelector('#dot-type');
-    }
-
-    _setListeners() {
-        this.addEventListener('click', e => e.stopPropagation());
     }
 }
 

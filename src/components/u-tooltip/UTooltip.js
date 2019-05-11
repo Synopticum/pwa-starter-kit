@@ -1,15 +1,20 @@
 import { html, LitElement } from 'lit-element/lit-element';
 
 class UTooltip extends LitElement {
-
+  /*
+      List of required methods
+      Needed for initialization, rendering, fetching and setting default values
+  */
   static get properties() {
     return {
       x: {
         type: Number
       },
+
       y: {
         type: Number
       },
+
       origin: {
         type: String
       }
@@ -44,6 +49,11 @@ class UTooltip extends LitElement {
       </div> 
     `
   }
+
+  /*
+      List of custom component's methods
+      Any other methods
+  */
 }
 
 window.customElements.define('u-tooltip', UTooltip);

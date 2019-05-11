@@ -1,25 +1,32 @@
 import {html, LitElement} from 'lit-element/lit-element';
 
 export class URoundButton extends LitElement {
-
+    /*
+        List of required methods
+        Needed for initialization, rendering, fetching and setting default values
+    */
     static get properties() {
         return {
             id: {
                 type: String,
                 attribute: 'id'
             },
+
             type: {
                 type: String,
                 attribute: 'type'
             },
+
             title: {
                 type: String,
                 attribute: 'title'
             },
+
             disabled: {
                 type: Boolean,
                 attribute: 'disabled'
             },
+
             isUpdating: {
                 type: Boolean,
                 attribute: 'is-updating'

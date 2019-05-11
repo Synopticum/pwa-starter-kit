@@ -1,26 +1,29 @@
 import {html, LitElement} from 'lit-element/lit-element';
-
 import {store} from '../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
 import {fetchDot, putDot, clearDotState, deleteDot} from './UDot.actions';
 import {setCloudsVisibility} from '../u-map/UMap.actions';
 import {dotPage} from "../../reducers/Dot.reducer";
 import defer from 'lodash-es/defer';
-import {navigate} from "../u-app/UApp.actions";
 
 store.addReducers({dotPage});
 
 class UDot extends connect(store)(LitElement) {
-
+    /*
+        List of required methods
+        Needed for initialization, rendering, fetching and setting default values
+    */
     static get properties() {
         return {
             dotId: {
                 type: String
             },
+
             title: {
                 type: String,
                 attribute: false
             },
+
             shortDescription: {
                 type: String,
                 attribute: false
@@ -30,22 +33,27 @@ class UDot extends connect(store)(LitElement) {
                 type: Object,
                 attribute: false
             },
+
             _dot: {
                 type: Object,
                 attribute: false
             },
+
             _isFetching: {
                 type: Boolean,
                 attribute: false
             },
+
             _isUpdating: {
                 type: Boolean,
                 attribute: false
             },
+
             _isLoadingError: {
                 type: Boolean,
                 attribute: false
             },
+
             _isValid: {
                 type: Boolean,
                 attribute: false
@@ -206,9 +214,39 @@ class UDot extends connect(store)(LitElement) {
 
     firstUpdated() {
         this._init();
-        this._setReferences();
     }
 
+    _init() {
+        this._setStore();
+        this._setReferences();
+        this._setListeners();
+    }
+
+    _setStore() {
+        store.dispatch(setCloudsVisibility('full'));
+        store.dispatch(fetchDot(this.dotId));
+    }
+
+    _setReferences() {
+        this.$dotTitle = this.shadowRoot.querySelector('#dot-title');
+        this.$shortDescription = this.shadowRoot.querySelector('#dot-short-description');
+    }
+
+    _setListeners() {
+
+    }
+
+    _setDefaults() {
+        this._isValid = false;
+
+        this.title = '';
+        this.shortDescription = '';
+    }
+
+    /*
+        List of custom component's methods
+        Any other methods
+    */
     close() {
         store.dispatch(setCloudsVisibility('none'));
         store.dispatch(clearDotState());
@@ -235,23 +273,6 @@ class UDot extends connect(store)(LitElement) {
     remove() {
         store.dispatch(deleteDot(this.dotId));
         this.close();
-    }
-
-    _init() {
-        store.dispatch(setCloudsVisibility('full'));
-        store.dispatch(fetchDot(this.dotId));
-    }
-
-    _setDefaults() {
-        this._isValid = false;
-
-        this.title = '';
-        this.shortDescription = '';
-    }
-
-    _setReferences() {
-        this.$dotTitle = this.shadowRoot.querySelector('#dot-title');
-        this.$shortDescription = this.shadowRoot.querySelector('#dot-short-description');
     }
 }
 

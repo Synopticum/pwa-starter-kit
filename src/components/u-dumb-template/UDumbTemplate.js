@@ -1,11 +1,10 @@
 import { html, LitElement } from 'lit-element/lit-element';
 
 export class UDumbTemplate extends LitElement {
-
-    constructor() {
-        super();
-    }
-
+    /*
+        List of required methods
+        Needed for initialization, rendering, fetching and setting default values
+    */
     static get properties() {
         return {
             myProperty: {
@@ -30,7 +29,7 @@ export class UDumbTemplate extends LitElement {
     }
 
     firstUpdated() {
-        this._setReferences();
+        this._init();
     }
 
     _init() {
@@ -46,6 +45,10 @@ export class UDumbTemplate extends LitElement {
         this.addEventListener('something-happened', this.somethingHappened);
     }
 
+    /*
+        List of custom component's methods
+        Any other methods
+    */
     somethingHappened() {
         // Use code below to trigger this method from the outside:
         //

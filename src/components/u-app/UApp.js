@@ -1,15 +1,26 @@
 import { LitElement, html } from 'lit-element';
-
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { installRouter } from 'pwa-helpers/router.js';
-
 import { store } from '../../store.js';
 import {navigate, fetchUserInfo, enableAnonymousMode} from './UApp.actions';
 
 class UApp extends connect(store)(LitElement) {
+  /*
+      List of required methods
+      Needed for initialization, rendering, fetching and setting default values
+  */
+  static get properties() {
+    return {
+      pageTitle: {
+        type: String,
+        attribute: false
+      },
 
-  createRenderRoot() {
-    return this;
+      _page: {
+        type: String,
+        attribute: false
+      }
+    };
   }
 
   render() {
@@ -26,31 +37,13 @@ class UApp extends connect(store)(LitElement) {
     `;
   }
 
-  static get properties() {
-    return {
-      pageTitle: {
-        type: String,
-        attribute: false
-      },
-      _page: {
-        type: String,
-        attribute: false
-      }
-    };
+  createRenderRoot() {
+    return this;
   }
 
   constructor() {
     super();
-  }
-
-  firstUpdated() {
-    if (localStorage.token === 'anonymous') {
-      store.dispatch(enableAnonymousMode());
-    } else {
-      store.dispatch(fetchUserInfo());
-    }
-
-    installRouter(location => store.dispatch(navigate(window.decodeURIComponent(location.pathname))));
+    this._setDefaults();
   }
 
   stateChanged(state) {
@@ -61,6 +54,51 @@ class UApp extends connect(store)(LitElement) {
       window.opener.location.reload();
       window.close();
     }
+  }
+
+  firstUpdated() {
+    this._init();
+  }
+
+  _init() {
+    this._setStore();
+    this._setReferences();
+    this._setListeners();
+  }
+
+  _setStore() {
+    this._initUser();
+    this._initRouter();
+  }
+
+  _setReferences() {
+
+  }
+
+  _setListeners() {
+
+  }
+
+  _setDefaults() {
+
+  }
+
+  /*
+      List of custom component's methods
+      Any other methods
+  */
+  _initUser() {
+    if (localStorage.token === 'anonymous') {
+      store.dispatch(enableAnonymousMode());
+    } else {
+      store.dispatch(fetchUserInfo());
+    }
+  }
+
+  _initRouter() {
+    installRouter(location => {
+      store.dispatch(navigate(window.decodeURIComponent(location.pathname)));
+    });
   }
 }
 

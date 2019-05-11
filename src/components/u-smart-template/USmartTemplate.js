@@ -7,7 +7,10 @@ import {pieceOfState} from "../../reducers/USmartTemplate.reducer";
 store.addReducers({pieceOfState});
 
 export class USmartTemplate extends connect(store)(LitElement) {
-
+    /*
+        List of required methods
+        Needed for initialization, rendering, fetching and setting default values
+    */
     static get properties() {
         return {
             propertyToReflectInTemplate: {
@@ -45,17 +48,13 @@ export class USmartTemplate extends connect(store)(LitElement) {
     }
 
     _init() {
-        this._fetchDefaults();
+        this._setStore();
         this._setReferences();
         this._setListeners();
     }
 
-    _fetchDefaults() {
+    _setStore() {
         store.dispatch(fetch());
-    }
-
-    _setDefaults() {
-
     }
 
     _setReferences() {
@@ -65,6 +64,15 @@ export class USmartTemplate extends connect(store)(LitElement) {
     _setListeners() {
         this.addEventListener('click', e => e.stopPropagation());
     }
+
+    _setDefaults() {
+
+    }
+
+    /*
+        List of custom component's methods
+        Any other methods
+    */
 }
 
 window.customElements.define('u-smart-template', USmartTemplate);
