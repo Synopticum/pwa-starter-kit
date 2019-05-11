@@ -22,11 +22,6 @@ class UPhotoUpload extends connect(store)(LitElement) {
             albumName: {
                 type: String,
                 attribute: 'album-name'
-            },
-
-            s3: {
-                type: Object,
-                attribute: false
             }
         };
     }
