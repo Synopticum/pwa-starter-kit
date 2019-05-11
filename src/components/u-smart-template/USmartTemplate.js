@@ -63,7 +63,7 @@ export class USmartTemplate extends connect(store)(LitElement) {
     }
 
     _setListeners() {
-        // this.addEventListener('click', e => e.stopPropagation());
+        this.addEventListener('click', e => e.stopPropagation());
     }
 }
 
