@@ -169,21 +169,22 @@ class UDot extends connect(store)(LitElement) {
                     ${this._user.role !== 'anonymous' ?
                         html`<u-photo-upload 
                                 class="upload"
-                                album-name="photos/dots/${this.dotId}"></u-photo-upload>` : ''}                         
+                                type="dot"
+                                id="${this.dotId}"></u-photo-upload>` : ''}
                          
                     ${this._user.role !== 'anonymous' ?
                         html`<u-round-button
                                 type="remove"
                                 class="remove"
                                 ?disabled="${this._isFetching || this._isUpdating}"
-                                @click="${(e) => this.remove(e)}"></u-round-button>` : ''}  
+                                @click="${(e) => this.remove(e)}"></u-round-button>` : ''}
                          
                     ${this._user.role !== 'anonymous' ?
                         html`<u-round-button
                                 type="submit"
                                 class="submit"
                                 ?disabled="${!this._isValid || this._isFetching || this._isUpdating}"
-                                @click="${(e) => this.submit(e)}"></u-round-button>  ` : ''} 
+                                @click="${(e) => this.submit(e)}"></u-round-button>  ` : ''}
                   </div>
               
               <div class="comments">

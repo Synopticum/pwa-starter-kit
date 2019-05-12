@@ -6,21 +6,20 @@ export const UPhotoUploadConstants = {
 };
 
 // -------
-export const uploadPhoto = (photo, key) => async (dispatch) => {
+export const uploadPhoto = (photo, type, id) => async (dispatch) => {
     dispatch({
         type: UPhotoUploadConstants.PUT,
         async: true,
         httpMethodToInvoke: _uploadPhoto,
-        params: [photo, key]
+        params: [photo, type, id]
     });
 };
 
-const _uploadPhoto = async (photo, key) => {
+const _uploadPhoto = async (photo, type, id) => {
     let formData = new FormData();
     formData.append('photo', photo);
-    formData.append('key', key);
 
-    let response = await fetch(`${ENV[window.ENV].api}/api/upload`, {
+    let response = await fetch(`${ENV[window.ENV].api}/api/${type}/${id}/photos`, {
         method: 'PUT',
         headers: getApiHeadersFormData(localStorage.token),
         body: formData

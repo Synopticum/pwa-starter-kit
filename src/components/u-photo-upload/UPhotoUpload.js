@@ -19,9 +19,14 @@ class UPhotoUpload extends connect(store)(LitElement) {
                 attribute: false
             },
 
-            albumName: {
+            type: {
                 type: String,
-                attribute: 'album-name'
+                attribute: 'type'
+            },
+
+            id: {
+                type: String,
+                attribute: 'id'
             }
         };
     }
@@ -96,11 +101,8 @@ class UPhotoUpload extends connect(store)(LitElement) {
             return alert('Please choose a file to upload first.');
         }
 
-        let photo = files[0];
-        let extension = photo.name.split('.').pop().toLowerCase();
-        let key = `${albumName}/${uuidv4()}.${extension}`;
-
-        store.dispatch(uploadPhoto(photo, key));
+        const photo = files[0];
+        store.dispatch(uploadPhoto(photo, this.type, this.id));
     }
 }
 
