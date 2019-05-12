@@ -20,7 +20,7 @@ const asyncActionsMiddleware = ({ dispatch }) => next => action => {
             }));
         })
         .catch(err => {
-            console.log(err);
+            console.error(err);
             const errorType = generateErrorActionTypeName(type);
             Promise.resolve(1).then(() => dispatch({type: errorType, err}));
         });

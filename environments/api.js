@@ -4,3 +4,9 @@ export const getApiHeaders = (token) => {
         'Token': token
     }
 };
+
+export const getApiHeadersFormData = (token) => {
+    return {
+        'Token': token
+    }
+};

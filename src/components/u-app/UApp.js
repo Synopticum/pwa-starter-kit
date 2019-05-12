@@ -11,16 +11,6 @@ class UApp extends connect(store)(LitElement) {
   */
   static get properties() {
     return {
-      s3: {
-        type: Object,
-        attribute: false
-      },
-
-      s3Credentials: {
-        type: Object,
-        attribute: false
-      },
-
       pageTitle: {
         type: String,
         attribute: false
@@ -79,7 +69,6 @@ class UApp extends connect(store)(LitElement) {
   _setStore() {
     this._initUser();
     this._initRouter();
-    this._initS3();
   }
 
   _setReferences() {
@@ -109,22 +98,6 @@ class UApp extends connect(store)(LitElement) {
   _initRouter() {
     installRouter(location => {
       store.dispatch(navigate(window.decodeURIComponent(location.pathname)));
-    });
-  }
-
-  _initS3() {
-    this.s3Credentials = new AWS.CognitoIdentityCredentials({
-      IdentityPoolId: 'eu-central-1:c880c423-e2a8-44ed-b0ff-15aff6ce0644'
-    });
-
-    AWS.config.update({
-      region: 'eu-central-1',
-      credentials: this.s3Credentials
-    });
-
-    this.s3 = new AWS.S3({
-      apiVersion: '2006-03-01',
-      params: { Bucket: 'urussu' }
     });
   }
 }
