@@ -1,5 +1,6 @@
 import {ENV} from "../../../environments/environments";
 import {getApiHeadersFormData} from "../../../environments/api";
+import {addDotImage} from "../u-dot/UDot.actions";
 
 export const UPhotoUploadConstants = {
     PUT: 'PHOTO_UPLOAD_PUT'
@@ -11,11 +12,11 @@ export const uploadPhoto = (photo, type, id) => async (dispatch) => {
         type: UPhotoUploadConstants.PUT,
         async: true,
         httpMethodToInvoke: _uploadPhoto,
-        params: [photo, type, id]
+        params: [photo, type, id, dispatch]
     });
 };
 
-const _uploadPhoto = async (photo, type, id) => {
+const _uploadPhoto = async (photo, type, id, dispatch) => {
     let formData = new FormData();
     formData.append('photo', photo);
 
@@ -31,6 +32,7 @@ const _uploadPhoto = async (photo, type, id) => {
 
     let json = await response.json();
 
+    dispatch(addDotImage(json.key));
 
     return json;
 };

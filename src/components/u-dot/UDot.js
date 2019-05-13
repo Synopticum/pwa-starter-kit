@@ -1,6 +1,7 @@
 import {html, LitElement} from 'lit-element/lit-element';
 import {store} from '../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
+import { repeat } from 'lit-element/node_modules/lit-html/directives/repeat';
 import {fetchDot, putDot, clearDotState, deleteDot} from './UDot.actions';
 import {setCloudsVisibility} from '../u-map/UMap.actions';
 import {dotPage} from "../../reducers/Dot.reducer";
@@ -185,11 +186,20 @@ class UDot extends connect(store)(LitElement) {
                                 class="submit"
                                 ?disabled="${!this._isValid || this._isFetching || this._isUpdating}"
                                 @click="${(e) => this.submit(e)}"></u-round-button>  ` : ''}
+                  
+                    ${this._dot.images ? 
+                        html`<div class="images">
+                                ${repeat(this._dot.images, key => key, key => {
+                                    return html`
+                                        <img src="https://urussu.s3.amazonaws.com/${key}" width="100">
+                                    `;
+                                })}
+                            </div>` : ''}
                   </div>
               
-              <div class="comments">
-                  <u-comments origin-type="dot" origin-id="${this.dotId}"></u-comments>
-              </div>
+                  <div class="comments">
+                      <u-comments origin-type="dot" origin-id="${this.dotId}"></u-comments>
+                  </div>
             </div>` : 'Dot not found'}
       </div>`
     }

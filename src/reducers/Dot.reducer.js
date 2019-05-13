@@ -54,6 +54,15 @@ export const dotPage = (state = {
                 isUpdating: false
             };
 
+        case DotConstants.ADD_IMAGE:
+            return {
+                ...state,
+                dot: {
+                    ...state.dot,
+                    images: [...state.dot.images, action.payload]
+                }
+            };
+
         case DotConstants.CLEAR_STATE:
             return {
                 dot: {},
