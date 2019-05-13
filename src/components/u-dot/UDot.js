@@ -6,6 +6,7 @@ import {fetchDot, putDot, clearDotState, deleteDot} from './UDot.actions';
 import {setCloudsVisibility} from '../u-map/UMap.actions';
 import {dotPage} from "../../reducers/Dot.reducer";
 import defer from 'lodash-es/defer';
+import {deletePhoto} from "../u-photo-upload/UPhotoUpload.actions";
 
 store.addReducers({dotPage});
 
@@ -191,7 +192,7 @@ class UDot extends connect(store)(LitElement) {
                         html`<div class="images">
                                 ${repeat(this._dot.images, key => key, key => {
                                     return html`
-                                        <img src="https://urussu.s3.amazonaws.com/${key}" width="100">
+                                        <img src="https://urussu.s3.amazonaws.com/${key}" width="100" @click="${() => this.deleteImage(key)}">
                                     `;
                                 })}
                             </div>` : ''}
@@ -286,6 +287,10 @@ class UDot extends connect(store)(LitElement) {
     remove() {
         store.dispatch(deleteDot(this.dotId));
         this.close();
+    }
+
+    deleteImage(key) {
+        store.dispatch(deletePhoto('dot', this.dotId, key));
     }
 }
 

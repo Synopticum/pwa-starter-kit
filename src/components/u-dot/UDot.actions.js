@@ -7,7 +7,8 @@ export const DotConstants = {
   PUT: 'DOT_PUT',
   DELETE: 'DOT_DELETE',
   CLEAR_STATE: 'DOT_CLEAR_STATE',
-  ADD_IMAGE: 'DOT_ADD_IMAGE'
+  ADD_IMAGE: 'DOT_ADD_IMAGE',
+  DELETE_IMAGE: 'DOT_DELETE_IMAGE'
 };
 
 // -------
@@ -96,6 +97,13 @@ const _deleteDot = async (dotId) => {
 export const addDotImage = (key) => (dispatch, getState) => {
   dispatch({
     type: DotConstants.ADD_IMAGE,
+    payload: key
+  });
+};
+
+export const deleteDotImage = (key) => (dispatch, getState) => {
+  dispatch({
+    type: DotConstants.DELETE_IMAGE,
     payload: key
   });
 };

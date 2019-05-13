@@ -63,6 +63,15 @@ export const dotPage = (state = {
                 }
             };
 
+        case DotConstants.DELETE_IMAGE:
+            return {
+                ...state,
+                dot: {
+                    ...state.dot,
+                    images: state.dot.images.filter(key => key !== action.payload)
+                }
+            };
+
         case DotConstants.CLEAR_STATE:
             return {
                 dot: {},
