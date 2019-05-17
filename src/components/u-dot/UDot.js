@@ -8,6 +8,10 @@ import {dotPage} from "../../reducers/Dot.reducer";
 import defer from 'lodash-es/defer';
 import {deletePhoto} from "../u-photo-upload/UPhotoUpload.actions";
 import {isAdmin, isAnonymous} from "../u-app/UApp.helpers";
+import '../u-textbox/UTextbox';
+import '../u-round-button/URoundButton';
+import '../u-comments/UComments';
+import '../u-photo-upload/UPhotoUpload';
 
 store.addReducers({dotPage});
 

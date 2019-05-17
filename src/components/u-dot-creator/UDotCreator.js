@@ -5,6 +5,8 @@ import {putDot} from '../u-dot/UDot.actions';
 import {toggleDotCreator, setCloudsVisibility} from '../u-map/UMap.actions';
 import {map} from "../../reducers/Map.reducer";
 import {isAdmin, isAnonymous} from "../u-app/UApp.helpers";
+import '../u-textbox/UTextbox';
+import '../u-round-button/URoundButton';
 
 store.addReducers({map});
 

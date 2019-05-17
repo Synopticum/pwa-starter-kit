@@ -4,6 +4,9 @@ import { installRouter } from 'pwa-helpers/router.js';
 import { store } from '../../store.js';
 import {navigate, fetchUserInfo, enableAnonymousMode} from './UApp.actions';
 
+import '../u-map/UMap.js';
+import '../u-404/U404.js';
+
 class UApp extends connect(store)(LitElement) {
   /*
       List of required methods
@@ -97,7 +100,8 @@ class UApp extends connect(store)(LitElement) {
 
   _initRouter() {
     installRouter(location => {
-      store.dispatch(navigate(window.decodeURIComponent(location.pathname)));
+      let path = window.decodeURIComponent(location.pathname);
+      store.dispatch(navigate(path));
     });
   }
 }

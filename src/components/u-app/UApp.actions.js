@@ -12,6 +12,7 @@ export const AppConstants = {
   }
 };
 
+// -------
 export const navigate = (path) => (dispatch) => {
   // Extract the page name from path.
   const page = path === '/' ? '/' : path.slice(1);
@@ -22,23 +23,6 @@ export const navigate = (path) => (dispatch) => {
 };
 
 const loadPage = (page) => async (dispatch, getState) => {
-  await import('../u-map/UMap.js');
-
-  import('../u-default-spinner/UDefaultSpinner.js');
-  import('../u-context-menu/UContextMenu.js');
-  import('../u-textbox/UTextbox.js');
-  import('../u-textarea/UTextarea.js');
-  import('../u-round-button/URoundButton.js');
-  import('../u-tooltip/UTooltip.js');
-
-  import('../u-dot/UDot.js');
-  import('../u-dot-creator/UDotCreator.js');
-
-  import('../u-comments/UComments.js');
-  import('../u-comment/UComment.js');
-
-  import('../u-photo-upload/UPhotoUpload.js');
-
   switch (true) {
     case (page === '/'):
       break;
@@ -53,7 +37,6 @@ const loadPage = (page) => async (dispatch, getState) => {
 
     default:
       page = '404';
-      import('../u-404/U404.js');
   }
 
   dispatch(updatePage(page));

@@ -12,6 +12,11 @@ import { app } from "../../reducers/App.reducer";
 import { map } from "../../reducers/Map.reducer";
 import {isAnonymous} from "../u-app/UApp.helpers";
 
+import '../u-context-menu/UContextMenu';
+import '../u-tooltip/UTooltip';
+import '../u-dot-creator/UDotCreator';
+import '../u-dot/UDot';
+
 store.addReducers({ app, map, dots });
 
 class UMap extends connect(store)(LitElement) {
