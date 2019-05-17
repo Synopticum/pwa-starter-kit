@@ -6,7 +6,7 @@ import { store } from '../../store';
 import { connect } from 'pwa-helpers';
 import {putComment, deleteComment, fetchComments} from './UComments.actions';
 import { comments } from "../../reducers/Comments.reducer";
-import {isAuthenticated} from "../u-app/UApp.helpers";
+import {isAdmin, isAuthenticated} from "../u-app/UApp.helpers";
 
 store.addReducers({ comments });
 
@@ -102,7 +102,7 @@ export class UComments extends connect(store)(LitElement) {
             <u-comment 
                 .comment="${comment}" 
                 .isDeleting="${this._commentsToDelete.includes(comment.id)}"
-                .isDeletingAllowed="${isAuthenticated(this._user)}"
+                .isDeletingAllowed="${isAdmin(this._user) || this.isCommentAuthor(this._user, comment)}"
                 @delete="${(e) => this.delete(e)}"></u-comment>
           `;
         })}
@@ -175,15 +175,15 @@ export class UComments extends connect(store)(LitElement) {
   add(e) {
     e.preventDefault();
 
-    store.dispatch(putComment(this.originType, this.originId, {
-      id: uuidv4(),
+    let comment = new Comment({
       originType: this.originType,
       originId: this.originId,
       text: this.$textarea.value,
-      date: DateTime.local().toMillis(),
-      author: `${this._user.firstName} ${this._user.lastName}`
-    }));
+      author: `${this._user.firstName} ${this._user.lastName}`,
+      authorId: this._user.id
+    });
 
+    store.dispatch(putComment(this.originType, this.originId, comment));
     this.$textarea.dispatchEvent(new CustomEvent('reset'));
   }
 
@@ -194,6 +194,23 @@ export class UComments extends connect(store)(LitElement) {
 
   validate() {
     this.$textarea.value ? this._isValid = true : this._isValid = false;
+  }
+
+  isCommentAuthor(user, comment) {
+    return user.id === comment.authorId;
+  }
+}
+
+class Comment {
+  constructor(options) {
+    this.id = uuidv4();
+    this.date = DateTime.local().toMillis();
+
+    this.originType = options.originType;
+    this.originId = options.originId;
+    this.text = options.text;
+    this.author = options.author;
+    this.authorId = options.authorId;
   }
 }
 
