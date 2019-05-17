@@ -4,6 +4,7 @@ import {connect} from 'pwa-helpers/connect-mixin';
 import {putDot} from '../u-dot/UDot.actions';
 import {toggleDotCreator, setCloudsVisibility} from '../u-map/UMap.actions';
 import {map} from "../../reducers/Map.reducer";
+import {isAdmin, isAuthenticated, isNotAuthenticated} from "../u-app/UApp.helpers";
 
 store.addReducers({map});
 
@@ -115,18 +116,18 @@ class UDotCreator extends connect(store)(LitElement) {
                 type="default"
                 id="dot-title"
                 ?is-updating="${this._isUpdating}" 
-                ?disabled="${this._user.role !== 'admin'}"
+                ?disabled="${isNotAuthenticated(this._user)}"
                 value=""
                 @keyup="${this.validate}"
                 placeholder="Введите название точки"></u-textbox><br>
             
-            <div class="advanced-controls" ?hidden="${this._user.role !== 'admin'}"">
-              <select id="dot-layer">
-                  <option value="official" selected>Official</option>
-                  <option value="non-official">Non-official</option>
+            <div class="advanced-controls">
+              <select id="dot-layer" ?hidden="${!isAdmin(this._user)}">
+                  <option value="official" ?selected="${isAdmin(this._user)}">Official</option>
+                  <option value="non-official" ?selected="${!isAdmin(this._user)}">Non-official</option>
               </select>
               
-              <select id="dot-type">
+              <select id="dot-type" ?hidden="${!isAdmin(this._user)}">
                   <option value="global" selected>Global</option>
                   <option value="local">Local</option>
               </select>
@@ -206,9 +207,10 @@ class UDotCreator extends connect(store)(LitElement) {
     }
 
     resetState() {
+        this._isValid = false;
         this.$title.dispatchEvent(new CustomEvent('reset'));
-        this.$layer.value = 'official';
-        this.$type.value = 'global';
+        this.$layer.value = isAdmin(this._user) ? 'official': 'non-official';
+        this.$type.value = isAdmin(this._user) ? 'global': 'global';
     }
 }
 

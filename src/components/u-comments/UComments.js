@@ -6,6 +6,7 @@ import { store } from '../../store';
 import { connect } from 'pwa-helpers';
 import {putComment, deleteComment, fetchComments} from './UComments.actions';
 import { comments } from "../../reducers/Comments.reducer";
+import {isAuthenticated} from "../u-app/UApp.helpers";
 
 store.addReducers({ comments });
 
@@ -101,13 +102,13 @@ export class UComments extends connect(store)(LitElement) {
             <u-comment 
                 .comment="${comment}" 
                 .isDeleting="${this._commentsToDelete.includes(comment.id)}"
-                .isDeletingAllowed="${this._user.role !== 'anonymous'}"
+                .isDeletingAllowed="${isAuthenticated(this._user)}"
                 @delete="${(e) => this.delete(e)}"></u-comment>
           `;
         })}
       </div>
       
-      ${this._user.role !== 'anonymous'? 
+      ${isAuthenticated(this._user) ? 
         html`<form class="form">
               <u-textarea
                   type="default"
