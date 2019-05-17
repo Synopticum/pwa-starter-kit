@@ -6,10 +6,6 @@ export function isMember(user) {
     return user.role === 'member';
 }
 
-export function isNotAuthenticated(user) {
-    return !user || !user.role || user.role === 'anonymous';
-}
-
-export function isAuthenticated(user) {
-    return ['admin', 'member'].includes(user.role);
+export function isAnonymous(user) {
+    return user && user.role === 'anonymous';
 }

@@ -4,7 +4,7 @@ import {connect} from 'pwa-helpers/connect-mixin';
 import {putDot} from '../u-dot/UDot.actions';
 import {toggleDotCreator, setCloudsVisibility} from '../u-map/UMap.actions';
 import {map} from "../../reducers/Map.reducer";
-import {isAdmin, isAuthenticated, isNotAuthenticated} from "../u-app/UApp.helpers";
+import {isAdmin, isAnonymous} from "../u-app/UApp.helpers";
 
 store.addReducers({map});
 
@@ -116,7 +116,7 @@ class UDotCreator extends connect(store)(LitElement) {
                 type="default"
                 id="dot-title"
                 ?is-updating="${this._isUpdating}" 
-                ?disabled="${isNotAuthenticated(this._user)}"
+                ?disabled="${isAnonymous(this._user)}"
                 value=""
                 @keyup="${this.validate}"
                 placeholder="Введите название точки"></u-textbox><br>
