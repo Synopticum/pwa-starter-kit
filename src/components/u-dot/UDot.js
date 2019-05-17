@@ -7,7 +7,7 @@ import {setCloudsVisibility} from '../u-map/UMap.actions';
 import {dotPage} from "../../reducers/Dot.reducer";
 import defer from 'lodash-es/defer';
 import {deletePhoto} from "../u-photo-upload/UPhotoUpload.actions";
-import {isAuthenticated, isNotAuthenticated} from "../u-app/UApp.helpers";
+import {isAdmin, isAuthenticated} from "../u-app/UApp.helpers";
 
 store.addReducers({dotPage});
 
@@ -155,7 +155,7 @@ class UDot extends connect(store)(LitElement) {
                          id="dot-title"
                          ?is-fetching="${this._isFetching}" 
                          ?is-updating="${this._isUpdating}" 
-                         ?disabled="${isNotAuthenticated(this._user)}"
+                         ?disabled="${!this.isDotAuthor(this._user) && !isAdmin(this._user)}"
                          value="${this.title || ''}"
                          @keyup="${this.validate}"
                          placeholder="Введите название точки"></u-textbox>
@@ -165,24 +165,24 @@ class UDot extends connect(store)(LitElement) {
                          id="dot-short-description"
                          ?is-fetching="${this._isFetching}" 
                          ?is-updating="${this._isUpdating}" 
-                         ?disabled="${isNotAuthenticated(this._user)}"
+                         ?disabled="${!this.isDotAuthor(this._user) && !isAdmin(this._user)}"
                          value="${this.shortDescription || ''}"
                          placeholder="Введите краткое описание"></u-textbox>
                          
-                    ${isAuthenticated(this._user) ?
+                    ${isAdmin(this._user) || this.isDotAuthor(this._user) ?
                         html`<u-photo-upload 
                                 class="upload"
                                 type="dot"
                                 id="${this.dotId}"></u-photo-upload>` : ''}
                          
-                    ${isAuthenticated(this._user) ?
+                    ${isAdmin(this._user) || this.isDotAuthor(this._user) ?
                         html`<u-round-button
                                 type="remove"
                                 class="remove"
                                 ?disabled="${this._isFetching || this._isUpdating}"
                                 @click="${(e) => this.remove(e)}"></u-round-button>` : ''}
                          
-                    ${isAuthenticated(this._user) ?
+                    ${isAdmin(this._user) || this.isDotAuthor(this._user) ?
                         html`<u-round-button
                                 type="submit"
                                 class="submit"
@@ -292,6 +292,10 @@ class UDot extends connect(store)(LitElement) {
 
     deleteImage(key) {
         store.dispatch(deletePhoto('dot', this.dotId, key));
+    }
+
+    isDotAuthor(user) {
+        return user.id === this._dot.authorId;
     }
 }
 
