@@ -101,7 +101,7 @@ class UApp extends connect(store)(LitElement) {
   _initRouter() {
     installRouter(location => {
       let path = window.decodeURIComponent(location.pathname);
-      store.dispatch(navigate(path));
+      store.dispatch(navigate({ path }));
     });
   }
 }

@@ -12,45 +12,9 @@ export const AppConstants = {
   }
 };
 
-// -------
-export const navigate = (path) => (dispatch) => {
-  // Extract the page name from path.
-  const page = path === '/' ? '/' : path.slice(1);
-
-  // Any other info you might want to extract from the path (like page type),
-  // you can do here
-  dispatch(loadPage(page));
-};
-
-const loadPage = (page) => async (dispatch, getState) => {
-  switch (true) {
-    case (page === '/'):
-      break;
-
-    case (/^(dots)\/(.+)$/.test(page)):
-      dispatch(setCurrentDotId(page.split('/')[1]));
-      break;
-
-    case (page === 'success'):
-      // do nothing
-      break;
-
-    default:
-      page = '404';
-  }
-
-  dispatch(updatePage(page));
-};
-
-const updatePage = (page) => {
-  return {
-    type: AppConstants.PAGE.UPDATE,
-    payload: page
-  };
-};
-
-
-// -------
+//
+// General redux actions
+//
 export const fetchUserInfo = () => async (dispatch) => {
   dispatch({
     type: AppConstants.USER.FETCH,
@@ -82,3 +46,52 @@ export const enableAnonymousMode = () => {
     type: AppConstants.USER.ENABLE_ANONYMOUS_MODE
   };
 };
+
+
+//
+// Routing
+//
+export const navigate = ({ path, meta }) => async (dispatch, getState) => {
+  let page = path === '/' ? '/' : path.slice(1);
+
+  switch (true) {
+    case Router.isRootPage(page):
+      // do nothing
+      break;
+
+    case Router.isDotPage(page):
+      let dotId = page.split('/')[1];
+      dispatch(setCurrentDotId(dotId));
+      break;
+
+    case Router.isSuccessPage(page):
+      // do nothing
+      break;
+
+    default:
+      // replace unknown route to 404
+      page = '404';
+  }
+
+  dispatch(updatePage(page));
+};
+
+const updatePage = (page) => {
+  return {
+    type: AppConstants.PAGE.UPDATE,
+    payload: page
+  };
+};
+
+class Router {
+  static isRootPage(page) {
+    return page === '/';
+  }
+  static isSuccessPage(page) {
+    return page === 'success';
+  }
+
+  static isDotPage(page) {
+    return /^(dots)\/(.+)$/.test(page);
+  }
+}
