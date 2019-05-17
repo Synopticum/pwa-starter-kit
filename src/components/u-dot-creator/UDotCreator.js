@@ -187,7 +187,8 @@ class UDotCreator extends connect(store)(LitElement) {
             title: this.$title.value,
             layer: this.$layer.value,
             type: this.$type.value,
-            coordinates: [this.lat, this.lng]
+            coordinates: [this.lat, this.lng],
+            authorId: this._user.id
         });
 
         store.dispatch(putDot(dot));
@@ -221,6 +222,7 @@ class Dot {
         this.layer = options.layer;
         this.type = options.type;
         this.coordinates = options.coordinates;
+        this.authorId = options.authorId;
     }
 }
 
