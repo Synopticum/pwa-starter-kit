@@ -9,7 +9,8 @@
     "manifest.json",
     "node_modules/@webcomponents/webcomponentsjs/**",
     "node_modules/leaflet/**",
-    "src/components/container/u-login/**",
+    "src/components/u-login/**",
+    "environments/**",
     "push-manifest.json"
   ],
   "builds": [
