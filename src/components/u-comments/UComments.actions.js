@@ -47,22 +47,17 @@ export const putComment = (originType, originId, comment) => async (dispatch) =>
 };
 
 const _putComment = async (originType, originId, comment) => {
-  try {
-    let response = await fetch(`${ENV[window.ENV].api}/api/${originType}/${originId}/comments/${comment.id}`, {
-      method: 'PUT',
-      body: JSON.stringify(comment),
-      headers: getApiHeaders(localStorage.token)
-    });
+  let response = await fetch(`${ENV[window.ENV].api}/api/${originType}/${originId}/comments/${comment.id}`, {
+    method: 'PUT',
+    body: JSON.stringify(comment),
+    headers: getApiHeaders(localStorage.token)
+  });
 
-    if (!response.ok) {
-      throw new Error('Error while putting a comment');
-    }
-
-    return await response.json();
-  } catch(e) {
-    console.error(e);
-    return null;
+  if (!response.ok) {
+    throw new Error('Error while putting a comment');
   }
+
+  return await response.json();
 };
 
 // -------
@@ -78,19 +73,14 @@ export const deleteComment = (originType, originId, commentId) => async (dispatc
 };
 
 const _deleteComment = async (originType, originId, commentId) => {
-  try {
-    let response = await fetch(`${ENV[window.ENV].api}/api/${originType}/${originId}/comments/${commentId}`, {
-      method: 'DELETE',
-      headers: getApiHeaders(localStorage.token)
-    });
+  let response = await fetch(`${ENV[window.ENV].api}/api/${originType}/${originId}/comments/${commentId}`, {
+    method: 'DELETE',
+    headers: getApiHeaders(localStorage.token)
+  });
 
-    if (!response.ok) {
-      throw new Error('Error while deleting a comment');
-    }
-
-    return commentId;
-  } catch(e) {
-    console.error(e);
-    return null;
+  if (!response.ok) {
+    throw new Error('Error while deleting a comment');
   }
+
+  return commentId;
 };

@@ -76,21 +76,16 @@ export const deleteDot = (dotId) => async (dispatch) => {
 };
 
 const _deleteDot = async (dotId) => {
-  try {
-    let response = await fetch(`${ENV[window.ENV].api}/api/dots/${dotId}`, {
-      method: 'DELETE',
-      headers: getApiHeaders(localStorage.token)
-    });
+  let response = await fetch(`${ENV[window.ENV].api}/api/dots/${dotId}`, {
+    method: 'DELETE',
+    headers: getApiHeaders(localStorage.token)
+  });
 
-    if (!response.ok) {
-      throw new Error('Error while deleting a comment');
-    }
-
-    return dotId;
-  } catch(e) {
-    console.error(e);
-    return null;
+  if (!response.ok) {
+    throw new Error('Error while deleting a comment');
   }
+
+  return dotId;
 };
 
 // -------
