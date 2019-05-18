@@ -222,6 +222,7 @@ class UMap extends connect(store)(LitElement) {
   _setListeners() {
     this._map.on('load', UMap._triggerResize());
     this._map.on('click', (e) => this._handleClick(e));
+    this._map.on('dblclick', (e) => this._handleDblClick(e));
     this._map.on('dragstart', () => this._hideControls());
     this._map.on('drag', debounce(this._updateUrl, 300).bind(this));
     this.addEventListener('click', this._handleOutsideClicks);
@@ -252,6 +253,7 @@ class UMap extends connect(store)(LitElement) {
 
   _createMapInstance() {
     this._map = L.map('map', {});
+    this._map.doubleClickZoom.disable();
   }
 
   _apply1pxGapFix() {
@@ -412,16 +414,14 @@ class UMap extends connect(store)(LitElement) {
 
   _toggleDot(isVisible, e) {
     if (isVisible) {
-      if (!e.originalEvent.altKey) {
         store.dispatch(setCurrentDotId(''));
         requestAnimationFrame(() => store.dispatch(setCurrentDotId(e.target.options.id)));
 
         store.dispatch(toggleDotCreator(false, { x: this._dotCreator.position.x, y: this._dotCreator.position.y }));
 
         if (this._dotCreator.isVisible) {
-          this._toggleDotCreator(false);
+            this._toggleDotCreator(false);
         }
-      }
     } else {
       store.dispatch(setCurrentDotId(''));
     }
@@ -503,18 +503,18 @@ class UMap extends connect(store)(LitElement) {
   }
 
   _handleClick(e) {
-    if (e.originalEvent.altKey) {
-      this._toggleContextMenu(true, e);
+    this._toggleContextMenu(false);
+    this._toggleDotCreator(false);
+  }
 
-      this._tempDotCoordinates = {
-        x: e.containerPoint.x,
-        y: e.containerPoint.y,
-        lat: e.latlng.lat,
-        lng: e.latlng.lng
-      }
-    } else {
-      this._toggleContextMenu(false);
-      this._toggleDotCreator(false);
+  _handleDblClick(e) {
+    this._toggleContextMenu(true, e);
+
+    this._tempDotCoordinates = {
+      x: e.containerPoint.x,
+      y: e.containerPoint.y,
+      lat: e.latlng.lat,
+      lng: e.latlng.lng
     }
   }
 
