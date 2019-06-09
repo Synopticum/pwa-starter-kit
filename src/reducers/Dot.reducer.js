@@ -60,6 +60,8 @@ export const dotPage = (state = {
                 ...state,
                 dot: {
                     ...state.dot,
+                    activeDecade: action.payload.decade,
+                    activeImage: action.payload.key,
                     images: {
                         ...state.dot.images,
                         [action.payload.decade]: action.payload.key
@@ -75,7 +77,6 @@ export const dotPage = (state = {
             // If not, show nothing
             const activeDecade = !isEmpty(updatedImages) ? Math.min(...Object.keys(updatedImages)) : '';
             const activeImage = !isEmpty(updatedImages) ? updatedImages[activeDecade] : '';
-            debugger;
 
             return {
                 ...state,
@@ -83,10 +84,7 @@ export const dotPage = (state = {
                     ...state.dot,
                     activeDecade,
                     activeImage,
-                    images: {
-                        ...state.dot.images,
-                        [action.payload.decade]: undefined
-                    }
+                    images: updatedImages
                 }
             };
 
