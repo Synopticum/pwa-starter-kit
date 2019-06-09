@@ -58,7 +58,7 @@ class UMap extends connect(store)(LitElement) {
         }
         
         .container.container--clouds-none::before {
-          opacity: .2;
+          opacity: .1;
           pointer-events: none;
         }
         
@@ -292,7 +292,7 @@ class UMap extends connect(store)(LitElement) {
         this._map.unproject([this.width, 0], this.maxZoom)
     );
 
-    L.tileLayer(`${ENV[window.ENV].static}/static/images/tiles/{z}/{x}/{y}.jpg`, {
+    L.tileLayer(`${ENV[window.ENV].static}/static/images/tiles/{z}/{x}/{y}.png`, {
       minZoom: this.minZoom,
       maxZoom: this.maxZoom,
       bounds,
