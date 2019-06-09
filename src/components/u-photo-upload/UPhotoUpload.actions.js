@@ -1,6 +1,6 @@
 import {ENV} from "../../../environments/environments";
 import {getApiHeadersFormData} from "../../../environments/api";
-import {addDotImage,deleteDotImage} from "../u-dot/UDot.actions";
+import {addDotImage, deleteDotImage, setActiveImage} from "../u-dot/UDot.actions";
 
 export const UPhotoUploadConstants = {
     PUT: 'PHOTO_UPLOAD_PUT',
@@ -34,6 +34,7 @@ const _uploadPhoto = async (photo, type, decade, id, dispatch) => {
     let json = await response.json();
 
     dispatch(addDotImage(decade, json.key));
+    dispatch(setActiveImage(decade, json.key));
 
     return json;
 };

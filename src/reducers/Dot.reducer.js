@@ -8,6 +8,8 @@ import {
 
 export const dotPage = (state = {
     dot: { },
+    activeImage: '',
+    activeDecade: '',
     isFetching: false,
     isUpdating: false,
     isLoadingError: false
@@ -80,22 +82,19 @@ export const dotPage = (state = {
 
             return {
                 ...state,
+                activeDecade,
+                activeImage,
                 dot: {
                     ...state.dot,
-                    activeDecade,
-                    activeImage,
                     images: updatedImages
                 }
             };
 
-        case DotConstants.CHANGE_ACTIVE_IMAGE:
+        case DotConstants.SET_ACTIVE_IMAGE:
             return {
                 ...state,
-                dot: {
-                    ...state.dot,
-                    activeImage: action.payload.image,
-                    activeDecade: action.payload.decade
-                }
+                activeImage: action.payload.image,
+                activeDecade: action.payload.decade
             };
 
         case DotConstants.CLEAR_STATE:

@@ -1,6 +1,7 @@
 import { ENV } from '../../../environments/environments';
 import { getApiHeaders } from '../../../environments/api';
 import {MapConstants} from "../u-map/UMap.actions";
+import isEmpty from "lodash-es/isEmpty";
 
 export const DotConstants = {
   FETCH: 'DOT_FETCH',
@@ -9,7 +10,7 @@ export const DotConstants = {
   CLEAR_STATE: 'DOT_CLEAR_STATE',
   ADD_IMAGE: 'DOT_ADD_IMAGE',
   DELETE_IMAGE: 'DOT_DELETE_IMAGE',
-  CHANGE_ACTIVE_IMAGE: 'CHANGE_ACTIVE_IMAGE'
+  SET_ACTIVE_IMAGE: 'SET_ACTIVE_IMAGE'
 };
 
 // -------
@@ -18,11 +19,11 @@ export const fetchDot = (dotId) => async (dispatch) => {
     type: DotConstants.FETCH,
     async: true,
     httpMethodToInvoke: _fetchDot,
-    params: [dotId]
+    params: [dotId, dispatch]
   });
 };
 
-const _fetchDot = async (dotId) => {
+const _fetchDot = async (dotId, dispatch) => {
   let response = await fetch(`${ENV[window.ENV].api}/api/dots/${dotId}`, {
     headers: getApiHeaders(localStorage.token)
   });
@@ -34,6 +35,13 @@ const _fetchDot = async (dotId) => {
 
   let dot = await response.json();
   history.pushState(null, null, `${ENV[window.ENV].static}/dots/${dot.id}`);
+
+  if (!isEmpty(dot.images)) {
+    let activeDecade = Math.min(...Object.keys(dot.images));
+    let activeImage = dot.images[activeDecade];
+
+    dispatch(setActiveImage(activeDecade, activeImage));
+  }
 
   return dot;
 };
@@ -104,9 +112,9 @@ export const deleteDotImage = (decade) => (dispatch, getState) => {
   });
 };
 
-export const changeActiveImage = (image, decade) => (dispatch, getState) => {
+export const setActiveImage = (decade, image) => (dispatch, getState) => {
   dispatch({
-    type: DotConstants.CHANGE_ACTIVE_IMAGE,
+    type: DotConstants.SET_ACTIVE_IMAGE,
     payload: { image, decade }
   });
 };

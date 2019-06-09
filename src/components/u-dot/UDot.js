@@ -2,7 +2,7 @@ import {html, LitElement} from 'lit-element/lit-element';
 import {store} from '../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
 import { repeat } from 'lit-element/node_modules/lit-html/directives/repeat';
-import {fetchDot, putDot, clearDotState, deleteDot, changeActiveImage} from './UDot.actions';
+import {fetchDot, putDot, clearDotState, deleteDot, setActiveImage} from './UDot.actions';
 import {setCloudsVisibility} from '../u-map/UMap.actions';
 import {dotPage} from "../../reducers/Dot.reducer";
 import defer from 'lodash-es/defer';
@@ -48,6 +48,16 @@ class UDot extends connect(store)(LitElement) {
 
             _dot: {
                 type: Object,
+                attribute: false
+            },
+
+            _activeImage: {
+                type: String,
+                attribute: false
+            },
+
+            _activeDecade: {
+                type: String,
                 attribute: false
             },
 
@@ -233,8 +243,8 @@ class UDot extends connect(store)(LitElement) {
                                 ?disabled="${this._isFetching || this._isUpdating}"
                                 @click="${(e) => this.submit(e)}"></u-round-button>  ` : ''}
                   
-                    ${this._dot.activeImage && this._dot.activeDecade ?
-                        html`<img src="https://urussu.s3.amazonaws.com/${this._dot.activeImage}" width="100" @click="${() => this.deleteImage(this._dot.activeDecade)}" alt="">` : ``}
+                    ${this._activeImage && this._activeDecade ?
+                        html`<img src="https://urussu.s3.amazonaws.com/${this._activeImage}" width="100" @click="${() => this.deleteImage(this._activeDecade)}" alt="">` : ``}
                     
                   </div>
               
@@ -261,6 +271,8 @@ class UDot extends connect(store)(LitElement) {
     stateChanged(state) {
         this._user = state.app.user;
         this._dot = state.dotPage.dot;
+        this._activeImage = state.dotPage.activeImage;
+        this._activeDecade = state.dotPage.activeDecade;
 
         // form state being fetched once from store
         // after that it is internal and not reflected to store
@@ -348,7 +360,7 @@ class UDot extends connect(store)(LitElement) {
 
     changeImage(e, decade) {
         if (e.target.classList.contains('decade--active')) {
-            store.dispatch(changeActiveImage(this._dot.images[decade], decade));
+            store.dispatch(setActiveImage(decade, this._dot.images[decade]));
         }
     }
 }
