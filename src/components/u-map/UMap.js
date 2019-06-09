@@ -176,7 +176,7 @@ class UMap extends connect(store)(LitElement) {
       </div>
       
       <div id="map"></div>
-      <div id="user-role">your role is ${this._user.role}</div>`;
+      <!-- <div id="user-role">your role is ${this._user.role}</div> -->`;
   }
 
   createRenderRoot() {
