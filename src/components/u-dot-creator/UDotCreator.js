@@ -104,15 +104,7 @@ class UDotCreator extends connect(store)(LitElement) {
             <div class="bounce"></div>
             
             <div class="advanced-controls">
-              <select id="dot-layer" ?hidden="${!isAdmin(this._user)}">
-                  <option value="official" ?selected="${isAdmin(this._user)}">Official</option>
-                  <option value="non-official" ?selected="${!isAdmin(this._user)}">Non-official</option>
-              </select>
-              
-              <select id="dot-type" ?hidden="${!isAdmin(this._user)}">
-                  <option value="global" selected>Global</option>
-                  <option value="local">Local</option>
-              </select>
+              Добавить точку сюда?
             </form>
             
             <u-round-button type="close" class="close" @click="${() => this.close()}"></u-round-button>  
@@ -144,8 +136,7 @@ class UDotCreator extends connect(store)(LitElement) {
     }
 
     _setReferences() {
-        this.$layer = this.shadowRoot.querySelector('#dot-layer');
-        this.$type = this.shadowRoot.querySelector('#dot-type');
+
     }
 
     _setListeners() {
@@ -163,9 +154,12 @@ class UDotCreator extends connect(store)(LitElement) {
     create(e) {
         e.preventDefault();
 
+        let layerName = isAdmin(this._user) ? 'Official' : `${this._user.firstName} ${this._user.lastName}`;
+        let layerType = isAdmin(this._user) ? 'OfficialDefault' : 'UserDefault';
+
         let dot = new Dot({
-            layer: this.$layer.value,
-            type: this.$type.value,
+            layer: layerName,
+            type: layerType,
             coordinates: [this.lat, this.lng],
             authorId: this._user.id
         });
@@ -173,18 +167,11 @@ class UDotCreator extends connect(store)(LitElement) {
         store.dispatch(putDot(dot));
         store.dispatch(toggleDotCreator(false, {x: this.x, y: this.y}));
         store.dispatch(setCloudsVisibility('none'));
-
-        this.resetState();
     }
 
     close() {
         store.dispatch(toggleDotCreator(false, {x: this.x, y: this.y}));
         store.dispatch(setCloudsVisibility('none'));
-    }
-
-    resetState() {
-        this.$layer.value = isAdmin(this._user) ? 'official': 'non-official';
-        this.$type.value = isAdmin(this._user) ? 'global': 'global';
     }
 }
 

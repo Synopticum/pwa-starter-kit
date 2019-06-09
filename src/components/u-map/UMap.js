@@ -481,7 +481,7 @@ class UMap extends connect(store)(LitElement) {
   _addTempDot(coordinates) {
     this._$tempDot = new L.marker(coordinates, {
       icon: L.icon({
-        iconUrl: `${ENV[window.ENV].static}/static/images/markers/global.png`,
+        iconUrl: `${ENV[window.ENV].static}/static/images/markers/UserDefault.png`,
         iconSize: [32, 32], // size of the icon
       })
     })
