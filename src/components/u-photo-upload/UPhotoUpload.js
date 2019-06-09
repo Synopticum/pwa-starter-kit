@@ -24,6 +24,11 @@ class UPhotoUpload extends connect(store)(LitElement) {
                 attribute: 'type'
             },
 
+            date: {
+                type: String,
+                attribute: 'date'
+            },
+
             id: {
                 type: String,
                 attribute: 'id'
@@ -102,7 +107,7 @@ class UPhotoUpload extends connect(store)(LitElement) {
         }
 
         const photo = files[0];
-        store.dispatch(uploadPhoto(photo, this.type, this.id));
+        store.dispatch(uploadPhoto(photo, this.type, this.date, this.id));
     }
 }
 

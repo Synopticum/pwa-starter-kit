@@ -8,20 +8,20 @@ export const UPhotoUploadConstants = {
 };
 
 // -------
-export const uploadPhoto = (photo, type, id) => async (dispatch) => {
+export const uploadPhoto = (photo, type, date, id) => async (dispatch) => {
     dispatch({
         type: UPhotoUploadConstants.PUT,
         async: true,
         httpMethodToInvoke: _uploadPhoto,
-        params: [photo, type, id, dispatch]
+        params: [photo, type, date, id, dispatch]
     });
 };
 
-const _uploadPhoto = async (photo, type, id, dispatch) => {
+const _uploadPhoto = async (photo, type, date, id, dispatch) => {
     let formData = new FormData();
     formData.append('photo', photo);
 
-    let response = await fetch(`${ENV[window.ENV].api}/api/${type}/${id}/photos`, {
+    let response = await fetch(`${ENV[window.ENV].api}/api/${type}/${id}/photos/${date}`, {
         method: 'PUT',
         headers: getApiHeadersFormData(localStorage.token),
         body: formData
@@ -33,35 +33,30 @@ const _uploadPhoto = async (photo, type, id, dispatch) => {
 
     let json = await response.json();
 
-    dispatch(addDotImage(json.key));
+    dispatch(addDotImage(date, json.key));
 
     return json;
 };
 
 // -------
-export const deletePhoto = (type, id, key) => async (dispatch) => {
+export const deletePhoto = (type, id, date) => async (dispatch) => {
     dispatch({
         type: UPhotoUploadConstants.DELETE,
         async: true,
         httpMethodToInvoke: _deletePhoto,
-        params: [type, id, key, dispatch]
+        params: [type, id, date, dispatch]
     });
 };
 
-const _deletePhoto = async (type, id, key, dispatch) => {
-    let response = await fetch(`${ENV[window.ENV].api}/api/${type}/${id}/photos`, {
-        method: 'POST',
-        headers: getApiHeadersFormData(localStorage.token),
-        body: key
+const _deletePhoto = async (type, id, date, dispatch) => {
+    let response = await fetch(`${ENV[window.ENV].api}/api/${type}/${id}/photos/${date}`, {
+        method: 'DELETE',
+        headers: getApiHeadersFormData(localStorage.token)
     });
 
     if (!response.ok) {
         throw new Error('Error while deleting a dot photo');
     }
 
-    let json = await response.json();
-
-    dispatch(deleteDotImage(json.key));
-
-    return json;
+    return dispatch(deleteDotImage(date));
 };

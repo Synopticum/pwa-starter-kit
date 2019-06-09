@@ -59,7 +59,7 @@ export const dotPage = (state = {
                 ...state,
                 dot: {
                     ...state.dot,
-                    images: [...state.dot.images, action.payload]
+                    [action.payload.date]: action.payload.key
                 }
             };
 
@@ -68,7 +68,7 @@ export const dotPage = (state = {
                 ...state,
                 dot: {
                     ...state.dot,
-                    images: state.dot.images.filter(key => key !== action.payload)
+                    [action.payload.date]: undefined
                 }
             };
 

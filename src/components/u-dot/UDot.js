@@ -167,10 +167,18 @@ class UDot extends connect(store)(LitElement) {
                          value="${this.shortDescription || ''}"
                          placeholder="Введите краткое описание"></u-textbox>
                          
-                    ${!isAnonymous(this._user) && (isAdmin(this._user) || this.isDotAuthor(this._user)) ?
+                    ${!this._dot.before && (!isAnonymous(this._user) && (isAdmin(this._user) || this.isDotAuthor(this._user))) ?
                         html`<u-photo-upload 
                                 class="upload"
                                 type="dot"
+                                date="before"
+                                id="${this.dotId}"></u-photo-upload>` : ''}
+                         
+                    ${!this._dot.after && (!isAnonymous(this._user) && (isAdmin(this._user) || this.isDotAuthor(this._user))) ?
+                        html`<u-photo-upload 
+                                class="upload"
+                                type="dot"
+                                date="after"
                                 id="${this.dotId}"></u-photo-upload>` : ''}
                          
                     ${!isAnonymous(this._user) && (isAdmin(this._user) || this.isDotAuthor(this._user)) ?
@@ -187,14 +195,8 @@ class UDot extends connect(store)(LitElement) {
                                 ?disabled="${this._isFetching || this._isUpdating}"
                                 @click="${(e) => this.submit(e)}"></u-round-button>  ` : ''}
                   
-                    ${this._dot.images ? 
-                        html`<div class="images">
-                                ${repeat(this._dot.images, key => key, key => {
-                                    return html`
-                                        <img src="https://urussu.s3.amazonaws.com/${key}" width="100" @click="${() => this.deleteImage(key)}">
-                                    `;
-                                })}
-                            </div>` : ''}
+                    ${this._dot.before ? html`<img src="https://urussu.s3.amazonaws.com/${this._dot.before}" width="100" @click="${() => this.deleteImage('before')}">` : ''}
+                    ${this._dot.after ? html`<img src="https://urussu.s3.amazonaws.com/${this._dot.after}" width="100" @click="${() => this.deleteImage('after')}">` : ''}  
                   </div>
               
                   <div class="comments">
@@ -280,8 +282,8 @@ class UDot extends connect(store)(LitElement) {
         this.close();
     }
 
-    deleteImage(key) {
-        store.dispatch(deletePhoto('dot', this.dotId, key));
+    deleteImage(date) {
+        store.dispatch(deletePhoto('dot', this.dotId, date));
     }
 
     isDotAuthor(user) {
