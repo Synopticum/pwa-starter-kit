@@ -59,11 +59,6 @@ class UDot extends connect(store)(LitElement) {
             _isLoadingError: {
                 type: Boolean,
                 attribute: false
-            },
-
-            _isValid: {
-                type: Boolean,
-                attribute: false
             }
         };
     }
@@ -161,7 +156,6 @@ class UDot extends connect(store)(LitElement) {
                          ?is-updating="${this._isUpdating}" 
                          ?disabled="${isAnonymous(this._user) || (!this.isDotAuthor(this._user) && !isAdmin(this._user))}"
                          value="${this.title || ''}"
-                         @keyup="${this.validate}"
                          placeholder="Введите название точки"></u-textbox>
                          
                     <u-textbox
@@ -190,7 +184,7 @@ class UDot extends connect(store)(LitElement) {
                         html`<u-round-button
                                 type="submit"
                                 class="submit"
-                                ?disabled="${!this._isValid || this._isFetching || this._isUpdating}"
+                                ?disabled="${this._isFetching || this._isUpdating}"
                                 @click="${(e) => this.submit(e)}"></u-round-button>  ` : ''}
                   
                     ${this._dot.images ? 
@@ -227,8 +221,6 @@ class UDot extends connect(store)(LitElement) {
         this._isFetching = state.dotPage.isFetching;
         this._isUpdating = state.dotPage.isUpdating;
         this._isLoadingError = state.dotPage.isLoadingError;
-
-        defer(() => this.validate());
     }
 
     firstUpdated() {
@@ -256,8 +248,6 @@ class UDot extends connect(store)(LitElement) {
     }
 
     _setDefaults() {
-        this._isValid = false;
-
         this.title = '';
         this.shortDescription = '';
     }
@@ -270,10 +260,6 @@ class UDot extends connect(store)(LitElement) {
         store.dispatch(setCloudsVisibility('none'));
         store.dispatch(clearDotState());
         this.dispatchEvent(new CustomEvent('hide-dot', {composed: true}));
-    }
-
-    validate() {
-        this.$dotTitle.value ? this._isValid = true : this._isValid = false;
     }
 
     submit(e) {

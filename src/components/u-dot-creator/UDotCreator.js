@@ -35,11 +35,6 @@ class UDotCreator extends connect(store)(LitElement) {
 
             _user: {
                 type: Object
-            },
-
-            _isValid: {
-                type: Boolean,
-                attribute: false
             }
         };
     }
@@ -103,25 +98,10 @@ class UDotCreator extends connect(store)(LitElement) {
                 right: -15px;
                 bottom: -15px;
             }
-            
-            #dot-title {
-                margin: 5px 0;
-                width: 100%;
-                border: 0;
-            }
           </style>
           
           <form class="form">
             <div class="bounce"></div>
-            
-             <u-textbox
-                type="default"
-                id="dot-title"
-                ?is-updating="${this._isUpdating}" 
-                ?disabled="${isAnonymous(this._user)}"
-                value=""
-                @keyup="${this.validate}"
-                placeholder="Введите название точки"></u-textbox><br>
             
             <div class="advanced-controls">
               <select id="dot-layer" ?hidden="${!isAdmin(this._user)}">
@@ -140,7 +120,6 @@ class UDotCreator extends connect(store)(LitElement) {
             <u-round-button 
                 type="submit" 
                 class="submit" 
-                ?disabled="${!this._isValid}" 
                 @click="${(e) => this.create(e)}"></u-round-button>  
           </div>
     `;
@@ -165,7 +144,6 @@ class UDotCreator extends connect(store)(LitElement) {
     }
 
     _setReferences() {
-        this.$title = this.shadowRoot.querySelector('#dot-title');
         this.$layer = this.shadowRoot.querySelector('#dot-layer');
         this.$type = this.shadowRoot.querySelector('#dot-type');
     }
@@ -175,7 +153,7 @@ class UDotCreator extends connect(store)(LitElement) {
     }
 
     _setDefaults() {
-        this._isValid = false;
+
     }
 
     /*
@@ -186,7 +164,6 @@ class UDotCreator extends connect(store)(LitElement) {
         e.preventDefault();
 
         let dot = new Dot({
-            title: this.$title.value,
             layer: this.$layer.value,
             type: this.$type.value,
             coordinates: [this.lat, this.lng],
@@ -205,13 +182,7 @@ class UDotCreator extends connect(store)(LitElement) {
         store.dispatch(setCloudsVisibility('none'));
     }
 
-    validate() {
-        this.$title.value ? this._isValid = true : this._isValid = false;
-    }
-
     resetState() {
-        this._isValid = false;
-        this.$title.dispatchEvent(new CustomEvent('reset'));
         this.$layer.value = isAdmin(this._user) ? 'official': 'non-official';
         this.$type.value = isAdmin(this._user) ? 'global': 'global';
     }
@@ -220,7 +191,6 @@ class UDotCreator extends connect(store)(LitElement) {
 class Dot {
     constructor(options) {
         this.id = uuidv4();
-        this.title = options.title;
         this.layer = options.layer;
         this.type = options.type;
         this.coordinates = options.coordinates;
