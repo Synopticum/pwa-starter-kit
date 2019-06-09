@@ -8,7 +8,8 @@ export const DotConstants = {
   DELETE: 'DOT_DELETE',
   CLEAR_STATE: 'DOT_CLEAR_STATE',
   ADD_IMAGE: 'DOT_ADD_IMAGE',
-  DELETE_IMAGE: 'DOT_DELETE_IMAGE'
+  DELETE_IMAGE: 'DOT_DELETE_IMAGE',
+  CHANGE_ACTIVE_IMAGE: 'CHANGE_ACTIVE_IMAGE'
 };
 
 // -------
@@ -100,6 +101,13 @@ export const deleteDotImage = (decade) => (dispatch, getState) => {
   dispatch({
     type: DotConstants.DELETE_IMAGE,
     payload: { decade }
+  });
+};
+
+export const changeActiveImage = (image, decade) => (dispatch, getState) => {
+  dispatch({
+    type: DotConstants.CHANGE_ACTIVE_IMAGE,
+    payload: { image, decade }
   });
 };
 

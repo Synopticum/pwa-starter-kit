@@ -2,7 +2,7 @@ import {html, LitElement} from 'lit-element/lit-element';
 import {store} from '../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
 import { repeat } from 'lit-element/node_modules/lit-html/directives/repeat';
-import {fetchDot, putDot, clearDotState, deleteDot} from './UDot.actions';
+import {fetchDot, putDot, clearDotState, deleteDot, changeActiveImage} from './UDot.actions';
 import {setCloudsVisibility} from '../u-map/UMap.actions';
 import {dotPage} from "../../reducers/Dot.reducer";
 import defer from 'lodash-es/defer';
@@ -36,12 +36,7 @@ class UDot extends connect(store)(LitElement) {
                 attribute: false
             },
 
-            decade: {
-                type: String,
-                attribute: false
-            },
-
-            activeImage: {
+            uploadDecade: {
                 type: String,
                 attribute: false
             },
@@ -209,19 +204,19 @@ class UDot extends connect(store)(LitElement) {
                         html`<u-photo-upload 
                                 class="upload"
                                 type="dot"
-                                decade="${this.decade || '2010'}"
+                                decade="${this.uploadDecade || '2010'}"
                                 id="${this.dotId}"></u-photo-upload>` : ''}
                     
                     ${!isAnonymous(this._user) && (isAdmin(this._user) || this.isDotAuthor(this._user)) ?
-                        html`<select id="decade" @change="${this.changeDecade}">
-                                <option value="1940" ?selected="${this.decade === '1940'}">Сороковые</option>
-                                <option value="1950" ?selected="${this.decade === '1950'}">Пятидесятые</option>
-                                <option value="1960" ?selected="${this.decade === '1960'}">Шестидесятые</option>
-                                <option value="1970" ?selected="${this.decade === '1970'}">Семидесятые</option>
-                                <option value="1980" ?selected="${this.decade === '1980'}">Восьмидесятые</option>
-                                <option value="1990" ?selected="${this.decade === '1990'}">Девяностые</option>
-                                <option value="2000" ?selected="${this.decade === '2000'}">Нулевые</option>
-                                <option value="2010" ?selected="${this.decade === '2010'}">Десятые</option>
+                        html`<select id="decade" @change="${this.changeUploadDecade}">
+                                <option value="1940" ?selected="${this.uploadDecade === '1940'}">Сороковые</option>
+                                <option value="1950" ?selected="${this.uploadDecade === '1950'}">Пятидесятые</option>
+                                <option value="1960" ?selected="${this.uploadDecade === '1960'}">Шестидесятые</option>
+                                <option value="1970" ?selected="${this.uploadDecade === '1970'}">Семидесятые</option>
+                                <option value="1980" ?selected="${this.uploadDecade === '1980'}">Восьмидесятые</option>
+                                <option value="1990" ?selected="${this.uploadDecade === '1990'}">Девяностые</option>
+                                <option value="2000" ?selected="${this.uploadDecade === '2000'}">Нулевые</option>
+                                <option value="2010" ?selected="${this.uploadDecade === '2010'}">Десятые</option>
                              </select>` : ''}
                          
                     ${!isAnonymous(this._user) && (isAdmin(this._user) || this.isDotAuthor(this._user)) ?
@@ -238,8 +233,8 @@ class UDot extends connect(store)(LitElement) {
                                 ?disabled="${this._isFetching || this._isUpdating}"
                                 @click="${(e) => this.submit(e)}"></u-round-button>  ` : ''}
                   
-                    ${this._dot.images ?
-                        html`<img src="https://urussu.s3.amazonaws.com/${this.activeImage || this.getOldestPhoto()}" width="100" @click="${() => this.deleteImage(this.activeImage)}" alt="">` : ``}
+                    ${this._dot.activeImage && this._dot.activeDecade ?
+                        html`<img src="https://urussu.s3.amazonaws.com/${this._dot.activeImage}" width="100" @click="${() => this.deleteImage(this._dot.activeDecade)}" alt="">` : ``}
                     
                   </div>
               
@@ -304,8 +299,7 @@ class UDot extends connect(store)(LitElement) {
     _setDefaults() {
         this.title = '';
         this.shortDescription = '';
-        this.decade = '2010';
-        this.activeImage = '';
+        this.uploadDecade = '2010';
     }
 
     /*
@@ -340,8 +334,8 @@ class UDot extends connect(store)(LitElement) {
         store.dispatch(deletePhoto('dot', this.dotId, date));
     }
 
-    changeDecade(e) {
-        this.decade = e.target.value;
+    changeUploadDecade(e) {
+        this.uploadDecade = e.target.value;
     }
 
     isDotAuthor(user) {
@@ -352,13 +346,9 @@ class UDot extends connect(store)(LitElement) {
         return this._dot.images && this._dot.images[decade];
     }
 
-    getOldestPhoto() {
-        return Object.values(this._dot.images)[0];
-    }
-
     changeImage(e, decade) {
         if (e.target.classList.contains('decade--active')) {
-            this.activeImage = this._dot.images[decade];
+            store.dispatch(changeActiveImage(this._dot.images[decade], decade));
         }
     }
 }

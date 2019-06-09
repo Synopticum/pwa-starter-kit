@@ -1,3 +1,4 @@
+import isEmpty from 'lodash-es/isEmpty';
 import {DotConstants} from "../components/u-dot/UDot.actions";
 import {
     generateInProgressActionTypeName,
@@ -67,14 +68,35 @@ export const dotPage = (state = {
             };
 
         case DotConstants.DELETE_IMAGE:
+            const updatedImages = { ...state.dot.images };
+            delete updatedImages[action.payload.decade];
+
+            // Once an image deleted, check if there are other images and show the oldest available one
+            // If not, show nothing
+            const activeDecade = !isEmpty(updatedImages) ? Math.min(...Object.keys(updatedImages)) : '';
+            const activeImage = !isEmpty(updatedImages) ? updatedImages[activeDecade] : '';
+            debugger;
+
             return {
                 ...state,
                 dot: {
                     ...state.dot,
+                    activeDecade,
+                    activeImage,
                     images: {
                         ...state.dot.images,
                         [action.payload.decade]: undefined
                     }
+                }
+            };
+
+        case DotConstants.CHANGE_ACTIVE_IMAGE:
+            return {
+                ...state,
+                dot: {
+                    ...state.dot,
+                    activeImage: action.payload.image,
+                    activeDecade: action.payload.decade
                 }
             };
 
