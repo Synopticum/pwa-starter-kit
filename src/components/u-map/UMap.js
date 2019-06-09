@@ -130,6 +130,10 @@ class UMap extends connect(store)(LitElement) {
             z-index: 200;
         }
         
+        .leaflet-container .leaflet-tile {
+            filter: grayscale(30%);
+        }
+        
         #user-role {
             position: fixed;
             right: 0;
