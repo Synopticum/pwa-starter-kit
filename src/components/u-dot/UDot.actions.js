@@ -89,17 +89,17 @@ const _deleteDot = async (dotId) => {
 };
 
 // -------
-export const addDotImage = (date, key) => (dispatch, getState) => {
+export const addDotImage = (decade, key) => (dispatch, getState) => {
   dispatch({
     type: DotConstants.ADD_IMAGE,
-    payload: { date, key }
+    payload: { decade, key }
   });
 };
 
-export const deleteDotImage = (date) => (dispatch, getState) => {
+export const deleteDotImage = (decade) => (dispatch, getState) => {
   dispatch({
     type: DotConstants.DELETE_IMAGE,
-    payload: { date }
+    payload: { decade }
   });
 };
 

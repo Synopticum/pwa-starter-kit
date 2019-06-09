@@ -8,20 +8,20 @@ export const UPhotoUploadConstants = {
 };
 
 // -------
-export const uploadPhoto = (photo, type, date, id) => async (dispatch) => {
+export const uploadPhoto = (photo, type, decade, id) => async (dispatch) => {
     dispatch({
         type: UPhotoUploadConstants.PUT,
         async: true,
         httpMethodToInvoke: _uploadPhoto,
-        params: [photo, type, date, id, dispatch]
+        params: [photo, type, decade, id, dispatch]
     });
 };
 
-const _uploadPhoto = async (photo, type, date, id, dispatch) => {
+const _uploadPhoto = async (photo, type, decade, id, dispatch) => {
     let formData = new FormData();
     formData.append('photo', photo);
 
-    let response = await fetch(`${ENV[window.ENV].api}/api/${type}/${id}/photos/${date}`, {
+    let response = await fetch(`${ENV[window.ENV].api}/api/${type}/${id}/photos/${decade}`, {
         method: 'PUT',
         headers: getApiHeadersFormData(localStorage.token),
         body: formData
@@ -33,23 +33,23 @@ const _uploadPhoto = async (photo, type, date, id, dispatch) => {
 
     let json = await response.json();
 
-    dispatch(addDotImage(date, json.key));
+    dispatch(addDotImage(decade, json.key));
 
     return json;
 };
 
 // -------
-export const deletePhoto = (type, id, date) => async (dispatch) => {
+export const deletePhoto = (type, id, decade) => async (dispatch) => {
     dispatch({
         type: UPhotoUploadConstants.DELETE,
         async: true,
         httpMethodToInvoke: _deletePhoto,
-        params: [type, id, date, dispatch]
+        params: [type, id, decade, dispatch]
     });
 };
 
-const _deletePhoto = async (type, id, date, dispatch) => {
-    let response = await fetch(`${ENV[window.ENV].api}/api/${type}/${id}/photos/${date}`, {
+const _deletePhoto = async (type, id, decade, dispatch) => {
+    let response = await fetch(`${ENV[window.ENV].api}/api/${type}/${id}/photos/${decade}`, {
         method: 'DELETE',
         headers: getApiHeadersFormData(localStorage.token)
     });
@@ -58,5 +58,5 @@ const _deletePhoto = async (type, id, date, dispatch) => {
         throw new Error('Error while deleting a dot photo');
     }
 
-    return dispatch(deleteDotImage(date));
+    return dispatch(deleteDotImage(decade));
 };

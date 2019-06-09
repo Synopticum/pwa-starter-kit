@@ -36,6 +36,16 @@ class UDot extends connect(store)(LitElement) {
                 attribute: false
             },
 
+            decade: {
+                type: String,
+                attribute: false
+            },
+
+            activeImage: {
+                type: String,
+                attribute: false
+            },
+
             _user: {
                 type: Object,
                 attribute: false
@@ -96,6 +106,7 @@ class UDot extends connect(store)(LitElement) {
         
         .wrapper {
             display: flex;
+            padding-bottom: 35px;
         }
         
         .form {
@@ -141,6 +152,33 @@ class UDot extends connect(store)(LitElement) {
             padding-top: 10px;
             font-size: 16px;
         }
+        
+        .timeline {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-top: 1px dotted #ccc;
+        }
+        
+        .decade {
+            cursor: default;
+            padding: 5px 10px;
+            opacity: .5;
+            transition: background-color .2s;
+        }
+        
+        .decade--active {
+            cursor: pointer;
+            opacity: 1;
+        }
+        
+        .decade--active:hover {
+            background-color: #eeeeee;
+        }
       </style>
       
       <div class="dot">
@@ -167,19 +205,24 @@ class UDot extends connect(store)(LitElement) {
                          value="${this.shortDescription || ''}"
                          placeholder="Введите краткое описание"></u-textbox>
                          
-                    ${!this._dot.before && (!isAnonymous(this._user) && (isAdmin(this._user) || this.isDotAuthor(this._user))) ?
+                    ${!isAnonymous(this._user) && (isAdmin(this._user) || this.isDotAuthor(this._user)) ?
                         html`<u-photo-upload 
                                 class="upload"
                                 type="dot"
-                                date="before"
+                                decade="${this.decade || '2010'}"
                                 id="${this.dotId}"></u-photo-upload>` : ''}
-                         
-                    ${!this._dot.after && (!isAnonymous(this._user) && (isAdmin(this._user) || this.isDotAuthor(this._user))) ?
-                        html`<u-photo-upload 
-                                class="upload"
-                                type="dot"
-                                date="after"
-                                id="${this.dotId}"></u-photo-upload>` : ''}
+                    
+                    ${!isAnonymous(this._user) && (isAdmin(this._user) || this.isDotAuthor(this._user)) ?
+                        html`<select id="decade" @change="${this.changeDecade}">
+                                <option value="1940" ?selected="${this.decade === '1940'}">Сороковые</option>
+                                <option value="1950" ?selected="${this.decade === '1950'}">Пятидесятые</option>
+                                <option value="1960" ?selected="${this.decade === '1960'}">Шестидесятые</option>
+                                <option value="1970" ?selected="${this.decade === '1970'}">Семидесятые</option>
+                                <option value="1980" ?selected="${this.decade === '1980'}">Восьмидесятые</option>
+                                <option value="1990" ?selected="${this.decade === '1990'}">Девяностые</option>
+                                <option value="2000" ?selected="${this.decade === '2000'}">Нулевые</option>
+                                <option value="2010" ?selected="${this.decade === '2010'}">Десятые</option>
+                             </select>` : ''}
                          
                     ${!isAnonymous(this._user) && (isAdmin(this._user) || this.isDotAuthor(this._user)) ?
                         html`<u-round-button
@@ -195,12 +238,21 @@ class UDot extends connect(store)(LitElement) {
                                 ?disabled="${this._isFetching || this._isUpdating}"
                                 @click="${(e) => this.submit(e)}"></u-round-button>  ` : ''}
                   
-                    ${this._dot.before ? html`<img src="https://urussu.s3.amazonaws.com/${this._dot.before}" width="100" @click="${() => this.deleteImage('before')}">` : ''}
-                    ${this._dot.after ? html`<img src="https://urussu.s3.amazonaws.com/${this._dot.after}" width="100" @click="${() => this.deleteImage('after')}">` : ''}  
+                    ${this._dot.images ?
+                        html`<img src="https://urussu.s3.amazonaws.com/${this.activeImage || this.getOldestPhoto()}" width="100" @click="${() => this.deleteImage(this.activeImage)}" alt="">` : ``}
+                    
                   </div>
               
                   <div class="comments">
                       <u-comments origin-type="dot" origin-id="${this.dotId}"></u-comments>
+                  </div>
+                  
+                  <div class="timeline">
+                    ${[1940,1950,1960,1970,1980,1990,2000,2010].map(decade => {
+                        return html`<div 
+                                        class="decade ${this.isDecadeActive(decade) ? 'decade--active' : ''}"
+                                        @click="${(e) => this.changeImage(e, decade)}">${decade}</div>`;    
+                    })}
                   </div>
             </div>` : 'Dot not found'}
       </div>`
@@ -252,6 +304,8 @@ class UDot extends connect(store)(LitElement) {
     _setDefaults() {
         this.title = '';
         this.shortDescription = '';
+        this.decade = '2010';
+        this.activeImage = '';
     }
 
     /*
@@ -286,8 +340,26 @@ class UDot extends connect(store)(LitElement) {
         store.dispatch(deletePhoto('dot', this.dotId, date));
     }
 
+    changeDecade(e) {
+        this.decade = e.target.value;
+    }
+
     isDotAuthor(user) {
         return user.id === this._dot.authorId;
+    }
+
+    isDecadeActive(decade) {
+        return this._dot.images && this._dot.images[decade];
+    }
+
+    getOldestPhoto() {
+        return Object.values(this._dot.images)[0];
+    }
+
+    changeImage(e, decade) {
+        if (e.target.classList.contains('decade--active')) {
+            this.activeImage = this._dot.images[decade];
+        }
     }
 }
 

@@ -6,7 +6,7 @@ import {
 } from "../middleware/asyncActionsMiddleware";
 
 export const dotPage = (state = {
-    dot: {},
+    dot: { },
     isFetching: false,
     isUpdating: false,
     isLoadingError: false
@@ -59,7 +59,10 @@ export const dotPage = (state = {
                 ...state,
                 dot: {
                     ...state.dot,
-                    [action.payload.date]: action.payload.key
+                    images: {
+                        ...state.dot.images,
+                        [action.payload.decade]: action.payload.key
+                    }
                 }
             };
 
@@ -68,7 +71,10 @@ export const dotPage = (state = {
                 ...state,
                 dot: {
                     ...state.dot,
-                    [action.payload.date]: undefined
+                    images: {
+                        ...state.dot.images,
+                        [action.payload.decade]: undefined
+                    }
                 }
             };
 
