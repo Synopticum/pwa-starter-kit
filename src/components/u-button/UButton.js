@@ -1,6 +1,6 @@
 import {html, LitElement} from 'lit-element/lit-element';
 
-export class URoundButton extends LitElement {
+export class UButton extends LitElement {
     /*
         List of required methods
         Needed for initialization, rendering, fetching and setting default values
@@ -39,48 +39,46 @@ export class URoundButton extends LitElement {
           <style>
             * { box-sizing: border-box }  
             
-            .button {
-                display: inline-block;
-            }
-        
-            .button__element {
+            .button .button__element {
                 cursor: pointer;
-                width: 30px;
-                height: 30px;
+                display: inline-flex;
                 border: 0;
+                margin: 0;
+                padding: 7px 15px 9px 15px;
+                border-radius: var(--border-radius);
+                background: #666;
+                color: #ffffff;
+                font-family: 'PT Serif', 'Times New Roman', serif;
+                font-size: 16px;
+                box-shadow: 2px 2px 2px rgba(0,0,0,.5);
                 outline: none;
-                background-size: 30px;
-                background-color: transparent;
-                background-repeat: no-repeat;
-                background-position: 50% 50%;
-                border-radius: 50%;
-                transition: opacity .3s;
             }
             
-            .button__element:disabled {
+            .button--regular .button__element {
+                color: #000000;
+                background: linear-gradient(#ffffff, #cccccc);
+            }
+            .button--regular .button__element:active {
+                background: linear-gradient(#cccccc, #ffffff);
+            }
+            
+            .button--danger .button__element {
+                background: linear-gradient(#D81116, #971830);
+            }
+            .button--danger .button__element:active {
+                background: linear-gradient(#971830, #D81116);
+            }
+            
+            .button .button__element:disabled {
                 cursor: not-allowed;
                 opacity: .3;
             }
             
             /* types */
-            .button.button--submit .button__element {
-                background-image: url("static/images/button-icons/submit.svg");
+            .button.button--regular .button__element {
             }
             
-            .button.button--close .button__element {
-                background-image: url("static/images/button-icons/close.svg");
-            }
-            
-            .button.button--x .button__element {
-                background-image: url("static/images/button-icons/x.svg");
-            }
-            
-            .button.button--remove .button__element {
-                background-image: url("static/images/button-icons/remove.svg");
-            }
-            
-            .button.button--attach .button__element {
-                background-image: url("static/images/button-icons/attach.svg");
+            .button.button--danger .button__element {
             }
           </style>
           
@@ -90,10 +88,10 @@ export class URoundButton extends LitElement {
                 id="${this.id}"
                 class="button__element"
                 title="${this.title ? this.title : ''}"
-                ?disabled="${this.disabled}"></button>
+                ?disabled="${this.disabled}"><slot></slot></button>
           </div>
     `;
     }
 }
 
-window.customElements.define('u-round-button', URoundButton);
+window.customElements.define('u-button', UButton);

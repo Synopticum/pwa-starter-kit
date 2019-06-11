@@ -68,15 +68,27 @@ export class UTextbox extends LitElement {
                 width: 100%;
                 padding: 5px 10px;
                 font-family: 'PT Serif', Helvetica, 'Times New Roman', serif;
-                font-size: 18px;
-                background-color: #f9f9f9;
-                border: 1px dashed #ccc;
+                font-size: var(--font-size);
+                font-style: var(--font-style);
+                color: #fff;
                 outline: none;
+                transition: border-color .3s;
+                background: none;
+                border: 0px dashed rgba(255,255,255,.5);
+              }
+              
+              .textbox__element:hover {
+                border-color: rgba(255,255,255,.5);
               }
             
               .textbox__element:focus {
                 border-color: #ccc;
                 border-style: dashed;
+              }
+              
+              .textbox__element::selection {
+                background-color: var(--selection-color);
+                color: #ffffff;
               }
             
               .textbox__element::-webkit-input-placeholder {

@@ -10,6 +10,7 @@ import {deletePhoto} from "../u-photo-upload/UPhotoUpload.actions";
 import {isAdmin, isAnonymous} from "../u-app/UApp.helpers";
 import '../u-textbox/UTextbox';
 import '../u-round-button/URoundButton';
+import '../u-button/UButton';
 import '../u-comments/UComments';
 import '../u-photo-upload/UPhotoUpload';
 
@@ -32,11 +33,6 @@ class UDot extends connect(store)(LitElement) {
             },
 
             shortDescription: {
-                type: String,
-                attribute: false
-            },
-
-            uploadDecade: {
                 type: String,
                 attribute: false
             },
@@ -83,14 +79,12 @@ class UDot extends connect(store)(LitElement) {
       
       <style>
         :host {
-            width: 100%;
-            max-width: 900px;
+            width: 95%;
+            height: 95%;
             z-index: 200;
             pointer-events: all;
             transform: scale(1);
             transition: transform .3s;
-            padding: 30px;
-            border: 3px solid #6B9B29;
             border-radius: 3px;
             background-color: #f9f9f9;
             box-shadow: 4px 4px 4px rgba(0,0,0,.15);
@@ -105,38 +99,30 @@ class UDot extends connect(store)(LitElement) {
         
         .close {
             position: absolute;
-            right: -15px;
-            top: -15px;
+            right: 20px;
+            top: 20px;
+            z-index: 150;
         }
         
-        .wrapper {
-            display: flex;
-            padding-bottom: 35px;
+        .u-dot {
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
         }
         
         .form {
-            flex: 2;
+            position: relative;
+            z-index: 150;
+            padding: 20px;
+            background-color: rgba(0,0,0,.75);
         }
         
         .comments {
+            display: none;
             margin-left: 20px;
             flex: 1;
-        }
-        
-        .upload {
-            margin: 20px 0;
-        }
-        
-        .submit {
-            position: absolute;
-            right: -15px;
-            bottom: -15px;
-        }
-        
-        .remove {
-            position: absolute;
-            right: 25px;
-            bottom: -15px;
         }
         
         #dot-title,
@@ -144,45 +130,96 @@ class UDot extends connect(store)(LitElement) {
         #dot-full-description {
           width: 100%;
           padding-left: 0;
-          border-color: transparent;
         }
         
         #dot-title {
-            font-size: 24px;
+            --font-size: 30px;
+            --selection-color: rgba(255,255,255,.8);
+            --font-weight: rgba(255,255,255,0);
         }
         
         #dot-short-description,
         #dot-short-description {
-            margin-top: 10px;
             padding-top: 10px;
-            font-size: 16px;
+            --font-size: 22px;
+            --selection-color: rgba(255,255,255,.8);
+            --font-style: italic;
+        }
+        
+        .image {
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 50;
+            background: url('https://urussu.s3.amazonaws.com/${this._activeImage}') no-repeat 50% 50%;
+            background-size: cover;
         }
         
         .timeline {
             position: absolute;
             left: 0;
-            bottom: 0;
+            top: 0;
+            z-index: 100;
             width: 100%;
+            height: 100%;
             display: flex;
+            flex-direction: column;
             justify-content: center;
-            align-items: center;
-            border-top: 1px dotted #ccc;
+            align-items: flex-end;
         }
         
         .decade {
-            cursor: default;
+            cursor: pointer;
             padding: 5px 10px;
+            background-color: rgba(255,255,255,.9);
+            color: #000000;
+            border-radius: 20px;
             opacity: .5;
+            margin: 5px 10px;
             transition: background-color .2s;
         }
         
         .decade--active {
-            cursor: pointer;
             opacity: 1;
         }
         
         .decade--active:hover {
             background-color: #eeeeee;
+        }
+        
+        .controls {
+            position: absolute;
+            z-index: 150;
+            width: 100%;
+            box-sizing: border-box;
+            left: 0;
+            bottom: 0;
+            padding: 20px;
+            background-color: rgba(0,0,0,.75);
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .controls__dot {
+            display: flex;
+        }
+        
+        .remove {
+            --border-radius: 15px 0 0 15px;
+        }
+        
+        .submit {
+            --border-radius: 0 15px 15px 0;
+        }
+        
+        .controls__photo {
+            display: flex;
+        }
+        
+        .delete-image {
+            --border-radius: 15px 0 0 15px;
         }
       </style>
       
@@ -190,74 +227,72 @@ class UDot extends connect(store)(LitElement) {
         <u-round-button type="close" class="close" @click="${this.close}"></u-round-button>  
         
         ${!this._isLoadingError ?
-          html`<div class="wrapper">
-                  <div class="form">
-                    <u-textbox
-                         type="default"
-                         id="dot-title"
-                         ?is-fetching="${this._isFetching}" 
-                         ?is-updating="${this._isUpdating}" 
-                         ?disabled="${isAnonymous(this._user) || (!this.isDotAuthor(this._user) && !isAdmin(this._user))}"
-                         value="${this.title || ''}"
-                         placeholder="Введите название точки"></u-textbox>
-                         
-                    <u-textbox
-                         type="default"
-                         id="dot-short-description"
-                         ?is-fetching="${this._isFetching}" 
-                         ?is-updating="${this._isUpdating}" 
-                         ?disabled="${isAnonymous(this._user) || (!this.isDotAuthor(this._user) && !isAdmin(this._user))}"
-                         value="${this.shortDescription || ''}"
-                         placeholder="Введите краткое описание"></u-textbox>
-                         
-                    ${!isAnonymous(this._user) && (isAdmin(this._user) || this.isDotAuthor(this._user)) ?
-                        html`<u-photo-upload 
-                                class="upload"
-                                type="dot"
-                                decade="${this.uploadDecade || '2010'}"
-                                id="${this.dotId}"></u-photo-upload>` : ''}
-                    
-                    ${!isAnonymous(this._user) && (isAdmin(this._user) || this.isDotAuthor(this._user)) ?
-                        html`<select id="decade" @change="${this.changeUploadDecade}">
-                                <option value="1940" ?selected="${this.uploadDecade === '1940'}">Сороковые</option>
-                                <option value="1950" ?selected="${this.uploadDecade === '1950'}">Пятидесятые</option>
-                                <option value="1960" ?selected="${this.uploadDecade === '1960'}">Шестидесятые</option>
-                                <option value="1970" ?selected="${this.uploadDecade === '1970'}">Семидесятые</option>
-                                <option value="1980" ?selected="${this.uploadDecade === '1980'}">Восьмидесятые</option>
-                                <option value="1990" ?selected="${this.uploadDecade === '1990'}">Девяностые</option>
-                                <option value="2000" ?selected="${this.uploadDecade === '2000'}">Нулевые</option>
-                                <option value="2010" ?selected="${this.uploadDecade === '2010'}">Десятые</option>
-                             </select>` : ''}
-                         
-                    ${!isAnonymous(this._user) && (isAdmin(this._user) || this.isDotAuthor(this._user)) ?
-                        html`<u-round-button
-                                type="remove"
-                                class="remove"
-                                ?disabled="${this._isFetching || this._isUpdating}"
-                                @click="${(e) => this.remove(e)}"></u-round-button>` : ''}
-                         
-                    ${!isAnonymous(this._user) && (isAdmin(this._user) || this.isDotAuthor(this._user)) ?
-                        html`<u-round-button
-                                type="submit"
-                                class="submit"
-                                ?disabled="${this._isFetching || this._isUpdating}"
-                                @click="${(e) => this.submit(e)}"></u-round-button>  ` : ''}
+          html`<div class="u-dot">                  
+                  <div class="image">    
+                      <div class="form">
+                        <u-textbox
+                             type="default"
+                             id="dot-title"
+                             ?is-fetching="${this._isFetching}" 
+                             ?is-updating="${this._isUpdating}" 
+                             ?disabled="${isAnonymous(this._user) || (!this.isDotAuthor(this._user) && !isAdmin(this._user))}"
+                             value="${this.title || ''}"
+                             placeholder="Введите название"></u-textbox>
+                             
+                        <u-textbox
+                             type="default"
+                             id="dot-short-description"
+                             ?is-fetching="${this._isFetching}" 
+                             ?is-updating="${this._isUpdating}" 
+                             ?disabled="${isAnonymous(this._user) || (!this.isDotAuthor(this._user) && !isAdmin(this._user))}"
+                             value="${this.shortDescription || ''}"
+                             placeholder="Введите краткое описание"></u-textbox>           
+                      </div>  
                   
-                    ${this._activeImage && this._activeDecade ?
-                        html`<img src="https://urussu.s3.amazonaws.com/${this._activeImage}" width="100" @click="${() => this.deleteImage(this._activeDecade)}" alt="">` : ``}
-                    
+                      <div class="timeline">
+                        ${this._dot.images && this._activeDecade ? Object.entries(this._dot.images).map(decade => {
+                            return html`<div 
+                                            class="decade ${decade[0] === this._activeDecade ? 'decade--active' : ''}"
+                                            @click="${e => this.changeImage(e, decade[0])}">${decade[0]}</div>`;    
+                        }): ''}
+                      </div>  
+                  </div>
+                  
+                  <div class="controls">
+                      <div class="controls__photo">
+                          ${!isAnonymous(this._user) && (isAdmin(this._user) || this.isDotAuthor(this._user)) && this._activeImage ?
+                                  html`<u-button
+                                          class="delete-image"
+                                          type="danger"
+                                          ?disabled="${this._isFetching || this._isUpdating}"
+                                          @click="${() => this.deleteImage(this._activeDecade)}">Удалить фото</u-button>` : ''}
+                          
+                          ${!isAnonymous(this._user) && (isAdmin(this._user) || this.isDotAuthor(this._user)) ?
+                              html`<u-photo-upload 
+                                      type="dot"
+                                      ?disabled="${this._isFetching || this._isUpdating}"
+                                      id="${this.dotId}"></u-photo-upload>` : ''}
+                      </div>
+                         
+                      <div class="controls__dot">
+                          ${!isAnonymous(this._user) && (isAdmin(this._user) || this.isDotAuthor(this._user)) ?
+                              html`<u-button
+                                      class="remove"
+                                      type="danger"
+                                      ?disabled="${this._isFetching || this._isUpdating}"
+                                      @click="${(e) => this.remove(e)}">Удалить точку</u-button>` : ''}
+                             
+                          ${!isAnonymous(this._user) && (isAdmin(this._user) || this.isDotAuthor(this._user)) ?
+                              html`<u-button
+                                      class="submit"
+                                      type="regular"
+                                      ?disabled="${this._isFetching || this._isUpdating}"
+                                      @click="${(e) => this.submit(e)}">Сохранить точку</u-button>  ` : ''}
+                      </div>
                   </div>
               
                   <div class="comments">
                       <u-comments origin-type="dot" origin-id="${this.dotId}"></u-comments>
-                  </div>
-                  
-                  <div class="timeline">
-                    ${[1940,1950,1960,1970,1980,1990,2000,2010].map(decade => {
-                        return html`<div 
-                                        class="decade ${this.isDecadeActive(decade) ? 'decade--active' : ''}"
-                                        @click="${(e) => this.changeImage(e, decade)}">${decade}</div>`;    
-                    })}
                   </div>
             </div>` : 'Dot not found'}
       </div>`
@@ -271,6 +306,7 @@ class UDot extends connect(store)(LitElement) {
     stateChanged(state) {
         this._user = state.app.user;
         this._dot = state.dotPage.dot;
+
         this._activeImage = state.dotPage.activeImage;
         this._activeDecade = state.dotPage.activeDecade;
 
@@ -311,7 +347,6 @@ class UDot extends connect(store)(LitElement) {
     _setDefaults() {
         this.title = '';
         this.shortDescription = '';
-        this.uploadDecade = '2010';
     }
 
     /*
@@ -346,10 +381,6 @@ class UDot extends connect(store)(LitElement) {
         store.dispatch(deletePhoto('dot', this.dotId, date));
     }
 
-    changeUploadDecade(e) {
-        this.uploadDecade = e.target.value;
-    }
-
     isDotAuthor(user) {
         return user.id === this._dot.authorId;
     }
@@ -359,9 +390,7 @@ class UDot extends connect(store)(LitElement) {
     }
 
     changeImage(e, decade) {
-        if (e.target.classList.contains('decade--active')) {
-            store.dispatch(setActiveImage(decade, this._dot.images[decade]));
-        }
+        store.dispatch(setActiveImage(decade, this._dot.images[decade]));
     }
 }
 
