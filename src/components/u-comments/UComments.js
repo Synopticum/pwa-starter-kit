@@ -79,6 +79,12 @@ export class UComments extends connect(store)(LitElement) {
             font-size: 14px;
         }
         
+        .comments {
+          height: 75vh;
+          overflow-y: auto;
+          padding-right: 10px;        
+        }
+        
         .form {
             display: flex;
             flex-direction: column;

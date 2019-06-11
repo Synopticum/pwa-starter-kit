@@ -79,8 +79,12 @@ export class URoundButton extends LitElement {
                 background-image: url("static/images/button-icons/remove.svg");
             }
             
-            .button.button--attach .button__element {
-                background-image: url("static/images/button-icons/attach.svg");
+            .button.button--open-comments .button__element {
+                background-image: url("static/images/button-icons/open-comments.svg");
+            }
+            
+            .button.button--hide-comments .button__element {
+                background-image: url("static/images/button-icons/hide-comments.svg");
             }
           </style>
           
