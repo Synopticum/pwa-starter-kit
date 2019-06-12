@@ -8,22 +8,26 @@ class U404 extends PageViewElement {
         :host {
           position: fixed;
           left: 50%;
-          bottom: 130px;
-          transform: translate(-50%,0);
+          top: 50%;
+          width: 100%;
+          height: 100%;
+          transform: translate(-50%,-50%);
           z-index: 100;
-          width: 700px;
-          height: 400px;
-          background-color: #ffffff;
-          border-radius: 5px;
+          padding-top: 250px;
           pointer-events: all;
           display: flex;
           align-items: center;
           justify-content: center;
+          background: url('static/images/spinner.gif') no-repeat 50% 50%, radial-gradient(ellipse at center, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%);
+          color: #ffffff;
+          text-shadow: 1px 1px 0 #000;
+          white-space: nowrap;
+          font-size: 24px;
         }
       </style>
       
-      <section>
-        <h2>Потрачено!</h2>
+      <section class="not-found">
+        <h1>Абонентны алырга мөмкин түгель</h1>
       </section>
     `
   }
