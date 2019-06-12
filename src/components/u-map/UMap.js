@@ -276,8 +276,8 @@ class UMap extends connect(store)(LitElement) {
   }
 
   _setDefaultSettings() {
-    let lat = 70;
-    let lng = 30;
+    let lat = 62;
+    let lng = 33;
 
     if (location.search) {
       let params = new URLSearchParams(location.search);
