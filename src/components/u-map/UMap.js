@@ -145,13 +145,13 @@ class UMap extends connect(store)(LitElement) {
         }
       </style>
       
-      <div class="container container--clouds-${this._clouds.visibility}">        
+      <div class="container container--clouds-${this._clouds.visibility}">   
         <u-tooltip 
             ?hidden="${!this._tooltip.isVisible}" 
             .x="${this._tooltip.position.x}"
             .y="${this._tooltip.position.y}"
             .origin="${this._tooltip.position.origin}">
-                ${this._tooltip.item ? html`${this._tooltip.item.title}` : ''}
+                ${this._tooltip.item ? '' : ''}
         </u-tooltip>               
         
         ${this._dotPage.isVisible ? html`
@@ -321,8 +321,8 @@ class UMap extends connect(store)(LitElement) {
           color: this.objectFillColor,
           weight: this.objectStrokeWidth
         })
-          .on('mouseover', e => { this._toggleTooltip(true, e) })
-          .on('mouseout', e => { this._toggleTooltip(false, e) })
+          // .on('mouseover', e => { this._toggleTooltip(true, e) })
+          // .on('mouseout', e => { this._toggleTooltip(false, e) })
           .on('click', e => { this._toggleObject(true, e) })
           .addTo(this._map);
       });
@@ -343,8 +343,8 @@ class UMap extends connect(store)(LitElement) {
           weight: this.objectStrokeWidth,
           radius: item.coordinates[1]
         })
-          .on('mouseover', e => { this._toggleTooltip(true, e) })
-          .on('mouseout', e => { this._toggleTooltip(false, e) })
+          // .on('mouseover', e => { this._toggleTooltip(true, e) })
+          // .on('mouseout', e => { this._toggleTooltip(false, e) })
           .on('click', e => { this._toggleObject(true, e) })
           .addTo(this._map);
       });
@@ -392,8 +392,8 @@ class UMap extends connect(store)(LitElement) {
               iconSize: [32, 32], // size of the icon
             })
     })
-        .on('mouseover', e => { this._toggleTooltip(true, e) })
-        .on('mouseout', e => { this._toggleTooltip(false, e) })
+        // .on('mouseover', e => { this._toggleTooltip(true, e) })
+        // .on('mouseout', e => { this._toggleTooltip(false, e) })
         .on('click', (e) => { this._toggleDot(true, e) });
   }
   // ----- end of drawing methods -----
