@@ -32,11 +32,6 @@ class UDot extends connect(store)(LitElement) {
                 attribute: false
             },
 
-            shortDescription: {
-                type: String,
-                attribute: false
-            },
-
             areCommentsVisible: {
                 type: Boolean,
                 attribute: false
@@ -342,7 +337,6 @@ class UDot extends connect(store)(LitElement) {
         // form state being fetched once from store
         // after that it is internal and not reflected to store
         this.title = state.dotPage.dot.title;
-        this.shortDescription = state.dotPage.dot.shortDescription;
 
         this._isFetching = state.dotPage.isFetching;
         this._isUpdating = state.dotPage.isUpdating;
@@ -366,7 +360,6 @@ class UDot extends connect(store)(LitElement) {
 
     _setReferences() {
         this.$dotTitle = this.shadowRoot.querySelector('#dot-title');
-        this.$shortDescription = this.shadowRoot.querySelector('#dot-short-description');
     }
 
     _setListeners() {
@@ -375,7 +368,6 @@ class UDot extends connect(store)(LitElement) {
 
     _setDefaults() {
         this.title = '';
-        this.shortDescription = '';
         this.areCommentsVisible = false;
     }
 
@@ -394,8 +386,7 @@ class UDot extends connect(store)(LitElement) {
 
         let updatedDot = {
             ...this._dot,
-            title: this.$dotTitle.value,
-            shortDescription: this.$shortDescription.value
+            title: this.$dotTitle.value
         };
 
         store.dispatch(putDot(updatedDot, this.dotId));

@@ -150,7 +150,7 @@ class UMap extends connect(store)(LitElement) {
             .x="${this._tooltip.position.x}"
             .y="${this._tooltip.position.y}"
             .origin="${this._tooltip.position.origin}">
-                ${this._tooltip.item ? html`${this._tooltip.item.title}<br>${this._tooltip.item.shortDescription}` : ''}
+                ${this._tooltip.item ? html`${this._tooltip.item.title}` : ''}
         </u-tooltip>               
         
         ${this._dotPage.isVisible ? html`
