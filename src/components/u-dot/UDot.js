@@ -27,11 +27,6 @@ class UDot extends connect(store)(LitElement) {
                 type: String
             },
 
-            title: {
-                type: String,
-                attribute: false
-            },
-
             areCommentsVisible: {
                 type: Boolean,
                 attribute: false
@@ -113,11 +108,13 @@ class UDot extends connect(store)(LitElement) {
             right: 20px;
             top: 20px;
             z-index: 175;
+            background-color: rgba(0,0,0,.5);
+            padding: 10px 10px 7px 10px;
+            border-radius: 50%;
         }
         
         .open-comments {
-            top: 19px;
-            right: 70px;
+            right: 80px;
         }
         
         .u-dot {
@@ -159,14 +156,6 @@ class UDot extends connect(store)(LitElement) {
             display: flex;
             justify-content: center;
             align-items: center;
-        }
-        
-        #dot-title {
-          width: 100%;
-          padding-left: 0;
-            --font-size: 24px;
-            --selection-color: rgba(255,255,255,.8);
-            --font-weight: rgba(255,255,255,0);
         }
         
         .image {
@@ -230,11 +219,7 @@ class UDot extends connect(store)(LitElement) {
         }
         
         .remove {
-            --border-radius: 15px 0 0 15px;
-        }
-        
-        .submit {
-            --border-radius: 0 15px 15px 0;
+            --border-radius: 15px;
         }
         
         .controls__photo {
@@ -265,18 +250,7 @@ class UDot extends connect(store)(LitElement) {
                                         class="decade ${decade[0] === this._activeDecade ? 'decade--active' : ''}"
                                         @click="${e => this.changeImage(e, decade[0])}">${decade[0]}</div>`;    
                     }): ''}
-                  </div>  
-                  
-                  <div class="form">
-                    <u-textbox
-                         type="default"
-                         id="dot-title"
-                         ?is-fetching="${this._isFetching}" 
-                         ?is-updating="${this._isUpdating}" 
-                         ?disabled="${isAnonymous(this._user) || (!this.isDotAuthor(this._user) && !isAdmin(this._user))}"
-                         value="${this.title || ''}"
-                         placeholder="Введите название"></u-textbox>     
-                  </div>
+                  </div> 
                   
                   ${isAdmin(this._user) ? html`
                       <div class="controls">
@@ -301,14 +275,7 @@ class UDot extends connect(store)(LitElement) {
                                           class="remove"
                                           type="danger"
                                           ?disabled="${this._isFetching || this._isUpdating}"
-                                          @click="${(e) => this.remove(e)}">Удалить</u-button>` : ''}
-                                 
-                              ${!isAnonymous(this._user) && (isAdmin(this._user) || this.isDotAuthor(this._user)) ?
-                                  html`<u-button
-                                          class="submit"
-                                          type="regular"
-                                          ?disabled="${this._isFetching || this._isUpdating}"
-                                          @click="${(e) => this.submit(e)}">Сохранить</u-button>  ` : ''}
+                                          @click="${(e) => this.remove(e)}">Удалить точку</u-button>` : ''}
                           </div>
                       </div>` : ''}
               
@@ -334,10 +301,6 @@ class UDot extends connect(store)(LitElement) {
         this._activeImage = state.dotPage.activeImage;
         this._activeDecade = state.dotPage.activeDecade;
 
-        // form state being fetched once from store
-        // after that it is internal and not reflected to store
-        this.title = state.dotPage.dot.title;
-
         this._isFetching = state.dotPage.isFetching;
         this._isUpdating = state.dotPage.isUpdating;
         this._isLoadingError = state.dotPage.isLoadingError;
@@ -359,7 +322,7 @@ class UDot extends connect(store)(LitElement) {
     }
 
     _setReferences() {
-        this.$dotTitle = this.shadowRoot.querySelector('#dot-title');
+
     }
 
     _setListeners() {
@@ -367,7 +330,6 @@ class UDot extends connect(store)(LitElement) {
     }
 
     _setDefaults() {
-        this.title = '';
         this.areCommentsVisible = false;
     }
 
@@ -382,11 +344,12 @@ class UDot extends connect(store)(LitElement) {
     }
 
     submit(e) {
+        // this method was formerly used to update title and description
+        // may be useful in the future
         e.preventDefault();
 
         let updatedDot = {
-            ...this._dot,
-            title: this.$dotTitle.value
+            ...this._dot
         };
 
         store.dispatch(putDot(updatedDot, this.dotId));
