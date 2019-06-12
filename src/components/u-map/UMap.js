@@ -118,6 +118,7 @@ class UMap extends connect(store)(LitElement) {
         .leaflet-marker-icon {
             opacity: 1;
             transition: opacity .3s;
+            filter: hue-rotate(-30deg);
         }
         
         .leaflet-marker-icon--is-updating {
