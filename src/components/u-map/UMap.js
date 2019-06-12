@@ -10,7 +10,7 @@ import props from './UMap.props';
 import { dots } from "../../reducers/Dots.reducer";
 import { app } from "../../reducers/App.reducer";
 import { map } from "../../reducers/Map.reducer";
-import {isAnonymous} from "../u-app/UApp.helpers";
+import {isAdmin} from "../u-app/UApp.helpers";
 
 import '../u-context-menu/UContextMenu';
 import '../u-tooltip/UTooltip';
@@ -432,7 +432,7 @@ class UMap extends connect(store)(LitElement) {
   }
 
   _toggleContextMenu(isVisible, e) {
-    if (!isAnonymous(this._user)) {
+    if (isAdmin(this._user)) {
       if (isVisible) {
         let position = UMap._calculatePosition(e.containerPoint.x, e.containerPoint.y, 150, 63);
         store.dispatch(toggleContextMenu(true, position));
