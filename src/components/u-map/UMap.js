@@ -155,7 +155,7 @@ class UMap extends connect(store)(LitElement) {
             .x="${this._tooltip.position.x}"
             .y="${this._tooltip.position.y}"
             .origin="${this._tooltip.position.origin}"
-            .thumbnail="${this._tooltip.item && this._tooltip.item.images ? `https://urussu.s3.amazonaws.com/${this._tooltip.item.images["1950"]}` : ''}">
+            .thumbnail="${this._tooltip.item && this._tooltip.item.images ? `https://urussu.s3.amazonaws.com/${this._getTooltipImage()}` : ''}">
         </u-tooltip>               
         
         ${this._dotPage.isVisible ? html`
@@ -419,6 +419,11 @@ class UMap extends connect(store)(LitElement) {
         store.dispatch(toggleTooltip(false));
       }
     }
+  }
+
+  _getTooltipImage() {
+    let oldestImage = Math.min(...Object.keys(this._tooltip.item.images));
+    return this._tooltip.item.images[oldestImage];
   }
 
   _toggleDot(isVisible, e) {
