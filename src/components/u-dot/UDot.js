@@ -86,6 +86,13 @@ class UDot extends connect(store)(LitElement) {
             box-shadow: 4px 4px 4px rgba(0,0,0,.15);
         }
         
+        @media screen and (max-width: 1280px) {
+            :host {
+                width: 100%;
+                height: 100%;
+            }        
+        }
+        
         :host([hidden]) {
             display: block !important;
             transform: scale(0);
