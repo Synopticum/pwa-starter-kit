@@ -116,9 +116,13 @@ class UMap extends connect(store)(LitElement) {
         }
         
         .leaflet-marker-icon {
-            opacity: 1;
+            opacity: .5;
             transition: opacity .3s;
             filter: hue-rotate(-30deg);
+        }
+        
+        .leaflet-marker-icon:hover {
+            opacity: 1;
         }
         
         .leaflet-marker-icon--is-updating {
@@ -150,8 +154,8 @@ class UMap extends connect(store)(LitElement) {
             ?hidden="${!this._tooltip.isVisible}" 
             .x="${this._tooltip.position.x}"
             .y="${this._tooltip.position.y}"
-            .origin="${this._tooltip.position.origin}">
-                ${this._tooltip.item ? '' : ''}
+            .origin="${this._tooltip.position.origin}"
+            .thumbnail="${this._tooltip.item && this._tooltip.item.images ? `https://urussu.s3.amazonaws.com/${this._tooltip.item.images["1950"]}` : ''}">
         </u-tooltip>               
         
         ${this._dotPage.isVisible ? html`
@@ -392,8 +396,8 @@ class UMap extends connect(store)(LitElement) {
               iconSize: [32, 32], // size of the icon
             })
     })
-        // .on('mouseover', e => { this._toggleTooltip(true, e) })
-        // .on('mouseout', e => { this._toggleTooltip(false, e) })
+        .on('mouseover', e => { this._toggleTooltip(true, e) })
+        .on('mouseout', e => { this._toggleTooltip(false, e) })
         .on('click', (e) => { this._toggleDot(true, e) });
   }
   // ----- end of drawing methods -----
@@ -404,7 +408,7 @@ class UMap extends connect(store)(LitElement) {
     if (isVisible) {
       this._tooltipHoverTimeOut = setTimeout(() => {
         let id = e.target.options.id;
-        let position = UMap._calculatePosition(e.containerPoint.x, e.containerPoint.y, 310, 160);
+        let position = UMap._calculatePosition(e.containerPoint.x, e.containerPoint.y, 120, 120);
 
         store.dispatch(toggleTooltip(true, id, position));
       }, 1000);

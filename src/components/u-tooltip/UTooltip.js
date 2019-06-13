@@ -17,6 +17,10 @@ class UTooltip extends LitElement {
 
       origin: {
         type: String
+      },
+
+      thumbnail: {
+        type: String
       }
     };
   }
@@ -28,19 +32,32 @@ class UTooltip extends LitElement {
             position: fixed;
             left: ${this.x}px;
             top: ${this.y}px;
-            min-width: 300px;
-            min-height: 150px;
-            background-color: #ffffff;
+            width: 100px;
+            height: 100px;
             z-index: 200;
-            border: 1px solid blue;
+            border: 3px solid #6E9A32;
+            border-radius: 5px;
             transform: scale(1);
             transition: transform .3s;
             transform-origin: ${this.origin};
+            background: url(${this.thumbnail}) no-repeat 50% 50%;
+            background-size: cover;
         }
         
         :host([hidden]) {
             display: block !important;
             transform: scale(0);
+        }
+        
+        :host::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            opacity: .3;
+            background: linear-gradient(transparent,#000);
         }
       </style>
       
