@@ -93,16 +93,6 @@ class UDot extends connect(store)(LitElement) {
             height: 0;
         }
         
-        :host::before {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            color: #ffffff;
-            transform: translate(-50%,-50%);
-            content: 'Фотографии отсутствуют';
-            font-size: 18px;
-        }
-        
         .close, .open-comments {
             position: absolute;
             right: 20px;
