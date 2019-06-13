@@ -238,7 +238,7 @@ class UDot extends connect(store)(LitElement) {
                     ${this._dot.images && this._activeDecade ? Object.entries(this._dot.images).map(decade => {
                         return html`<div 
                                         class="decade ${decade[0] === this._activeDecade ? 'decade--active' : ''}"
-                                        @click="${e => this.changeImage(e, decade[0])}">${decade[0]}</div>`;    
+                                        @click="${e => this.changeImage(e, decade[0])}">${this.decadeLabels[decade[0]]}</div>`;    
                     }): ''}
                   </div> 
                   
@@ -321,6 +321,15 @@ class UDot extends connect(store)(LitElement) {
 
     _setDefaults() {
         this.areCommentsVisible = false;
+        this.decadeLabels = {
+            1950: 'Пятидесятые',
+            1960: 'Шестидесятые',
+            1970: 'Семидесятые',
+            1980: 'Восьмидесятые',
+            1990: 'Девяностые',
+            2000: 'Нулевые',
+            2010: 'Десятые'
+        };
     }
 
     /*
