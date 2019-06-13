@@ -329,6 +329,7 @@ class UDot extends connect(store)(LitElement) {
     _setDefaults() {
         this.areCommentsVisible = false;
         this.decadeLabels = {
+            1940: 'Сороковые',
             1950: 'Пятидесятые',
             1960: 'Шестидесятые',
             1970: 'Семидесятые',
