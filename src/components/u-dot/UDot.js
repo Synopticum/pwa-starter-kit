@@ -163,7 +163,7 @@ class UDot extends connect(store)(LitElement) {
             bottom: 0;
             z-index: 50;
             background: url('https://urussu.s3.amazonaws.com/${this._activeImage}') no-repeat 50% 50%;
-            background-size: cover;
+            background-size: contain;
         }
         
         .timeline {
