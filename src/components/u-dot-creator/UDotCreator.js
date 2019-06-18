@@ -154,12 +154,12 @@ class UDotCreator extends connect(store)(LitElement) {
     create(e) {
         e.preventDefault();
 
-        let layerName = isAdmin(this._user) ? 'Official' : `${this._user.firstName} ${this._user.lastName}`;
-        let layerType = isAdmin(this._user) ? 'OfficialDefault' : 'UserDefault';
+        // let layerName = isAdmin(this._user) ? 'Official' : `${this._user.firstName} ${this._user.lastName}`;
+        // let layerType = isAdmin(this._user) ? 'OfficialDefault' : 'UserDefault';
 
         let dot = new Dot({
-            layer: layerName,
-            type: layerType,
+            layer: 'Sergey Novikov',
+            type: 'UserDefault',
             coordinates: [this.lat, this.lng],
             authorId: this._user.id
         });
