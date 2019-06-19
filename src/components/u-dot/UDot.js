@@ -13,6 +13,7 @@ import '../u-round-button/URoundButton';
 import '../u-button/UButton';
 import '../u-comments/UComments';
 import '../u-photo-upload/UPhotoUpload';
+import {fetchComments} from "../u-comments/UComments.actions";
 
 store.addReducers({dotPage});
 
@@ -29,6 +30,11 @@ class UDot extends connect(store)(LitElement) {
 
             areCommentsVisible: {
                 type: Boolean,
+                attribute: false
+            },
+
+            _comments: {
+                type: Array,
                 attribute: false
             },
 
@@ -112,6 +118,17 @@ class UDot extends connect(store)(LitElement) {
         
         .open-comments {
             right: 80px;
+        }
+        
+        .open-comments__count {
+            position: absolute;
+            right: 0;
+            top: 0;
+            background: #f00;
+            color: #ffffff;
+            padding: 0 3px;
+            font-size: 14px;
+            border-radius: 10px;
         }
         
         .u-dot {
@@ -236,6 +253,7 @@ class UDot extends connect(store)(LitElement) {
         ${!this._isLoadingError ?
           html`<div class="wrapper">
                   <div class="open-comments">
+                    ${this._comments.length ? html`<div class="open-comments__count">${this._comments.length}</div>` : ``}
                     <u-round-button type="open-comments" @click="${this.toggleComments}"></u-round-button>
                   </div>
                   
@@ -295,6 +313,8 @@ class UDot extends connect(store)(LitElement) {
         this._user = state.app.user;
         this._dot = state.dotPage.dot;
 
+        this._comments = state.comments.dotPage.items;
+
         this._activeImage = state.dotPage.activeImage;
         this._activeDecade = state.dotPage.activeDecade;
 
@@ -316,6 +336,7 @@ class UDot extends connect(store)(LitElement) {
     _setStore() {
         store.dispatch(setCloudsVisibility('full'));
         store.dispatch(fetchDot(this.dotId));
+        store.dispatch(fetchComments('dot', this.dotId));
     }
 
     _setReferences() {
