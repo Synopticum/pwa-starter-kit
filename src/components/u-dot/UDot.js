@@ -311,8 +311,14 @@ class UDot extends connect(store)(LitElement) {
                             <select class="select-label ${this._dot.type ? 'select-type--active' : ''}" @change="${this.changeDotType}"> 
                                 <option value="0" ?selected="${!this._dot.type}" disabled hidden>Выберите тип</option>
                                 <option value="old-and-new" ?selected="${this._dot.type === 'old-and-new'}">Старое и новое</option>
-                                <option value="old-only" ?selected="${this._dot.type === 'old-only'}">Только старое</option>
-                                <option value="new-only" ?selected="${this._dot.type === 'new-only'}">Только новое</option>
+                                <option value="old" ?selected="${this._dot.type === 'old'}">Только старое</option>
+                                <option value="new" ?selected="${this._dot.type === 'new'}">Только новое</option>
+                            </select>
+                            
+                            <select class="select-layer ${this._dot.layer ? 'select-layer--active' : ''}" @change="${this.changeDotLayer}"> 
+                                <option value="0" ?selected="${!this._dot.layer}" disabled hidden>Выберите тип</option>
+                                <option value="Официальный" ?selected="${this._dot.layer === 'Официальный'}">Официальный</option>
+                                <option value="Sergey Novikov" ?selected="${this._dot.layer === 'Sergey Novikov'}">Sergey Novikov</option>
                             </select>
                           </div>
                              
@@ -458,6 +464,17 @@ class UDot extends connect(store)(LitElement) {
         let updatedDot = {
             ...this._dot,
             type
+        };
+
+        store.dispatch(putDot(updatedDot, this.dotId));
+    }
+
+    changeDotLayer(e) {
+        let layer = e.target.value;
+
+        let updatedDot = {
+            ...this._dot,
+            layer
         };
 
         store.dispatch(putDot(updatedDot, this.dotId));

@@ -118,7 +118,15 @@ class UMap extends connect(store)(LitElement) {
         .leaflet-marker-icon {
             opacity: .5;
             transition: opacity .3s;
-            filter: hue-rotate(-30deg);
+        }
+        
+        .leaflet-marker-icon__new {
+            filter: hue-rotate(30deg);
+        }
+        
+        .leaflet-marker-icon__old,
+        .leaflet-marker-icon__unknown {
+            filter: grayscale(100%);
         }
         
         .leaflet-marker-icon:hover {
@@ -421,8 +429,9 @@ class UMap extends connect(store)(LitElement) {
     return L.marker(dot.coordinates, {
       id: dot.id,
       icon: L.icon({
-              iconUrl: `${ENV[window.ENV].static}/static/images/markers/${dot.type}.png`,
-              iconSize: [32, 32], // size of the icon
+              iconUrl: `${ENV[window.ENV].static}/static/images/markers/${dot.label}.png`,
+              iconSize: [32, 32],
+              className: `leaflet-marker-icon__${dot.type}`
             })
     })
         .on('mouseover', e => { this._toggleTooltip(true, e) })
@@ -553,7 +562,7 @@ class UMap extends connect(store)(LitElement) {
   _addTempDot(coordinates) {
     this._$tempDot = new L.marker(coordinates, {
       icon: L.icon({
-        iconUrl: `${ENV[window.ENV].static}/static/images/markers/UserDefault.png`,
+        iconUrl: `${ENV[window.ENV].static}/static/images/markers/10th.png`,
         iconSize: [32, 32], // size of the icon
       })
     })
