@@ -116,7 +116,7 @@ class UMap extends connect(store)(LitElement) {
         }
         
         .leaflet-marker-icon {
-            opacity: .5;
+            opacity: .7;
             transition: opacity .3s;
         }
         
