@@ -1,11 +1,9 @@
 import {html, LitElement} from 'lit-element/lit-element';
 import {store} from '../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
-import { repeat } from 'lit-element/node_modules/lit-html/directives/repeat';
 import {fetchDot, putDot, clearDotState, deleteDot, setActiveImage} from './UDot.actions';
 import {setCloudsVisibility} from '../u-map/UMap.actions';
 import {dotPage} from "../../reducers/Dot.reducer";
-import defer from 'lodash-es/defer';
 import {deletePhoto} from "../u-photo-upload/UPhotoUpload.actions";
 import {isAdmin, isAnonymous} from "../u-app/UApp.helpers";
 import '../u-textbox/UTextbox';
@@ -228,6 +226,18 @@ class UDot extends connect(store)(LitElement) {
             justify-content: space-between;
         }
         
+        .controls__label {
+            display: flex;
+        }
+        
+        .controls__type {
+            display: flex;
+        }
+        
+        .select-type, .select-label {
+            margin: 0 10px;
+        }
+        
         .controls__dot {
             display: flex;
         }
@@ -282,6 +292,28 @@ class UDot extends connect(store)(LitElement) {
                                           type="dot"
                                           ?disabled="${this._isFetching || this._isUpdating}"
                                           id="${this.dotId}"></u-photo-upload>` : ''}
+                          </div>
+                          
+                          <div class="controls__type">
+                            <select class="select-label ${this._dot.label ? 'select-label--active' : ''}" @change="${this.changeDotLabel}"> 
+                                <option value="0" ?selected="${!this._dot.label}" disabled hidden>Выберите метку</option>
+                                <option value="40th" ?selected="${this._dot.label === '40th'}">Сороковые</option>
+                                <option value="50th" ?selected="${this._dot.label === '50th'}">Пятидесятые</option>
+                                <option value="60th" ?selected="${this._dot.label === '60th'}">Шестидесятые</option>
+                                <option value="70th" ?selected="${this._dot.label === '70th'}">Семидесятые</option>
+                                <option value="80th" ?selected="${this._dot.label === '80th'}">Восьмидесятые</option>
+                                <option value="90th" ?selected="${this._dot.label === '90th'}">Девяностые</option>
+                                <option value="00th" ?selected="${this._dot.label === '00th'}">Нулевые</option>
+                                <option value="10th" ?selected="${this._dot.label === '10th'}">Десятые</option>    
+                                <option value="unknown" ?selected="${this._dot.label === 'unknown'}">Неизвестно</option>     
+                            </select>
+                            
+                            <select class="select-label ${this._dot.type ? 'select-type--active' : ''}" @change="${this.changeDotType}"> 
+                                <option value="0" ?selected="${!this._dot.type}" disabled hidden>Выберите тип</option>
+                                <option value="old-and-new" ?selected="${this._dot.type === 'old-and-new'}">Старое и новое</option>
+                                <option value="old-only" ?selected="${this._dot.type === 'old-only'}">Только старое</option>
+                                <option value="new-only" ?selected="${this._dot.type === 'new-only'}">Только новое</option>
+                            </select>
                           </div>
                              
                           <div class="controls__dot">
@@ -407,6 +439,28 @@ class UDot extends connect(store)(LitElement) {
 
     toggleComments() {
         this.areCommentsVisible = !this.areCommentsVisible;
+    }
+
+    changeDotLabel(e) {
+        let label = e.target.value;
+
+        let updatedDot = {
+            ...this._dot,
+            label
+        };
+
+        store.dispatch(putDot(updatedDot, this.dotId));
+    }
+
+    changeDotType(e) {
+        let type = e.target.value;
+
+        let updatedDot = {
+            ...this._dot,
+            type
+        };
+
+        store.dispatch(putDot(updatedDot, this.dotId));
     }
 }
 
