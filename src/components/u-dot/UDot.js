@@ -365,6 +365,10 @@ class UDot extends connect(store)(LitElement) {
         this._init();
     }
 
+    disconnectedCallback() {
+        document.querySelector('body').removeEventListener('keyup', this.handleEscapePress);
+    }
+
     _init() {
         this._setStore();
         this._setReferences();
@@ -382,7 +386,7 @@ class UDot extends connect(store)(LitElement) {
     }
 
     _setListeners() {
-
+        document.querySelector('body').addEventListener('keyup', (e) => this.handleEscapePress(e) );
     }
 
     _setDefaults() {
@@ -407,6 +411,12 @@ class UDot extends connect(store)(LitElement) {
         store.dispatch(setCloudsVisibility('none'));
         store.dispatch(clearDotState());
         this.dispatchEvent(new CustomEvent('hide-dot', {composed: true}));
+    }
+
+    handleEscapePress(e) {
+        if (e.key === 'Escape') {
+            this.close();
+        }
     }
 
     submit(e) {
