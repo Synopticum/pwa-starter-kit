@@ -36,7 +36,7 @@ class UApp extends connect(store)(LitElement) {
              object-fill-color="#ffc600"
              object-stroke-width="2"></u-map>
         
-      <u-404 active></u-404>
+      <u-404 ?active="${this._page === '404'}"></u-404>
     `;
   }
 
