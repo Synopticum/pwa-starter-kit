@@ -234,7 +234,7 @@ class UDot extends connect(store)(LitElement) {
             display: flex;
         }
         
-        .select-type, .select-label {
+        .select-type, .select-label, .select-layer {
             margin: 0 10px;
         }
         
@@ -316,8 +316,16 @@ class UDot extends connect(store)(LitElement) {
                             </select>
                             
                             <select class="select-layer ${this._dot.layer ? 'select-layer--active' : ''}" @change="${this.changeDotLayer}"> 
-                                <option value="0" ?selected="${!this._dot.layer}" disabled hidden>Выберите тип</option>
-                                <option value="Официальный" ?selected="${this._dot.layer === 'Официальный'}">Официальный</option>
+                                <option value="0" ?selected="${!this._dot.layer}" disabled hidden>Выберите слой</option>
+                                <option value="Сороковые" ?selected="${this._dot.layer === 'Сороковые'}">Сороковые</option>
+                                <option value="Пятидесятые" ?selected="${this._dot.layer === 'Пятидесятые'}">Пятидесятые</option>
+                                <option value="Шестидесятые" ?selected="${this._dot.layer === 'Шестидесятые'}">Шестидесятые</option>
+                                <option value="Семидесятые" ?selected="${this._dot.layer === 'Семидесятые'}">Семидесятые</option>
+                                <option value="Восьмидесятые" ?selected="${this._dot.layer === 'Восьмидесятые'}">Восьмидесятые</option>
+                                <option value="Девяностые" ?selected="${this._dot.layer === 'Девяностые'}">Девяностые</option>
+                                <option value="Нулевые" ?selected="${this._dot.layer === 'Нулевые'}">Нулевые</option>
+                                <option value="Десятые" ?selected="${this._dot.layer === 'Десятые'}">Десятые</option>
+                                <option value="Неизвестно" ?selected="${this._dot.layer === 'Неизвестно'}">Неизвестно</option>
                                 <option value="Sergey Novikov" ?selected="${this._dot.layer === 'Sergey Novikov'}">Sergey Novikov</option>
                             </select>
                           </div>
