@@ -9,7 +9,6 @@
   "scope": ".",
   "dir": "ltr",
   "lang": "ru-RU",
-  "orientation": "landscape-primary",
   "icons": [
     {
       "src": "static/images/manifest/icon-48x48.png",
