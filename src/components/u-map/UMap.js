@@ -1,6 +1,6 @@
 import { ENV } from '../../../environments/environments';
 import { getApiHeaders } from '../../../environments/api';
-import { LitElement, html } from 'lit-element/lit-element';
+import { LitElement, html, css } from 'lit-element/lit-element';
 import debounce from 'lodash-es/debounce';
 import isEmpty from 'lodash-es/isEmpty';
 import { store } from '../../store';
@@ -187,7 +187,7 @@ class UMap extends connect(store)(LitElement) {
             cursor: pointer;
             width: 44px;
             height: 44px;
-            background: url(${this._user.image}) no-repeat 50% 50%;
+            background: url(${this._user.image}) no-repeat 50% 50% #ddd;
             background-size: cover;
             border-radius: 50%;
         }
