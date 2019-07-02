@@ -10,7 +10,7 @@ import props from './UMap.props';
 import { dots } from "../../reducers/Dots.reducer";
 import { app } from "../../reducers/App.reducer";
 import { map } from "../../reducers/Map.reducer";
-import {isAdmin} from "../u-app/UApp.helpers";
+import {isAdmin,isAnonymous} from "../u-app/UApp.helpers";
 
 import '../u-context-menu/UContextMenu';
 import '../u-tooltip/UTooltip';
@@ -155,6 +155,65 @@ class UMap extends connect(store)(LitElement) {
             color: #ffffff;
             padding: 10px;
         }
+        
+        .login {
+            position: fixed;
+            right: 70px;
+            top: 12px;
+            background: url('/static/images/user.svg') no-repeat 50% 50%;
+            background-size: 44px;
+            color: #ffffff;
+            width: 44px;
+            height: 44px;
+            z-index: 100;
+            opacity: .5;
+            transition: opacity .3s;
+        }
+        
+        .login:hover {
+            opacity: 1;
+        }
+        
+        .user {
+            position: fixed;
+            right: 70px;
+            top: 12px;
+            z-index: 100;
+        }
+        
+        .user__image {
+            position: relative;
+            z-index: 20;
+            cursor: pointer;
+            width: 44px;
+            height: 44px;
+            background: url(${this._user.image}) no-repeat 50% 50%;
+            background-size: cover;
+            border-radius: 50%;
+        }
+        
+        .user__menu {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            z-index: 10;
+            border-radius: 10px;
+            background-color: #ffffff;
+            padding: 0 60px 0 10px;
+            min-height: 55px;
+            display: flex;
+            align-items: center;
+            transform: scale(0);
+            transition: .2s transform;
+        }
+        
+        .user__menu--active {
+            transform: scale(1);
+        }
+        
+        .user__menu-option {
+            cursor: pointer;
+        }
       </style>
       
       <div class="container container--clouds-${this._clouds.visibility}">   
@@ -187,6 +246,16 @@ class UMap extends connect(store)(LitElement) {
             .lat="${this._dotCreator.position.lat}"
             .lng="${this._dotCreator.position.lng}"></u-dot-creator>
       </div>
+      
+      ${isAnonymous(this._user) ?
+        html`<a href="https://oauth.vk.com/authorize?client_id=4447151&display=page&redirect_uri=${ENV[window.ENV].static}&response_type=code&v=5.95" class="login"></a>`: 
+        html`<div class="user" @click="${this._toggleUserMenu}">
+                <div class="user__image"></div>
+                <div class="user__menu ${this._isUserMenuVisible ? 'user__menu--active' : ''}">
+                    <div class="user__menu-option" @click="${this._logout}">Выйти</div>
+                </div>
+             </div>`
+      }
       
       <div id="map"></div>
       <!-- <div id="user-role">your role is ${this._user.role}</div> -->`;
@@ -469,6 +538,15 @@ class UMap extends connect(store)(LitElement) {
       store.dispatch(setCloudsVisibility('none'));
       store.dispatch(toggleDotCreator(false, { x: this._dotCreator.position.x, y: this._dotCreator.position.y }));
     }
+  }
+
+  _toggleUserMenu() {
+    this._isUserMenuVisible = !this._isUserMenuVisible;
+  }
+
+  _logout() {
+    localStorage.token = '';
+    location.reload();
   }
   // ----- end of map UI control methods -----
 

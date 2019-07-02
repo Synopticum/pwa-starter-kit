@@ -6,6 +6,7 @@ import {navigate, fetchUserInfo, enableAnonymousMode} from './UApp.actions';
 
 import '../u-map/UMap.js';
 import '../u-404/U404.js';
+import {authenticate} from "./authenticate";
 
 class UApp extends connect(store)(LitElement) {
   /*
@@ -60,17 +61,17 @@ class UApp extends connect(store)(LitElement) {
   }
 
   firstUpdated() {
-    this._init();
+    this._init().catch(e => { throw new Error(e) });
   }
 
-  _init() {
+  async _init() {
     this._setStore();
     this._setReferences();
     this._setListeners();
   }
 
-  _setStore() {
-    this._initUser();
+  async _setStore() {
+    await this._authenticate();
     this._initRouter();
   }
 
@@ -90,11 +91,12 @@ class UApp extends connect(store)(LitElement) {
       List of custom component's methods
       Any other methods
   */
-  _initUser() {
-    if (localStorage.token === 'anonymous') {
-      store.dispatch(enableAnonymousMode());
-    } else {
+  async _authenticate() {
+    try {
+      await authenticate();
       store.dispatch(fetchUserInfo());
+    } catch(e) {
+      store.dispatch(enableAnonymousMode());
     }
   }
 

@@ -84,6 +84,14 @@ export default {
     },
 
     /**
+     * User menu
+     */
+    _isUserMenuVisible: {
+        type: Boolean,
+        attribute: false
+    },
+
+    /**
      * Delay to show a tooltip
      */
     _tooltipHoverTimeOut: {
@@ -105,6 +113,15 @@ export default {
      * Represents whether dot creator form is visible
      */
     _dotCreator: {
+        type: Object,
+        attribute: false
+    },
+
+    /**
+     * A redux store property
+     * Represents a user model
+     */
+    _user: {
         type: Object,
         attribute: false
     },
