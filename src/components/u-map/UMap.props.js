@@ -92,15 +92,6 @@ export default {
     },
 
     /**
-     * Component's own property
-     * Represents if fullscreen mode is active
-     */
-    _isFullScreen: {
-        type: Boolean,
-        attribute: false
-    },
-
-    /**
      * A redux store property
      * Represents whether dot page is visible
      */

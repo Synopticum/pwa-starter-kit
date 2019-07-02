@@ -155,30 +155,6 @@ class UMap extends connect(store)(LitElement) {
             color: #ffffff;
             padding: 10px;
         }
-        
-        .fullscreen {
-            cursor: pointer;
-            position: fixed;
-            right: 5px;
-            bottom: 25px;
-            width: 30px;
-            height: 30px;
-            z-index: 50;
-            opacity: .5;
-            transition: opacity .3s;
-        }
-        
-        .fullscreen:hover {
-            opacity: 1;
-        }
-        
-        .fullscreen--open {
-            background: url('static/images/fullscreen--open.svg') no-repeat 50% 50%;
-        }
-        
-        .fullscreen--close {
-            background: url('static/images/fullscreen--close.svg') no-repeat 50% 50%;
-        }
       </style>
       
       <div class="container container--clouds-${this._clouds.visibility}">   
@@ -211,10 +187,6 @@ class UMap extends connect(store)(LitElement) {
             .lat="${this._dotCreator.position.lat}"
             .lng="${this._dotCreator.position.lng}"></u-dot-creator>
       </div>
-      
-      ${this._isFullScreen ? 
-        html`<div class="fullscreen fullscreen--close" @click="${this.closeFullscreen}"></div>` : 
-        html`<div class="fullscreen fullscreen--open" @click="${this.openFullscreen}"></div>`}
       
       <div id="map"></div>
       <!-- <div id="user-role">your role is ${this._user.role}</div> -->`;
@@ -281,7 +253,6 @@ class UMap extends connect(store)(LitElement) {
   _setDefaults() {
     this._tooltipHoverTimeOut = null;
     this._overlayMaps = {};
-    this._isFullScreen = false;
   }
 
   /*
@@ -497,35 +468,6 @@ class UMap extends connect(store)(LitElement) {
     } else {
       store.dispatch(setCloudsVisibility('none'));
       store.dispatch(toggleDotCreator(false, { x: this._dotCreator.position.x, y: this._dotCreator.position.y }));
-    }
-  }
-
-  openFullscreen() {
-    this._isFullScreen = true;
-    let elem = document.documentElement;
-
-    if (elem.requestFullscreen) {
-      elem.requestFullscreen();
-    } else if (elem.mozRequestFullScreen) { /* Firefox */
-      elem.mozRequestFullScreen();
-    } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-      elem.webkitRequestFullscreen();
-    } else if (elem.msRequestFullscreen) { /* IE/Edge */
-      elem.msRequestFullscreen();
-    }
-  }
-
-  closeFullscreen() {
-    this._isFullScreen = false;
-
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    } else if (document.mozCancelFullScreen) { /* Firefox */
-      document.mozCancelFullScreen();
-    } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
-      document.webkitExitFullscreen();
-    } else if (document.msExitFullscreen) { /* IE/Edge */
-      document.msExitFullscreen();
     }
   }
   // ----- end of map UI control methods -----
