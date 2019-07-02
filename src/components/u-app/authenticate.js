@@ -17,6 +17,10 @@ export async function authenticate() {
   throw new Error('No token found, please login');
 
   async function getToken() {
+    if (localStorage.token === 'anonymous') {
+      localStorage.token = '';
+    }
+
     if (localStorage.token) {
       return localStorage.token;
     }
