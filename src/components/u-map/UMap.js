@@ -190,6 +190,17 @@ class UMap extends connect(store)(LitElement) {
             background: url(${this._user.image}) no-repeat 50% 50% #ddd;
             background-size: cover;
             border-radius: 50%;
+            overflow: hidden;
+            text-indent: -9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #111;
+        }
+        
+        .user__image--none {
+            text-indent: 0;
         }
         
         .user__menu {
@@ -250,7 +261,7 @@ class UMap extends connect(store)(LitElement) {
       ${isAnonymous(this._user) ?
         html`<a href="https://oauth.vk.com/authorize?client_id=4447151&display=page&redirect_uri=${ENV[window.ENV].static}&response_type=code&v=5.95" class="login"></a>`: 
         html`<div class="user" @click="${this._toggleUserMenu}">
-                <div class="user__image"></div>
+                <div class="user__image ${!this._user.image ? 'user__image--none': ''}">SN</div>
                 <div class="user__menu ${this._isUserMenuVisible ? 'user__menu--active' : ''}">
                     <div class="user__menu-option" @click="${this._logout}">Выйти</div>
                 </div>
