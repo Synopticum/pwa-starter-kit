@@ -1,4 +1,6 @@
 import { html, LitElement } from 'lit-element/lit-element';
+import props from './UDumbTemplate.props';
+import styles from './UDumbTemplate.styles';
 
 export class UDumbTemplate extends LitElement {
     /*
@@ -6,12 +8,11 @@ export class UDumbTemplate extends LitElement {
         Needed for initialization, rendering, fetching and setting default values
     */
     static get properties() {
-        return {
-            myProperty: {
-                type: String,
-                attribute: 'my-property'
-            }
-        };
+        return props;
+    }
+
+    static get styles() {
+        return styles;
     }
 
     render() {

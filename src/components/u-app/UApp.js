@@ -3,6 +3,7 @@ import { connect } from 'pwa-helpers/connect-mixin.js';
 import { installRouter } from 'pwa-helpers/router.js';
 import { store } from '../../store.js';
 import {navigate, fetchUserInfo, enableAnonymousMode} from './UApp.actions';
+import props from './UApp.props';
 
 import '../u-map/UMap.js';
 import '../u-404/U404.js';
@@ -14,17 +15,7 @@ class UApp extends connect(store)(LitElement) {
       Needed for initialization, rendering, fetching and setting default values
   */
   static get properties() {
-    return {
-      pageTitle: {
-        type: String,
-        attribute: false
-      },
-
-      _page: {
-        type: String,
-        attribute: false
-      }
-    };
+    return props;
   }
 
   render() {

@@ -3,6 +3,8 @@ import {store} from '../../store';
 import {connect} from 'pwa-helpers';
 import {fetch, toggle} from './USmartTemplate.actions';
 import {pieceOfState} from "../../reducers/USmartTemplate.reducer";
+import props from './USmartTemplate.props';
+import styles from './USmartTemplate.styles';
 
 store.addReducers({pieceOfState});
 
@@ -12,22 +14,15 @@ export class USmartTemplate extends connect(store)(LitElement) {
         Needed for initialization, rendering, fetching and setting default values
     */
     static get properties() {
-        return {
-            propertyToReflectInTemplate: {
-                type: String,
-                attribute: false
-            }
-        }
+        return props;
+    }
+
+    static get styles() {
+        return styles;
     }
 
     render() {
-        return html`      
-          <style>
-            :host {
-            
-            }
-          </style>
-          
+        return html`
           <div class="u-smart-template">
             <button @click="${() => toggle()}"></button>
           </div>

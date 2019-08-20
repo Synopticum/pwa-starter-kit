@@ -11,6 +11,8 @@ import {isAdmin, isAnonymous} from "../u-app/UApp.helpers";
 import '../u-default-spinner/UDefaultSpinner';
 import '../u-textarea/UTextarea';
 import '../u-comment/UComment';
+import props from './UComments.props';
+import styles from './UComments.styles';
 
 store.addReducers({ comments });
 
@@ -20,87 +22,17 @@ export class UComments extends connect(store)(LitElement) {
       Needed for initialization, rendering, fetching and setting default values
   */
   static get properties() {
-    return {
-      originType: {
-        type: String,
-        attribute: 'origin-type'
-      },
+    return props;
+  }
 
-      originId: {
-        type: String,
-        attribute: 'origin-id'
-      },
-
-      _isFetching: {
-        type: Boolean,
-        attribute: false
-      },
-
-      _isCommentAdding: {
-        type: Boolean,
-        attribute: false
-      },
-
-      _isValid: {
-        type: Boolean,
-        attribute: false
-      },
-
-      _comments: {
-        type: Array,
-        attribute: false
-      },
-
-      _commentsToDelete: {
-        type: Array,
-        attribute: false
-      }
-    }
+  static get styles() {
+    return styles;
   }
 
   render() {
-    return html`      
-      <style>
-        :host {
-        }
-        
-        .title {
-            font-size: 24px;
-        }
-        
-        .loading {
-            display: block;
-            margin: 10px 0;
-        }
-        
-        .no-comments {
-            margin: 10px 0;
-            padding: 10px;
-            border: 1px dashed #eee;
-            font-size: 14px;
-        }
-        
-        .comments {
-          height: 75vh;
-          overflow-y: auto;
-          padding-right: 10px;        
-        }
-        
-        .form {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .textarea {
-            margin-bottom: 10px;
-        }
-        
-        .button {
-            align-self: flex-end;
-        }
-      </style>
-      
+    return html`
       <div class="title">Комментарии</div>
+      <a href="#" @click="${this.toggleComments}">Скрыть комментарии</a>
       
       <div class="comments">
         ${this._isFetching ? html`<u-default-spinner class="loading"/>` : ''}
@@ -208,6 +140,11 @@ export class UComments extends connect(store)(LitElement) {
 
   isCommentAuthor(user, comment) {
     return user.id === comment.authorId;
+  }
+
+  toggleComments(e) {
+    e.preventDefault();
+    this.dispatchEvent(new CustomEvent('u-comments:toggle-comments', { composed: true }));
   }
 }
 

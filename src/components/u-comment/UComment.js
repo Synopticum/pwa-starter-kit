@@ -1,5 +1,7 @@
 import { html, LitElement } from 'lit-element/lit-element';
 import { DateTime } from "luxon";
+import props from './UComment.props';
+import styles from './UComment.styles';
 
 export class UComment extends LitElement {
   /*
@@ -7,75 +9,15 @@ export class UComment extends LitElement {
       Needed for initialization, rendering, fetching and setting default values
   */
   static get properties() {
-    return {
-      comment: {
-        type: Object
-      },
+    return props;
+  }
 
-      isDeleting: {
-        type: Boolean,
-        attribute: false
-      },
-
-      isDeletingAllowed: {
-        type: Boolean,
-        attribute: false
-      }
-    }
+  static get styles() {
+    return styles;
   }
 
   render() {
-    return html`      
-      <style>
-        :host {
-            display: block;
-            position: relative;
-            padding: 10px 0;
-            margin: 10px 0;
-            border-bottom: 1px solid #ccc;
-            line-height: 1.3;
-        }
-        
-        .comment {
-            opacity: 1;
-            transition: opacity .3s;
-        }
-        
-        .comment--is-deleting {
-            opacity: .1;
-            text-decoration: line-through;
-        }
-        
-        .comment__text {
-            font-size: 14px;
-        }
-        
-        .comment-meta {
-            display: flex;
-            justify-content: flex-end;
-            font-size: 12px;
-            margin-top: 5px;
-        }
-        
-        .comment-meta__date {
-            margin-left: 5px;
-        }
-        
-        .comment-controls {
-            position: absolute;
-            right: 0;
-            top: 10px;
-        }
-        
-        .comment-controls__delete {
-            cursor: pointer;
-            display: block;
-            width: 12px;
-            height: 12px;
-            background: url("static/images/button-icons/x.svg") no-repeat 50% 50%;
-        }
-      </style>
-      
+    return html`   
       <div class="comment ${this.isDeleting ? 'comment--is-deleting' : ''}">
         <div class="comment__text">${this.comment.text}</div>
           

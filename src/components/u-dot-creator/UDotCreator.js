@@ -6,7 +6,8 @@ import {toggleDotCreator, setCloudsVisibility} from '../u-map/UMap.actions';
 import {map} from "../../reducers/Map.reducer";
 import {isAdmin, isAnonymous} from "../u-app/UApp.helpers";
 import '../u-textbox/UTextbox';
-import '../u-round-button/URoundButton';
+import props from './UDotCreator.props';
+import styles from './UDotCreator.styles';
 
 store.addReducers({map});
 
@@ -16,27 +17,11 @@ class UDotCreator extends connect(store)(LitElement) {
         Needed for initialization, rendering, fetching and setting default values
     */
     static get properties() {
-        return {
-            x: {
-                type: Number
-            },
+        return props;
+    }
 
-            y: {
-                type: Number
-            },
-
-            lat: {
-                type: Number
-            },
-
-            lng: {
-                type: Number
-            },
-
-            _user: {
-                type: Object
-            }
-        };
+    static get styles() {
+        return styles;
     }
 
     constructor() {
@@ -46,57 +31,10 @@ class UDotCreator extends connect(store)(LitElement) {
 
     render() {
         return html`
-          
           <style>
             :host {
-                position: fixed;
                 left: ${this.x}px;
                 top: ${this.y}px;
-                padding: 10px;
-                z-index: 200;
-                width: 100%;
-                max-width: 300px;
-                transform: scale(1);
-                transition: transform .3s;
-                border: 3px solid #6B9B29;
-                border-radius: 3px;
-                background-color: #f9f9f9;
-                box-shadow: 4px 4px 4px rgba(0,0,0,.15);
-            }
-            
-            :host([hidden]) {
-                display: block !important;
-                transform: scale(0);
-            }
-            
-            @keyframes bounce { 
-              0% {transform: scale(.3);}
-              50% {transform: scale(1.3);}
-            }
-            
-            .bounce {
-                content: '';
-                position: absolute;
-                left: -7.5px;
-                top: -7.5px;
-                width: 15px;
-                height: 15px;
-                background-color: #f00;
-                border-radius: 50%;
-                user-select: none;
-                animation: bounce 1s alternate infinite linear;
-            }
-            
-            .close {
-                position: absolute;
-                right: 20px;
-                bottom: -15px;
-            }
-            
-            .submit {
-                position: absolute;
-                right: -15px;
-                bottom: -15px;
             }
           </style>
           
@@ -107,12 +45,8 @@ class UDotCreator extends connect(store)(LitElement) {
               Добавить точку сюда?
             </form>
             
-            <u-round-button type="close" class="close" @click="${() => this.close()}"></u-round-button>  
-            
-            <u-round-button 
-                type="submit" 
-                class="submit" 
-                @click="${(e) => this.create(e)}"></u-round-button>  
+            <button type="button" class="close" @click="${() => this.close()}">Отмена</button>
+            <button type="button" class="submit" @click="${(e) => this.create(e)}">Создать</button>  
           </div>
     `;
     }
