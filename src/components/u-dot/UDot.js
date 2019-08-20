@@ -171,14 +171,9 @@ class UDot extends connect(store)(LitElement) {
         }
         
         .image {
-            position: absolute;
-            left: 0;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 50;
-            background: url('https://urussu.s3.amazonaws.com/${this._activeImage}') no-repeat 50% 50%;
-            background-size: contain;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
         
         .timeline {
@@ -267,7 +262,7 @@ class UDot extends connect(store)(LitElement) {
                     <u-round-button type="open-comments" @click="${this.toggleComments}"></u-round-button>
                   </div>
                   
-                  <div class="image"></div>
+                  <img src="https://urussu.s3.amazonaws.com/${this._activeImage}" class="image" alt="Уруссу, ${this._activeDecade} годы">
                   
                   <div class="timeline">
                     ${this._dot.images && this._activeDecade ? Object.entries(this._dot.images).map(decade => {
