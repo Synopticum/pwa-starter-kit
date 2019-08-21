@@ -143,6 +143,7 @@ class UMap extends connect(store)(LitElement) {
             cursor: default;
             pointer-events: none;
             opacity: .3;
+            filter: grayscale(100%);
         }
         
         .leaflet-control-container {
@@ -601,7 +602,7 @@ class UMap extends connect(store)(LitElement) {
   _addTempDot(coordinates) {
     this._$tempDot = new L.marker(coordinates, {
       icon: L.icon({
-        iconUrl: `${ENV[window.ENV].static}/static/images/markers/10th.png`,
+        iconUrl: `${ENV[window.ENV].static}/static/images/markers/unknown.png`,
         iconSize: [32, 32], // size of the icon
       })
     })

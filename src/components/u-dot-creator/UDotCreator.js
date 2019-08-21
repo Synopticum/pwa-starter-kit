@@ -95,7 +95,7 @@ class UDotCreator extends connect(store)(LitElement) {
         let dot = new Dot({
             layer: 'Sergey Novikov',
             type: 'old',
-            label: '10th',
+            label: 'unknown',
             coordinates: [this.lat, this.lng],
             authorId: this._user.id
         });
@@ -115,6 +115,7 @@ class Dot {
     constructor(options) {
         this.id = uuidv4();
         this.layer = options.layer;
+        this.label = options.label;
         this.type = options.type;
         this.coordinates = options.coordinates;
         this.authorId = options.authorId;
