@@ -28,7 +28,7 @@ export class UComment extends LitElement {
           </div>
           
           <div class="comment-controls">
-            ${this.isDeletingAllowed ? html`<div class="comment-controls__delete" @click="${() => this.delete()}"></div>` : ''}
+            ${this.isDeletingAllowed ? html`<div class="comment-controls__delete" @click="${this.delete}"></div>` : ''}
           </div>
         </div>
       </div>

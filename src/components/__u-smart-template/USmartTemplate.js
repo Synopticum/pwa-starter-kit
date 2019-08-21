@@ -24,7 +24,7 @@ export class USmartTemplate extends connect(store)(LitElement) {
     render() {
         return html`
           <div class="u-smart-template">
-            <button @click="${() => toggle()}"></button>
+            <button @click="${toggle}"></button>
           </div>
       `
     }

@@ -33,7 +33,7 @@ export class UDotControls extends connect(store)(LitElement) {
                     ${!isAnonymous(this._user) && (isAdmin(this._user) || this.isDotAuthor(this._user)) && this.hasImage() ?
                         html`<button class="delete-image"
                                      ?disabled="${this._isFetching || this._isUpdating}"
-                                     @click="${() => this.deleteImage(this._activeDecade)}">Удалить фото</button>` : ''}
+                                     @click="${this.deleteImage}">Удалить фото</button>` : ''}
                               
                     ${!isAnonymous(this._user) && (isAdmin(this._user) || this.isDotAuthor(this._user)) ?
                         html`<u-photo-upload type="dot"
@@ -64,7 +64,7 @@ export class UDotControls extends connect(store)(LitElement) {
                     ${!isAnonymous(this._user) && (isAdmin(this._user) || this.isDotAuthor(this._user)) ?
                         html`<button class="remove"
                                      ?disabled="${this._isFetching || this._isUpdating}"
-                                     @click="${(e) => this.remove(e)}">Удалить точку</button>` : ''}
+                                     @click="${this.remove}">Удалить точку</button>` : ''}
                 </div>
             </div>
           </div>
@@ -153,8 +153,8 @@ export class UDotControls extends connect(store)(LitElement) {
         this.dispatchEvent(new CustomEvent('hide-dot', {composed: true}));
     }
 
-    deleteImage(date) {
-        store.dispatch(deletePhoto('dot', this.dotId, date));
+    deleteImage() {
+        store.dispatch(deletePhoto('dot', this.dotId, this._activeDecade));
     }
 
     changeDotLabel(e) {

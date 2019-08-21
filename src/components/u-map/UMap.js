@@ -252,7 +252,7 @@ class UMap extends connect(store)(LitElement) {
               .x="${this._contextMenu.position.x}"
               .y="${this._contextMenu.position.y}"
               .origin="${this._contextMenu.position.origin}">
-                <div class="menu__item" @click="${() => this._createDot()}" slot="context-menu-items">Добавить точку</div>
+                <div class="menu__item" @click="${this._createDot}" slot="context-menu-items">Добавить точку</div>
                 <div class="menu__item" @click="${() => alert(1)}" slot="context-menu-items">Проверить</div>   
           </u-context-menu>
           

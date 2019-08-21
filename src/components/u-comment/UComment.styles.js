@@ -50,6 +50,6 @@ export default css`
     display: block;
     width: 12px;
     height: 12px;
-    background: url("static/images/button-icons/x.svg") no-repeat 50% 50%;
+    background: red;
 }
 `;

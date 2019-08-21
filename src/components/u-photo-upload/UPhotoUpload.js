@@ -47,7 +47,7 @@ class UPhotoUpload extends connect(store)(LitElement) {
                    
             <button 
                 class="upload ${this.isFileSelected && this.decade ? 'upload--active' : ''}"
-                @click="${() => this.upload(this.albumName)}"
+                @click="${this.upload}"
                 ?disabled="${this._isUploading || !this.decade || !this.isFileSelected}">Загрузить!</button>
           </div>
     `
@@ -94,7 +94,7 @@ class UPhotoUpload extends connect(store)(LitElement) {
         List of custom component's methods
         Any other methods
     */
-    upload(albumName) {
+    upload() {
         let files = this.$input.files;
 
         const photo = files[0];
