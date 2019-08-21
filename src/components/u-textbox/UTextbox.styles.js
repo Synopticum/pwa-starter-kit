@@ -7,6 +7,10 @@ export default css`
     display: inline-block;
 }
 
+:host([hidden]) {
+    display: none;
+}
+
 .textbox__element {
     width: 100%;
     padding: 5px 10px;

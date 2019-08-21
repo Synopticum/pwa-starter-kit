@@ -14,6 +14,10 @@ export default css`
     align-items: flex-end;
 }
 
+:host([hidden]) {
+    display: none;
+}
+
 .decade {
     cursor: pointer;
     padding: 5px 10px;

@@ -24,6 +24,10 @@ class U404 extends PageViewElement {
           white-space: nowrap;
           font-size: 24px;
         }
+
+        :host([hidden]) {
+            display: none;
+        }
       </style>
       
       <section class="not-found">

@@ -14,6 +14,10 @@ export default css`
     transition: transform .3s;
 }
 
+:host([hidden]) {
+    display: none;
+}
+
 ::slotted(.menu__item) {
     cursor: pointer;
     padding: 5px 25px 5px 15px;

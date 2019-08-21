@@ -13,6 +13,10 @@ export default css`
     background-color: rgba(255,255,255,.95);
 }
 
+:host([hidden]) {
+    display: none;
+}
+
 .title {
     font-size: 24px;
 }

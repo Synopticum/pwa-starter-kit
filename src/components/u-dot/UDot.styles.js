@@ -14,6 +14,10 @@ export default css`
     box-shadow: 4px 4px 4px rgba(0,0,0,.15);
 }
 
+:host([hidden]) {
+    display: none;
+}
+
 @media screen and (max-width: 1280px) {
     :host {
         width: 100%;

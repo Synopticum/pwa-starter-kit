@@ -7,6 +7,10 @@ export default css`
   display: inline-block;
 }
 
+:host([hidden]) {
+    display: none;
+}
+
 .textarea__element {
     width: 100%;
     font-family: 'PT Serif', Helvetica, 'Times New Roman', serif;

@@ -10,6 +10,10 @@ export default css`
     line-height: 1.3;
 }
 
+:host([hidden]) {
+    display: none;
+}
+
 .comment {
     opacity: 1;
     transition: opacity .3s;

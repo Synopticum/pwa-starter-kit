@@ -5,6 +5,10 @@ export default css`
     display: flex;
 }
 
+:host([hidden]) {
+    display: none;
+}
+
 .u-photo-upload {
     display: flex;
     align-items: center;
