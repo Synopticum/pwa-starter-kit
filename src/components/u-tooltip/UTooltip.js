@@ -26,7 +26,7 @@ class UTooltip extends LitElement {
         }
       </style>
       
-      <div class="item">
+      <div class="u-tooltip">
         <slot></slot>
       </div> 
     `

@@ -37,15 +37,17 @@ class UDotCreator extends connect(store)(LitElement) {
             }
           </style>
           
-          <form class="form">
-            <div class="bounce"></div>
-            
-            <div class="advanced-controls">
-              Добавить точку сюда?
-            </form>
-            
-            <button type="button" class="close" @click="${() => this.close()}">Отмена</button>
-            <button type="button" class="submit" @click="${(e) => this.create(e)}">Создать</button>  
+          <div class="u-dot-creator">
+              <form class="form">
+                <div class="bounce"></div>
+                
+                <div class="advanced-controls">
+                  Добавить точку сюда?
+                </form>
+                
+                <button type="button" class="close" @click="${() => this.close()}">Отмена</button>
+                <button type="button" class="submit" @click="${(e) => this.create(e)}">Создать</button>  
+              </div>
           </div>
     `;
     }

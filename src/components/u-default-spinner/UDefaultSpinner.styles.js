@@ -1,7 +1,7 @@
 import {css} from 'lit-element/lit-element';
 
 export default css`
-.default-spinner {
+.spinner {
     display: block;
     position: relative;
     width: 64px;
@@ -9,7 +9,7 @@ export default css`
     margin: 0 auto;
 }
 
-.default-spinner__circle {
+.spinner__circle {
     position: absolute;
     top: calc(50% - 6px);
     width: 11px;
@@ -19,27 +19,27 @@ export default css`
     animation-timing-function: cubic-bezier(0, 1, 1, 0);
 }
 
-.default-spinner__circle:nth-child(1) {
+.spinner__circle:nth-child(1) {
     left: 6px;
-    animation: default-spinner-1 0.6s infinite;
+    animation: spinner-1 0.6s infinite;
 }
 
-.default-spinner__circle:nth-child(2) {
+.spinner__circle:nth-child(2) {
     left: 6px;
-    animation: default-spinner-2 0.6s infinite;
+    animation: spinner-2 0.6s infinite;
 }
 
-.default-spinner__circle:nth-child(3) {
+.spinner__circle:nth-child(3) {
     left: 26px;
-    animation: default-spinner-2 0.6s infinite;
+    animation: spinner-2 0.6s infinite;
 }
 
-.default-spinner__circle:nth-child(4) {
+.spinner__circle:nth-child(4) {
     left: 45px;
-    animation: default-spinner-3 0.6s infinite;
+    animation: spinner-3 0.6s infinite;
 }
 
-@keyframes default-spinner-1 {
+@keyframes spinner-1 {
     0% {
       transform: scale(0);
     }
@@ -48,7 +48,7 @@ export default css`
     }
 }
 
-@keyframes default-spinner-2 {
+@keyframes spinner-2 {
     0% {
       transform: translate(0, 0);
     }
@@ -57,7 +57,7 @@ export default css`
     }
 }
 
-@keyframes default-spinner-3 {
+@keyframes spinner-3 {
     0% {
       transform: scale(1);
     }

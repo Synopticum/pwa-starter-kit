@@ -233,49 +233,51 @@ class UMap extends connect(store)(LitElement) {
         }
       </style>
       
-      <div class="container container--clouds-${this._clouds.visibility}">   
-        <u-tooltip 
-            ?hidden="${!this._tooltip.isVisible}" 
-            .x="${this._tooltip.position.x}"
-            .y="${this._tooltip.position.y}"
-            .origin="${this._tooltip.position.origin}"
-            .thumbnail="${this._tooltip.item && this._tooltip.item.images ? `https://urussu.s3.amazonaws.com/${this._getTooltipImage()}` : ''}">
-        </u-tooltip>               
+      <div class="u-map">
+        <div class="container container--clouds-${this._clouds.visibility}">   
+          <u-tooltip 
+              ?hidden="${!this._tooltip.isVisible}" 
+              .x="${this._tooltip.position.x}"
+              .y="${this._tooltip.position.y}"
+              .origin="${this._tooltip.position.origin}"
+              .thumbnail="${this._tooltip.item && this._tooltip.item.images ? `https://urussu.s3.amazonaws.com/${this._getTooltipImage()}` : ''}">
+          </u-tooltip>               
+          
+          ${this._dotPage.isVisible ? html`
+              <u-dot .dotId="${this._dotPage.currentDotId}"
+                     @hide-dot="${(e) => this._toggleDot(false, e)}"></u-dot>` : ``}
+              
+          <u-context-menu
+              ?hidden="${!this._contextMenu.isVisible}"
+              .x="${this._contextMenu.position.x}"
+              .y="${this._contextMenu.position.y}"
+              .origin="${this._contextMenu.position.origin}">
+                <div class="menu__item" @click="${() => this._createDot()}" slot="context-menu-items">Добавить точку</div>
+                <div class="menu__item" @click="${() => alert(1)}" slot="context-menu-items">Проверить</div>   
+          </u-context-menu>
+          
+          <u-dot-creator 
+              ?hidden="${!this._dotCreator.isVisible}"
+              .x="${this._dotCreator.position.x}"
+              .y="${this._dotCreator.position.y}"
+              .lat="${this._dotCreator.position.lat}"
+              .lng="${this._dotCreator.position.lng}"></u-dot-creator>
+        </div>
         
-        ${this._dotPage.isVisible ? html`
-            <u-dot 
-                .dotId="${this._dotPage.currentDotId}" 
-                @hide-dot="${(e) => this._toggleDot(false, e)}"></u-dot>` : ``}
-            
-        <u-context-menu
-            ?hidden="${!this._contextMenu.isVisible}"
-            .x="${this._contextMenu.position.x}"
-            .y="${this._contextMenu.position.y}"
-            .origin="${this._contextMenu.position.origin}">
-              <div class="menu__item" @click="${() => this._createDot()}" slot="context-menu-items">Добавить точку</div>
-              <div class="menu__item" @click="${() => alert(1)}" slot="context-menu-items">Проверить</div>   
-        </u-context-menu>
+        ${isAnonymous(this._user) ?
+          html`<a href="https://oauth.vk.com/authorize?client_id=4447151&display=page&redirect_uri=${ENV[window.ENV].static}&response_type=code&v=5.95" class="login"></a>`: 
+          html`<div class="user" @click="${this._toggleUserMenu}">
+                  <div class="user__image ${!this._user.image ? 'user__image--none': ''}">SN</div>
+                  <div class="user__menu ${this._isUserMenuVisible ? 'user__menu--active' : ''}">
+                      <div class="user__menu-option" @click="${this._logout}">Выйти</div>
+                  </div>
+               </div>`
+        }
         
-        <u-dot-creator 
-            ?hidden="${!this._dotCreator.isVisible}"
-            .x="${this._dotCreator.position.x}"
-            .y="${this._dotCreator.position.y}"
-            .lat="${this._dotCreator.position.lat}"
-            .lng="${this._dotCreator.position.lng}"></u-dot-creator>
+        <div id="map"></div>
+        <!-- <div id="user-role">your role is ${this._user.role}</div> -->
       </div>
-      
-      ${isAnonymous(this._user) ?
-        html`<a href="https://oauth.vk.com/authorize?client_id=4447151&display=page&redirect_uri=${ENV[window.ENV].static}&response_type=code&v=5.95" class="login"></a>`: 
-        html`<div class="user" @click="${this._toggleUserMenu}">
-                <div class="user__image ${!this._user.image ? 'user__image--none': ''}">SN</div>
-                <div class="user__menu ${this._isUserMenuVisible ? 'user__menu--active' : ''}">
-                    <div class="user__menu-option" @click="${this._logout}">Выйти</div>
-                </div>
-             </div>`
-      }
-      
-      <div id="map"></div>
-      <!-- <div id="user-role">your role is ${this._user.role}</div> -->`;
+    `;
   }
 
   createRenderRoot() {

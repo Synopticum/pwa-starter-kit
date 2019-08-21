@@ -17,17 +17,19 @@ export class UComment extends LitElement {
   }
 
   render() {
-    return html`   
-      <div class="comment ${this.isDeleting ? 'comment--is-deleting' : ''}">
-        <div class="comment__text">${this.comment.text}</div>
+    return html`  
+      <div class="u-comment"> 
+        <div class="comment ${this.isDeleting ? 'comment--is-deleting' : ''}">
+          <div class="comment__text">${this.comment.text}</div>
+            
+          <div class="comment-meta">
+              <div class="comment-meta__author">${this.comment.author} / </div>
+              <div class="comment-meta__date">${UComment._getDate(this.comment.date)}</div>
+          </div>
           
-        <div class="comment-meta">
-            <div class="comment-meta__author">${this.comment.author} / </div>
-            <div class="comment-meta__date">${UComment._getDate(this.comment.date)}</div>
-        </div>
-        
-        <div class="comment-controls">
-          ${this.isDeletingAllowed ? html`<div class="comment-controls__delete" @click="${() => this.delete()}"></div>` : ''}
+          <div class="comment-controls">
+            ${this.isDeletingAllowed ? html`<div class="comment-controls__delete" @click="${() => this.delete()}"></div>` : ''}
+          </div>
         </div>
       </div>
     `

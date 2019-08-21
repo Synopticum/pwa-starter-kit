@@ -23,17 +23,19 @@ export class UTextbox extends LitElement {
 
     render() {
         return html`
-          <div class="textbox ${this.isFetching || this.isUpdating ? 'textbox--is-loading' : ''}">
-            <input 
-                type="text" 
-                id="textbox__${this.id}"
-                class="textbox__element"
-                value="${this.value}" 
-                @keyup="${this.valueChanged}"
-                placeholder="${this.placeholder}"
-                ?disabled="${this.disabled || this.isFetching  || this.isUpdating}"
-                ?required="${this.required}"
-                autocomplete="off">
+          <div class="u-textbox">
+              <div class="textbox ${this.isFetching || this.isUpdating ? 'textbox--is-loading' : ''}">
+                <input 
+                    type="text" 
+                    id="textbox__${this.id}"
+                    class="textbox__element"
+                    value="${this.value}" 
+                    @keyup="${this.valueChanged}"
+                    placeholder="${this.placeholder}"
+                    ?disabled="${this.disabled || this.isFetching  || this.isUpdating}"
+                    ?required="${this.required}"
+                    autocomplete="off">
+              </div>
           </div>
     `;
     }

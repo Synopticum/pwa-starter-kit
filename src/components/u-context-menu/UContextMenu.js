@@ -25,7 +25,7 @@ export class UContextMenu extends LitElement {
         }
       </style>
       
-      <div class="menu">
+      <div class="u-context-menu">
         <slot name="context-menu-items"></slot>
       </div>
     `;

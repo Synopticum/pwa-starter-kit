@@ -30,9 +30,11 @@ class U404 extends PageViewElement {
         }
       </style>
       
-      <section class="not-found">
-        <h1>Абонентны алырга мөмкин түгель</h1>
-      </section>
+      <div class="u-404">
+        <section class="not-found">
+          <h1>Абонентны алырга мөмкин түгель</h1>
+        </section>
+      </div>
     `
   }
 }

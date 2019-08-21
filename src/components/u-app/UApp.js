@@ -19,16 +19,18 @@ class UApp extends connect(store)(LitElement) {
   }
 
   render() {
-    return html`      
-      <u-map width="6400"
-             height="4000"
-             min-zoom="4" 
-             max-zoom="5"
-             max-bounds="[[5,-180],[122,100]]"
-             object-fill-color="#ffc600"
-             object-stroke-width="2"></u-map>
-        
-      <u-404 ?active="${this._page === '404'}"></u-404>
+    return html`
+      <div class="u-app">
+        <u-map width="6400"
+               height="4000"
+               min-zoom="4" 
+               max-zoom="5"
+               max-bounds="[[5,-180],[122,100]]"
+               object-fill-color="#ffc600"
+               object-stroke-width="2"></u-map>
+          
+        <u-404 ?active="${this._page === '404'}"></u-404>
+      </div>
     `;
   }
 

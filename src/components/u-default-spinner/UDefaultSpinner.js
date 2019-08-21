@@ -16,11 +16,13 @@ export class UDefaultSpinner extends LitElement {
 
     render() {
         return html`
-          <div class="default-spinner">
-            <div class="default-spinner__circle"></div>
-            <div class="default-spinner__circle"></div>
-            <div class="default-spinner__circle"></div>
-            <div class="default-spinner__circle"></div>
+          <div class="u-default-spinner">
+              <div class="spinner">
+                <div class="spinner__circle"></div>
+                <div class="spinner__circle"></div>
+                <div class="spinner__circle"></div>
+                <div class="spinner__circle"></div>
+              </div>
           </div>
     `;
     }

@@ -22,15 +22,17 @@ export class UTextarea extends LitElement {
     }
 
     render() {
-        return html`          
-          <div class="textarea textarea--${this.type} ${this.isUpdating ? 'textarea--is-updating' : ''}">
-            <textarea
-                class="textarea__element"
-                id="textarea__${this.id}" 
-                placeholder="${this.placeholder}"
-                @keyup="${this.valueChanged}"
-                ?disabled="${this.disabled}"
-                ?required="${this.required}">${this.value}</textarea>
+        return html`
+          <div class="u-textarea">
+              <div class="textarea textarea--${this.type} ${this.isUpdating ? 'textarea--is-updating' : ''}">
+                <textarea
+                    class="textarea__element"
+                    id="textarea__${this.id}" 
+                    placeholder="${this.placeholder}"
+                    @keyup="${this.valueChanged}"
+                    ?disabled="${this.disabled}"
+                    ?required="${this.required}">${this.value}</textarea>
+              </div>
           </div>
     `;
     }

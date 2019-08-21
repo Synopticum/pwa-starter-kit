@@ -30,42 +30,45 @@ export class UComments extends connect(store)(LitElement) {
 
   render() {
     return html`
-      <div class="title">Комментарии</div>
-      <a href="#" @click="${this.toggleComments}">Скрыть комментарии</a>
-      
-      <div class="comments">
-        ${this._isFetching ? html`<u-default-spinner class="loading"/>` : ''}
-      
-        ${!this._isFetching && isEmpty(this._comments) ? html`<div class="no-comments">Нет комментариев</div>` : ''}
+      <div class="u-comments">
+        <div class="title">Комментарии</div>
+        <a href="#" @click="${this.toggleComments}">Скрыть комментарии</a>
         
-        ${repeat(this._comments, comment => comment.id, comment => {
-          return html`
-            <u-comment 
-                .comment="${comment}" 
-                .isDeleting="${this._commentsToDelete.includes(comment.id)}"
-                .isDeletingAllowed="${!isAnonymous(this._user) && (isAdmin(this._user) || this.isCommentAuthor(this._user, comment))}"
-                @delete="${(e) => this.delete(e)}"></u-comment>
-          `;
-        })}
+        <div class="comments">
+          ${this._isFetching ? html`<u-default-spinner class="loading"/>` : ''}
+        
+          ${!this._isFetching && isEmpty(this._comments) ? html`<div class="no-comments">Нет комментариев</div>` : ''}
+          
+          ${repeat(this._comments, comment => comment.id, comment => {
+            return html`
+              <u-comment 
+                  .comment="${comment}" 
+                  .isDeleting="${this._commentsToDelete.includes(comment.id)}"
+                  .isDeletingAllowed="${!isAnonymous(this._user) && (isAdmin(this._user) || this.isCommentAuthor(this._user, comment))}"
+                  @delete="${(e) => this.delete(e)}"></u-comment>
+            `;
+          })}
+        </div>
+        
+        ${!isAnonymous(this._user) ? 
+          html`<form class="form">
+                <u-textarea
+                    type="default"
+                    id="comment-to-add" 
+                    class="textarea"
+                    placeholder="Добавить комментарий"
+                    ?is-updating="${this._isCommentAdding}" 
+                    @keyup="${this.validate}"
+                    required></u-textarea>
+                    
+                <button 
+                    class="button"
+                    id="add-comment"
+                    ?disabled="${!this._isValid || this._isFetching || this._isCommentAdding}"
+                    @click="${(e) => this.add(e)}">Добавить</button>
+              </form>`: ''}
       </div>
-      
-      ${!isAnonymous(this._user) ? 
-        html`<form class="form">
-              <u-textarea
-                  type="default"
-                  id="comment-to-add" 
-                  class="textarea"
-                  placeholder="Добавить комментарий"
-                  ?is-updating="${this._isCommentAdding}" 
-                  @keyup="${this.validate}"
-                  required></u-textarea>
-                  
-              <button 
-                  class="button"
-                  id="add-comment"
-                  ?disabled="${!this._isValid || this._isFetching || this._isCommentAdding}"
-                  @click="${(e) => this.add(e)}">Добавить</button>
-            </form>`: ''}`
+    `
   }
 
   constructor() {
