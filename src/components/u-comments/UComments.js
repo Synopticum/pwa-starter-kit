@@ -6,7 +6,7 @@ import isEmpty from 'lodash-es/isEmpty';
 import { store } from '../../store';
 import { connect } from 'pwa-helpers';
 import {putComment, deleteComment, fetchComments} from './UComments.actions';
-import { comments } from "../../reducers/Comments.reducer";
+import { comments } from "./UComments.reducer";
 import {isAdmin, isAnonymous} from "../u-app/UApp.helpers";
 import '../u-default-spinner/UDefaultSpinner';
 import '../u-textarea/UTextarea';

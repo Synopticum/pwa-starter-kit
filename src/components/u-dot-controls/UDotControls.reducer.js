@@ -1,28 +1,28 @@
-import {USmartTemplateConstants} from "../components/__u-smart-template/USmartTemplate.actions";
+import {UDotControlsConstants} from "./UDotControls.actions";
 import {
     generateInProgressActionTypeName,
     generateSuccessActionTypeName,
     generateErrorActionTypeName
-} from "../middleware/asyncActionsMiddleware";
+} from "../../middleware/asyncActionsMiddleware";
 
-export const pieceOfState = (state = {}, action) => {
+export const dotControls = (state = {}, action) => {
     switch (action.type) {
 
         // -------
-        case generateInProgressActionTypeName(USmartTemplateConstants.FETCH):
+        case generateInProgressActionTypeName(UDotControlsConstants.FETCH):
             return state;
 
-        case generateSuccessActionTypeName(USmartTemplateConstants.FETCH):
+        case generateSuccessActionTypeName(UDotControlsConstants.FETCH):
             return {
                 ...state,
                 user: action.payload
             };
 
-        case generateErrorActionTypeName(USmartTemplateConstants.FETCH):
+        case generateErrorActionTypeName(UDotControlsConstants.FETCH):
             return state;
 
         // -------
-        case USmartTemplateConstants.TOGGLE:
+        case UDotControlsConstants.TOGGLE:
             return {
                 ...state,
                 data: 123

@@ -7,9 +7,8 @@ import { store } from '../../store';
 import { connect } from 'pwa-helpers/connect-mixin';
 import { toggleTooltip, toggleContextMenu, toggleDotCreator, setCurrentDotId, setCloudsVisibility, fetchDots } from './UMap.actions';
 import props from './UMap.props';
-import { dots } from "../../reducers/Dots.reducer";
-import { app } from "../../reducers/App.reducer";
-import { map } from "../../reducers/Map.reducer";
+import { app } from "../u-app/UApp.reducer";
+import { map, dots } from "./UMap.reducer";
 import {isAdmin,isAnonymous} from "../u-app/UApp.helpers";
 
 import '../u-context-menu/UContextMenu';

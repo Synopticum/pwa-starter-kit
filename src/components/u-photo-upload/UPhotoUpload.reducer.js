@@ -2,8 +2,8 @@ import {
     generateErrorActionTypeName,
     generateInProgressActionTypeName,
     generateSuccessActionTypeName
-} from "../middleware/asyncActionsMiddleware";
-import {UPhotoUploadConstants} from "../components/u-photo-upload/UPhotoUpload.actions";
+} from "../../middleware/asyncActionsMiddleware";
+import {UPhotoUploadConstants} from "./UPhotoUpload.actions";
 
 export const photoUpload = (state = {
     isUploading: false

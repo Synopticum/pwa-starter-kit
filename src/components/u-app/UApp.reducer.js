@@ -1,9 +1,9 @@
-import {AppConstants} from "../components/u-app/UApp.actions";
+import {AppConstants} from "./UApp.actions";
 import {
     generateInProgressActionTypeName,
     generateSuccessActionTypeName,
     generateErrorActionTypeName
-} from "../middleware/asyncActionsMiddleware";
+} from "../../middleware/asyncActionsMiddleware";
 
 const anonymousUser = Object.freeze({
     role: 'anonymous',

@@ -1,12 +1,12 @@
 //
 // Reducer
 //
-import {CommentsConstants} from "../components/u-comments/UComments.actions";
+import {CommentsConstants} from "./UComments.actions";
 import {
     generateInProgressActionTypeName,
     generateSuccessActionTypeName,
     generateErrorActionTypeName
-} from "../middleware/asyncActionsMiddleware";
+} from "../../middleware/asyncActionsMiddleware";
 
 export const comments = (state = {
     objectPage: {

@@ -2,7 +2,7 @@ import {html, LitElement} from 'lit-element/lit-element';
 import {store} from '../../store';
 import {connect} from 'pwa-helpers';
 import {fetch, toggle} from './USmartTemplate.actions';
-import {pieceOfState} from "../../reducers/USmartTemplate.reducer";
+import {pieceOfState} from "./USmartTemplate.reducer";
 import props from './USmartTemplate.props';
 import styles from './USmartTemplate.styles';
 

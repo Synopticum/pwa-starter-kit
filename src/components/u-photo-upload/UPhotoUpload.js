@@ -2,7 +2,7 @@ import {html, LitElement} from 'lit-element/lit-element';
 
 import {store} from '../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
-import {photoUpload} from "../../reducers/UPhotoUpload.reducer";
+import {photoUpload} from "./UPhotoUpload.reducer";
 import {uploadPhoto} from './UPhotoUpload.actions';
 import '../u-button/UButton';
 

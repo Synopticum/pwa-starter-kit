@@ -1,10 +1,10 @@
 import isEmpty from 'lodash-es/isEmpty';
-import {DotConstants} from "../components/u-dot/UDot.actions";
+import {DotConstants} from "./UDot.actions";
 import {
     generateInProgressActionTypeName,
     generateSuccessActionTypeName,
     generateErrorActionTypeName,
-} from "../middleware/asyncActionsMiddleware";
+} from "../../middleware/asyncActionsMiddleware";
 
 export const dotPage = (state = {
     dot: { },

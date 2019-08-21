@@ -3,7 +3,7 @@ import {store} from '../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
 import {putDot} from '../u-dot/UDot.actions';
 import {toggleDotCreator, setCloudsVisibility} from '../u-map/UMap.actions';
-import {map} from "../../reducers/Map.reducer";
+import {map} from "../u-map/UMap.reducer";
 import {isAdmin, isAnonymous} from "../u-app/UApp.helpers";
 import '../u-textbox/UTextbox';
 import props from './UDotCreator.props';

@@ -5,7 +5,7 @@ import props from './UDot.props';
 import styles from './UDot.styles';
 import {fetchDot, putDot, clearDotState, deleteDot, setActiveImage} from './UDot.actions';
 import {setCloudsVisibility} from '../u-map/UMap.actions';
-import {dotPage} from "../../reducers/Dot.reducer";
+import {dotPage} from "./UDot.reducer";
 import {isAdmin} from "../u-app/UApp.helpers";
 import '../u-textbox/UTextbox';
 import '../u-button/UButton';
