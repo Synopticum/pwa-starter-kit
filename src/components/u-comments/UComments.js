@@ -1,6 +1,6 @@
 import {html, LitElement} from 'lit-element/lit-element';
 import {DateTime} from "luxon";
-import {repeat} from 'lit-element/node_modules/lit-html/directives/repeat';
+import {repeat} from 'lit-html/directives/repeat';
 import isEmpty from 'lodash-es/isEmpty';
 import {store} from '../../store';
 import {connect} from 'pwa-helpers';
