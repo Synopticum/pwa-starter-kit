@@ -1,5 +1,5 @@
-import { ENV } from '../../../environments/environments';
-import { getApiHeaders } from '../../../environments/api';
+import {ENV} from '../../../environments/environments';
+import {getApiHeaders} from '../../../environments/api';
 
 export const USmartTemplateConstants = {
     FETCH: 'SMART_TEMPLATE_FETCH',

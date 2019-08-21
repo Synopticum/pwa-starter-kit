@@ -1,6 +1,6 @@
-import { ENV } from '../../../environments/environments';
-import { setCurrentDotId } from '../u-map/UMap.actions';
-import { getApiHeaders } from '../../../environments/api';
+import {ENV} from '../../../environments/environments';
+import {setCurrentDotId} from '../u-map/UMap.actions';
+import {getApiHeaders} from '../../../environments/api';
 
 export const AppConstants = {
   PAGE: {

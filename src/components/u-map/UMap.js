@@ -1,15 +1,22 @@
-import { ENV } from '../../../environments/environments';
-import { getApiHeaders } from '../../../environments/api';
-import { LitElement, html, css } from 'lit-element/lit-element';
+import {ENV} from '../../../environments/environments';
+import {getApiHeaders} from '../../../environments/api';
+import {html, LitElement} from 'lit-element/lit-element';
 import debounce from 'lodash-es/debounce';
 import isEmpty from 'lodash-es/isEmpty';
-import { store } from '../../store';
-import { connect } from 'pwa-helpers/connect-mixin';
-import { toggleTooltip, toggleContextMenu, toggleDotCreator, setCurrentDotId, setCloudsVisibility, fetchDots } from './UMap.actions';
+import {store} from '../../store';
+import {connect} from 'pwa-helpers/connect-mixin';
+import {
+  fetchDots,
+  setCloudsVisibility,
+  setCurrentDotId,
+  toggleContextMenu,
+  toggleDotCreator,
+  toggleTooltip
+} from './UMap.actions';
 import props from './UMap.props';
-import { app } from "../u-app/UApp.reducer";
-import { map, dots } from "./UMap.reducer";
-import {isAdmin,isAnonymous} from "../u-app/UApp.helpers";
+import {app} from "../u-app/UApp.reducer";
+import {dots, map} from "./UMap.reducer";
+import {isAdmin, isAnonymous} from "../u-app/UApp.helpers";
 
 import '../u-context-menu/UContextMenu';
 import '../u-tooltip/UTooltip';

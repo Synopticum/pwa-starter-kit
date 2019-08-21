@@ -1,8 +1,8 @@
 import {AppConstants} from "./UApp.actions";
 import {
+    generateErrorActionTypeName,
     generateInProgressActionTypeName,
-    generateSuccessActionTypeName,
-    generateErrorActionTypeName
+    generateSuccessActionTypeName
 } from "../../middleware/asyncActionsMiddleware";
 
 const anonymousUser = Object.freeze({

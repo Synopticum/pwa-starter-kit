@@ -1,5 +1,5 @@
-import { ENV } from '../../../environments/environments';
-import { getApiHeaders } from '../../../environments/api';
+import {ENV} from '../../../environments/environments';
+import {getApiHeaders} from '../../../environments/api';
 import {MapConstants} from "../u-map/UMap.actions";
 import isEmpty from "lodash-es/isEmpty";
 

@@ -1,9 +1,8 @@
 import {html, LitElement} from 'lit-element/lit-element';
 import {store} from '../../store';
 import {connect} from 'pwa-helpers';
-import {fetch, toggle} from './UDotControls.actions';
 import {dotControls} from "./UDotControls.reducer";
-import {isAdmin,isAnonymous} from "../u-app/UApp.helpers";
+import {isAdmin, isAnonymous} from "../u-app/UApp.helpers";
 import {clearDotState, deleteDot, putDot} from "../u-dot/UDot.actions";
 import {deletePhoto} from "../u-photo-upload/UPhotoUpload.actions";
 import '../u-photo-upload/UPhotoUpload';
@@ -31,11 +30,10 @@ export class UDotControls extends connect(store)(LitElement) {
           <div class="u-dot-controls">
             <div class="controls">
                 <div class="controls__photo">
-                    ${!isAnonymous(this._user) && (isAdmin(this._user) || this.isDotAuthor(this._user)) && this._activeImage ?
-                        html`<u-button class="delete-image"
-                                       type="danger"
-                                       ?disabled="${this._isFetching || this._isUpdating}"
-                                       @click="${() => this.deleteImage(this._activeDecade)}">Удалить фото</u-button>` : ''}
+                    ${!isAnonymous(this._user) && (isAdmin(this._user) || this.isDotAuthor(this._user)) && this.hasImage() ?
+                        html`<button class="delete-image"
+                                     ?disabled="${this._isFetching || this._isUpdating}"
+                                     @click="${() => this.deleteImage(this._activeDecade)}">Удалить фото</button>` : ''}
                               
                     ${!isAnonymous(this._user) && (isAdmin(this._user) || this.isDotAuthor(this._user)) ?
                         html`<u-photo-upload type="dot"
@@ -46,15 +44,7 @@ export class UDotControls extends connect(store)(LitElement) {
                 <div class="controls__type">
                     <select class="select-label ${this._dot.label ? 'select-label--active' : ''}" @change="${this.changeDotLabel}"> 
                         <option value="0" ?selected="${!this._dot.label}" disabled hidden>Выберите метку</option>
-                        <option value="40th" ?selected="${this._dot.label === '40th'}">Сороковые</option>
-                        <option value="50th" ?selected="${this._dot.label === '50th'}">Пятидесятые</option>
-                        <option value="60th" ?selected="${this._dot.label === '60th'}">Шестидесятые</option>
-                        <option value="70th" ?selected="${this._dot.label === '70th'}">Семидесятые</option>
-                        <option value="80th" ?selected="${this._dot.label === '80th'}">Восьмидесятые</option>
-                        <option value="90th" ?selected="${this._dot.label === '90th'}">Девяностые</option>
-                        <option value="00th" ?selected="${this._dot.label === '00th'}">Нулевые</option>
-                        <option value="10th" ?selected="${this._dot.label === '10th'}">Десятые</option>    
-                        <option value="unknown" ?selected="${this._dot.label === 'unknown'}">Неизвестно</option>     
+                        ${Object.entries(this.decadeLabels).map(entry => html`<option value="${entry[0]}" ?selected="${this._dot.label === entry[0]}">${entry[1]}</option>`)}
                     </select>
                             
                     <select class="select-label ${this._dot.type ? 'select-type--active' : ''}" @change="${this.changeDotType}"> 
@@ -66,25 +56,15 @@ export class UDotControls extends connect(store)(LitElement) {
                             
                    <select class="select-layer ${this._dot.layer ? 'select-layer--active' : ''}" @change="${this.changeDotLayer}"> 
                        <option value="0" ?selected="${!this._dot.layer}" disabled hidden>Выберите слой</option>
-                       <option value="Сороковые" ?selected="${this._dot.layer === 'Сороковые'}">Сороковые</option>
-                       <option value="Пятидесятые" ?selected="${this._dot.layer === 'Пятидесятые'}">Пятидесятые</option>
-                       <option value="Шестидесятые" ?selected="${this._dot.layer === 'Шестидесятые'}">Шестидесятые</option>
-                       <option value="Семидесятые" ?selected="${this._dot.layer === 'Семидесятые'}">Семидесятые</option>
-                       <option value="Восьмидесятые" ?selected="${this._dot.layer === 'Восьмидесятые'}">Восьмидесятые</option>
-                       <option value="Девяностые" ?selected="${this._dot.layer === 'Девяностые'}">Девяностые</option>
-                       <option value="Нулевые" ?selected="${this._dot.layer === 'Нулевые'}">Нулевые</option>
-                       <option value="Десятые" ?selected="${this._dot.layer === 'Десятые'}">Десятые</option>
-                       <option value="Неизвестно" ?selected="${this._dot.layer === 'Неизвестно'}">Неизвестно</option>
-                       <option value="Sergey Novikov" ?selected="${this._dot.layer === 'Sergey Novikov'}">Sergey Novikov</option>
+                       ${this.decadeLayers.map(decade => html`<option value="${decade}" ?selected="${this._dot.layer === decade}">${decade}</option>`)}
                    </select>
                 </div>
                              
                 <div class="controls__dot">
                     ${!isAnonymous(this._user) && (isAdmin(this._user) || this.isDotAuthor(this._user)) ?
-                        html`<u-button class="remove"
-                                       type="danger"
-                                       ?disabled="${this._isFetching || this._isUpdating}"
-                                       @click="${(e) => this.remove(e)}">Удалить точку</u-button>` : ''}
+                        html`<button class="remove"
+                                     ?disabled="${this._isFetching || this._isUpdating}"
+                                     @click="${(e) => this.remove(e)}">Удалить точку</button>` : ''}
                 </div>
             </div>
           </div>
@@ -132,7 +112,30 @@ export class UDotControls extends connect(store)(LitElement) {
     }
 
     _setDefaults() {
+        this.decadeLabels = {
+            '40th': 'Сороковые',
+            '50th': 'Пятидесятые',
+            '60th': 'Шестидесятые',
+            '70th': 'Семидесятые',
+            '80th': 'Восьмидесятые',
+            '90th': 'Девяностые',
+            '00th': 'Нулевые',
+            '10th': 'Десятые',
+            'unknown': 'Неизвестно'
+        };
 
+        this.decadeLayers = [
+            'Сороковые',
+            'Пятидесятые',
+            'Шестидесятые',
+            'Семидесятые',
+            'Восьмидесятые',
+            'Девяностые',
+            'Нулевые',
+            'Десятые',
+            'Неизвестно',
+            'Sergey Novikov'
+        ];
     }
 
     /*
@@ -185,6 +188,10 @@ export class UDotControls extends connect(store)(LitElement) {
         };
 
         store.dispatch(putDot(updatedDot, this.dotId));
+    }
+
+    hasImage() {
+        return Boolean(this._activeImage);
     }
 }
 

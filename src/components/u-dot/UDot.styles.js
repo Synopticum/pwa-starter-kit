@@ -1,4 +1,5 @@
 import {css} from 'lit-element/lit-element';
+
 export default css`
 :host {
     width: 95%;
@@ -32,6 +33,11 @@ export default css`
     right: 20px;
     top: 20px;
     z-index: 175;
+}
+
+.wrapper {
+    width: 100%;
+    height: 100%;
 }
 
 .u-dot {

@@ -1,8 +1,8 @@
 import {UDotControlsConstants} from "./UDotControls.actions";
 import {
+    generateErrorActionTypeName,
     generateInProgressActionTypeName,
-    generateSuccessActionTypeName,
-    generateErrorActionTypeName
+    generateSuccessActionTypeName
 } from "../../middleware/asyncActionsMiddleware";
 
 export const dotControls = (state = {}, action) => {

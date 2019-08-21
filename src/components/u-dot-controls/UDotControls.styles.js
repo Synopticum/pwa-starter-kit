@@ -1,4 +1,5 @@
 import {css} from 'lit-element/lit-element';
+
 export default css`
 .controls {
     position: absolute;
@@ -29,15 +30,7 @@ export default css`
     display: flex;
 }
 
-.remove {
-    --border-radius: 15px;
-}
-
 .controls__photo {
     display: flex;
-}
-
-.delete-image {
-    --border-radius: 15px 0 0 15px;
 }
 `;

@@ -4,7 +4,6 @@ import {store} from '../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
 import {photoUpload} from "./UPhotoUpload.reducer";
 import {uploadPhoto} from './UPhotoUpload.actions';
-import '../u-button/UButton';
 
 import props from './UPhotoUpload.props';
 import styles from './UPhotoUpload.styles';
@@ -46,11 +45,10 @@ class UPhotoUpload extends connect(store)(LitElement) {
                 <option value="2010" ?selected="${this.decade === '2010'}">В десятых</option>
             </select>
                    
-            <u-button 
-                type="regular"
+            <button 
                 class="upload ${this.isFileSelected && this.decade ? 'upload--active' : ''}"
                 @click="${() => this.upload(this.albumName)}"
-                ?disabled="${this._isUploading || !this.decade || !this.isFileSelected}">Загрузить!</u-button>
+                ?disabled="${this._isUploading || !this.decade || !this.isFileSelected}">Загрузить!</button>
           </div>
     `
     }

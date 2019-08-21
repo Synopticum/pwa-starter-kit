@@ -3,9 +3,9 @@
 //
 import {CommentsConstants} from "./UComments.actions";
 import {
+    generateErrorActionTypeName,
     generateInProgressActionTypeName,
-    generateSuccessActionTypeName,
-    generateErrorActionTypeName
+    generateSuccessActionTypeName
 } from "../../middleware/asyncActionsMiddleware";
 
 export const comments = (state = {

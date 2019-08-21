@@ -1,8 +1,8 @@
-import { LitElement, html } from 'lit-element';
-import { connect } from 'pwa-helpers/connect-mixin.js';
-import { installRouter } from 'pwa-helpers/router.js';
-import { store } from '../../store.js';
-import {navigate, fetchUserInfo, enableAnonymousMode} from './UApp.actions';
+import {html, LitElement} from 'lit-element';
+import {connect} from 'pwa-helpers/connect-mixin.js';
+import {installRouter} from 'pwa-helpers/router.js';
+import {store} from '../../store.js';
+import {enableAnonymousMode, fetchUserInfo, navigate} from './UApp.actions';
 import props from './UApp.props';
 
 import '../u-map/UMap.js';

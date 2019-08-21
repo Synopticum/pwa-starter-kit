@@ -1,8 +1,8 @@
 import {MapConstants} from "./UMap.actions";
 import {
+    generateErrorActionTypeName,
     generateInProgressActionTypeName,
     generateSuccessActionTypeName,
-    generateErrorActionTypeName,
 } from "../../middleware/asyncActionsMiddleware";
 import {DotConstants} from "../u-dot/UDot.actions";
 

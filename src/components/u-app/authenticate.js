@@ -1,4 +1,4 @@
-import { ENV } from '../../../environments/environments';
+import {ENV} from '../../../environments/environments';
 
 export async function authenticate() {
   let token = await getToken();

@@ -1,8 +1,8 @@
 import {USmartTemplateConstants} from "./USmartTemplate.actions";
 import {
+    generateErrorActionTypeName,
     generateInProgressActionTypeName,
-    generateSuccessActionTypeName,
-    generateErrorActionTypeName
+    generateSuccessActionTypeName
 } from "../../middleware/asyncActionsMiddleware";
 
 export const pieceOfState = (state = {}, action) => {

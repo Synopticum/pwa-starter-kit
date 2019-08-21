@@ -1,5 +1,5 @@
-import { html, LitElement } from 'lit-element/lit-element';
-import { DateTime } from "luxon";
+import {html, LitElement} from 'lit-element/lit-element';
+import {DateTime} from "luxon";
 import props from './UComment.props';
 import styles from './UComment.styles';
 

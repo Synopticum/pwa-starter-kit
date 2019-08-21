@@ -1,4 +1,4 @@
-import { html, LitElement } from 'lit-element/lit-element';
+import {html, LitElement} from 'lit-element/lit-element';
 import props from './UContextMenu.props';
 import styles from './UContextMenu.styles';
 

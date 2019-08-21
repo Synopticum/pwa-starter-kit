@@ -1,14 +1,13 @@
-import {html, css, LitElement} from 'lit-element/lit-element';
+import {html, LitElement} from 'lit-element/lit-element';
 import {store} from '../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
 import props from './UDot.props';
 import styles from './UDot.styles';
-import {fetchDot, putDot, clearDotState, deleteDot, setActiveImage} from './UDot.actions';
+import {clearDotState, fetchDot, setActiveImage} from './UDot.actions';
 import {setCloudsVisibility} from '../u-map/UMap.actions';
 import {dotPage} from "./UDot.reducer";
 import {isAdmin} from "../u-app/UApp.helpers";
 import '../u-textbox/UTextbox';
-import '../u-button/UButton';
 import '../u-comments/UComments';
 import '../u-dot-controls/UDotControls';
 import '../u-dot-timeline/UDotTimeline';
@@ -63,13 +62,9 @@ class UDot extends connect(store)(LitElement) {
         this._user = state.app.user;
         this._dot = state.dotPage.dot;
 
-        this._comments = state.comments.dotPage.items;
-
         this._activeImage = state.dotPage.activeImage;
         this._activeDecade = state.dotPage.activeDecade;
 
-        this._isFetching = state.dotPage.isFetching;
-        this._isUpdating = state.dotPage.isUpdating;
         this._isLoadingError = state.dotPage.isLoadingError;
     }
 
