@@ -1,61 +1,8 @@
 import {css} from 'lit-element/lit-element';
 
 export default css`
-:host {
-    position: absolute;
-    right: 0;
-    top: 0;
-    z-index: 200;
-    width: 400px;
-    padding: 20px;
-    height: 100%;
-    box-sizing: border-box;
-    background-color: rgba(255,255,255,.95);
-    border-left: 2px solid rgba(111,155,52,.95);
-}
-
-:host([hidden]) {
-    display: none;
-}
-
-.u-comments {
-    height: 100%;
-}
-
-.title {
-    font-size: 24px;
-}
-
-.loading {
-    display: block;
-    margin: 10px 0;
-}
-
-.no-comments {
-    margin: 10px 0;
-    padding: 10px;
-    border: 1px dashed #eee;
-    font-size: 14px;
-}
-
-.comments {
-    height: calc(100% - 140px);
-    overflow-y: auto;
-    margin-bottom: 15px;
-    padding-right: 10px;
-}
-
-u-comment:last-of-type {
-    border-bottom: 0;
-}
-
-.form {
-    display: flex;
-    flex-direction: column;
-}
-
-.textarea {
-    margin-bottom: 10px;
+.u-text-button {
+  display: inline-flex;
 }
 
 .button {
@@ -99,12 +46,8 @@ u-comment:last-of-type {
     box-shadow: 0 0 0 1px transparent inset;
 }
 
-.button:focus {
-    background-color: #cacbcd;
-    color: rgba(0,0,0,.8);
-}
-
-.button--add-comment {
-    align-self: flex-end;
+.button:disabled {
+    cursor: default;
+    opacity: .5;
 }
 `;

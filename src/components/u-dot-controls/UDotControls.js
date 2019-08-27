@@ -6,6 +6,7 @@ import {isAdmin, isAnonymous} from "../u-app/UApp.helpers";
 import {clearDotState, deleteDot, putDot} from "../u-dot/UDot.actions";
 import {deletePhoto} from "../u-photo-upload/UPhotoUpload.actions";
 import '../u-photo-upload/UPhotoUpload';
+import '../u-text-button/UTextButton';
 import {setCloudsVisibility} from "../u-map/UMap.actions";
 import props from './UDotControls.props';
 import styles from './UDotControls.styles';
@@ -31,9 +32,9 @@ export class UDotControls extends connect(store)(LitElement) {
             <div class="controls">
                 <div class="controls__photo">
                     ${!isAnonymous(this._user) && (isAdmin(this._user) || this.isDotAuthor(this._user)) && this.hasImage() ?
-                        html`<button class="delete-image"
-                                     ?disabled="${this._isFetching || this._isUpdating}"
-                                     @click="${this.deleteImage}">Удалить фото</button>` : ''}
+                        html`<u-text-button class="delete-image"
+                                            ?disabled="${this._isFetching || this._isUpdating}"
+                                            @click="${this.deleteImage}">Удалить фото</u-text-button>` : ''}
                               
                     ${!isAnonymous(this._user) && (isAdmin(this._user) || this.isDotAuthor(this._user)) ?
                         html`<u-photo-upload type="dot"
@@ -62,9 +63,9 @@ export class UDotControls extends connect(store)(LitElement) {
                              
                 <div class="controls__dot">
                     ${!isAnonymous(this._user) && (isAdmin(this._user) || this.isDotAuthor(this._user)) ?
-                        html`<button class="remove"
-                                     ?disabled="${this._isFetching || this._isUpdating}"
-                                     @click="${this.remove}">Удалить точку</button>` : ''}
+                        html`<u-text-button class="remove"
+                                            ?disabled="${this._isFetching || this._isUpdating}"
+                                            @click="${this.remove}">Удалить точку</u-text-button>` : ''}
                 </div>
             </div>
           </div>

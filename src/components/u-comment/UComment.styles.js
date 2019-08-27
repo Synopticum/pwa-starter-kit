@@ -16,6 +16,7 @@ export default css`
 
 .u-comment {
     display: grid;
+    grid-template-columns: 50px 1fr;
     grid-template-areas: 'user comment';
 }
 
@@ -40,7 +41,6 @@ export default css`
 
 .comment {
     grid-area: comment;
-    margin-left: 10px;
     opacity: 1;
     transition: opacity .3s;
 }
@@ -51,7 +51,7 @@ export default css`
 }
 
 .comment__text {
-    font-size: 14px;
+    font-size: 15px;
 }
 
 .comment-meta {

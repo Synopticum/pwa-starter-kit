@@ -61,7 +61,7 @@ export class UComments extends connect(store)(LitElement) {
                     required></u-textarea>
                     
                 <button 
-                    class="button"
+                    class="button button--add-comment"
                     id="add-comment"
                     ?disabled="${!this._isValid || this._isFetching || this._isCommentAdding}"
                     @click="${this.add}">Добавить</button>
