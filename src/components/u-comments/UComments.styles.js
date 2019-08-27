@@ -35,9 +35,13 @@ export default css`
 }
 
 .comments {
-  height: 75vh;
-  overflow-y: auto;
-  padding-right: 10px;        
+    height: 75vh;
+    overflow-y: auto;
+    padding-right: 10px;        
+}
+
+u-comment:last-of-type {
+    border-bottom: 0;
 }
 
 .form {
