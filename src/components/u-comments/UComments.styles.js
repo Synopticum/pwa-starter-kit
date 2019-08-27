@@ -45,10 +45,6 @@ export default css`
     padding-right: 10px;
 }
 
-u-comment:last-of-type {
-    border-bottom: 0;
-}
-
 .form {
     display: flex;
     flex-direction: column;

@@ -10,6 +10,10 @@ export default css`
     line-height: 1.3;
 }
 
+:host(:last-of-type) {
+    border-bottom: 0;
+}
+
 :host([hidden]) {
     display: none;
 }

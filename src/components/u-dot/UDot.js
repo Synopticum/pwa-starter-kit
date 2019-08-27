@@ -32,6 +32,7 @@ class UDot extends connect(store)(LitElement) {
       return html`
           <div class="u-dot">
             <nav class="nav">
+                ${isAdmin(this._user) ? html`<button @click="${this.toggleControls}" class="icon-button icon-button--controls  ${this.areControlsVisible ? 'icon-button--controls-are-visible' : ''}"></button>` : ''}
                 ${!this._isLoadingError ? html`<button @click="${this.toggleComments}" class="icon-button icon-button--comments ${this.areCommentsVisible ? 'icon-button--comments-are-visible' : ''}"></button>` : ''}
                 <button @click="${this.close}" class="icon-button icon-button--close"></button>
             </nav>
@@ -39,7 +40,7 @@ class UDot extends connect(store)(LitElement) {
             ${!this._isLoadingError ? html`
                 <main class="wrapper">
                     ${this.hasImage() ? html`
-                        <div class="image-overlay ${this.areCommentsVisible ? 'image-overlay--active' : ''}"></div>
+                        <div class="image-overlay ${this.areCommentsVisible || this.areControlsVisible ? 'image-overlay--active' : ''}"></div>
                         <img src="https://urussu.s3.amazonaws.com/${this._activeImage}" 
                              class="image" 
                              alt="Уруссу, ${this._activeDecade} годы">
@@ -48,7 +49,7 @@ class UDot extends connect(store)(LitElement) {
                         : 'Изображения отсутствуют'
                     }
     
-                    ${isAdmin(this._user) ? html`<u-dot-controls .dotId="${this.dotId}"></u-dot-controls>` : ''}
+                    ${this.areControlsVisible ? html`<u-dot-controls .dotId="${this.dotId}"></u-dot-controls>` : ''}
     
                     ${this.areCommentsVisible ? html`<u-comments origin-type="dot" origin-id="${this.dotId}"></u-comments>` : ''}
                 </main>
@@ -106,6 +107,7 @@ class UDot extends connect(store)(LitElement) {
 
     _setDefaults() {
         this.areCommentsVisible = false;
+        this.areControlsVisible = false;
     }
 
     /*
@@ -135,6 +137,10 @@ class UDot extends connect(store)(LitElement) {
 
     toggleComments() {
         this.areCommentsVisible = !this.areCommentsVisible;
+    }
+
+    toggleControls() {
+        this.areControlsVisible = !this.areControlsVisible;
     }
 
     hasImage() {

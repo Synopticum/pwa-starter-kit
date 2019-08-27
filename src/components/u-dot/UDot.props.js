@@ -8,6 +8,11 @@ export default {
         attribute: false
     },
 
+    areControlsVisible: {
+        type: Boolean,
+        attribute: false
+    },
+
     _comments: {
         type: Array,
         attribute: false

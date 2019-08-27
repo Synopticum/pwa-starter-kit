@@ -29,44 +29,64 @@ export class UDotControls extends connect(store)(LitElement) {
     render() {
         return html`
           <div class="u-dot-controls">
-            <div class="controls">
-                <div class="controls__photo">
-                    ${!isAnonymous(this._user) && (isAdmin(this._user) || this.isDotAuthor(this._user)) && this.hasImage() ?
-                        html`<u-text-button class="delete-image"
-                                            ?disabled="${this._isFetching || this._isUpdating}"
-                                            @click="${this.deleteImage}">Удалить фото</u-text-button>` : ''}
-                              
-                    ${!isAnonymous(this._user) && (isAdmin(this._user) || this.isDotAuthor(this._user)) ?
-                        html`<u-photo-upload type="dot"
-                                             ?disabled="${this._isFetching || this._isUpdating}"
-                                             id="${this.dotId}"></u-photo-upload>` : ''}
-                </div>
-                          
-                <div class="controls__type">
-                    <select class="select-label ${this._dot.label ? 'select-label--active' : ''}" @change="${this.changeDotLabel}"> 
-                        <option value="0" ?selected="${!this._dot.label}" disabled hidden>Выберите метку</option>
-                        ${Object.entries(this.decadeLabels).map(entry => html`<option value="${entry[0]}" ?selected="${this._dot.label === entry[0]}">${entry[1]}</option>`)}
-                    </select>
-                            
-                    <select class="select-label ${this._dot.type ? 'select-type--active' : ''}" @change="${this.changeDotType}"> 
-                        <option value="0" ?selected="${!this._dot.type}" disabled hidden>Выберите тип</option>
-                        <option value="old-and-new" ?selected="${this._dot.type === 'old-and-new'}">Старое и новое</option>
-                        <option value="old" ?selected="${this._dot.type === 'old'}">Только старое</option>
-                        <option value="new" ?selected="${this._dot.type === 'new'}">Только новое</option>
-                    </select>
-                            
-                   <select class="select-layer ${this._dot.layer ? 'select-layer--active' : ''}" @change="${this.changeDotLayer}"> 
-                       <option value="0" ?selected="${!this._dot.layer}" disabled hidden>Выберите слой</option>
-                       ${this.decadeLayers.map(decade => html`<option value="${decade}" ?selected="${this._dot.layer === decade}">${decade}</option>`)}
-                   </select>
-                </div>
-                             
-                <div class="controls__dot">
-                    ${!isAnonymous(this._user) && (isAdmin(this._user) || this.isDotAuthor(this._user)) ?
-                        html`<u-text-button class="remove"
-                                            ?disabled="${this._isFetching || this._isUpdating}"
-                                            @click="${this.remove}">Удалить точку</u-text-button>` : ''}
-                </div>
+            <div class="title">Управление</div>
+        
+            <div class="controls">  
+                <main class="controls__segment">
+                    <div class="controls__segment-title">Настройки точки</div>
+                    
+                    <section class="controls__section controls__select-type">
+                       <label for="select-label" class="controls__label">Тип:</label>                      
+                        <select class="select-type ${this._dot.type ? 'select-type--active' : ''}" @change="${this.changeDotType}" id="select-type"> 
+                            <option value="0" ?selected="${!this._dot.type}" disabled hidden>Выберите тип</option>
+                            <option value="old-and-new" ?selected="${this._dot.type === 'old-and-new'}">Содержит старое и новое фото</option>
+                            <option value="old" ?selected="${this._dot.type === 'old'}">Содержит только старое фото</option>
+                            <option value="new" ?selected="${this._dot.type === 'new'}">Содержит только новое фото</option>
+                        </select>
+                    </section>
+                    
+                    <section class="controls__section controls__select-layer">
+                       <label for="select-select-layer" class="controls__label">Слой:</label>      
+                        <select class="select-layer ${this._dot.layer ? 'select-layer--active' : ''}" @change="${this.changeDotLayer}" id="select-layer"> 
+                           <option value="0" ?selected="${!this._dot.layer}" disabled hidden>Выберите слой</option>
+                           ${this.decadeLayers.map(decade => html`<option value="${decade}" ?selected="${this._dot.layer === decade}">${decade}</option>`)}
+                       </select>
+                    </section>  
+                    
+                    <section class="controls__section controls__delete-dot">
+                       <u-text-button class="remove"
+                                      ?disabled="${this._isFetching || this._isUpdating}"
+                                      @click="${this.remove}">Удалить точку</u-text-button>
+                    </section>
+                </main>
+                        
+                <main class="controls__segment">     
+                    <div class="controls__segment-title">Настройки фотографии</div>        
+                    
+                    <section class="controls__section controls__select-label">
+                       <label for="select-label" class="controls__label">Выберите десятилетие съемки:</label>
+                        <select class="select-label ${this._dot.label ? 'select-label--active' : ''}" @change="${this.changeDotLabel}" id="select-label"> 
+                            <option value="0" ?selected="${!this._dot.label}" disabled hidden>Выберите метку</option>
+                            ${Object.entries(this.decadeLabels).map(entry => html`<option value="${entry[0]}" ?selected="${this._dot.label === entry[0]}">${entry[1]}</option>`)}
+                        </select>
+                    </section>
+                               
+                    ${this.hasImage() ?
+                        html`<section class="controls__section controls__delete-photo">
+                                <u-text-button class="delete-image"
+                                               ?disabled="${this._isFetching || this._isUpdating}"
+                                               @click="${this.deletePhoto}">Удалить текущую фотографию</u-text-button>
+                             </section>` : ''}
+                </main>
+                     
+                <main class="controls__segment">     
+                    <section class="controls__section controls__add-photo">
+                       <label for="${this.dotId}" class="controls__label">Добавить новую фотографию:</label>
+                       <u-photo-upload type="dot"
+                                       ?disabled="${this._isFetching || this._isUpdating}"
+                                       id="${this.dotId}"></u-photo-upload>
+                    </section>
+                </main>
             </div>
           </div>
       `
@@ -154,7 +174,7 @@ export class UDotControls extends connect(store)(LitElement) {
         this.dispatchEvent(new CustomEvent('hide-dot', {composed: true}));
     }
 
-    deleteImage() {
+    deletePhoto() {
         store.dispatch(deletePhoto('dot', this.dotId, this._activeDecade));
     }
 

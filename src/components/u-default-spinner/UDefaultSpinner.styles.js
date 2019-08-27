@@ -15,7 +15,7 @@ export default css`
     width: 11px;
     height: 11px;
     border-radius: 50%;
-    background: #10abff;
+    background: rgb(111, 155, 52);
     animation-timing-function: cubic-bezier(0, 1, 1, 0);
 }
 

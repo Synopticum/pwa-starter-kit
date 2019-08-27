@@ -1,36 +1,60 @@
 import {css} from 'lit-element/lit-element';
 
 export default css`
-.controls {
+:host {
     position: absolute;
-    z-index: 150;
-    width: 100%;
-    box-sizing: border-box;
-    left: 0;
-    bottom: 0;
+    right: 0;
+    top: 0;
+    z-index: 200;
+    width: 300px;
     padding: 20px;
-    background-color: rgba(0,0,0,.75);
-    display: flex;
-    justify-content: space-between;
+    height: 100%;
+    box-sizing: border-box;
+    background-color: rgba(255,255,255,.95);
+    border-left: 2px solid rgba(111,155,52,.95);
+}
+
+.title {
+    font-size: 24px;
+}
+
+.controls {
+}
+
+.controls__segment {
+    padding: 10px 0;
+    border-bottom: 2px solid rgb(111, 155, 52);
+}
+
+.controls__segment-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.controls__section {
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
 }
 
 .controls__label {
-    display: flex;
+    font-size: 14px;
+    font-style: italic;
+    display: block;
+    margin-bottom: 5px;
 }
 
-.controls__type {
-    display: flex;
+.controls__segment:last-of-type {
+    border-bottom: 0;
+    padding-bottom: 0;
 }
 
-.select-type, .select-label, .select-layer {
-    margin: 0 10px;
+.controls__section:first-of-type {
+    padding-top: 0;
 }
 
-.controls__dot {
-    display: flex;
-}
-
-.controls__photo {
-    display: flex;
+.controls__section:last-of-type {
+    border-bottom: 0;
+    padding-bottom: 0;
 }
 `;

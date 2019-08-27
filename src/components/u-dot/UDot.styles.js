@@ -10,6 +10,8 @@ export default css`
     background-color: #111;
     box-shadow: 4px 4px 4px rgba(0,0,0,.15);
     border: 2px solid rgba(111,155,52,1);
+    min-width: 500px;
+    min-height: 500px;
 }
 
 :host([hidden]) {
@@ -136,6 +138,7 @@ export default css`
 }
 
 .icon-button--comments {
+  margin-left: 2px;
   background-image: url('static/images/dot/comments.svg');
   background-size: 20px;
 }
@@ -146,7 +149,16 @@ export default css`
   background-size: 16px;
 }
 
+.icon-button--controls {
+  background-image: url('static/images/dot/controls.svg');
+  background-size: 16px;
+}
+
 .icon-button--comments-are-visible {
   margin-right: 340px;
+}
+
+.icon-button--controls-are-visible {
+  margin-right: 195px;
 }
 `;
