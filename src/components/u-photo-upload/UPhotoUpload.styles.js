@@ -10,9 +10,7 @@ export default css`
 }
 
 .u-photo-upload {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
 }
 
 /* select */
@@ -21,14 +19,13 @@ export default css`
 }
 
 .select-decade--active {
-    display: inline-flex;
+    display: block;
+    margin: 10px 0;
 }
 
 /* upload button */
 .upload {
     display: none;
-    margin-left: 15px;
-    --border-radius: 15px;
 }
 
 .upload--active {

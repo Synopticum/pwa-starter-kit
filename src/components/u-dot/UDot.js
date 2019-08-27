@@ -32,8 +32,9 @@ class UDot extends connect(store)(LitElement) {
       return html`
           <div class="u-dot">
             <nav class="nav">
-                ${isAdmin(this._user) ? html`<button @click="${this.toggleControls}" class="icon-button icon-button--controls  ${this.areControlsVisible ? 'icon-button--controls-are-visible' : ''}"></button>` : ''}
-                ${!this._isLoadingError ? html`<button @click="${this.toggleComments}" class="icon-button icon-button--comments ${this.areCommentsVisible ? 'icon-button--comments-are-visible' : ''}"></button>` : ''}
+                ${this.areCommentsVisible || this.areControlsVisible ? html`<button @click="${this.hideSidebar}" class="icon-button icon-button--hide-sidebar"></button>` : ''}
+                ${isAdmin(this._user) ? html`<button @click="${this.toggleControls}" class="icon-button icon-button--controls"></button>` : ''}
+                ${!this._isLoadingError ? html`<button @click="${this.toggleComments}" class="icon-button icon-button--comments"></button>` : ''}
                 <button @click="${this.close}" class="icon-button icon-button--close"></button>
             </nav>
             
@@ -141,6 +142,11 @@ class UDot extends connect(store)(LitElement) {
 
     toggleControls() {
         this.areControlsVisible = !this.areControlsVisible;
+    }
+
+    hideSidebar() {
+        this.areCommentsVisible = false;
+        this.areControlsVisible = false;
     }
 
     hasImage() {

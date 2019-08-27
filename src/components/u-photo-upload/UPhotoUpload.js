@@ -4,6 +4,7 @@ import {store} from '../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
 import {photoUpload} from "./UPhotoUpload.reducer";
 import {uploadPhoto} from './UPhotoUpload.actions';
+import '../u-text-button/UTextButton';
 
 import props from './UPhotoUpload.props';
 import styles from './UPhotoUpload.styles';
@@ -34,7 +35,7 @@ class UPhotoUpload extends connect(store)(LitElement) {
                    ?disabled="${this.disabled || this._isUploading}">
                                              
             <select class="select-decade ${this.isFileSelected ? 'select-decade--active' : ''}" @change="${this.changeDecade}">
-                <option value="0" ?selected="${!this.decade}" disabled hidden>Когда оно было снято?</option>
+                <option value="0" ?selected="${!this.decade}" disabled hidden>Выберите десятилетие съемки</option>
                 <option value="1940" ?selected="${this.decade === '1940'}">В сороковых</option>
                 <option value="1950" ?selected="${this.decade === '1950'}">В пятидесятых</option>
                 <option value="1960" ?selected="${this.decade === '1960'}">В шестидесятых</option>
@@ -45,10 +46,10 @@ class UPhotoUpload extends connect(store)(LitElement) {
                 <option value="2010" ?selected="${this.decade === '2010'}">В десятых</option>
             </select>
                    
-            <button 
+            <u-text-button 
                 class="upload ${this.isFileSelected && this.decade ? 'upload--active' : ''}"
                 @click="${this.upload}"
-                ?disabled="${this._isUploading || !this.decade || !this.isFileSelected}">Загрузить!</button>
+                ?disabled="${this._isUploading || !this.decade || !this.isFileSelected}">Загрузить!</u-text-button>
           </div>
     `
     }

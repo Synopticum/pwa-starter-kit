@@ -83,8 +83,9 @@ export default css`
 .comment-controls__delete {
     cursor: pointer;
     display: block;
-    width: 12px;
-    height: 12px;
-    background: red;
+    width: 20px;
+    height: 20px;
+    background: url('static/images/comment/delete.svg') no-repeat 50% 50%;
+    background-size: 20px;
 }
 `;

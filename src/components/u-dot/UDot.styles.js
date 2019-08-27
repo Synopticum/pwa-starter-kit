@@ -154,11 +154,9 @@ export default css`
   background-size: 16px;
 }
 
-.icon-button--comments-are-visible {
-  margin-right: 340px;
-}
-
-.icon-button--controls-are-visible {
-  margin-right: 195px;
+.icon-button--hide-sidebar {
+  margin-right: 255px;
+  background-image: url('static/images/dot/close.svg');
+  background-size: 16px;
 }
 `;

@@ -2,7 +2,6 @@ import {html, LitElement} from 'lit-element/lit-element';
 import {store} from '../../store';
 import {connect} from 'pwa-helpers';
 import {dotControls} from "./UDotControls.reducer";
-import {isAdmin, isAnonymous} from "../u-app/UApp.helpers";
 import {clearDotState, deleteDot, putDot} from "../u-dot/UDot.actions";
 import {deletePhoto} from "../u-photo-upload/UPhotoUpload.actions";
 import '../u-photo-upload/UPhotoUpload';

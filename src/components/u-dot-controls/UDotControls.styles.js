@@ -6,7 +6,7 @@ export default css`
     right: 0;
     top: 0;
     z-index: 200;
-    width: 300px;
+    width: 400px;
     padding: 20px;
     height: 100%;
     box-sizing: border-box;
