@@ -32,7 +32,7 @@ export class UComments extends connect(store)(LitElement) {
     return html`
       <div class="u-comments">
         <div class="title">Комментарии</div>
-        <a href="#" @click="${this.toggleComments}">Скрыть комментарии</a>
+        <a href="#" @click="${this.toggleComments}" class="hide-comments">Скрыть комментарии</a>
         
         <div class="comments">
           ${this._isFetching ? html`<u-default-spinner class="loading"/>` : ''}

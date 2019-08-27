@@ -27,6 +27,7 @@ export default css`
     opacity: .5;
     margin: 5px 10px;
     transition: background-color .2s;
+    font-size: 14px;
 }
 
 .decade--active {

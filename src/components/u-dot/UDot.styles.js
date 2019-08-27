@@ -2,9 +2,6 @@ import {css} from 'lit-element/lit-element';
 
 export default css`
 :host {
-    width: 95%;
-    height: 95%;
-    max-width: 1920px;
     z-index: 200;
     pointer-events: all;
     transform: scale(1);
@@ -18,18 +15,15 @@ export default css`
     display: none;
 }
 
-@media screen and (max-width: 1280px) {
-    :host {
-        width: 100%;
-        height: 100%;
-    }        
-}
-
 :host([hidden]) {
     display: block !important;
     transform: scale(0);
     width: 0;
     height: 0;
+}
+
+.u-dot {
+    
 }
 
 .nav {
@@ -42,14 +36,7 @@ export default css`
 .wrapper {
     width: 100%;
     height: 100%;
-}
-
-.u-dot {
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
+    font-size: 0;
 }
 
 .form {
@@ -76,6 +63,8 @@ export default css`
 .image {
     width: 100%;
     height: 100%;
+    max-width: 95vw;
+    max-height: 95vh;
     object-fit: contain;
 }
 `;
