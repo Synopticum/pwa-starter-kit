@@ -22,6 +22,9 @@ export default css`
 .user {
     cursor: default;
     grid-area: user;
+}
+
+.avatar {
     width: 40px;
     height: 40px;
     font-size: 20px;
@@ -61,6 +64,10 @@ export default css`
 
 .comment-meta__date {
     margin-left: 5px;
+}
+
+.comment-meta__date:first-letter {
+    text-transform: uppercase;
 }
 
 .comment-controls {

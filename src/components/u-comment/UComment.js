@@ -19,7 +19,11 @@ export class UComment extends LitElement {
   render() {
     return html`  
       <div class="u-comment"> 
-        <div class="user" title="${this.comment.author}" style="background-color: ${UComment.stringToColour(this.comment.author)}">${UComment._getInitial(this.comment.author)}</div>
+        <div class="user">
+            <div class="avatar" 
+                 title="${this.comment.author}" 
+                 style="background-color: ${UComment.stringToColour(this.comment.author)}">${UComment._getInitial(this.comment.author)}</div>
+        </div>
         
         <div class="comment ${this.isDeleting ? 'comment--is-deleting' : ''}">
           <div class="comment__text">${this.comment.text}</div>
@@ -65,7 +69,7 @@ export class UComment extends LitElement {
     return DateTime
             .fromMillis(parseInt(unixtime))
             .setLocale('ru')
-            .toLocaleString(DateTime.DATETIME_MED);
+            .toLocaleString(DateTime.DATE_HUGE);
   }
 
   static _getInitial(author) {
