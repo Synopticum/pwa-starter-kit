@@ -39,7 +39,11 @@ class UDot extends connect(store)(LitElement) {
             ${!this._isLoadingError ? html`
                 <main class="wrapper">
                     ${this.hasImage() ? html`
-                        <img src="https://urussu.s3.amazonaws.com/${this._activeImage}" class="image" alt="Уруссу, ${this._activeDecade} годы">
+                        <div class="image-overlay ${this.areCommentsVisible ? 'image-overlay--active' : ''}"></div>
+                        <img src="https://urussu.s3.amazonaws.com/${this._activeImage}" 
+                             class="image" 
+                             alt="Уруссу, ${this._activeDecade} годы">
+                            
                         <u-dot-timeline .images="${this._dot.images}" .activeDecade="${this._activeDecade}"></u-dot-timeline>` 
                         : 'Изображения отсутствуют'
                     }

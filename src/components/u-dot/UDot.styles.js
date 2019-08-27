@@ -9,6 +9,7 @@ export default css`
     border-radius: 3px;
     background-color: #111;
     box-shadow: 4px 4px 4px rgba(0,0,0,.15);
+    border: 2px solid rgba(111,155,52,1);
 }
 
 :host([hidden]) {
@@ -66,6 +67,24 @@ export default css`
     max-width: 95vw;
     max-height: 95vh;
     object-fit: contain;
+    opacity: 1;
+    transition: opacity .3s;
+}
+
+.image-overlay::before {
+    content: '';
+    position:absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    opacity: 0;
+    background: linear-gradient(to left, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0) 100%);
+    transition: opacity .3s;
+}
+
+.image-overlay--active::before {
+  opacity: 1;
 }
 
 .icon-button {
@@ -87,8 +106,7 @@ export default css`
     text-align: center;
     text-decoration: none;
     border-radius: .28571429rem;
-    -webkit-box-shadow: 0 0 0 1px transparent inset, 0 0 0 0 rgba(34,36,38,.15) inset;
-    box-shadow: 0 0 0 1px transparent inset, 0 0 0 0 rgba(34,36,38,.15) inset;
+    box-shadow: 0 0 0 1px transparent inset, 0 0 0 0 rgba(34,36,38,.15) inset, 0 1px 2px rgba(0,0,0,.3);
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -102,15 +120,13 @@ export default css`
 
 .icon-button:hover {
     background-color: #cacbcd;
-    -webkit-box-shadow: 0 0 0 1px transparent inset, 0 0 0 0 rgba(34,36,38,.15) inset;
-    box-shadow: 0 0 0 1px transparent inset, 0 0 0 0 rgba(34,36,38,.15) inset;
+    box-shadow: 0 0 0 1px transparent inset, 0 0 0 0 rgba(34,36,38,.15) inset, 0 1px 2px rgba(0,0,0,.3);
     color: rgba(0,0,0,.8);
 }
 
 .icon-button:active {
     background-color: #babbbc;
     color: rgba(0,0,0,.9);
-    -webkit-box-shadow: 0 0 0 1px transparent inset;
     box-shadow: 0 0 0 1px transparent inset;
 }
 
@@ -131,6 +147,6 @@ export default css`
 }
 
 .icon-button--comments-are-visible {
-  margin-right: 240px;
+  margin-right: 340px;
 }
 `;

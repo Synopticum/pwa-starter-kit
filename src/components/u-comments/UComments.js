@@ -31,7 +31,7 @@ export class UComments extends connect(store)(LitElement) {
   render() {
     return html`
       <div class="u-comments">
-        <div class="title">Комментарии</div>
+        <div class="title">Обсуждение</div>
         
         <div class="comments">
           ${this._isFetching ? html`<u-default-spinner class="loading"/>` : ''}
