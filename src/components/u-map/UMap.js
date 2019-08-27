@@ -122,7 +122,7 @@ class UMap extends connect(store)(LitElement) {
         }
         
         .leaflet-marker-icon {
-            opacity: 1;
+            opacity: .7;
             transition: opacity .3s;
         }
         
@@ -136,7 +136,7 @@ class UMap extends connect(store)(LitElement) {
         }
         
         .leaflet-marker-icon:hover {
-            opacity: .7;
+            opacity: 1;
         }
         
         .leaflet-marker-icon--is-updating {

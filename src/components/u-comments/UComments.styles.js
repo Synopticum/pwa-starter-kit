@@ -21,10 +21,6 @@ export default css`
     font-size: 24px;
 }
 
-.hide-comments {
-    font-size: 16px;
-}
-
 .loading {
     display: block;
     margin: 10px 0;

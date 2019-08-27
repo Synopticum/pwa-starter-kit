@@ -32,8 +32,8 @@ class UDot extends connect(store)(LitElement) {
       return html`
           <div class="u-dot">
             <nav class="nav">
-                ${!this._isLoadingError ? html`<button @click="${this.toggleComments}">C</button>` : ''}
-                <button @click="${this.close}">X</button>
+                ${!this._isLoadingError ? html`<button @click="${this.toggleComments}" class="icon-button icon-button--comments ${this.areCommentsVisible ? 'icon-button--comments-are-visible' : ''}"></button>` : ''}
+                <button @click="${this.close}" class="icon-button icon-button--close"></button>
             </nav>
             
             ${!this._isLoadingError ? html`
@@ -98,7 +98,6 @@ class UDot extends connect(store)(LitElement) {
             .addEventListener('keyup', (e) => this.handleEscapePress(e) );
 
         this.addEventListener('u-dot-timeline:change-image', this.changeImage);
-        this.addEventListener('u-comments:toggle-comments', this.toggleComments);
     }
 
     _setDefaults() {

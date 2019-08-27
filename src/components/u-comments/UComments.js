@@ -32,7 +32,6 @@ export class UComments extends connect(store)(LitElement) {
     return html`
       <div class="u-comments">
         <div class="title">Комментарии</div>
-        <a href="#" @click="${this.toggleComments}" class="hide-comments">Скрыть комментарии</a>
         
         <div class="comments">
           ${this._isFetching ? html`<u-default-spinner class="loading"/>` : ''}
@@ -142,11 +141,6 @@ export class UComments extends connect(store)(LitElement) {
 
   isCommentAuthor(user, comment) {
     return user.id === comment.authorId;
-  }
-
-  toggleComments(e) {
-    e.preventDefault();
-    this.dispatchEvent(new CustomEvent('u-comments:toggle-comments', { composed: true }));
   }
 }
 
