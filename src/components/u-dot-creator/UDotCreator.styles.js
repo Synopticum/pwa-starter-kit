@@ -3,16 +3,8 @@ import {css} from 'lit-element/lit-element';
 export default css`
 :host {
     position: fixed;
-    padding: 10px;
     z-index: 200;
-    width: 100%;
-    max-width: 300px;
-    transform: scale(1);
     transition: transform .3s;
-    border: 3px solid #6B9B29;
-    border-radius: 3px;
-    background-color: #f9f9f9;
-    box-shadow: 4px 4px 4px rgba(0,0,0,.15);
 }
 
 :host([hidden]) {
@@ -20,33 +12,81 @@ export default css`
     transform: scale(0);
 }
 
-@keyframes bounce { 
-  0% {transform: scale(.3);}
-  50% {transform: scale(1.3);}
+.buttons {
+    margin: 0;
+    position: absolute;
+    white-space: nowrap;
+    top: 10px;
+    left: -44px;
 }
 
-.bounce {
+#wrapper {
+    position: absolute;
+    right: calc(100% - 10px);
+    bottom: calc(100% - 20px);
+    display: table;
+    width: 20px;
+}
+
+#wrapper-inner {
+    display: table-cell;
+    vertical-align: middle;
+    width: 100%;
+    height: 100%;
+}
+
+#scroll-down {
+    display: block;
+    position: relative;
+    padding-top: 39px;
+    text-align: center;
+}
+.arrow-down {
+    display: block;
+    margin: 0 auto;
+    width: 10px;
+    height: 38px;
+}
+
+.arrow-down:after {
     content: '';
+    display: block;
+    margin: 0;
+    padding: 0;
+    width: 8px;
+    height: 8px;
+    border-top: 2px solid #fff;
+    border-right: 2px solid #fff;
+    transform: rotate(135deg);
+}
+#scroll-down::before {    
+    animation: elasticus 1.2s cubic-bezier(1, 0, 0, 1) infinite;    
     position: absolute;
-    left: -7.5px;
-    top: -7.5px;
-    width: 15px;
-    height: 15px;
-    background-color: #f00;
-    border-radius: 50%;
-    user-select: none;
-    animation: bounce 1s alternate infinite linear;
+    top: 0;
+    left: 50%;
+    margin-left: -1px;
+    width: 2px;
+    height: 50px;
+    background: #fff;
+    content: ' ';
 }
 
-.close {
-    position: absolute;
-    right: 50px;
-    bottom: -15px;
-}
-
-.submit {
-    position: absolute;
-    right: -15px;
-    bottom: -15px;
+@keyframes elasticus {
+    0% {
+        transform-origin: 0 0;
+        transform: scale(1, 0);
+    }
+    50% {
+        transform-origin: 0 0;
+        transform: scale(1, 1);
+    }
+    50.1% {
+        transform-origin: 0 100%;
+        transform: scale(1, 1);
+    }
+    100% {
+        transform-origin: 0 100%;
+        transform: scale(1, 0);
+    }
 }
 `;

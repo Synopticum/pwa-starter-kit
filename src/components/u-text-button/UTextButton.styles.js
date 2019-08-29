@@ -15,6 +15,7 @@ export default css`
     background: #e0e1e2 none;
     color: rgba(0,0,0,.6);
     font-family: 'PT Serif', Helvetica, 'Times New Roman', serif;
+    font-size: 12px;
     padding: .78571429em 1.5em .78571429em;
     text-transform: none;
     text-shadow: none;
@@ -26,8 +27,6 @@ export default css`
     border-radius: .28571429rem;
     box-shadow: 0 0 0 1px transparent inset, 0 0 0 0 rgba(34,36,38,.15) inset;
     -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
     transition: opacity .1s ease,background-color .1s ease,color .1s ease,box-shadow .1s ease,background .1s ease,-webkit-box-shadow .1s ease;
     -webkit-tap-highlight-color: transparent;

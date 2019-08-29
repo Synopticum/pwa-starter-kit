@@ -1,9 +1,14 @@
 import {html, LitElement} from 'lit-element/lit-element';
+import {styleMap} from 'lit-html/directives/style-map';
+import {classMap} from 'lit-html/directives/class-map';
 import {DateTime} from "luxon";
 import props from './UComment.props';
 import styles from './UComment.styles';
+import {connect} from "pwa-helpers/connect-mixin";
+import {store} from "../../store";
+import {fetchAvatar} from './UComment.actions';
 
-export class UComment extends LitElement {
+export class UComment extends connect(store)(LitElement)  {
   /*
       List of required methods
       Needed for initialization, rendering, fetching and setting default values
@@ -17,15 +22,20 @@ export class UComment extends LitElement {
   }
 
   render() {
+    let commentClasses = {
+      'comment': true,
+      'comment--is-deleting': this.isDeleting
+    };
+
     return html`  
       <div class="u-comment"> 
         <div class="user">
-            <div class="avatar" 
-                 title="${this.comment.author}" 
-                 style="background-color: ${UComment.stringToColour(this.comment.author)}">${UComment._getInitial(this.comment.author)}</div>
+            ${this._avatarUrl ? 
+               UComment.renderAvatar(this._avatarUrl, this.comment.authorVkId, this.comment.author) : 
+               UComment.renderAvatarPlaceholder(this.comment.author)}
         </div>
         
-        <div class="comment ${this.isDeleting ? 'comment--is-deleting' : ''}">
+        <div class="${classMap(commentClasses)}">
           <div class="comment__text">${this.comment.text}</div>
             
           <div class="comment-meta">
@@ -40,13 +50,25 @@ export class UComment extends LitElement {
     `
   }
 
-  firstUpdated() {
-    this._init();
+  constructor() {
+    super();
+    this.isDeleting = false;
+    this.isDeletingAllowed = false;
+  }
+
+  stateChanged(state) {
+    this._avatarUrl = state.app.user.avatarsCache[this.comment.authorId];
+  }
+
+  async firstUpdated() {
+    await this._init();
   }
 
   _init() {
     this._setReferences();
     this._setListeners();
+
+    store.dispatch(fetchAvatar(this.comment.authorId));
   }
 
   _setReferences() {
@@ -61,6 +83,20 @@ export class UComment extends LitElement {
       List of custom component's methods
       Any other methods
   */
+  static renderAvatar(avatarUrl, authorVkId, author) {
+    return authorVkId ?
+        html`<a href="https://vk.com/id${authorVkId}" target="_blank"><img src="${avatarUrl}" class="user__avatar-image" alt="${author}"></a>` :
+        html`<img src="${avatarUrl}" class="user__avatar-image" alt="${author}">`;
+  }
+
+  static renderAvatarPlaceholder(author) {
+    let styles = { backgroundColor: UComment.stringToColour(author) };
+
+    return html`<div class="user__avatar-placeholder" 
+                     title="${author}" 
+                     style="${styleMap(styles)}">${UComment._getInitial(author)}</div>`
+  }
+
   delete() {
     this.dispatchEvent(new CustomEvent('delete', { detail: this.comment.id, composed: true }));
   }

@@ -1,4 +1,5 @@
 import {html, LitElement} from 'lit-element/lit-element';
+import {classMap} from 'lit-html/directives/class-map';
 import {store} from '../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
 import props from './UDot.props';
@@ -9,6 +10,7 @@ import {dotPage} from "./UDot.reducer";
 import {isAdmin} from "../u-app/UApp.helpers";
 import '../u-textbox/UTextbox';
 import '../u-comments/UComments';
+import '../u-icon-button/UIconButton';
 import '../u-dot-controls/UDotControls';
 import '../u-dot-timeline/UDotTimeline';
 import {fetchComments} from "../u-comments/UComments.actions";
@@ -29,19 +31,24 @@ class UDot extends connect(store)(LitElement) {
     }
 
     render() {
+      let photoOverlayClasses = {
+          'image-overlay': true,
+          'image-overlay--active': this.areCommentsVisible || this.areControlsVisible
+      };
+
       return html`
           <div class="u-dot">
             <nav class="nav">
-                ${this.areCommentsVisible || this.areControlsVisible ? html`<button @click="${this.hideSidebar}" class="icon-button icon-button--hide-sidebar"></button>` : ''}
-                ${isAdmin(this._user) ? html`<button @click="${this.toggleControls}" class="icon-button icon-button--controls"></button>` : ''}
-                ${!this._isLoadingError ? html`<button @click="${this.toggleComments}" class="icon-button icon-button--comments"></button>` : ''}
-                <button @click="${this.close}" class="icon-button icon-button--close"></button>
+                ${this.areCommentsVisible || this.areControlsVisible ? html`<u-icon-button @click="${this.hideSidebar}" icon="close" class="hide-sidebar"></u-icon-button>` : ''}
+                ${isAdmin(this._user) ? html`<u-icon-button @click="${this.toggleControls}" icon="gear"></u-icon-button>` : ''}
+                ${!this._isLoadingError ? html`<u-icon-button @click="${this.toggleComments}" icon="comments"></u-icon-button>` : ''}
+                <u-icon-button @click="${this.close}" icon="close"></u-icon-button>
             </nav>
             
             ${!this._isLoadingError ? html`
                 <main class="wrapper">
                     ${this.hasImage() ? html`
-                        <div class="image-overlay ${this.areCommentsVisible || this.areControlsVisible ? 'image-overlay--active' : ''}"></div>
+                        <div class="${classMap(photoOverlayClasses)}"></div>
                         <img src="https://urussu.s3.amazonaws.com/${this._activeImage}" 
                              class="image" 
                              alt="Уруссу, ${this._activeDecade} годы">

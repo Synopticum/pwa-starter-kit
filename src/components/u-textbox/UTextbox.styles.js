@@ -46,7 +46,7 @@ export default css`
     font-style: italic;
 }
 
-.textbox.textbox--is-loading .textbox__element {
+.textbox.textbox--is-updating .textbox__element {
     background-image: repeating-linear-gradient(
         -45deg,
         #eaeaea,

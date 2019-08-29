@@ -1,6 +1,7 @@
 import {ENV} from '../../../environments/environments';
 import {getApiHeaders} from '../../../environments/api';
 import {html, LitElement} from 'lit-element/lit-element';
+import {classMap} from 'lit-html/directives/class-map';
 import debounce from 'lodash-es/debounce';
 import isEmpty from 'lodash-es/isEmpty';
 import {store} from '../../store';
@@ -35,6 +36,21 @@ class UMap extends connect(store)(LitElement) {
   }
 
   render() {
+    let containerClasses = {
+      'container': true,
+      [`container--clouds-${this._clouds.visibility}`]: true
+    };
+
+    let userImageClasses = {
+      'user__image': true,
+      'user__image--none': !this._user.image
+    };
+
+    let userMenuClasses = {
+      'user__menu': true,
+      'user__menu--active': this._isUserMenuVisible
+    };
+
     return html`      
       <style>
         [hidden] {
@@ -165,8 +181,8 @@ class UMap extends connect(store)(LitElement) {
         
         .login {
             position: fixed;
-            right: 70px;
-            top: 12px;
+            left: 12px;
+            bottom: 12px;
             background: url('/static/images/user.svg') no-repeat 50% 50%;
             background-size: 44px;
             color: #ffffff;
@@ -183,8 +199,8 @@ class UMap extends connect(store)(LitElement) {
         
         .user {
             position: fixed;
-            right: 70px;
-            top: 12px;
+            left: 12px;
+            bottom: 12px;
             z-index: 100;
         }
         
@@ -213,11 +229,11 @@ class UMap extends connect(store)(LitElement) {
         .user__menu {
             position: absolute;
             top: -5px;
-            right: -5px;
+            left: -5px;
             z-index: 10;
             border-radius: 10px;
             background-color: #ffffff;
-            padding: 0 60px 0 10px;
+            padding: 0 10px 0 60px;
             min-height: 55px;
             display: flex;
             align-items: center;
@@ -235,7 +251,7 @@ class UMap extends connect(store)(LitElement) {
       </style>
       
       <div class="u-map">
-        <div class="container container--clouds-${this._clouds.visibility}">   
+        <div class="${classMap(containerClasses)}">   
           <u-tooltip 
               ?hidden="${!this._tooltip.isVisible}" 
               .x="${this._tooltip.position.x}"
@@ -268,8 +284,8 @@ class UMap extends connect(store)(LitElement) {
         ${isAnonymous(this._user) ?
           html`<a href="https://oauth.vk.com/authorize?client_id=4447151&display=page&redirect_uri=${ENV[window.ENV].static}&response_type=code&v=5.95" class="login"></a>`: 
           html`<div class="user" @click="${this._toggleUserMenu}">
-                  <div class="user__image ${!this._user.image ? 'user__image--none': ''}">SN</div>
-                  <div class="user__menu ${this._isUserMenuVisible ? 'user__menu--active' : ''}">
+                  <div class="${classMap(userImageClasses)}">SN</div>
+                  <div class="${classMap(userMenuClasses)}">
                       <div class="user__menu-option" @click="${this._logout}">Выйти</div>
                   </div>
                </div>`

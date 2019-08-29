@@ -1,4 +1,5 @@
 import {html, LitElement} from 'lit-element/lit-element';
+import {classMap} from 'lit-html/directives/class-map';
 import props from './UTextbox.props';
 import styles from './UTextbox.styles';
 
@@ -22,9 +23,14 @@ export class UTextbox extends LitElement {
     }
 
     render() {
+        let textboxClasses = {
+            'textbox': true,
+            'textbox--is-updating': this.isFetching || this.isUpdating
+        };
+
         return html`
           <div class="u-textbox">
-              <div class="textbox ${this.isFetching || this.isUpdating ? 'textbox--is-loading' : ''}">
+              <div class="${classMap(textboxClasses)}">
                 <input 
                     type="text" 
                     id="textbox__${this.id}"

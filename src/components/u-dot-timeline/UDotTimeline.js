@@ -1,4 +1,5 @@
 import {html, LitElement} from 'lit-element/lit-element';
+import {classMap} from 'lit-html/directives/class-map';
 import props from './UDotTimeline.props';
 import styles from './UDotTimeline.styles';
 
@@ -63,7 +64,12 @@ export class UDotTimeline extends LitElement {
         List of render methods
      */
     renderDecade(decade) {
-        return html`<div class="decade ${decade[0] === this.activeDecade ? 'decade--active' : ''}" @click="${e => this.changeImage(e, decade[0])}">${this.decadeLabels[decade[0]]}</div>`;
+        let decadeClasses = {
+            'decade': true,
+            'decade--active': decade[0] === this.activeDecade
+        };
+
+        return html`<div class="${classMap(decadeClasses)}" @click="${e => this.changeImage(e, decade[0])}">${this.decadeLabels[decade[0]]}</div>`;
     }
 
     /*

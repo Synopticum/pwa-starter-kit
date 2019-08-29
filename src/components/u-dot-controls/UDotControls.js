@@ -1,4 +1,5 @@
 import {html, LitElement} from 'lit-element/lit-element';
+import {classMap} from 'lit-html/directives/class-map';
 import {store} from '../../store';
 import {connect} from 'pwa-helpers';
 import {dotControls} from "./UDotControls.reducer";
@@ -26,6 +27,21 @@ export class UDotControls extends connect(store)(LitElement) {
     }
 
     render() {
+        let selectTypeClasses = {
+            'select-type': true,
+            'select-type--active': this._dot.type
+        };
+
+        let selectLayerClasses = {
+            'select-layer': true,
+            'select-layer--active': this._dot.layer
+        };
+
+        let selectLabelClasses = {
+            'select-label': true,
+            'select-label--active': this._dot.label
+        };
+
         return html`
           <div class="u-dot-controls">
             <div class="title">Управление</div>
@@ -36,7 +52,7 @@ export class UDotControls extends connect(store)(LitElement) {
                     
                     <section class="controls__section controls__select-type">
                        <label for="select-label" class="controls__label">Тип:</label>                      
-                        <select class="select-type ${this._dot.type ? 'select-type--active' : ''}" @change="${this.changeDotType}" id="select-type"> 
+                        <select class="${classMap(selectTypeClasses)}" @change="${this.changeDotType}" id="select-type"> 
                             <option value="0" ?selected="${!this._dot.type}" disabled hidden>Выберите тип</option>
                             <option value="old-and-new" ?selected="${this._dot.type === 'old-and-new'}">Содержит старое и новое фото</option>
                             <option value="old" ?selected="${this._dot.type === 'old'}">Содержит только старое фото</option>
@@ -46,7 +62,7 @@ export class UDotControls extends connect(store)(LitElement) {
                     
                     <section class="controls__section controls__select-layer">
                        <label for="select-select-layer" class="controls__label">Слой:</label>      
-                        <select class="select-layer ${this._dot.layer ? 'select-layer--active' : ''}" @change="${this.changeDotLayer}" id="select-layer"> 
+                        <select class="${classMap(selectLayerClasses)}" @change="${this.changeDotLayer}" id="select-layer"> 
                            <option value="0" ?selected="${!this._dot.layer}" disabled hidden>Выберите слой</option>
                            ${this.decadeLayers.map(decade => html`<option value="${decade}" ?selected="${this._dot.layer === decade}">${decade}</option>`)}
                        </select>
@@ -64,7 +80,7 @@ export class UDotControls extends connect(store)(LitElement) {
                     
                     <section class="controls__section controls__select-label">
                        <label for="select-label" class="controls__label">Выберите десятилетие съемки:</label>
-                        <select class="select-label ${this._dot.label ? 'select-label--active' : ''}" @change="${this.changeDotLabel}" id="select-label"> 
+                        <select class="${classMap(selectLabelClasses)}" @change="${this.changeDotLabel}" id="select-label"> 
                             <option value="0" ?selected="${!this._dot.label}" disabled hidden>Выберите метку</option>
                             ${Object.entries(this.decadeLabels).map(entry => html`<option value="${entry[0]}" ?selected="${this._dot.label === entry[0]}">${entry[1]}</option>`)}
                         </select>

@@ -1,4 +1,5 @@
 import {html, LitElement} from 'lit-element/lit-element';
+import {classMap} from 'lit-html/directives/class-map';
 
 import {store} from '../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
@@ -25,6 +26,16 @@ class UPhotoUpload extends connect(store)(LitElement) {
     }
 
     render() {
+        let selectDecadeClasses = {
+            'select-decade': true,
+            'select-decade--active': this.isFileSelected
+        };
+
+        let uploadButtonClasses = {
+            'upload': true,
+            'upload--active': this.isFileSelected && this.decade
+        };
+
         return html`
           <div class="u-photo-upload">        
             <input type="file"
@@ -34,7 +45,7 @@ class UPhotoUpload extends connect(store)(LitElement) {
                    @change="${this.selectFile}"
                    ?disabled="${this.disabled || this._isUploading}">
                                              
-            <select class="select-decade ${this.isFileSelected ? 'select-decade--active' : ''}" @change="${this.changeDecade}">
+            <select class="${classMap(selectDecadeClasses)}" @change="${this.changeDecade}">
                 <option value="0" ?selected="${!this.decade}" disabled hidden>Выберите десятилетие съемки</option>
                 <option value="1940" ?selected="${this.decade === '1940'}">В сороковых</option>
                 <option value="1950" ?selected="${this.decade === '1950'}">В пятидесятых</option>
@@ -47,7 +58,7 @@ class UPhotoUpload extends connect(store)(LitElement) {
             </select>
                    
             <u-text-button 
-                class="upload ${this.isFileSelected && this.decade ? 'upload--active' : ''}"
+                class="${classMap(uploadButtonClasses)}"
                 @click="${this.upload}"
                 ?disabled="${this._isUploading || !this.decade || !this.isFileSelected}">Загрузить!</u-text-button>
           </div>

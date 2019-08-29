@@ -123,7 +123,8 @@ export class UComments extends connect(store)(LitElement) {
       originId: this.originId,
       text: this.$textarea.value,
       author: `${this._user.firstName} ${this._user.lastName}`,
-      authorId: this._user.id
+      authorId: this._user.id,
+      authorVkId: this._user.vkId
     });
 
     store.dispatch(putComment(this.originType, this.originId, comment));
@@ -154,6 +155,7 @@ class Comment {
     this.text = options.text;
     this.author = options.author;
     this.authorId = options.authorId;
+    this.authorVkId = options.authorVkId;
   }
 }
 

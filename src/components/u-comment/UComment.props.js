@@ -11,5 +11,10 @@ export default {
     isDeletingAllowed: {
         type: Boolean,
         attribute: false
-    }
+    },
+
+    _avatarUrl: {
+        type: String,
+        attribute: false
+    },
 };

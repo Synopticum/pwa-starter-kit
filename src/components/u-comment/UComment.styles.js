@@ -29,7 +29,13 @@ export default css`
     grid-area: user;
 }
 
-.avatar {
+.user__avatar-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.user__avatar-placeholder {
     width: 40px;
     height: 40px;
     font-size: 20px;

@@ -1,4 +1,5 @@
 import {html, LitElement} from 'lit-element/lit-element';
+import {classMap} from 'lit-html/directives/class-map';
 import props from './UTextarea.props';
 import styles from './UTextarea.styles';
 
@@ -22,9 +23,15 @@ export class UTextarea extends LitElement {
     }
 
     render() {
+        let textareaClasses = {
+            'textarea': true,
+            'textarea--is-updating': this.isUpdating,
+            [`textarea--${this.type}`]: true
+        };
+
         return html`
           <div class="u-textarea">
-              <div class="textarea textarea--${this.type} ${this.isUpdating ? 'textarea--is-updating' : ''}">
+              <div class="${classMap(textareaClasses)}">
                 <textarea
                     class="textarea__element"
                     id="textarea__${this.id}" 

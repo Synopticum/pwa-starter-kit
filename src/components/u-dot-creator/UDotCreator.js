@@ -4,7 +4,7 @@ import {connect} from 'pwa-helpers/connect-mixin';
 import {putDot} from '../u-dot/UDot.actions';
 import {setCloudsVisibility, toggleDotCreator} from '../u-map/UMap.actions';
 import {map} from "../u-map/UMap.reducer";
-import '../u-textbox/UTextbox';
+import '../u-text-button/UTextButton';
 import props from './UDotCreator.props';
 import styles from './UDotCreator.styles';
 
@@ -39,14 +39,18 @@ class UDotCreator extends connect(store)(LitElement) {
           
           <div class="u-dot-creator">
               <form class="form">
-                <div class="bounce"></div>
+                <div id="wrapper">
+                    <div id="wrapper-inner">
+                        <div id="scroll-down">
+                            <span class="arrow-down"></span>
+                        </div>
+                    </div>
+                </div>
                 
-                <div class="advanced-controls">
-                  Добавить точку сюда?
-                </form>
-                
-                <button type="button" class="close" @click="${this.close}">Отмена</button>
-                <button type="button" class="submit" @click="${this.create}">Создать</button>  
+                <div class="buttons">                    
+                    <u-icon-button @click="${this.close}" icon="close"></u-icon-button>
+                    <u-icon-button @click="${this.create}" icon="check"></u-icon-button>
+                </div>
               </div>
           </div>
     `;

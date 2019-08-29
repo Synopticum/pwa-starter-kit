@@ -8,7 +8,8 @@ export const AppConstants = {
   },
   USER: {
     FETCH: 'APP_USER_FETCH',
-    ENABLE_ANONYMOUS_MODE: 'APP_USER_ENABLE_ANONYMOUS_MODE'
+    ENABLE_ANONYMOUS_MODE: 'APP_USER_ENABLE_ANONYMOUS_MODE',
+    UPDATE_AVATARS_CACHE: 'APP_USER_UPDATE_AVATARS_CACHE'
   }
 };
 
@@ -44,6 +45,14 @@ const _fetchUserInfo = async () => {
 export const enableAnonymousMode = () => {
   return {
     type: AppConstants.USER.ENABLE_ANONYMOUS_MODE
+  };
+};
+
+// -------
+export const updateAvatarsCache = (authorVkId, avatarUrl) => {
+  return {
+    type: AppConstants.USER.UPDATE_AVATARS_CACHE,
+    payload: { authorVkId, avatarUrl }
   };
 };
 

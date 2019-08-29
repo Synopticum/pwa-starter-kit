@@ -13,7 +13,7 @@ const anonymousUser = Object.freeze({
     lastName: 'User'
 });
 
-export const app = (state = { user: {}, page: '/' }, action) => {
+export const app = (state = { user: { avatarsCache: {} }, page: '/' }, action) => {
     switch (action.type) {
         case AppConstants.PAGE.UPDATE:
             return {
@@ -29,11 +29,32 @@ export const app = (state = { user: {}, page: '/' }, action) => {
         case generateSuccessActionTypeName(AppConstants.USER.FETCH):
             return {
                 ...state,
-                user: action.payload
+                user: {
+                    ...state.user,
+                    ...action.payload
+                }
             };
 
         case generateErrorActionTypeName(AppConstants.USER.FETCH):
             // TODO
+            return state;
+
+        case AppConstants.USER.UPDATE_AVATARS_CACHE:
+            const { authorVkId, avatarUrl } = action.payload;
+
+            if (authorVkId && avatarUrl) {
+                return {
+                    ...state,
+                    user: {
+                        ...state.user,
+                        avatarsCache: {
+                            ...state.user.avatarsCache,
+                            [authorVkId]: avatarUrl
+                        }
+                    }
+                };
+            }
+
             return state;
 
         case AppConstants.USER.ENABLE_ANONYMOUS_MODE:
