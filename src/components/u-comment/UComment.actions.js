@@ -4,7 +4,7 @@ import {store} from "../../store";
 import {updateAvatarsCache} from "../u-app/UApp.actions";
 
 export const UCommentActions = {
-    FETCH: 'SMART_TEMPLATE_FETCH'
+    FETCH: 'COMMENT_AVATAR_FETCH'
 };
 
 // -------

@@ -60,7 +60,10 @@ export const app = (state = { user: { avatarsCache: {} }, page: '/' }, action) =
         case AppConstants.USER.ENABLE_ANONYMOUS_MODE:
             return {
                 ...state,
-                user: anonymousUser
+                user: {
+                    ...state.user,
+                    ...anonymousUser
+                }
             };
 
         default:

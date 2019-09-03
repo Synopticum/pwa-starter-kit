@@ -23,9 +23,20 @@ export class UDotTimeline extends LitElement {
     }
 
     render() {
+        let decadesClasses = {
+            'decades': true,
+            'decades--only-child': Object.entries(this.images).length === 1
+        };
+
         return html`
           <div class="u-dot-timeline">
-            ${this.images && this.activeDecade ? Object.entries(this.images).map(decade => this.renderDecade(decade)) : ''}
+            
+            <nav class="${classMap(decadesClasses)}">
+              <div class="underline"></div>
+              <div class="underline"></div>
+              <div class="underline"></div>
+              ${this.images && this.activeDecade ? Object.entries(this.images).map((decade, index) => this.renderDecade(decade, index)) : ''}
+            </nav>
           </div> 
     `;
     }
@@ -38,7 +49,6 @@ export class UDotTimeline extends LitElement {
         this._setReferences();
         this._setListeners();
     }
-
     _setReferences() {
 
     }
@@ -48,36 +58,34 @@ export class UDotTimeline extends LitElement {
     }
 
     _setDefaults() {
-        this.decadeLabels = {
-            1940: 'Сороковые',
-            1950: 'Пятидесятые',
-            1960: 'Шестидесятые',
-            1970: 'Семидесятые',
-            1980: 'Восьмидесятые',
-            1990: 'Девяностые',
-            2000: 'Нулевые',
-            2010: 'Десятые'
-        };
     }
 
     /*
         List of render methods
      */
-    renderDecade(decade) {
+    renderDecade(decade, index) {
         let decadeClasses = {
             'decade': true,
             'decade--active': decade[0] === this.activeDecade
         };
 
-        return html`<div class="${classMap(decadeClasses)}" @click="${e => this.changeImage(e, decade[0])}">${this.decadeLabels[decade[0]]}</div>`;
+        return html`<a class="${classMap(decadeClasses)}" @click="${() => this.changeImage(decade[0], index)}">${decade[0]}</a>`;
     }
 
     /*
         List of custom component's methods
-        Any other methods
     */
-    changeImage(e, decade) {
+    changeImage(decade, index) {
+        this.ul(index);
         this.dispatchEvent(new CustomEvent('u-dot-timeline:change-image', { detail: { decade }, composed: true }));
+    }
+
+    ul(index) {
+        const underlines = this.shadowRoot.querySelectorAll(".underline");
+
+        for (let i = 0; i < underlines.length; i++) {
+            underlines[i].style.transform = 'translate3d(' + index * 100 + '%,0,0)';
+        }
     }
 }
 
