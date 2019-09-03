@@ -86,10 +86,12 @@ export default css`
 }
 
 .image-overlay--active::before {
-  opacity: 1;
+    opacity: 1;
 }
 
 .hide-sidebar {
-  margin-right: 250px;
+    position: absolute;
+    right: 385px;
+    top: 0;
 }
 `;
