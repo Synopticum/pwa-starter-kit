@@ -28,16 +28,19 @@ export default css`
     position: relative;
     font-size: 16px;
     white-space: nowrap;
-    width: 240px;
+    width: 200px;
     padding: 0;
     margin-bottom: 10px;
     background-color: rgb(224, 225, 226);
     border-radius: 7px;
     overflow: hidden;
+    box-shadow: transparent 0 0 0 1px inset, 
+                rgba(34, 36, 38, 0.15) 0 0 0 0 inset, 
+                rgba(0, 0, 0, 0.3) 0 1px 2px;
 }
 
 .decades--only-child {
-    width: 120px;
+    width: 100px;
 }
 
 .decade {
