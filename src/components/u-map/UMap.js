@@ -138,12 +138,16 @@ class UMap extends connect(store)(LitElement) {
         }
         
         .leaflet-marker-icon {
-            opacity: .7;
+            opacity: .85;
             transition: opacity .3s;
         }
         
         .leaflet-marker-icon__new {
-            filter: hue-rotate(30deg);
+            filter: hue-rotate(0deg);
+        }
+        
+        .leaflet-marker-icon__old-and-new {
+            filter: hue-rotate(-25deg);
         }
         
         .leaflet-marker-icon__old,
@@ -505,8 +509,8 @@ class UMap extends connect(store)(LitElement) {
     return L.marker(dot.coordinates, {
       id: dot.id,
       icon: L.icon({
-              iconUrl: `${ENV[window.ENV].static}/static/images/markers/${dot.label}.png`,
-              iconSize: [32, 32],
+              iconUrl: `${ENV[window.ENV].static}/static/images/markers/default.png`,
+              iconSize: [24, 24],
               className: `leaflet-marker-icon__${dot.type}`
             })
     })
@@ -619,7 +623,7 @@ class UMap extends connect(store)(LitElement) {
     this._$tempDot = new L.marker(coordinates, {
       icon: L.icon({
         iconUrl: `${ENV[window.ENV].static}/static/images/markers/unknown.png`,
-        iconSize: [32, 32], // size of the icon
+        iconSize: [24, 24], // size of the icon
       })
     })
         .on('click', (e) => { this._toggleDot(true, e) })
