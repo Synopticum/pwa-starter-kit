@@ -4,14 +4,10 @@ export default css`
 :host {
     z-index: 200;
     pointer-events: all;
-    transform: scale(1);
-    transition: transform .3s;
     border-radius: 3px;
     background-color: #111;
     box-shadow: 4px 4px 4px rgba(0,0,0,.15);
     border: 2px solid rgba(111,155,52,1);
-    min-width: 500px;
-    min-height: 500px;
 }
 
 :host([hidden]) {
@@ -26,7 +22,7 @@ export default css`
 }
 
 .u-dot {
-    
+    position: relative;
 }
 
 .nav {
@@ -93,5 +89,25 @@ export default css`
     position: absolute;
     right: 385px;
     top: 0;
+}
+
+@media only screen and (max-width: 992px)  {
+  :host {
+    width: 100vw;
+    height: 100vh;
+    border: 0;
+    box-shadow: none;
+  }
+
+  .u-dot {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .image {
+    object-fit: cover;
+    max-width: 100%;
+    max-height: 100%;
+  }
 }
 `;

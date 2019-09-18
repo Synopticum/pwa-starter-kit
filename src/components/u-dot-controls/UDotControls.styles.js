@@ -57,4 +57,10 @@ export default css`
     border-bottom: 0;
     padding-bottom: 0;
 }
+
+@media only screen and (max-width: 992px)  {
+  :host {
+    width: 100%;
+  }
+}
 `;

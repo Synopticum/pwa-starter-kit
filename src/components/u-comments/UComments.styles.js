@@ -103,4 +103,11 @@ export default css`
 .button--add-comment {
     align-self: flex-end;
 }
+
+@media only screen and (max-width: 992px)  {
+  :host {
+    width: 100%;
+    overflow-y: auto;
+  }
+}
 `;
