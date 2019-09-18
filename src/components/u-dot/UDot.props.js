@@ -13,6 +13,11 @@ export default {
         attribute: false
     },
 
+    isSpinnerVisible: {
+        type: Boolean,
+        attribute: false
+    },
+
     _comments: {
         type: Array,
         attribute: false

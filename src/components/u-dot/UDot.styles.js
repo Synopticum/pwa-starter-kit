@@ -2,12 +2,7 @@ import {css} from 'lit-element/lit-element';
 
 export default css`
 :host {
-    z-index: 200;
-    pointer-events: all;
-    border-radius: 3px;
-    background-color: #111;
-    box-shadow: 4px 4px 4px rgba(0,0,0,.15);
-    border: 2px solid rgba(111,155,52,1);
+    display: flex;
 }
 
 :host([hidden]) {
@@ -23,6 +18,26 @@ export default css`
 
 .u-dot {
     position: relative;
+    z-index: 200;
+    pointer-events: all;
+    border-radius: 3px;
+    background-color: #111;
+    box-shadow: 4px 4px 4px rgba(0,0,0,.15);
+    border: 2px solid rgba(111,155,52,1);
+}
+
+.u-dot--loading {
+    width: 200px;
+    height: 200px;
+    background: url('static/images/spinner.gif') no-repeat 50% 50% transparent;
+    box-shadow: none;
+    border: 0;
+}
+
+.u-dot--loading .nav,
+.u-dot--loading .image,
+.u-dot--loading u-dot-timeline {
+    display: none;
 }
 
 .nav {

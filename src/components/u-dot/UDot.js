@@ -31,13 +31,18 @@ class UDot extends connect(store)(LitElement) {
     }
 
     render() {
+      let uDotClasses = {
+          'u-dot': true,
+          'u-dot--loading': this.isSpinnerVisible
+      };
+
       let photoOverlayClasses = {
           'image-overlay': true,
           'image-overlay--active': this.areCommentsVisible || this.areControlsVisible
       };
 
-      return html`
-          <div class="u-dot">
+      return html`          
+          <div class="${classMap(uDotClasses)}">
             <nav class="nav">
                 ${this.areCommentsVisible || this.areControlsVisible ? html`<u-icon-button @click="${this.hideSidebar}" icon="close" class="hide-sidebar"></u-icon-button>` : ''}
                 ${isAdmin(this._user) ? html`<u-icon-button @click="${this.toggleControls}" icon="gear"></u-icon-button>` : ''}
@@ -51,7 +56,8 @@ class UDot extends connect(store)(LitElement) {
                         <div class="${classMap(photoOverlayClasses)}"></div>
                         <img src="https://urussu.s3.amazonaws.com/${this._activeImage}" 
                              class="image" 
-                             alt="Уруссу, ${this._activeDecade} годы">
+                             alt="Уруссу, ${this._activeDecade} годы"
+                             @load="${this.hideSpinner}">
                             
                         <u-dot-timeline .images="${this._dot.images}" .activeDecade="${this._activeDecade}"></u-dot-timeline>` 
                         : 'Изображения отсутствуют'
@@ -116,6 +122,7 @@ class UDot extends connect(store)(LitElement) {
     _setDefaults() {
         this.areCommentsVisible = false;
         this.areControlsVisible = false;
+        this.isSpinnerVisible = true;
     }
 
     /*
@@ -141,6 +148,8 @@ class UDot extends connect(store)(LitElement) {
     changeImage(e) {
         const decade = e.detail.decade;
         store.dispatch(setActiveImage(decade, this._dot.images[decade]));
+
+        this.isSpinnerVisible = true;
     }
 
     toggleComments() {
@@ -158,6 +167,10 @@ class UDot extends connect(store)(LitElement) {
 
     hasImage() {
         return Boolean(this._activeImage);
+    }
+
+    hideSpinner() {
+        this.isSpinnerVisible = false;
     }
 }
 
