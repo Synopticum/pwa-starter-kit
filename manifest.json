@@ -3,7 +3,7 @@
   "short_name": "Исторический Уруссу β",
   "description": "Старые фотографии и интересные факты на карте Уруссу",
   "start_url": "/",
-  "display": "standalone",
+  "display": "fullscreen",
   "theme_color": "#111",
   "background_color": "#111",
   "scope": ".",
