@@ -31,6 +31,7 @@ export class UComments extends connect(store)(LitElement) {
   render() {
     return html`
       <div class="u-comments">
+        <div class="back" @click="${this.hideSidebar}">←</div>
         <div class="title">Обсуждение</div>
         
         <div class="comments">
@@ -142,6 +143,10 @@ export class UComments extends connect(store)(LitElement) {
 
   isCommentAuthor(user, comment) {
     return user.id === comment.authorId;
+  }
+
+  hideSidebar() {
+    this.dispatchEvent(new CustomEvent('u-comments:hide-sidebar', { composed: true }));
   }
 }
 

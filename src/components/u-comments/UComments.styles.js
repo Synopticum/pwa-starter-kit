@@ -104,10 +104,22 @@ export default css`
     align-self: flex-end;
 }
 
+.back {
+    display: none;
+    position: absolute;
+    top: 6px;
+    right: 13px;
+    font-size: 36px;
+}
+
 @media only screen and (max-width: 992px)  {
   :host {
     width: 100%;
     overflow-y: auto;
+  }
+  
+  .back {
+    display: block;
   }
 }
 `;

@@ -117,6 +117,7 @@ class UDot extends connect(store)(LitElement) {
             .addEventListener('keyup', (e) => this.handleEscapePress(e) );
 
         this.addEventListener('u-dot-timeline:change-image', this.changeImage);
+        this.addEventListener('u-comments:hide-sidebar', this.hideSidebar);
     }
 
     _setDefaults() {
