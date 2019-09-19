@@ -31,14 +31,20 @@ const _fetchUserInfo = async () => {
     headers: getApiHeaders(localStorage.token)
   });
 
-  const info = await response.json();
+  let avatar = '';
+
+  const user = await response.json();
 
   if (!response.ok) {
     if (response.status === 401) location.reload();
     throw new Error('Error while fetching comments');
   }
 
-  return info;
+  if (user.id) {
+    avatar = await fetch(`${ENV[window.ENV].api}/api/users/${user.id}/avatar`).then(response => response.json());
+  }
+
+  return { ...user, avatar };
 };
 
 // -------

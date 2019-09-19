@@ -2,6 +2,7 @@ import {ENV} from '../../../environments/environments';
 import {getApiHeaders} from '../../../environments/api';
 import {html, LitElement} from 'lit-element/lit-element';
 import {classMap} from 'lit-html/directives/class-map';
+import {until} from 'lit-html/directives/until';
 import debounce from 'lodash-es/debounce';
 import isEmpty from 'lodash-es/isEmpty';
 import {store} from '../../store';
@@ -60,7 +61,6 @@ class UMap extends connect(store)(LitElement) {
         .container {
             width: 100vw;
             height: 100vh;
-            z-index: 200;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -205,7 +205,7 @@ class UMap extends connect(store)(LitElement) {
             position: fixed;
             left: 12px;
             bottom: 12px;
-            z-index: 100;
+            z-index: 5;
         }
         
         .user__image {
@@ -214,7 +214,7 @@ class UMap extends connect(store)(LitElement) {
             cursor: pointer;
             width: 44px;
             height: 44px;
-            background: url(${this._user.image}) no-repeat 50% 50% #ddd;
+            background: url(${this._user.avatar}) no-repeat 50% 50% #ddd;
             background-size: cover;
             border-radius: 50%;
             overflow: hidden;
@@ -223,7 +223,7 @@ class UMap extends connect(store)(LitElement) {
             align-items: center;
             justify-content: center;
             font-size: 24px;
-            color: #111;
+            color: #111;                  
         }
         
         .user__image--none {
@@ -283,17 +283,17 @@ class UMap extends connect(store)(LitElement) {
               .y="${this._dotCreator.position.y}"
               .lat="${this._dotCreator.position.lat}"
               .lng="${this._dotCreator.position.lng}"></u-dot-creator>
-        </div>
         
-        ${isAnonymous(this._user) ?
-          html`<a href="https://oauth.vk.com/authorize?client_id=4447151&display=page&redirect_uri=${ENV[window.ENV].static}&response_type=code&v=5.95" class="login"></a>`: 
-          html`<div class="user" @click="${this._toggleUserMenu}">
-                  <div class="${classMap(userImageClasses)}">SN</div>
-                  <div class="${classMap(userMenuClasses)}">
-                      <div class="user__menu-option" @click="${this._logout}">Выйти</div>
-                  </div>
-               </div>`
-        }
+          ${isAnonymous(this._user) ?
+            html`<a href="https://oauth.vk.com/authorize?client_id=4447151&display=page&redirect_uri=${ENV[window.ENV].static}&response_type=code&v=5.95" class="login"></a>`: 
+            html`<div class="user" @click="${this._toggleUserMenu}">
+                    <div class="${classMap(userImageClasses)}"></div>
+                    <div class="${classMap(userMenuClasses)}">
+                        <div class="user__menu-option" @click="${this._logout}">Выйти</div>
+                    </div>
+                 </div>`
+          }
+        </div>
         
         <div id="map"></div>
         <!-- <div id="user-role">your role is ${this._user.role}</div> -->
