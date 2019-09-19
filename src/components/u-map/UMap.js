@@ -235,14 +235,15 @@ class UMap extends connect(store)(LitElement) {
             top: -5px;
             left: -5px;
             z-index: 10;
-            border-radius: 10px;
-            background-color: #ffffff;
-            padding: 0 10px 0 60px;
+            padding: 0 20px 0 60px;
             min-height: 55px;
             display: flex;
             align-items: center;
             transform: scale(0);
             transition: .2s transform;
+            box-shadow: transparent 0 0 0 1px inset, rgba(34, 36, 38, 0.15) 0 0 0 0 inset, rgba(0, 0, 0, 0.3) 0px 1px 2px;
+            background: 50% 50% no-repeat rgb(224, 225, 226);
+            border-radius: 0.285714rem;
         }
         
         .user__menu--active {
