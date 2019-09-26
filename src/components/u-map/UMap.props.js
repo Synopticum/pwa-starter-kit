@@ -127,6 +127,15 @@ export default {
     },
 
     /**
+     * A redux store property
+     * Represents app settings
+     */
+    _settings: {
+        type: Object,
+        attribute: false
+    },
+
+    /**
      * An HTMLElement node reference
      * Refers to a temporary(ghost) dot that is visible while a real dot creating
      */

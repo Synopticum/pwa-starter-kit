@@ -33,6 +33,10 @@ export const map = (state = {
         currentDotId: '',
         isVisible: false
     },
+
+    settings: {
+        isDrawingPath: false
+    }
 }, action) => {
     switch (action.type) {
         case generateInProgressActionTypeName(MapConstants.TOOLTIP.FETCH):
@@ -131,6 +135,17 @@ export const map = (state = {
                 dotCreator: {
                     ...state.dotCreator,
                     tempDot: null
+                }
+            };
+
+        case MapConstants.SETTINGS.SET:
+            let [name, value] =  Object.entries(action.payload)[0];
+
+            return {
+                ...state,
+                settings: {
+                    ...state.settings,
+                    [name]: value
                 }
             };
 

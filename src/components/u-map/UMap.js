@@ -2,7 +2,6 @@ import {ENV} from '../../../environments/environments';
 import {getApiHeaders} from '../../../environments/api';
 import {html, LitElement} from 'lit-element/lit-element';
 import {classMap} from 'lit-html/directives/class-map';
-import {until} from 'lit-html/directives/until';
 import debounce from 'lodash-es/debounce';
 import isEmpty from 'lodash-es/isEmpty';
 import {store} from '../../store';
@@ -13,8 +12,10 @@ import {
   setCurrentDotId,
   toggleContextMenu,
   toggleDotCreator,
-  toggleTooltip
+  toggleTooltip,
+  setSettings
 } from './UMap.actions';
+import { putObject } from '../u-object/UObject.actions';
 import props from './UMap.props';
 import {app} from "../u-app/UApp.reducer";
 import {dots, map} from "./UMap.reducer";
@@ -50,6 +51,11 @@ class UMap extends connect(store)(LitElement) {
     let userMenuClasses = {
       'user__menu': true,
       'user__menu--active': this._isUserMenuVisible
+    };
+
+    let isDrawingPathClasses = {
+      'settings__item': true,
+      'settings__item--active': this._settings.isDrawingPath
     };
 
     return html`      
@@ -95,7 +101,7 @@ class UMap extends connect(store)(LitElement) {
         }
 
         #map {
-            cursor: move;
+            cursor: ${this._settings.isDrawingPath ? 'default' : 'move'};
             position: fixed;
             left: 0;
             top: 0;
@@ -130,7 +136,8 @@ class UMap extends connect(store)(LitElement) {
         
         path.leaflet-interactive {
             cursor: pointer;
-            opacity: 0;
+            opacity: .75;
+            transition: opacity .3s;
         }
         
         path.leaflet-interactive:hover {
@@ -198,7 +205,7 @@ class UMap extends connect(store)(LitElement) {
         }
         
         .login:hover {
-            opacity: 1;
+            opacity: .75;
         }
         
         .user {
@@ -253,6 +260,36 @@ class UMap extends connect(store)(LitElement) {
         .user__menu-option {
             cursor: pointer;
         }
+        
+        .settings {
+            position: fixed;
+            left: 70px;
+            bottom: 12px;
+            z-index: 5;
+        }
+        
+        .settings__item {
+            cursor: pointer;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            background-color: #ffffff;
+            opacity: .5;
+            transition: opacity .3s;
+            user-select: none;
+        }
+        
+        .settings__item:hover {
+            opacity: .75;
+        }
+        
+        .settings__item--active,
+        .settings__item--active:hover {
+            opacity: 1;
+        }
       </style>
       
       <div class="u-map">
@@ -294,6 +331,12 @@ class UMap extends connect(store)(LitElement) {
                     </div>
                  </div>`
           }
+          
+          <div class="settings">
+            <div class="${classMap(isDrawingPathClasses)}" @click="${this.toggleIsDrawingPath}">
+                <img src="${ENV[window.ENV].static}/static/images/draw.svg" width="20" height="20">
+            </div>
+          </div>
         </div>
         
         <div id="map"></div>
@@ -322,6 +365,7 @@ class UMap extends connect(store)(LitElement) {
     this._dotCreator = state.map.dotCreator;
     this._clouds = state.map.clouds;
     this._dotPage = state.map.dotPage;
+    this._settings = state.map.settings;
     this._user = state.app.user;
 
     // show a temporary dot until a real dot is creating
@@ -335,7 +379,7 @@ class UMap extends connect(store)(LitElement) {
   }
 
   async _init() {
-    this._drawMap();
+    await this._drawMap();
 
     this._setStore();
     this._setListeners();
@@ -352,6 +396,8 @@ class UMap extends connect(store)(LitElement) {
     this._map.on('dblclick', (e) => this._handleDblClick(e));
     this._map.on('dragstart', () => this._hideControls());
     this._map.on('drag', debounce(this._updateUrl, 300).bind(this));
+    this._map.on('keypress', this.drawHelper.bind(this));
+    this._map.on('click', this.getCoordinates.bind(this));
     this.addEventListener('click', this._handleOutsideClicks);
   }
 
@@ -363,19 +409,20 @@ class UMap extends connect(store)(LitElement) {
   _setDefaults() {
     this._tooltipHoverTimeOut = null;
     this._overlayMaps = {};
+    this.__currentObject = [];
   }
 
   /*
       List of custom component's methods
       Any other methods
   */
-  _drawMap() {
+  async _drawMap() {
     this._createMapInstance();
     this._apply1pxGapFix();
     this._setDefaultSettings();
     this._setMaxBounds();
     this._initializeTiles();
-    // await this._drawObjects();
+    await this._drawObjects();
   }
 
   _createMapInstance() {
@@ -429,7 +476,8 @@ class UMap extends connect(store)(LitElement) {
 
   // ----- start of drawing methods -----
   async _drawObjects() {
-    return Promise.all[this._drawPaths(), this._drawCircles()];
+    // return Promise.all[this._drawPaths(), this._drawCircles()];
+    return await this._drawPaths();
   }
 
   async _drawPaths() {
@@ -445,7 +493,7 @@ class UMap extends connect(store)(LitElement) {
         })
           // .on('mouseover', e => { this._toggleTooltip(true, e) })
           // .on('mouseout', e => { this._toggleTooltip(false, e) })
-          .on('click', e => { this._toggleObject(true, e) })
+          // .on('click', e => { this._toggleObject(true, e) })
           .addTo(this._map);
       });
     } catch (e) {
@@ -589,6 +637,26 @@ class UMap extends connect(store)(LitElement) {
     localStorage.token = '';
     location.reload();
   }
+
+  addPathToMap(path, id) {
+    const object = new ObjectModel({
+      type: 'path',
+      coordinates: JSON.parse(path),
+      id: uuidv4()
+    });
+
+    L.polygon(object.coordinates, {
+      id: object.id,
+      color: this.objectFillColor,
+      weight: this.objectStrokeWidth
+    })
+    // .on('mouseover', e => { this._toggleTooltip(true, e) })
+    // .on('mouseout', e => { this._toggleTooltip(false, e) })
+    //     .on('click', e => { this._toggleObject(true, e) })
+        .addTo(this._map);
+
+    store.dispatch(putObject(object));
+  }
   // ----- end of map UI control methods -----
 
 
@@ -677,7 +745,42 @@ class UMap extends connect(store)(LitElement) {
       this._toggleDot(false);
     }
   }
+
+  toggleIsDrawingPath() {
+    store.dispatch(setSettings('isDrawingPath', !this._settings.isDrawingPath));
+    this.__currentObject = [];
+  }
+
+  getCoordinates(e) {
+    if (this._settings.isDrawingPath) {
+      this.__currentObject.push([e.latlng.lat.toFixed(2), e.latlng.lng.toFixed(2)]);
+    }
+  }
+
+  drawHelper(e) {
+    if (this._settings.isDrawingPath && e.originalEvent.code === 'Enter') {
+      let path = '[[';
+      this.__currentObject.forEach(dot => {
+        path += `${dot.toString()}],[`;
+      });
+      path += ']';
+      path = path.substring(0, path.length - 3);
+      path += ']';
+
+      this.__currentObject = [];
+      this.addPathToMap(path);
+      // console.log(path);
+    }
+  }
   // ----- end of listeners -----
+}
+
+class ObjectModel {
+  constructor(options) {
+    this.id = uuidv4();
+    this.coordinates = options.coordinates;
+    this.type = options.type;
+  }
 }
 
 window.customElements.define('u-map', UMap);

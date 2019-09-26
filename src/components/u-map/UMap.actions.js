@@ -20,6 +20,10 @@ export const MapConstants = {
 
   DOT_PAGE: {
     SET_ID: 'DOT_PAGE_SET_ID'
+  },
+
+  SETTINGS: {
+    SET: 'MAP_SETTINGS_SET'
   }
 };
 
@@ -119,5 +123,14 @@ export const setCurrentDotId = (dotId) => (dispatch) => {
     type: MapConstants.DOT_PAGE.SET_ID,
     payload: dotId
   });
+};
+
+export const setSettings = (setting, value) => {
+  return {
+    type: MapConstants.SETTINGS.SET,
+    payload: {
+      [setting]: value
+    }
+  }
 };
 

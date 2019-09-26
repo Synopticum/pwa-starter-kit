@@ -13,7 +13,12 @@ const anonymousUser = Object.freeze({
     lastName: 'User'
 });
 
-export const app = (state = { user: { avatarsCache: {} }, page: '/' }, action) => {
+export const app = (state = {
+    user: {
+        avatarsCache: {}
+    },
+    page: '/'
+}, action) => {
     switch (action.type) {
         case AppConstants.PAGE.UPDATE:
             return {
