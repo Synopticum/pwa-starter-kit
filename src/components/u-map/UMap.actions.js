@@ -7,6 +7,11 @@ export const MapConstants = {
     UPDATE: 'MAP_DOTS_UPDATE'
   },
 
+  PATHS: {
+    FETCH: 'MAP_PATHS_FETCH',
+    UPDATE: 'MAP_PATHS_UPDATE'
+  },
+
   TOOLTIP: {
     FETCH: 'MAP_TOOLTIP_FETCH'
   },
@@ -132,5 +137,28 @@ export const setSettings = (setting, value) => {
       [setting]: value
     }
   }
+};
+
+// -------
+export const fetchPaths = () => async (dispatch) => {
+  dispatch({
+    type: MapConstants.PATHS.FETCH,
+    async: true,
+    httpMethodToInvoke: _fetchPaths,
+    params: []
+  });
+};
+
+const _fetchPaths = async () => {
+  let response = await fetch(`${ENV[window.ENV].api}/api/objects?include=paths`, {
+    headers: getApiHeaders(localStorage.token)
+  });
+
+  if (!response.ok) {
+    if (response.status === 401) location.reload();
+    throw new Error('Error while fetching paths');
+  }
+
+  return await response.json();
 };
 

@@ -8,6 +8,7 @@ import {store} from '../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
 import {
   fetchDots,
+  fetchPaths,
   setCloudsVisibility,
   setCurrentDotId,
   toggleContextMenu,
@@ -15,10 +16,10 @@ import {
   toggleTooltip,
   setSettings
 } from './UMap.actions';
-import { putObject } from '../u-object/UObject.actions';
+import { putPath } from '../u-path/UPath.actions';
 import props from './UMap.props';
 import {app} from "../u-app/UApp.reducer";
-import {dots, map} from "./UMap.reducer";
+import {dots, map, paths } from "./UMap.reducer";
 import {isAdmin, isAnonymous} from "../u-app/UApp.helpers";
 
 import '../u-context-menu/UContextMenu';
@@ -26,7 +27,7 @@ import '../u-tooltip/UTooltip';
 import '../u-dot-creator/UDotCreator';
 import '../u-dot/UDot';
 
-store.addReducers({ app, map, dots });
+store.addReducers({ app, map, dots, paths });
 
 class UMap extends connect(store)(LitElement) {
   /*
@@ -359,6 +360,11 @@ class UMap extends connect(store)(LitElement) {
       this._drawDots(state.dots.items);
     }
 
+    if (this._paths !== state.paths.items) {
+      this._drawPaths(state.paths.items);
+    }
+
+    this._paths = state.paths.items;
     this._dots = state.dots.items;
     this._contextMenu = state.map.contextMenu;
     this._tooltip = state.map.tooltip;
@@ -388,6 +394,7 @@ class UMap extends connect(store)(LitElement) {
 
   _setStore() {
     store.dispatch(fetchDots());
+    store.dispatch(fetchPaths());
   }
 
   _setListeners() {
@@ -396,7 +403,7 @@ class UMap extends connect(store)(LitElement) {
     this._map.on('dblclick', (e) => this._handleDblClick(e));
     this._map.on('dragstart', () => this._hideControls());
     this._map.on('drag', debounce(this._updateUrl, 300).bind(this));
-    this._map.on('keypress', this.drawHelper.bind(this));
+    this._map.on('keypress', this.drawPath.bind(this));
     this._map.on('click', this.getCoordinates.bind(this));
     this.addEventListener('click', this._handleOutsideClicks);
   }
@@ -477,27 +484,68 @@ class UMap extends connect(store)(LitElement) {
   // ----- start of drawing methods -----
   async _drawObjects() {
     // return Promise.all[this._drawPaths(), this._drawCircles()];
-    return await this._drawPaths();
+    this._drawPaths();
   }
 
-  async _drawPaths() {
+  _drawPaths(paths) {
     try {
-      let response = await fetch(`${ENV[window.ENV].api}/api/objects?include=paths`, { headers: getApiHeaders(localStorage.token) });
-      const paths = await response.json();
-
-      paths.forEach(item => {
-        L.polygon(item.coordinates, {
-          id: item._id,
-          color: this.objectFillColor,
-          weight: this.objectStrokeWidth
-        })
-          // .on('mouseover', e => { this._toggleTooltip(true, e) })
-          // .on('mouseout', e => { this._toggleTooltip(false, e) })
-          // .on('click', e => { this._toggleObject(true, e) })
-          .addTo(this._map);
-      });
+      this._removeCurrentPaths();
+      this._addPathsToMap(paths);
     } catch (e) {
-      console.error(`Unable to draw paths`, e);
+      !isEmpty(paths) ? console.error('Unable to draw paths\n\n', e) : '';
+    }
+  }
+
+  _addPathsToMap(paths) {
+    paths.forEach(path => {
+      L.polygon(path.coordinates, {
+        id: path._id,
+        color: this.objectFillColor,
+        weight: this.objectStrokeWidth
+      })
+      // .on('mouseover', e => { this._toggleTooltip(true, e) })
+      // .on('mouseout', e => { this._toggleTooltip(false, e) })
+      // .on('click', e => { this._toggleObject(true, e) })
+          .addTo(this._map);
+    });
+  }
+
+  addPathToMap(coordinates) {
+    setSettings('isDrawingPath', false);
+
+    const path = new PathModel({
+      type: 'path',
+      coordinates: JSON.parse(coordinates),
+      id: uuidv4()
+    });
+    //
+    // L.polygon(object.coordinates, {
+    //   id: object.id,
+    //   color: this.objectFillColor,
+    //   weight: this.objectStrokeWidth
+    // })
+    // .on('mouseover', e => { this._toggleTooltip(true, e) })
+    // .on('mouseout', e => { this._toggleTooltip(false, e) })
+    //     .on('click', e => { this._toggleObject(true, e) })
+    //     .addTo(this._map);
+
+    store.dispatch(putPath(path));
+  }
+
+  _removeCurrentPaths() {
+    const layers = Object.entries(this._map._layers);
+
+    for (let layer of layers) {
+      const [ id ] = layer;
+
+      if (this._map._layers[id]._path !== undefined) {
+        try {
+          this._map.removeLayer(this._map._layers[id]);
+        }
+        catch (e) {
+          console.log('Problem with ' + e + this._map._layers[id]);
+        }
+      }
     }
   }
 
@@ -637,26 +685,6 @@ class UMap extends connect(store)(LitElement) {
     localStorage.token = '';
     location.reload();
   }
-
-  addPathToMap(path, id) {
-    const object = new ObjectModel({
-      type: 'path',
-      coordinates: JSON.parse(path),
-      id: uuidv4()
-    });
-
-    L.polygon(object.coordinates, {
-      id: object.id,
-      color: this.objectFillColor,
-      weight: this.objectStrokeWidth
-    })
-    // .on('mouseover', e => { this._toggleTooltip(true, e) })
-    // .on('mouseout', e => { this._toggleTooltip(false, e) })
-    //     .on('click', e => { this._toggleObject(true, e) })
-        .addTo(this._map);
-
-    store.dispatch(putObject(object));
-  }
   // ----- end of map UI control methods -----
 
 
@@ -757,25 +785,26 @@ class UMap extends connect(store)(LitElement) {
     }
   }
 
-  drawHelper(e) {
-    if (this._settings.isDrawingPath && e.originalEvent.code === 'Enter') {
-      let path = '[[';
-      this.__currentObject.forEach(dot => {
-        path += `${dot.toString()}],[`;
-      });
-      path += ']';
-      path = path.substring(0, path.length - 3);
-      path += ']';
+  drawPath(e) {
+    const isDrawingPathOptionActive = this._settings.isDrawingPath;
+    const isEnterPressed = e.originalEvent.code === 'Enter';
+    const isPathSet = !isEmpty(Object.entries(this.__currentObject));
+
+    if (isDrawingPathOptionActive && isEnterPressed && isPathSet) {
+      let coordinates = '[[';
+      this.__currentObject.forEach(vertex => coordinates += `${vertex.toString()}],[`);
+      coordinates += ']';
+      coordinates = coordinates.substring(0, coordinates.length - 3);
+      coordinates += ']';
 
       this.__currentObject = [];
-      this.addPathToMap(path);
-      // console.log(path);
+      this.addPathToMap(coordinates);
     }
   }
   // ----- end of listeners -----
 }
 
-class ObjectModel {
+class PathModel {
   constructor(options) {
     this.id = uuidv4();
     this.coordinates = options.coordinates;

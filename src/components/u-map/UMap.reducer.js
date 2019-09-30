@@ -196,3 +196,46 @@ export const dots = (state = {
             return state;
     }
 };
+
+export const paths = (state = {
+    items: [],
+    isFetching: false
+}, action) => {
+    switch (action.type) {
+        case generateInProgressActionTypeName(MapConstants.PATHS.FETCH):
+            return {
+                ...state,
+                isFetching: true
+            };
+
+        case generateSuccessActionTypeName(MapConstants.PATHS.FETCH):
+            return {
+                ...state,
+                isFetching: false,
+                items: action.payload
+            };
+
+        case generateErrorActionTypeName(MapConstants.PATHS.FETCH):
+            return {
+                ...state,
+                isFetching: false
+            };
+
+        case MapConstants.PATHS.UPDATE:
+            return {
+                ...state,
+                items: [...state.items, action.payload]
+            };
+
+        case DotConstants.DELETE:
+            const dotId = action.params[0];
+
+            return {
+                ...state,
+                items: state.items.filter(dot => dot.id !== dotId)
+            };
+
+        default:
+            return state;
+    }
+};
