@@ -91,7 +91,7 @@ const _deleteDot = async (dotId) => {
   });
 
   if (!response.ok) {
-    throw new Error('Error while deleting a comment');
+    throw new Error('Error while deleting a dot');
   }
 
   return dotId;

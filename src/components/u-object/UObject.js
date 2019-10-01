@@ -11,8 +11,7 @@ import {isAdmin} from "../u-app/UApp.helpers";
 import '../u-textbox/UTextbox';
 import '../u-comments/UComments';
 import '../u-icon-button/UIconButton';
-// import '../u-dot-controls/UDotControls';
-// import '../u-dot-timeline/UDotTimeline';
+import '../u-object-controls/UObjectControls';
 import {fetchComments} from "../u-comments/UComments.actions";
 
 store.addReducers({objectPage});
@@ -47,7 +46,7 @@ class UObject extends connect(store)(LitElement) {
             
             ${!this._isLoadingError ? html`
                 <main class="wrapper">       
-                    ${this.areControlsVisible ? html`<!--<u-dot-controls .dotId="${this.dotId}"></u-dot-controls>-->` : ''}
+                    ${this.areControlsVisible ? html`<u-object-controls .objectId="${this.objectId}"></u-object-controls>` : ''}
     
                     ${this.areCommentsVisible ? html`<u-comments origin-type="object" origin-id="${this.objectId}"></u-comments>` : ''}
                 </main>

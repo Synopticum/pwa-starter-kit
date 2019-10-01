@@ -35,6 +35,30 @@ const _fetchObject = async (objectId, dispatch) => {
     return object;
 };
 
+// -------
+export const deleteObject = (objectId) => async (dispatch) => {
+    dispatch({
+        type: ObjectConstants.DELETE,
+        async: true,
+        httpMethodToInvoke: _deleteObject,
+        params: [objectId]
+    });
+};
+
+const _deleteObject = async (objectId) => {
+    let response = await fetch(`${ENV[window.ENV].api}/api/objects/${objectId}`, {
+        method: 'DELETE',
+        headers: getApiHeaders(localStorage.token)
+    });
+
+    if (!response.ok) {
+        throw new Error('Error while deleting an object');
+    }
+
+    return objectId;
+};
+
+// -------
 export const putObject = (object) => async (dispatch) => {
     dispatch({
         type: ObjectConstants.PUT,

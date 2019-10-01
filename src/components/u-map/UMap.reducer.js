@@ -5,6 +5,7 @@ import {
     generateSuccessActionTypeName,
 } from "../../middleware/asyncActionsMiddleware";
 import {DotConstants} from "../u-dot/UDot.actions";
+import {ObjectConstants} from "../u-object/UObject.actions";
 
 export const map = (state = {
     tooltip: {
@@ -227,8 +228,7 @@ export const objects = (state = {
             return {
                 ...state,
                 isFetching: false,
-                items: action.payload,
-                error: null
+                items: action.payload
             };
 
         case generateErrorActionTypeName(MapConstants.OBJECTS.FETCH):
@@ -243,19 +243,19 @@ export const objects = (state = {
                 items: [...state.items, action.payload]
             };
 
+        case ObjectConstants.DELETE:
+            const objectId = action.params[0];
+
+            return {
+                ...state,
+                items: state.items.filter(object => object.id !== objectId)
+            };
+
         case MapConstants.OBJECTS.THROW_ERROR:
             return {
                 ...state,
                 failedObject: action.payload
             };
-
-        // case DotConstants.DELETE:
-        //     const dotId = action.params[0];
-        //
-        //     return {
-        //         ...state,
-        //         items: state.items.filter(dot => dot.id !== dotId)
-        //     };
 
         default:
             return state;
