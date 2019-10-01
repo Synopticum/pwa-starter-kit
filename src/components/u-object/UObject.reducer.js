@@ -1,11 +1,11 @@
-import {PathConstants} from "./UPath.actions";
+import {ObjectConstants} from "./UObject.actions";
 import {
     generateErrorActionTypeName,
     generateInProgressActionTypeName,
     generateSuccessActionTypeName,
 } from "../../middleware/asyncActionsMiddleware";
 
-export const pathPage = (state = {
+export const objectPage = (state = {
     object: { },
     isFetching: false,
     isUpdating: false,
@@ -13,20 +13,20 @@ export const pathPage = (state = {
 }, action) => {
     switch (action.type) {
         // GET
-        case generateInProgressActionTypeName(PathConstants.FETCH):
+        case generateInProgressActionTypeName(ObjectConstants.FETCH):
             return {
                 ...state,
                 isFetching: true
             };
 
-        case generateSuccessActionTypeName(PathConstants.FETCH):
+        case generateSuccessActionTypeName(ObjectConstants.FETCH):
             return {
                 ...state,
                 isFetching: false,
-                dot: action.payload
+                object: action.payload
             };
 
-        case generateErrorActionTypeName(PathConstants.FETCH):
+        case generateErrorActionTypeName(ObjectConstants.FETCH):
             return {
                 ...state,
                 isFetching: false,
@@ -34,27 +34,27 @@ export const pathPage = (state = {
             };
 
         // PUT
-        case generateInProgressActionTypeName(PathConstants.PUT):
+        case generateInProgressActionTypeName(ObjectConstants.PUT):
             return {
                 ...state,
                 isUpdating: true,
                 objectToBeUpdated: action.payload
             };
 
-        case generateSuccessActionTypeName(PathConstants.PUT):
+        case generateSuccessActionTypeName(ObjectConstants.PUT):
             return {
                 ...state,
                 isUpdating: false,
                 object: action.payload
             };
 
-        case generateErrorActionTypeName(PathConstants.PUT):
+        case generateErrorActionTypeName(ObjectConstants.PUT):
             return {
                 ...state,
                 isUpdating: false
             };
 
-        case PathConstants.CLEAR_STATE:
+        case ObjectConstants.CLEAR_STATE:
             return {
                 object: {},
                 isFetching: false,

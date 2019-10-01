@@ -1,5 +1,5 @@
 import {ENV} from '../../../environments/environments';
-import {setCurrentDotId} from '../u-map/UMap.actions';
+import {setCurrentDotId,setCurrentObjectId} from '../u-map/UMap.actions';
 import {getApiHeaders} from '../../../environments/api';
 
 export const AppConstants = {
@@ -79,6 +79,11 @@ export const navigate = ({ path, meta }) => async (dispatch, getState) => {
       dispatch(setCurrentDotId(dotId));
       break;
 
+    case Router.isObjectPage(page):
+      let objectId = page.split('/')[1];
+      dispatch(setCurrentObjectId(objectId));
+      break;
+
     case Router.isSuccessPage(page):
       // do nothing
       break;
@@ -108,5 +113,9 @@ class Router {
 
   static isDotPage(page) {
     return /^(dots)\/(.+)$/.test(page);
+  }
+
+  static isObjectPage(page) {
+    return /^(objects)\/(.+)$/.test(page);
   }
 }

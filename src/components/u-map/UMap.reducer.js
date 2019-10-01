@@ -34,8 +34,13 @@ export const map = (state = {
         isVisible: false
     },
 
+    objectPage: {
+        currentObjectId: '',
+        isVisible: false
+    },
+
     settings: {
-        isDrawingPath: false
+        isDrawingObject: false
     }
 }, action) => {
     switch (action.type) {
@@ -113,6 +118,15 @@ export const map = (state = {
                 dotPage: {
                     isVisible: Boolean(action.payload),
                     currentDotId: action.payload
+                }
+            };
+
+        case MapConstants.OBJECT_PAGE.SET_ID:
+            return {
+                ...state,
+                objectPage: {
+                    isVisible: Boolean(action.payload),
+                    currentObjectId: action.payload
                 }
             };
 
@@ -197,19 +211,19 @@ export const dots = (state = {
     }
 };
 
-export const paths = (state = {
+export const objects = (state = {
     items: [],
     isFetching: false,
-    failedPath: null
+    failedObject: null
 }, action) => {
     switch (action.type) {
-        case generateInProgressActionTypeName(MapConstants.PATHS.FETCH):
+        case generateInProgressActionTypeName(MapConstants.OBJECTS.FETCH):
             return {
                 ...state,
                 isFetching: true
             };
 
-        case generateSuccessActionTypeName(MapConstants.PATHS.FETCH):
+        case generateSuccessActionTypeName(MapConstants.OBJECTS.FETCH):
             return {
                 ...state,
                 isFetching: false,
@@ -217,22 +231,22 @@ export const paths = (state = {
                 error: null
             };
 
-        case generateErrorActionTypeName(MapConstants.PATHS.FETCH):
+        case generateErrorActionTypeName(MapConstants.OBJECTS.FETCH):
             return {
                 ...state,
                 isFetching: false
             };
 
-        case MapConstants.PATHS.UPDATE:
+        case MapConstants.OBJECTS.UPDATE:
             return {
                 ...state,
                 items: [...state.items, action.payload]
             };
 
-        case MapConstants.PATHS.THROW_ERROR:
+        case MapConstants.OBJECTS.THROW_ERROR:
             return {
                 ...state,
-                failedPath: action.payload
+                failedObject: action.payload
             };
 
         // case DotConstants.DELETE:

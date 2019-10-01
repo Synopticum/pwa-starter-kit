@@ -7,10 +7,10 @@ export const MapConstants = {
     UPDATE: 'MAP_DOTS_UPDATE'
   },
 
-  PATHS: {
-    FETCH: 'MAP_PATHS_FETCH',
-    UPDATE: 'MAP_PATHS_UPDATE',
-    THROW_ERROR: 'MAP_PATHS_THROW_ERROR'
+  OBJECTS: {
+    FETCH: 'MAP_OBJECTS_FETCH',
+    UPDATE: 'MAP_OBJECTS_UPDATE',
+    THROW_ERROR: 'MAP_OBJECTS_THROW_ERROR'
   },
 
   TOOLTIP: {
@@ -26,6 +26,10 @@ export const MapConstants = {
 
   DOT_PAGE: {
     SET_ID: 'DOT_PAGE_SET_ID'
+  },
+
+  OBJECT_PAGE: {
+      SET_ID: 'OBJECT_PAGE_SET_ID'
   },
 
   SETTINGS: {
@@ -131,6 +135,15 @@ export const setCurrentDotId = (dotId) => (dispatch) => {
   });
 };
 
+export const setCurrentObjectId = (objectId) => (dispatch) => {
+    if (!objectId) history.pushState(null, null, ENV[window.ENV].static);
+
+    dispatch({
+        type: MapConstants.OBJECT_PAGE.SET_ID,
+        payload: objectId
+    });
+};
+
 export const setSettings = (setting, value) => {
   return {
     type: MapConstants.SETTINGS.SET,
@@ -141,23 +154,23 @@ export const setSettings = (setting, value) => {
 };
 
 // -------
-export const fetchPaths = () => async (dispatch) => {
+export const fetchObjects = () => async (dispatch) => {
   dispatch({
-    type: MapConstants.PATHS.FETCH,
+    type: MapConstants.OBJECTS.FETCH,
     async: true,
-    httpMethodToInvoke: _fetchPaths,
+    httpMethodToInvoke: _fetchObjects,
     params: []
   });
 };
 
-const _fetchPaths = async () => {
+const _fetchObjects = async () => {
   let response = await fetch(`${ENV[window.ENV].api}/api/objects?include=paths`, {
     headers: getApiHeaders(localStorage.token)
   });
 
   if (!response.ok) {
     if (response.status === 401) location.reload();
-    throw new Error('Error while fetching paths');
+    throw new Error('Error while fetching objects');
   }
 
   return await response.json();

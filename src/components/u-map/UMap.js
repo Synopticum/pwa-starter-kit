@@ -8,26 +8,28 @@ import {store} from '../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
 import {
   fetchDots,
-  fetchPaths,
+  fetchObjects,
   setCloudsVisibility,
   setCurrentDotId,
+  setCurrentObjectId,
   toggleContextMenu,
   toggleDotCreator,
   toggleTooltip,
   setSettings
 } from './UMap.actions';
-import { putPath } from '../u-path/UPath.actions';
+import { putObject } from '../u-object/UObject.actions';
 import props from './UMap.props';
 import {app} from "../u-app/UApp.reducer";
-import {dots, map, paths } from "./UMap.reducer";
+import {dots, map, objects } from "./UMap.reducer";
 import {isAdmin, isAnonymous} from "../u-app/UApp.helpers";
 
 import '../u-context-menu/UContextMenu';
 import '../u-tooltip/UTooltip';
 import '../u-dot-creator/UDotCreator';
 import '../u-dot/UDot';
+import '../u-object/UObject';
 
-store.addReducers({ app, map, dots, paths });
+store.addReducers({ app, map, dots, objects });
 
 class UMap extends connect(store)(LitElement) {
   /*
@@ -54,9 +56,9 @@ class UMap extends connect(store)(LitElement) {
       'user__menu--active': this._isUserMenuVisible
     };
 
-    let isDrawingPathClasses = {
+    let isDrawingObjectClasses = {
       'settings__item': true,
-      'settings__item--active': this._settings.isDrawingPath
+      'settings__item--active': this._settings.isDrawingObject
     };
 
     return html`      
@@ -102,7 +104,7 @@ class UMap extends connect(store)(LitElement) {
         }
 
         #map {
-            cursor: ${this._settings.isDrawingPath ? 'default' : 'move'};
+            cursor: ${this._settings.isDrawingObject ? 'default' : 'move'};
             position: fixed;
             left: 0;
             top: 0;
@@ -326,7 +328,11 @@ class UMap extends connect(store)(LitElement) {
           
           ${this._dotPage.isVisible ? html`
               <u-dot .dotId="${this._dotPage.currentDotId}"
-                     @hide-dot="${(e) => this._toggleDot(false, e)}"></u-dot>` : ``}
+                     @hide-dot="${(e) => this._toggleDot(false, e)}"></u-dot>` : ``}              
+          
+          ${this._objectPage.isVisible ? html`
+              <u-object .objectId="${this._objectPage.currentObjectId}"
+                        @hide-object="${(e) => this._toggleObject(false, e)}"></u-object>` : ``}
               
           <u-context-menu
               ?hidden="${!this._contextMenu.isVisible}"
@@ -356,8 +362,8 @@ class UMap extends connect(store)(LitElement) {
           
           ${isAdmin(this._user) ?
             html`<div class="settings">
-                    <div class="${classMap(isDrawingPathClasses)}" @click="${this.toggleIsDrawingPath}">
-                        <img src="${ENV[window.ENV].static}/static/images/draw.svg" width="20" height="20" alt="Draw path">
+                    <div class="${classMap(isDrawingObjectClasses)}" @click="${this.toggleIsDrawingObject}">
+                        <img src="${ENV[window.ENV].static}/static/images/draw.svg" width="20" height="20" alt="Draw object">
                     </div>
                  </div>` : ''}
         </div>
@@ -382,17 +388,18 @@ class UMap extends connect(store)(LitElement) {
       this._drawDots(state.dots.items);
     }
 
-    if (this._paths !== state.paths.items) {
-      this._drawPaths(state.paths.items);
+    if (this._objects !== state.objects.items) {
+      this._drawObjects(state.objects.items);
     }
 
-    this._paths = state.paths.items;
+    this._objects = state.objects.items;
     this._dots = state.dots.items;
     this._contextMenu = state.map.contextMenu;
     this._tooltip = state.map.tooltip;
     this._dotCreator = state.map.dotCreator;
     this._clouds = state.map.clouds;
     this._dotPage = state.map.dotPage;
+    this._objectPage = state.map.objectPage;
     this._settings = state.map.settings;
     this._user = state.app.user;
 
@@ -401,7 +408,7 @@ class UMap extends connect(store)(LitElement) {
     if (state.map.dotCreator.tempDot !== null && !this._$tempDot) this._addTempDot(state.map.dotCreator.tempDot.coordinates);
     if (state.map.dotCreator.tempDot === null && this._$tempDot) this._removeTempDot();
 
-    if (state.paths.failedPath !== null && state.paths.failedPath.coordinates) this._showPuttingPathError(state.paths.failedPath);
+    if (state.objects.failedObject !== null && state.objects.failedObject.coordinates) this._showPuttingObjectError(state.paths.failedPath);
   }
 
   firstUpdated() {
@@ -418,7 +425,7 @@ class UMap extends connect(store)(LitElement) {
 
   _setStore() {
     store.dispatch(fetchDots());
-    store.dispatch(fetchPaths());
+    store.dispatch(fetchObjects());
   }
 
   _setListeners() {
@@ -427,7 +434,7 @@ class UMap extends connect(store)(LitElement) {
     this._map.on('dblclick', (e) => this._handleDblClick(e));
     this._map.on('dragstart', () => this._hideControls());
     this._map.on('drag', debounce(this._updateUrl, 300).bind(this));
-    this._map.on('keypress', this.drawPath.bind(this));
+    this._map.on('keypress', this.drawObject.bind(this));
     this._map.on('click', this.getCoordinates.bind(this));
     this.addEventListener('click', this._handleOutsideClicks);
   }
@@ -506,57 +513,42 @@ class UMap extends connect(store)(LitElement) {
   }
 
   // ----- start of drawing methods -----
-  async _drawObjects() {
-    // return Promise.all[this._drawPaths(), this._drawCircles()];
-    this._drawPaths();
-  }
-
-  _drawPaths(paths) {
+  _drawObjects(objects) {
     try {
-      this._removeCurrentPaths();
-      this._addPathsToMap(paths);
+      this._removeCurrentObjects();
+      this._addObjectsToMap(objects);
     } catch (e) {
-      !isEmpty(paths) ? console.error('Unable to draw paths\n\n', e) : '';
+      !isEmpty(objects) ? console.error('Unable to draw objects\n\n', e) : '';
     }
   }
 
-  _addPathsToMap(paths) {
-    paths.forEach(path => {
-      L.polygon(path.coordinates, {
-        id: path._id,
+  _addObjectsToMap(objects) {
+    objects.forEach(object => {
+      L.polygon(object.coordinates, {
+        id: object.id,
         color: this.objectFillColor,
         weight: this.objectStrokeWidth
       })
       // .on('mouseover', e => { this._toggleTooltip(true, e) })
       // .on('mouseout', e => { this._toggleTooltip(false, e) })
-      // .on('click', e => { this._toggleObject(true, e) })
+      .on('click', e => { this._toggleObject(true, e) })
           .addTo(this._map);
     });
   }
 
-  addPathToMap(coordinates) {
-    setSettings('isDrawingPath', false);
+  addObjectToMap(coordinates) {
+    setSettings('isDrawingObject', false);
 
-    const path = new PathModel({
+    const object = new ObjectModel({
       type: 'path',
       coordinates: JSON.parse(coordinates),
       id: uuidv4()
     });
-    //
-    // L.polygon(object.coordinates, {
-    //   id: object.id,
-    //   color: this.objectFillColor,
-    //   weight: this.objectStrokeWidth
-    // })
-    // .on('mouseover', e => { this._toggleTooltip(true, e) })
-    // .on('mouseout', e => { this._toggleTooltip(false, e) })
-    //     .on('click', e => { this._toggleObject(true, e) })
-    //     .addTo(this._map);
 
-    store.dispatch(putPath(path));
+    store.dispatch(putObject(object));
   }
 
-  _removeCurrentPaths() {
+  _removeCurrentObjects() {
     const layers = Object.entries(this._map._layers);
 
     for (let layer of layers) {
@@ -665,6 +657,15 @@ class UMap extends connect(store)(LitElement) {
     return this._tooltip.item.images[oldestImage];
   }
 
+  _toggleObject(isVisible, e) {
+    if (isVisible) {
+      store.dispatch(setCurrentObjectId(''));
+      requestAnimationFrame(() => store.dispatch(setCurrentObjectId(e.target.options.id)));
+    } else {
+      store.dispatch(setCurrentObjectId(''));
+    }
+  }
+
   _toggleDot(isVisible, e) {
     if (isVisible) {
         store.dispatch(setCurrentDotId(''));
@@ -710,15 +711,15 @@ class UMap extends connect(store)(LitElement) {
     location.reload();
   }
 
-  _showPuttingPathError(path) {
+  _showPuttingObjectError(object) {
     const options = {
-      id: path.id,
+      id: object.id,
       color: '#f00',
       weight: this.objectStrokeWidth,
       className: 'leaflet-interactive--error'
     };
 
-    L.polygon(path.coordinates, options).addTo(this._map);
+    L.polygon(object.coordinates, options).addTo(this._map);
   }
   // ----- end of map UI control methods -----
 
@@ -809,23 +810,23 @@ class UMap extends connect(store)(LitElement) {
     }
   }
 
-  toggleIsDrawingPath() {
-    store.dispatch(setSettings('isDrawingPath', !this._settings.isDrawingPath));
+  toggleIsDrawingObject() {
+    store.dispatch(setSettings('isDrawingObject', !this._settings.isDrawingPath));
     this.__currentObject = [];
   }
 
   getCoordinates(e) {
-    if (this._settings.isDrawingPath) {
+    if (this._settings.isDrawingObject) {
       this.__currentObject.push([e.latlng.lat.toFixed(2), e.latlng.lng.toFixed(2)]);
     }
   }
 
-  drawPath(e) {
-    const isDrawingPathOptionActive = this._settings.isDrawingPath;
+  drawObject(e) {
+    const isDrawingObjectOptionActive = this._settings.isDrawingObject;
     const isEnterPressed = e.originalEvent.code === 'Enter';
-    const isPathSet = !isEmpty(Object.entries(this.__currentObject));
+    const isObjectSet = !isEmpty(Object.entries(this.__currentObject));
 
-    if (isDrawingPathOptionActive && isEnterPressed && isPathSet) {
+    if (isDrawingObjectOptionActive && isEnterPressed && isObjectSet) {
       let coordinates = '[[';
       this.__currentObject.forEach(vertex => coordinates += `${vertex.toString()}],[`);
       coordinates += ']';
@@ -833,13 +834,13 @@ class UMap extends connect(store)(LitElement) {
       coordinates += ']';
 
       this.__currentObject = [];
-      this.addPathToMap(coordinates);
+      this.addObjectToMap(coordinates);
     }
   }
   // ----- end of listeners -----
 }
 
-class PathModel {
+class ObjectModel {
   constructor(options) {
     this.id = uuidv4();
     this.coordinates = options.coordinates;
