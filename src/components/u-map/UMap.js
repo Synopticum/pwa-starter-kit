@@ -145,6 +145,27 @@ class UMap extends connect(store)(LitElement) {
             opacity: 1;
         }
         
+        path.leaflet-interactive--error {
+            pointer-events: none;
+            opacity: .75;
+            animation-name: disappear;
+            animation-duration: 2000ms;
+            animation-fill-mode: forwards;
+        }
+        
+        @keyframes disappear {
+          0% {
+            opacity: .75;
+          }
+          50% {
+            opacity: 0.5;
+          }
+          100% {
+            display: none;
+            opacity: 0;
+          }
+        }
+        
         .leaflet-marker-icon {
             opacity: .85;
             transition: opacity .3s;
@@ -333,11 +354,12 @@ class UMap extends connect(store)(LitElement) {
                  </div>`
           }
           
-          <div class="settings">
-            <div class="${classMap(isDrawingPathClasses)}" @click="${this.toggleIsDrawingPath}">
-                <img src="${ENV[window.ENV].static}/static/images/draw.svg" width="20" height="20">
-            </div>
-          </div>
+          ${isAdmin(this._user) ?
+            html`<div class="settings">
+                    <div class="${classMap(isDrawingPathClasses)}" @click="${this.toggleIsDrawingPath}">
+                        <img src="${ENV[window.ENV].static}/static/images/draw.svg" width="20" height="20" alt="Draw path">
+                    </div>
+                 </div>` : ''}
         </div>
         
         <div id="map"></div>
@@ -378,6 +400,8 @@ class UMap extends connect(store)(LitElement) {
     // remove it when a real one has been created
     if (state.map.dotCreator.tempDot !== null && !this._$tempDot) this._addTempDot(state.map.dotCreator.tempDot.coordinates);
     if (state.map.dotCreator.tempDot === null && this._$tempDot) this._removeTempDot();
+
+    if (state.paths.failedPath !== null && state.paths.failedPath.coordinates) this._showPuttingPathError(state.paths.failedPath);
   }
 
   firstUpdated() {
@@ -684,6 +708,17 @@ class UMap extends connect(store)(LitElement) {
   _logout() {
     localStorage.token = '';
     location.reload();
+  }
+
+  _showPuttingPathError(path) {
+    const options = {
+      id: path.id,
+      color: '#f00',
+      weight: this.objectStrokeWidth,
+      className: 'leaflet-interactive--error'
+    };
+
+    L.polygon(path.coordinates, options).addTo(this._map);
   }
   // ----- end of map UI control methods -----
 

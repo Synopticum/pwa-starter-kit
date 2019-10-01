@@ -9,7 +9,8 @@ export const MapConstants = {
 
   PATHS: {
     FETCH: 'MAP_PATHS_FETCH',
-    UPDATE: 'MAP_PATHS_UPDATE'
+    UPDATE: 'MAP_PATHS_UPDATE',
+    THROW_ERROR: 'MAP_PATHS_THROW_ERROR'
   },
 
   TOOLTIP: {

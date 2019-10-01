@@ -29,6 +29,7 @@ const _putPath = async (pathToPut, dispatch) => {
     });
 
     if (!response.ok) {
+        dispatch({ type: MapConstants.PATHS.THROW_ERROR, payload: pathToPut });
         throw new Error('Error while putting a path');
     }
 

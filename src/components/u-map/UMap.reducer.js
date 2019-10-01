@@ -199,7 +199,8 @@ export const dots = (state = {
 
 export const paths = (state = {
     items: [],
-    isFetching: false
+    isFetching: false,
+    failedPath: null
 }, action) => {
     switch (action.type) {
         case generateInProgressActionTypeName(MapConstants.PATHS.FETCH):
@@ -212,7 +213,8 @@ export const paths = (state = {
             return {
                 ...state,
                 isFetching: false,
-                items: action.payload
+                items: action.payload,
+                error: null
             };
 
         case generateErrorActionTypeName(MapConstants.PATHS.FETCH):
@@ -227,13 +229,19 @@ export const paths = (state = {
                 items: [...state.items, action.payload]
             };
 
-        case DotConstants.DELETE:
-            const dotId = action.params[0];
-
+        case MapConstants.PATHS.THROW_ERROR:
             return {
                 ...state,
-                items: state.items.filter(dot => dot.id !== dotId)
+                failedPath: action.payload
             };
+
+        // case DotConstants.DELETE:
+        //     const dotId = action.params[0];
+        //
+        //     return {
+        //         ...state,
+        //         items: state.items.filter(dot => dot.id !== dotId)
+        //     };
 
         default:
             return state;
