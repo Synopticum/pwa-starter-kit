@@ -24,6 +24,8 @@ export default css`
     background-color: #111;
     box-shadow: 4px 4px 4px rgba(0,0,0,.15);
     border: 2px solid rgba(111,155,52,1);
+    width: 90vw;
+    height: 90vh;
 }
 
 .u-object--loading {
