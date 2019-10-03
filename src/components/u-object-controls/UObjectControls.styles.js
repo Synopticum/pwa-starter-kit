@@ -14,6 +14,12 @@ export default css`
     border-left: 2px solid rgba(111,155,52,.95);
 }
 
+.u-object-controls {
+    height: 100%;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
 .title {
     font-size: 24px;
 }
@@ -56,6 +62,17 @@ export default css`
 .controls__section:last-of-type {
     border-bottom: 0;
     padding-bottom: 0;
+}
+
+.controls__input {
+    display: flex;
+    flex-direction: column;
+}
+
+.save {
+    margin-top: 5px;
+    flex: 1;
+    align-self: flex-end;
 }
 
 @media only screen and (max-width: 992px)  {

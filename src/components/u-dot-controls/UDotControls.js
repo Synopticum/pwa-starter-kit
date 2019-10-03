@@ -56,7 +56,7 @@ export class UDotControls extends connect(store)(LitElement) {
                        
                        <div class="controls__input">
                            <input type="text" @keyup="${this.inputTitle}" value="${this._dot.title}" class="textinput">
-                           <button type="button" @click="${this.changeTitle}" class="textbutton">Сохранить</button>
+                           <u-text-button @click="${this.changeTitle}" class="save">Сохранить</u-text-button>
                        </div>
                     </section>
                     
@@ -65,7 +65,7 @@ export class UDotControls extends connect(store)(LitElement) {
                        
                        <div class="controls__input">
                            <textarea @keyup="${this.inputShortDescription}" class="textarea">${this._dot.shortDescription}</textarea>
-                           <button type="button" @click="${this.changeShortDescription}" class="textbutton">Сохранить</button>
+                           <u-text-button @click="${this.changeShortDescription}" class="save">Сохранить</u-text-button>
                        </div>
                     </section>
                     
@@ -74,7 +74,7 @@ export class UDotControls extends connect(store)(LitElement) {
                        
                        <div class="controls__input">
                            <textarea @keyup="${this.inputFullDescription}" class="textarea">${this._dot.fullDescription}</textarea>
-                           <button type="button" @click="${this.changeFullDescription}" class="textbutton">Сохранить</button>
+                           <u-text-button @click="${this.changeFullDescription}" class="save">Сохранить</u-text-button>
                        </div>
                     </section>
                     

@@ -14,6 +14,12 @@ export default css`
     border-left: 2px solid rgba(111,155,52,.95);
 }
 
+.u-dot-controls {
+    height: 100%;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
 .title {
     font-size: 24px;
 }
@@ -64,14 +70,14 @@ export default css`
 }
 
 .textinput {
-
+  box-sizing: border-box;
 }
 
 .textarea {
-
+  box-sizing: border-box;
 }
 
-.textbutton {
+.save {
     margin-top: 5px;
     flex: 1;
     align-self: flex-end;

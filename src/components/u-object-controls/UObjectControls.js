@@ -35,6 +35,33 @@ export class UObjectControls extends connect(store)(LitElement) {
                 <main class="controls__segment">
                     <div class="controls__segment-title">Настройки объекта</div>
                     
+                    <section class="controls__section controls__title">
+                       <label class="controls__label">Заголовок:</label>
+                       
+                       <div class="controls__input">
+                           <input type="text" @keyup="${this.inputTitle}" value="${this._object.title}" class="textinput">
+                           <u-text-button @click="${this.changeTitle}" class="save">Сохранить</u-text-button>
+                       </div>
+                    </section>
+                    
+                    <section class="controls__section controls__title">
+                       <label class="controls__label">Краткое описание:</label>
+                       
+                       <div class="controls__input">
+                           <textarea @keyup="${this.inputShortDescription}" class="textarea">${this._object.shortDescription}</textarea>
+                           <u-text-button type="button" @click="${this.changeShortDescription}" class="save">Сохранить</u-text-button>
+                       </div>
+                    </section>
+                    
+                    <section class="controls__section controls__title">
+                       <label class="controls__label">Полное описание:</label>
+                       
+                       <div class="controls__input">
+                           <textarea @keyup="${this.inputFullDescription}" class="textarea">${this._object.fullDescription}</textarea>
+                           <u-text-button type="button" @click="${this.changeFullDescription}" class="save">Сохранить</u-text-button>
+                       </div>
+                    </section>
+                    
                     <section class="controls__section controls__delete-object">
                        <u-text-button class="remove"
                                       ?disabled="${this._isFetching || this._isUpdating}"
@@ -139,6 +166,33 @@ export class UObjectControls extends connect(store)(LitElement) {
 
     hasImage() {
         return Boolean(this._activeImage);
+    }
+
+    inputTitle(e) {
+        this.title = e.target.value;
+    }
+
+    changeTitle() {
+        let updatedObject = { ...this._object, title: this.title };
+        store.dispatch(putObject(updatedObject, this.objectId));
+    }
+
+    inputShortDescription(e) {
+        this.shortDescription = e.target.value;
+    }
+
+    changeShortDescription() {
+        let updatedObject = { ...this._object, shortDescription: this.shortDescription };
+        store.dispatch(putObject(updatedObject, this.objectId));
+    }
+
+    inputFullDescription(e) {
+        this.fullDescription = e.target.value;
+    }
+
+    changeFullDescription() {
+        let updatedObject = { ...this._object, fullDescription: this.fullDescription };
+        store.dispatch(putObject(updatedObject, this.objectId));
     }
 }
 
