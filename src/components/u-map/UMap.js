@@ -460,6 +460,7 @@ class UMap extends connect(store)(LitElement) {
     this._setDefaultSettings();
     this._setMaxBounds();
     this._initializeTiles();
+    this._initializeLeafletDraw();
     await this._drawObjects();
   }
 
@@ -512,6 +513,53 @@ class UMap extends connect(store)(LitElement) {
     }).addTo(this._map);
   }
 
+  _initializeLeafletDraw() {
+    this._editableLayers = new L.FeatureGroup();
+    this._map.addLayer(this._editableLayers);
+
+    var options = {
+      position: 'topleft',
+      draw: {
+        polygon: {
+          allowIntersection: false, // Restricts shapes to simple polygons
+
+          drawError: {
+            color: '#e1e100', // Color the shape will turn when intersects
+            message: '<strong>Oh snap!<strong> you can\'t draw that!' // Message that will show when intersect
+          },
+
+          shapeOptions: {
+            color: '#97009c'
+          }
+        },
+        polyline: {
+          shapeOptions: {
+            color: '#f357a1',
+            weight: 10
+          }
+        },
+        circle: true,
+        rectangle: false,
+        marker: false
+      }
+    };
+
+    this.drawControl = new L.Control.Draw(options);
+    this._map.addControl(this.drawControl);
+
+    this._map.on('draw:created', (e) => {
+      var type = e.layerType,
+          layer = e.layer;
+
+      if (type === 'polygon') {
+        let coordinates = e.layer.editing.latlngs[0];
+        this.testAddObjectToMap(coordinates);
+      }
+
+      this._editableLayers.addLayer(layer);
+    });
+  }
+
   // ----- start of drawing methods -----
   _drawObjects(objects) {
     try {
@@ -542,6 +590,16 @@ class UMap extends connect(store)(LitElement) {
     const object = new ObjectModel({
       type: 'path',
       coordinates: JSON.parse(coordinates),
+      id: uuidv4()
+    });
+
+    store.dispatch(putObject(object));
+  }
+
+  testAddObjectToMap(coordinates) {
+    const object = new ObjectModel({
+      type: 'path',
+      coordinates: coordinates,
       id: uuidv4()
     });
 
