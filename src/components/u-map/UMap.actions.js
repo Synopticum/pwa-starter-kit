@@ -164,7 +164,7 @@ export const fetchObjects = () => async (dispatch) => {
 };
 
 const _fetchObjects = async () => {
-  let response = await fetch(`${ENV[window.ENV].api}/api/objects?include=paths`, {
+  let response = await fetch(`${ENV[window.ENV].api}/api/objects`, {
     headers: getApiHeaders(localStorage.token)
   });
 

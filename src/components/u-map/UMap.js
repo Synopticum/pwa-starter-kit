@@ -389,7 +389,8 @@ class UMap extends connect(store)(LitElement) {
     }
 
     if (this._objects !== state.objects.items) {
-      this._drawObjects(state.objects.items);
+      this._drawObjects(state.objects.items.filter(object => object.type === 'object'));
+      this._drawPaths(state.objects.items.filter(object => object.type === 'path'));
     }
 
     this._objects = state.objects.items;
@@ -408,7 +409,7 @@ class UMap extends connect(store)(LitElement) {
     if (state.map.dotCreator.tempDot !== null && !this._$tempDot) this._addTempDot(state.map.dotCreator.tempDot.coordinates);
     if (state.map.dotCreator.tempDot === null && this._$tempDot) this._removeTempDot();
 
-    if (state.objects.failedObject !== null && state.objects.failedObject.coordinates) this._showPuttingObjectError(state.paths.failedPath);
+    if (state.objects.failedObject !== null && state.objects.failedObject.coordinates) this._showPuttingObjectError(state.objects.failedObject);
   }
 
   firstUpdated() {
@@ -539,7 +540,8 @@ class UMap extends connect(store)(LitElement) {
         },
         circle: true,
         rectangle: false,
-        marker: false
+        marker: false,
+        circlemarker: false
       }
     };
 
@@ -547,15 +549,20 @@ class UMap extends connect(store)(LitElement) {
     this._map.addControl(this.drawControl);
 
     this._map.on('draw:created', (e) => {
-      var type = e.layerType,
-          layer = e.layer;
+      let type = e.layerType,
+          layer = e.layer,
+          coordinates;
 
       switch (type) {
         case 'polygon':
-          let coordinates = e.layer.editing.latlngs[0];
+          coordinates = e.layer.editing.latlngs[0];
           this.addObjectToMap(coordinates);
           break;
 
+        case 'polyline':
+          coordinates = e.layer.editing.latlngs[0];
+          this.addPathToMap(coordinates);
+          break;
       }
 
       this._editableLayers.addLayer(layer);
@@ -588,7 +595,7 @@ class UMap extends connect(store)(LitElement) {
 
   addObjectToMap(coordinates) {
     const object = new ObjectModel({
-      type: 'path',
+      type: 'object',
       coordinates: coordinates,
       id: uuidv4()
     });
@@ -613,25 +620,53 @@ class UMap extends connect(store)(LitElement) {
     }
   }
 
-  async _drawCircles() {
+  _drawPaths(paths) {
     try {
-      let response = await fetch(`${ENV[window.ENV].api}/api/objects?include=circles`, { headers: getApiHeaders(localStorage.token) });
-      let circles = await response.json();
+      this._removeCurrentPaths();
+      this._addPathsToMap(paths);
+    } catch (e) {
+      !isEmpty(objects) ? console.error('Unable to draw objects\n\n', e) : '';
+    }
+  }
 
-      circles.forEach(item => {
-        L.circle(item.coordinates[0], {
-          id: item._id,
-          color: this.objectFillColor,
-          weight: this.objectStrokeWidth,
-          radius: item.coordinates[1]
-        })
-          // .on('mouseover', e => { this._toggleTooltip(true, e) })
-          // .on('mouseout', e => { this._toggleTooltip(false, e) })
+  _addPathsToMap(paths) {
+    paths.forEach(path => {
+      L.polyline(path.coordinates, {
+        id: path.id,
+        color: 'green',
+        weight: 5
+      })
+      // .on('mouseover', e => { this._toggleTooltip(true, e) })
+      // .on('mouseout', e => { this._toggleTooltip(false, e) })
           .on('click', e => { this._toggleObject(true, e) })
           .addTo(this._map);
-      });
-    } catch (e) {
-      console.error(`Unable to draw circles`, e);
+    });
+  }
+
+  addPathToMap(coordinates) {
+    const object = new ObjectModel({
+      type: 'path',
+      coordinates: coordinates,
+      id: uuidv4()
+    });
+
+    store.dispatch(putObject(object));
+  }
+
+  _removeCurrentPaths() {
+    const layers = Object.entries(this._map._layers);
+
+    for (let layer of layers) {
+      const [ id ] = layer;
+
+      if (this._map._layers[id]._poly !== undefined) {
+        try {
+          this._map.removeLayer(this._map._layers[id]);
+        }
+        catch (e) {
+          console.log('Problem with ' + e + this._map._layers[id]);
+        }
+      }
     }
   }
 
