@@ -434,7 +434,6 @@ class UMap extends connect(store)(LitElement) {
     this._map.on('dblclick', (e) => this._handleDblClick(e));
     this._map.on('dragstart', () => this._hideControls());
     this._map.on('drag', debounce(this._updateUrl, 300).bind(this));
-    this._map.on('keypress', this.drawObject.bind(this));
     this._map.on('click', this.getCoordinates.bind(this));
     this.addEventListener('click', this._handleOutsideClicks);
   }
@@ -551,9 +550,12 @@ class UMap extends connect(store)(LitElement) {
       var type = e.layerType,
           layer = e.layer;
 
-      if (type === 'polygon') {
-        let coordinates = e.layer.editing.latlngs[0];
-        this.testAddObjectToMap(coordinates);
+      switch (type) {
+        case 'polygon':
+          let coordinates = e.layer.editing.latlngs[0];
+          this.addObjectToMap(coordinates);
+          break;
+
       }
 
       this._editableLayers.addLayer(layer);
@@ -585,18 +587,6 @@ class UMap extends connect(store)(LitElement) {
   }
 
   addObjectToMap(coordinates) {
-    setSettings('isDrawingObject', false);
-
-    const object = new ObjectModel({
-      type: 'path',
-      coordinates: JSON.parse(coordinates),
-      id: uuidv4()
-    });
-
-    store.dispatch(putObject(object));
-  }
-
-  testAddObjectToMap(coordinates) {
     const object = new ObjectModel({
       type: 'path',
       coordinates: coordinates,
@@ -876,23 +866,6 @@ class UMap extends connect(store)(LitElement) {
   getCoordinates(e) {
     if (this._settings.isDrawingObject) {
       this.__currentObject.push([e.latlng.lat.toFixed(2), e.latlng.lng.toFixed(2)]);
-    }
-  }
-
-  drawObject(e) {
-    const isDrawingObjectOptionActive = this._settings.isDrawingObject;
-    const isEnterPressed = e.originalEvent.code === 'Enter';
-    const isObjectSet = !isEmpty(Object.entries(this.__currentObject));
-
-    if (isDrawingObjectOptionActive && isEnterPressed && isObjectSet) {
-      let coordinates = '[[';
-      this.__currentObject.forEach(vertex => coordinates += `${vertex.toString()}],[`);
-      coordinates += ']';
-      coordinates = coordinates.substring(0, coordinates.length - 3);
-      coordinates += ']';
-
-      this.__currentObject = [];
-      this.addObjectToMap(coordinates);
     }
   }
   // ----- end of listeners -----
