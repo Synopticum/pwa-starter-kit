@@ -58,6 +58,25 @@ export default css`
     padding-bottom: 0;
 }
 
+.controls__input {
+    display: flex;
+    flex-direction: column;
+}
+
+.textinput {
+
+}
+
+.textarea {
+
+}
+
+.textbutton {
+    margin-top: 5px;
+    flex: 1;
+    align-self: flex-end;
+}
+
 @media only screen and (max-width: 992px)  {
   :host {
     width: 100%;

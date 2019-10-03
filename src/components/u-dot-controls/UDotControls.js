@@ -1,4 +1,5 @@
 import {html, LitElement} from 'lit-element/lit-element';
+import debounce from 'lodash-es/debounce';
 import {classMap} from 'lit-html/directives/class-map';
 import {store} from '../../store';
 import {connect} from 'pwa-helpers';
@@ -49,6 +50,33 @@ export class UDotControls extends connect(store)(LitElement) {
             <div class="controls">  
                 <main class="controls__segment">
                     <div class="controls__segment-title">Настройки точки</div>
+                    
+                    <section class="controls__section controls__title">
+                       <label class="controls__label">Заголовок:</label>
+                       
+                       <div class="controls__input">
+                           <input type="text" @keyup="${this.inputTitle}" value="${this._dot.title}" class="textinput">
+                           <button type="button" @click="${this.changeTitle}" class="textbutton">Сохранить</button>
+                       </div>
+                    </section>
+                    
+                    <section class="controls__section controls__title">
+                       <label class="controls__label">Краткое описание:</label>
+                       
+                       <div class="controls__input">
+                           <textarea @keyup="${this.inputShortDescription}" class="textarea">${this._dot.shortDescription}</textarea>
+                           <button type="button" @click="${this.changeShortDescription}" class="textbutton">Сохранить</button>
+                       </div>
+                    </section>
+                    
+                    <section class="controls__section controls__title">
+                       <label class="controls__label">Полное описание:</label>
+                       
+                       <div class="controls__input">
+                           <textarea @keyup="${this.inputFullDescription}" class="textarea">${this._dot.fullDescription}</textarea>
+                           <button type="button" @click="${this.changeFullDescription}" class="textbutton">Сохранить</button>
+                       </div>
+                    </section>
                     
                     <section class="controls__section controls__select-type">
                        <label for="select-label" class="controls__label">Тип:</label>                      
@@ -195,39 +223,50 @@ export class UDotControls extends connect(store)(LitElement) {
 
     changeDotLabel(e) {
         let label = e.target.value;
-
-        let updatedDot = {
-            ...this._dot,
-            label
-        };
-
+        let updatedDot = { ...this._dot, label };
         store.dispatch(putDot(updatedDot, this.dotId));
     }
-
     changeDotType(e) {
         let type = e.target.value;
-
-        let updatedDot = {
-            ...this._dot,
-            type
-        };
-
+        let updatedDot = { ...this._dot, type };
         store.dispatch(putDot(updatedDot, this.dotId));
     }
 
     changeDotLayer(e) {
         let layer = e.target.value;
-
-        let updatedDot = {
-            ...this._dot,
-            layer
-        };
-
+        let updatedDot = { ...this._dot, layer };
         store.dispatch(putDot(updatedDot, this.dotId));
     }
 
     hasImage() {
         return Boolean(this._activeImage);
+    }
+
+    inputTitle(e) {
+        this.title = e.target.value;
+    }
+
+    changeTitle() {
+        let updatedDot = { ...this._dot, title: this.title };
+        store.dispatch(putDot(updatedDot, this.dotId));
+    }
+
+    inputShortDescription(e) {
+        this.shortDescription = e.target.value;
+    }
+
+    changeShortDescription() {
+        let updatedDot = { ...this._dot, shortDescription: this.shortDescription };
+        store.dispatch(putDot(updatedDot, this.dotId));
+    }
+
+    inputFullDescription(e) {
+        this.fullDescription = e.target.value;
+    }
+
+    changeFullDescription() {
+        let updatedDot = { ...this._dot, fullDescription: this.fullDescription };
+        store.dispatch(putDot(updatedDot, this.dotId));
     }
 }
 
