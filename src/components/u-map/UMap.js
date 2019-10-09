@@ -180,7 +180,7 @@ class UMap extends connect(store)(LitElement) {
         }
         
         .leaflet-marker-icon__old-and-new {
-            filter: hue-rotate(-25deg);
+            filter: hue-rotate(-40deg);
         }
         
         .leaflet-marker-icon__old,
