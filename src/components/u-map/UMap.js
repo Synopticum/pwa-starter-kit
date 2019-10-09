@@ -12,6 +12,7 @@ import {
   setCloudsVisibility,
   setCurrentDotId,
   setCurrentObjectId,
+  setCurrentPathId,
   toggleContextMenu,
   toggleDotCreator,
   toggleTooltip,
@@ -28,6 +29,7 @@ import '../u-tooltip/UTooltip';
 import '../u-dot-creator/UDotCreator';
 import '../u-dot/UDot';
 import '../u-object/UObject';
+import '../u-path/UPath';
 
 store.addReducers({ app, map, dots, objects });
 
@@ -332,7 +334,11 @@ class UMap extends connect(store)(LitElement) {
           
           ${this._objectPage.isVisible ? html`
               <u-object .objectId="${this._objectPage.currentObjectId}"
-                        @hide-object="${(e) => this._toggleObject(false, e)}"></u-object>` : ``}
+                        @hide-object="${(e) => this._toggleObject(false, e)}"></u-object>` : ``}             
+          
+          ${this._pathPage.isVisible ? html`
+              <u-path .pathId="${this._pathPage.currentPathId}"
+                        @hide-object="${(e) => this._togglePath(false, e)}"></u-path>` : ``}
               
           <u-context-menu
               ?hidden="${!this._contextMenu.isVisible}"
@@ -401,6 +407,7 @@ class UMap extends connect(store)(LitElement) {
     this._clouds = state.map.clouds;
     this._dotPage = state.map.dotPage;
     this._objectPage = state.map.objectPage;
+    this._pathPage = state.map.pathPage;
     this._settings = state.map.settings;
     this._user = state.app.user;
 
@@ -638,7 +645,7 @@ class UMap extends connect(store)(LitElement) {
       })
       // .on('mouseover', e => { this._toggleTooltip(true, e) })
       // .on('mouseout', e => { this._toggleTooltip(false, e) })
-          .on('click', e => { this._toggleObject(true, e) })
+          .on('click', e => { this._togglePath(true, e) })
           .addTo(this._map);
     });
   }
@@ -746,6 +753,15 @@ class UMap extends connect(store)(LitElement) {
       requestAnimationFrame(() => store.dispatch(setCurrentObjectId(e.target.options.id)));
     } else {
       store.dispatch(setCurrentObjectId(''));
+    }
+  }
+
+  _togglePath(isVisible, e) {
+    if (isVisible) {
+      store.dispatch(setCurrentPathId(''));
+      requestAnimationFrame(() => store.dispatch(setCurrentPathId(e.target.options.id)));
+    } else {
+      store.dispatch(setCurrentPathId(''));
     }
   }
 

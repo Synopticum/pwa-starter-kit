@@ -32,6 +32,10 @@ export const MapConstants = {
       SET_ID: 'OBJECT_PAGE_SET_ID'
   },
 
+  PATH_PAGE: {
+    SET_ID: 'PATH_PAGE_SET_ID'
+  },
+
   SETTINGS: {
     SET: 'MAP_SETTINGS_SET'
   }
@@ -142,6 +146,15 @@ export const setCurrentObjectId = (objectId) => (dispatch) => {
         type: MapConstants.OBJECT_PAGE.SET_ID,
         payload: objectId
     });
+};
+
+export const setCurrentPathId = (pathId) => (dispatch) => {
+  if (!pathId) history.pushState(null, null, ENV[window.ENV].static);
+
+  dispatch({
+    type: MapConstants.PATH_PAGE.SET_ID,
+    payload: pathId
+  });
 };
 
 export const setSettings = (setting, value) => {

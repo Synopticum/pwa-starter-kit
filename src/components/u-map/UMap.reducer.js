@@ -40,6 +40,11 @@ export const map = (state = {
         isVisible: false
     },
 
+    pathPage: {
+        currentPathId: '',
+        isVisible: false
+    },
+
     settings: {
         isDrawingObject: false
     }
@@ -128,6 +133,15 @@ export const map = (state = {
                 objectPage: {
                     isVisible: Boolean(action.payload),
                     currentObjectId: action.payload
+                }
+            };
+
+        case MapConstants.PATH_PAGE.SET_ID:
+            return {
+                ...state,
+                pathPage: {
+                    isVisible: Boolean(action.payload),
+                    currentPathId: action.payload
                 }
             };
 

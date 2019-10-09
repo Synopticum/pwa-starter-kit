@@ -119,6 +119,15 @@ export default {
 
     /**
      * A redux store property
+     * Represents whether path page is visible
+     */
+    _pathPage: {
+        type: Object,
+        attribute: false
+    },
+
+    /**
+     * A redux store property
      * Represents whether dot creator form is visible
      */
     _dotCreator: {

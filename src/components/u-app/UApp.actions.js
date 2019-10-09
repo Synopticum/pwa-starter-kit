@@ -118,4 +118,8 @@ class Router {
   static isObjectPage(page) {
     return /^(objects)\/(.+)$/.test(page);
   }
+
+  static isPathPage(page) {
+    return /^(paths)\/(.+)$/.test(page);
+  }
 }
