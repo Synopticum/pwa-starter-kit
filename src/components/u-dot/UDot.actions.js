@@ -24,7 +24,7 @@ export const fetchDot = (dotId) => async (dispatch) => {
 };
 
 const _fetchDot = async (dotId, dispatch) => {
-  let response = await fetch(`${ENV[window.ENV].api}/api/dots/${dotId}`, {
+  let response = await fetch(`${ENV[window.ENV].api}/api/dots/${dotId.split('-')[0]}`, {
     headers: getApiHeaders(localStorage.token)
   });
 
@@ -34,7 +34,7 @@ const _fetchDot = async (dotId, dispatch) => {
   }
 
   let dot = await response.json();
-  history.pushState(null, null, `${ENV[window.ENV].static}/dots/${dot.id}`);
+  history.pushState(null, null, `${ENV[window.ENV].static}/dots/${dot.id.split('-')[0]}`);
 
   if (!isEmpty(dot.images)) {
     let activeDecade = Math.min(...Object.keys(dot.images)).toString();

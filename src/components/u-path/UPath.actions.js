@@ -20,7 +20,7 @@ export const fetchPath = (pathId) => async (dispatch) => {
 };
 
 const _fetchPath = async (pathId, dispatch) => {
-    let response = await fetch(`${ENV[window.ENV].api}/api/objects/${pathId}`, {
+    let response = await fetch(`${ENV[window.ENV].api}/api/objects/${pathId.split('-')[0]}`, {
         headers: getApiHeaders(localStorage.token)
     });
 
@@ -30,7 +30,7 @@ const _fetchPath = async (pathId, dispatch) => {
     }
 
     let path = await response.json();
-    history.pushState(null, null, `${ENV[window.ENV].static}/objects/${path.id}`);
+    history.pushState(null, null, `${ENV[window.ENV].static}/objects/${path.id.split('-')[0]}`);
 
     return path;
 };
