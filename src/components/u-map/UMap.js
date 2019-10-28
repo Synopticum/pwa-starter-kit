@@ -58,11 +58,6 @@ class UMap extends connect(store)(LitElement) {
       'user__menu--active': this._isUserMenuVisible
     };
 
-    let isDrawingObjectClasses = {
-      'settings__item': true,
-      'settings__item--active': this._settings.isDrawingObject
-    };
-
     return html`      
       <style>
         [hidden] {
@@ -365,17 +360,9 @@ class UMap extends connect(store)(LitElement) {
                     </div>
                  </div>`
           }
-          
-          ${isAdmin(this._user) ?
-            html`<div class="settings">
-                    <div class="${classMap(isDrawingObjectClasses)}" @click="${this.toggleIsDrawingObject}">
-                        <img src="${ENV[window.ENV].static}/static/images/draw.svg" width="20" height="20" alt="Draw object">
-                    </div>
-                 </div>` : ''}
         </div>
         
         <div id="map"></div>
-        <!-- <div id="user-role">your role is ${this._user.role}</div> -->
       </div>
     `;
   }
