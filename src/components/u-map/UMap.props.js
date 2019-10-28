@@ -84,6 +84,14 @@ export default {
     },
 
     /**
+     * Draw tools
+     */
+    _areDrawToolsVisible: {
+        type: Boolean,
+        attribute: false
+    },
+
+    /**
      * User menu
      */
     _isUserMenuVisible: {

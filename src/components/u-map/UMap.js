@@ -411,6 +411,11 @@ class UMap extends connect(store)(LitElement) {
     this._settings = state.map.settings;
     this._user = state.app.user;
 
+    if (this._user.role === 'admin' && !this._areDrawToolsVisible) {
+        this._initializeLeafletDraw();
+        this._areDrawToolsVisible = true;
+    }
+
     // show a temporary dot until a real dot is creating
     // remove it when a real one has been created
     if (state.map.dotCreator.tempDot !== null && !this._$tempDot) this._addTempDot(state.map.dotCreator.tempDot.coordinates);
@@ -467,7 +472,6 @@ class UMap extends connect(store)(LitElement) {
     this._setDefaultSettings();
     this._setMaxBounds();
     this._initializeTiles();
-    this._initializeLeafletDraw();
     await this._drawObjects();
   }
 
