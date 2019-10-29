@@ -65,7 +65,7 @@ export class UPathControls extends connect(store)(LitElement) {
                     <section class="controls__section controls__delete-path">
                        <u-text-button class="remove"
                                       ?disabled="${this._isFetching || this._isUpdating}"
-                                      @click="${this.remove}">Удалить объект</u-text-button>
+                                      @click="${this.remove}">Удалить путь</u-text-button>
                     </section>
                 </main>
                         

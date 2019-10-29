@@ -632,7 +632,7 @@ class UMap extends connect(store)(LitElement) {
       L.polyline(path.coordinates, {
         id: path.id,
         color: 'green',
-        weight: 5
+        weight: 8
       })
       // .on('mouseover', e => { this._toggleTooltip(true, e) })
       // .on('mouseout', e => { this._toggleTooltip(false, e) })

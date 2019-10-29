@@ -21,11 +21,11 @@ export default css`
     z-index: 200;
     pointer-events: all;
     border-radius: 3px;
-    background-color: #111;
+    background-color: #fff;
     box-shadow: 4px 4px 4px rgba(0,0,0,.15);
     border: 2px solid rgba(111,155,52,1);
-    width: 90vw;
-    height: 90vh;
+    width: 100vw;
+    height: 100vh;
 }
 
 .u-path--loading {

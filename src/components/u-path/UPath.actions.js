@@ -20,7 +20,7 @@ export const fetchPath = (pathId) => async (dispatch) => {
 };
 
 const _fetchPath = async (pathId, dispatch) => {
-    let response = await fetch(`${ENV[window.ENV].api}/api/objects/${pathId.split('-')[0]}`, {
+    let response = await fetch(`${ENV[window.ENV].api}/api/paths/${pathId.split('-')[0]}`, {
         headers: getApiHeaders(localStorage.token)
     });
 
@@ -30,7 +30,7 @@ const _fetchPath = async (pathId, dispatch) => {
     }
 
     let path = await response.json();
-    history.pushState(null, null, `${ENV[window.ENV].static}/objects/${path.id.split('-')[0]}`);
+    history.pushState(null, null, `${ENV[window.ENV].static}/paths/${path.id.split('-')[0]}`);
 
     return path;
 };
@@ -46,7 +46,7 @@ export const deletePath = (pathId) => async (dispatch) => {
 };
 
 const _deletePath = async (pathId) => {
-    let response = await fetch(`${ENV[window.ENV].api}/api/objects/${pathId}`, {
+    let response = await fetch(`${ENV[window.ENV].api}/api/paths/${pathId}`, {
         method: 'DELETE',
         headers: getApiHeaders(localStorage.token)
     });
@@ -69,7 +69,7 @@ export const putPath = (path) => async (dispatch) => {
 };
 
 const _putPath = async (pathToPut, dispatch) => {
-    let response = await fetch(`${ENV[window.ENV].api}/api/paths/${pathToPut.id}`, {
+    let response = await fetch(`${ENV[window.ENV].api}/api/paths/${pathToPut.id.split('-')[0]}`, {
         method: 'PUT',
         headers: getApiHeaders(localStorage.token),
         body: JSON.stringify(pathToPut)
