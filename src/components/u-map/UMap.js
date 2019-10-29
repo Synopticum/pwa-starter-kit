@@ -320,6 +320,7 @@ class UMap extends connect(store)(LitElement) {
               .x="${this._tooltip.position.x}"
               .y="${this._tooltip.position.y}"
               .origin="${this._tooltip.position.origin}"
+              .type="${this._tooltip.item && this._tooltip.item.type}"
               .thumbnail="${this._tooltip.item && this._tooltip.item.images ? `https://urussu.s3.amazonaws.com/${this._getTooltipImage()}` : ''}">
           </u-tooltip>               
           

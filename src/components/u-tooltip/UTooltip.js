@@ -1,4 +1,5 @@
 import {html, LitElement} from 'lit-element/lit-element';
+import {classMap} from 'lit-html/directives/class-map';
 import props from './UTooltip.props';
 import styles from './UTooltip.styles';
 
@@ -16,18 +17,24 @@ class UTooltip extends LitElement {
   }
 
   render() {
+    let thumbnailClasses = {
+      'thumbnail': true,
+      'thumbnail--old-and-new': this.type === 'old-and-new',
+      'thumbnail--old': this.type === 'old',
+      'thumbnail--new': this.type === 'new'
+    };
+
     return html`
       <style>
         :host {
           left: ${this.x}px;
           top: ${this.y}px;
           transform-origin: ${this.origin};
-          background: url(${this.thumbnail}) no-repeat 50% 50%;
         }
       </style>
       
       <div class="u-tooltip">
-        <slot></slot>
+        <img src="${this.thumbnail}" width="120" height="120" alt="" class="${classMap(thumbnailClasses)}">
       </div> 
     `
   }

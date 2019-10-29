@@ -13,5 +13,9 @@ export default {
 
     thumbnail: {
         type: String
+    },
+
+    type: {
+        type: String
     }
 };
