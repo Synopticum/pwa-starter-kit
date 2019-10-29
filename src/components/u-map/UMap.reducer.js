@@ -6,6 +6,7 @@ import {
 } from "../../middleware/asyncActionsMiddleware";
 import {DotConstants} from "../u-dot/UDot.actions";
 import {ObjectConstants} from "../u-object/UObject.actions";
+import {PathConstants} from "../u-path/UPath.actions";
 
 export const map = (state = {
     tooltip: {
@@ -263,6 +264,14 @@ export const objects = (state = {
             return {
                 ...state,
                 items: state.items.filter(object => object.id !== objectId)
+            };
+
+        case PathConstants.DELETE:
+            const pathId = action.params[0];
+
+            return {
+                ...state,
+                items: state.items.filter(path => path.id !== pathId)
             };
 
         case MapConstants.OBJECTS.THROW_ERROR:

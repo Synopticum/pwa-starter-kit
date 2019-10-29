@@ -112,7 +112,7 @@ class UPath extends connect(store)(LitElement) {
     close() {
         store.dispatch(setCloudsVisibility('none'));
         store.dispatch(clearPathState());
-        this.dispatchEvent(new CustomEvent('hide-object', {composed: true}));
+        this.dispatchEvent(new CustomEvent('hide-path', {composed: true}));
     }
 
     handleEscapePress(e) {

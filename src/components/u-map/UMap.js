@@ -333,7 +333,7 @@ class UMap extends connect(store)(LitElement) {
           
           ${this._pathPage.isVisible ? html`
               <u-path .pathId="${this._pathPage.currentPathId}"
-                        @hide-object="${(e) => this._togglePath(false, e)}"></u-path>` : ``}
+                        @hide-path="${(e) => this._togglePath(false, e)}"></u-path>` : ``}
               
           <u-context-menu
               ?hidden="${!this._contextMenu.isVisible}"
