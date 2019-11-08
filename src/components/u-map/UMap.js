@@ -330,6 +330,7 @@ class UMap extends connect(store)(LitElement) {
               .y="${this._tooltip.position.y}"
               .origin="${this._tooltip.position.origin}"
               .type="${this._tooltip.item && this._tooltip.item.type}"
+              .instanceType="${this._tooltip.item && this._tooltip.item.instanceType}"
               .thumbnail="${this._tooltip.item && this._tooltip.item.images ? `https://urussu.s3.amazonaws.com/${this._getTooltipImage()}` : ''}">
           </u-tooltip>               
           
@@ -392,8 +393,8 @@ class UMap extends connect(store)(LitElement) {
     }
 
     if (this._objects !== state.objects.items) {
-      this._drawObjects(state.objects.items.filter(object => object.type === 'object'));
-      this._drawPaths(state.objects.items.filter(object => object.type === 'path'));
+      this._drawObjects(state.objects.items.filter(object => object.instanceType === 'object'));
+      this._drawPaths(state.objects.items.filter(object => object.instanceType === 'path'));
     }
 
     this._objects = state.objects.items;
@@ -594,8 +595,8 @@ class UMap extends connect(store)(LitElement) {
         color: this.objectFillColor,
         weight: this.objectStrokeWidth
       })
-      // .on('mouseover', e => { this._toggleTooltip(true, e) })
-      // .on('mouseout', e => { this._toggleTooltip(false, e) })
+      .on('mouseover', e => { this._toggleTooltip('object', true, e) })
+      .on('mouseout', e => { this._toggleTooltip('object', false, e) })
       .on('click', e => { this._toggleObject(true, e) })
           .addTo(this._map);
     });
@@ -603,7 +604,7 @@ class UMap extends connect(store)(LitElement) {
 
   addObjectToMap(coordinates) {
     const object = new ObjectModel({
-      type: 'object',
+      instanceType: 'object',
       coordinates: coordinates,
       id: uuidv4()
     });
@@ -644,8 +645,8 @@ class UMap extends connect(store)(LitElement) {
         color: 'green',
         weight: 8
       })
-      // .on('mouseover', e => { this._toggleTooltip(true, e) })
-      // .on('mouseout', e => { this._toggleTooltip(false, e) })
+      .on('mouseover', e => { this._toggleTooltip('path',true, e) })
+      .on('mouseout', e => { this._toggleTooltip('path',false, e) })
           .on('click', e => { this._togglePath(true, e) })
           .addTo(this._map);
     });
@@ -653,7 +654,7 @@ class UMap extends connect(store)(LitElement) {
 
   addPathToMap(coordinates) {
     const object = new ObjectModel({
-      type: 'path',
+      instanceType: 'path',
       coordinates: coordinates,
       id: uuidv4()
     });
@@ -718,27 +719,27 @@ class UMap extends connect(store)(LitElement) {
               className: `leaflet-marker-icon__${dot.type}`
             })
     })
-        .on('mouseover', e => { this._toggleTooltip(true, e) })
-        .on('mouseout', e => { this._toggleTooltip(false, e) })
+        .on('mouseover', e => { this._toggleTooltip('dot',true, e) })
+        .on('mouseout', e => { this._toggleTooltip('dot',false, e) })
         .on('click', (e) => { this._toggleDot(true, e) });
   }
   // ----- end of drawing methods -----
 
 
   // ----- start of map UI control methods -----
-  _toggleTooltip(isVisible, e) {
+  _toggleTooltip(type, isVisible, e) {
     if (isVisible) {
       this._tooltipHoverTimeOut = setTimeout(() => {
         let id = e.target.options.id;
         let position = UMap._calculatePosition(e.containerPoint.x, e.containerPoint.y, 120, 120);
 
-        store.dispatch(toggleTooltip(true, id, position));
+        store.dispatch(toggleTooltip(type,true, id, position));
       }, 1000);
     } else {
       clearTimeout(this._tooltipHoverTimeOut);
 
       if (this._tooltip.isVisible) {
-        store.dispatch(toggleTooltip(false));
+        store.dispatch(toggleTooltip(type,false));
       }
     }
   }
@@ -927,7 +928,7 @@ class ObjectModel {
   constructor(options) {
     this.id = uuidv4();
     this.coordinates = options.coordinates;
-    this.type = options.type;
+    this.instanceType = options.instanceType;
   }
 }
 

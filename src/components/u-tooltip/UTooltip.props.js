@@ -17,5 +17,9 @@ export default {
 
     type: {
         type: String
+    },
+
+    instanceType: {
+        type: String
     }
 };

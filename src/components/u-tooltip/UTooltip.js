@@ -34,7 +34,9 @@ class UTooltip extends LitElement {
       </style>
       
       <div class="u-tooltip">
-        <img src="${this.thumbnail}" width="120" height="120" alt="" class="${classMap(thumbnailClasses)}">
+        ${this.instanceType === 'object' ? html`object` : ''}
+        ${this.instanceType === 'path' ? html`path` : ''}
+        ${this.instanceType === 'dot' ? html`<img src="${this.thumbnail}" width="120" height="120" alt="" class="${classMap(thumbnailClasses)}">` : ''}
       </div> 
     `
   }

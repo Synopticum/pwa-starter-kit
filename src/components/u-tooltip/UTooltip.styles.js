@@ -3,8 +3,6 @@ import {css} from 'lit-element/lit-element';
 export default css`
 :host {
     position: fixed;
-    width: 100px;
-    height: 100px;
     z-index: 200;
     transform: scale(1);
     transition: transform .3s;
