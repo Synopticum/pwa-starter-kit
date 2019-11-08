@@ -202,6 +202,15 @@ class UMap extends connect(store)(LitElement) {
             filter: grayscale(30%);
         }
         
+        .leaflet-editing-icon {
+            width: 4px !important;
+            height: 4px !important;
+            margin-left: -2px !important;
+            margin-top: -2px !important;
+            background-color: #DEAF5A !important;
+            border-radius: 50%;
+        }
+        
         #user-role {
             position: fixed;
             right: 0;
