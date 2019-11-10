@@ -11,6 +11,14 @@ export default {
         type: String
     },
 
+    title: {
+        type: String
+    },
+
+    shortDescription: {
+        type: String
+    },
+
     thumbnail: {
         type: String
     },

@@ -7,6 +7,18 @@ export default css`
     transform: scale(1);
     transition: transform .3s;
     background-size: cover;
+    box-sizing: border-box;
+}
+
+:host(.tooltip--dot) {
+  width: 120px;
+  height: 120px;
+}
+
+:host(.tooltip--path) {
+  width: 200px;
+  height: 30px;
+  text-align: center;
 }
 
 :host([hidden]) {
@@ -29,5 +41,11 @@ export default css`
 
 .thumbnail--new {
     border: 3px solid #91B64A;
+}
+
+.path-tooltip {
+  background-color: rgba(255,255,255,.95);
+  border-radius: 5px;
+  padding: 2px 8px;
 }
 `;

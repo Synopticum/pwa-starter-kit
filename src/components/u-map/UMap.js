@@ -58,6 +58,12 @@ class UMap extends connect(store)(LitElement) {
       'user__menu--active': this._isUserMenuVisible
     };
 
+    let tooltipClasses = {
+      'tooltip': true,
+      'tooltip--dot': this._tooltip.item && this._tooltip.item.instanceType === 'dot',
+      'tooltip--path': this._tooltip.item && this._tooltip.item.instanceType === 'path'
+    };
+
     return html`      
       <style>
         [hidden] {
@@ -325,10 +331,13 @@ class UMap extends connect(store)(LitElement) {
       <div class="u-map">
         <div class="${classMap(containerClasses)}">   
           <u-tooltip 
+              class="${classMap(tooltipClasses)}"
               ?hidden="${!this._tooltip.isVisible}" 
               .x="${this._tooltip.position.x}"
               .y="${this._tooltip.position.y}"
               .origin="${this._tooltip.position.origin}"
+              .title="${this._tooltip.item && this._tooltip.item.title}"
+              .shortDescription="${this._tooltip.item && this._tooltip.item.shortDescription}"
               .type="${this._tooltip.item && this._tooltip.item.type}"
               .instanceType="${this._tooltip.item && this._tooltip.item.instanceType}"
               .thumbnail="${this._tooltip.item && this._tooltip.item.images ? `https://urussu.s3.amazonaws.com/${this._getTooltipImage()}` : ''}">
@@ -731,7 +740,26 @@ class UMap extends connect(store)(LitElement) {
     if (isVisible) {
       this._tooltipHoverTimeOut = setTimeout(() => {
         let id = e.target.options.id;
-        let position = UMap._calculatePosition(e.containerPoint.x, e.containerPoint.y, 120, 120);
+        let containerWidth, containerHeight;
+
+        switch (type) {
+          case 'dot':
+            containerWidth = 120;
+            containerHeight = 120;
+            break;
+
+          case 'path':
+            containerWidth = 200;
+            containerHeight = 30;
+            break;
+
+          default:
+            containerWidth = 120;
+            containerHeight = 120;
+            break;
+        }
+
+        let position = UMap._calculatePosition(e.containerPoint.x, e.containerPoint.y, containerWidth, containerHeight);
 
         store.dispatch(toggleTooltip(type,true, id, position));
       }, 1000);
