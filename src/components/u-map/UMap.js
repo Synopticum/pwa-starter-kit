@@ -749,7 +749,12 @@ class UMap extends connect(store)(LitElement) {
             break;
 
           case 'path':
-            containerWidth = 200;
+            containerWidth = 300;
+            containerHeight = 30;
+            break;
+
+          case 'object':
+            containerWidth = 300;
             containerHeight = 30;
             break;
 

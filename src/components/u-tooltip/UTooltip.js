@@ -24,17 +24,24 @@ class UTooltip extends LitElement {
       'thumbnail--new': this.type === 'new'
     };
 
+    let textAlign = this.origin === 'top left' || this.origin === 'bottom left' ? 'left' : 'right';
+    let padding = this.origin === 'top left' || this.origin === 'bottom left' ? '0 0 0 15px' : '0 10px 0 0';
+
     return html`
       <style>
         :host {
           left: ${this.x}px;
           top: ${this.y}px;
           transform-origin: ${this.origin};
+          text-align: ${textAlign};
+          padding: ${padding}
         }
       </style>
       
       <div class="u-tooltip">
-        ${this.instanceType === 'object' ? html`object` : ''}
+        ${this.instanceType === 'object' ? html`
+          <div class="object-tooltip">${this.title}</div>
+        ` : ''}
         
         ${this.instanceType === 'path' ? html`
           <div class="path-tooltip">${this.title}</div>

@@ -16,9 +16,13 @@ export default css`
 }
 
 :host(.tooltip--path) {
-  width: 200px;
+  width: 300px;
   height: 30px;
-  text-align: center;
+}
+
+:host(.tooltip--object) {
+  width: 300px;
+  height: 30px;
 }
 
 :host([hidden]) {
@@ -44,8 +48,8 @@ export default css`
 }
 
 .path-tooltip {
-  background-color: rgba(255,255,255,.95);
-  border-radius: 5px;
-  padding: 2px 8px;
+  color: #fff;
+  text-shadow: 1px 1px 0 #000;
+  font-size: 18px;
 }
 `;

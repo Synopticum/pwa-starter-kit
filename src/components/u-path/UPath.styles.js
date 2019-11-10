@@ -21,7 +21,7 @@ export default css`
     z-index: 200;
     pointer-events: all;
     border-radius: 3px;
-    background-color: #fff;
+    background-color: #efe5c7;
     box-shadow: 4px 4px 4px rgba(0,0,0,.15);
     border: 2px solid rgba(111,155,52,1);
     width: 100vw;
