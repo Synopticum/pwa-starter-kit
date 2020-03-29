@@ -13,7 +13,7 @@
 module.exports = {
   staticFileGlobs: [
     'manifest.json',
-    'src/**/*',
+    '/static/images/*'
   ],
   runtimeCaching: [
     {
@@ -21,7 +21,7 @@ module.exports = {
       handler: 'fastest'
     },
     {
-      urlPattern: /^https:\/\/fonts.gstatic.com\//,
+      urlPattern: /^https:\/\/fonts.googleapis.com\//,
       handler: 'fastest'
     }
   ]

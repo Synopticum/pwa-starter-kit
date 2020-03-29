@@ -10,6 +10,7 @@
     "push-manifest.json",
     "manifest.json",
     "robots.txt",
+    "service-worker.js",
     "node_modules/@webcomponents/webcomponentsjs/**",
     "node_modules/leaflet/**",
     "node_modules/leaflet-draw/**",
@@ -35,7 +36,7 @@
         "minify": false
       },
       "bundle": false,
-      "addServiceWorker": false
+      "addServiceWorker": true
     }
   ],
   "moduleResolution": "node",
