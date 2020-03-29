@@ -31,7 +31,7 @@ export default css`
 .u-path--loading {
     width: 200px;
     height: 200px;
-    background: url('static/images/spinner.gif') no-repeat 50% 50% transparent;
+    background: url('/static/images/spinner.gif') no-repeat 50% 50% transparent;
     box-shadow: none;
     border: 0;
 }
@@ -69,7 +69,7 @@ export default css`
     top: 50%;
     width: 30px;
     height: 40px;
-    background: url('static/images/button-icons/hide-comments.svg') no-repeat 50% 50% rgba(255,255,255,.95);
+    background: url('/static/images/button-icons/hide-comments.svg') no-repeat 50% 50% rgba(255,255,255,.95);
     border-radius: 5px;
     display: flex;
     justify-content: center;

@@ -18,7 +18,7 @@ class U404 extends PageViewElement {
           display: flex;
           align-items: center;
           justify-content: center;
-          background: url('static/images/spinner.gif') no-repeat 50% 50%, radial-gradient(ellipse at center, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%);
+          background: url('/static/images/spinner.gif') no-repeat 50% 50%, radial-gradient(ellipse at center, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%);
           color: #ffffff;
           text-shadow: 1px 1px 0 #000;
           white-space: nowrap;

@@ -13,11 +13,11 @@
 module.exports = {
   staticFileGlobs: [
     'manifest.json',
-    '/static/images/**/*',
-    '/node_modules/leaflet/dist/leaflet.css',
-    '/node_modules/leaflet/dist/leaflet.js',
-    '/node_modules/leaflet-draw/dist/leaflet.draw.css',
-    '/node_modules/leaflet-draw/dist/leaflet.draw.js',
+    'static/images/**/*',
+    'node_modules/leaflet/dist/leaflet.css',
+    'node_modules/leaflet/dist/leaflet.js',
+    'node_modules/leaflet-draw/dist/leaflet.draw.css',
+    'node_modules/leaflet-draw/dist/leaflet.draw.js',
     'node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js',
     'static/libs/uuid/uuid.min.js',
     'https://sdk.amazonaws.com/js/aws-sdk-2.452.0.min.js'

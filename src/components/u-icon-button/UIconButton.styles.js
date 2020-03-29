@@ -56,23 +56,23 @@ export default css`
 
 .icon-button--comments {
     margin-left: 2px;
-    background-image: url('static/images/dot/comments.svg');
+    background-image: url('/static/images/dot/comments.svg');
     background-size: 20px;
 }
 
 .icon-button--close {
     margin-left: 2px;
-    background-image: url('static/images/dot/close.svg');
+    background-image: url('/static/images/dot/close.svg');
     background-size: 16px;
 }
 
 .icon-button--gear {
-    background-image: url('static/images/dot/gear.svg');
+    background-image: url('/static/images/dot/gear.svg');
     background-size: 16px;
 }
 
 .icon-button--check {
-    background-image: url('static/images/dot/check.svg');
+    background-image: url('/static/images/dot/check.svg');
     background-size: 21px;
 }
 `;
