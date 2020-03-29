@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /environments
+Disallow: /push-manifest.json
+Disallow: /manifest.json
+Disallow: /node_modules
+Disallow: /src/components

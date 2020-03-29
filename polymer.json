@@ -9,6 +9,7 @@
     "environments/**",
     "push-manifest.json",
     "manifest.json",
+    "robots.txt",
     "node_modules/@webcomponents/webcomponentsjs/**",
     "node_modules/leaflet/**",
     "node_modules/leaflet-draw/**",
