@@ -6,6 +6,8 @@
     "static/libs/**/*"
   ],
   "extraDependencies": [
+    "environments/**",
+    "push-manifest.json",
     "manifest.json",
     "node_modules/@webcomponents/webcomponentsjs/**",
     "node_modules/leaflet/**",
@@ -13,9 +15,7 @@
     "node_modules/lit-element/**",
     "node_modules/lit-html/**",
     "node_modules/pwa-helpers/**",
-    "src/components/u-login/**",
-    "environments/**",
-    "push-manifest.json"
+    "src/components/u-global-spinner/**"
   ],
   "builds": [
     {
