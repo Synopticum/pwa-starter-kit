@@ -24,6 +24,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <link rel="apple-touch-icon" href="static/images/manifest/icon-144x144.png" sizes="144x144">
     <link rel="apple-touch-icon" href="static/images/manifest/icon-192x192.png" sizes="192x192">
     <link rel="apple-touch-icon" href="static/images/manifest/icon-512x512.png" sizes="144x512">
+    <link rel="icon" href="static/images/favicon.png">
 
     <title>Исторический Уруссу β — Старые фотографии и интересные факты на карте Уруссу</title>
 
@@ -54,9 +55,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     -->
     <base href="/">
 
-    <link rel="icon" href="static/images/favicon.png">
     <link rel="manifest" href="manifest.json">
-    <link href="https://fonts.googleapis.com/css?family=PT+Serif:400,400i,700,700i&amp;subset=cyrillic,cyrillic-ext" rel="stylesheet">
+
+    <template id="u-global-spinner">
+      <canvas class="noise"></canvas>
+      <div class="loader"></div>
+    </template>
+    <link rel="stylesheet" href="src/components/u-global-spinner/UGlobalSpinner.style.css">
+    <script src="src/components/u-global-spinner/UGlobalSpinner.js"></script>
 
     <style>
       body {
@@ -83,19 +89,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </script>
   </head>
   <body>
+    <u-global-spinner></u-global-spinner>
+    <u-app></u-app>
+
     <link rel="stylesheet" href="node_modules/leaflet/dist/leaflet.css">
     <script src="node_modules/leaflet/dist/leaflet.js"></script>
     <link rel="stylesheet" href="node_modules/leaflet-draw/dist/leaflet.draw.css"/>
     <script src="node_modules/leaflet-draw/dist/leaflet.draw.js"></script>
 
     <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="environments/current.js"></script>
     <script type="module" src="src/components/u-app/UApp.js"></script>
 
-    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.452.0.min.js"></script>
     <script src="static/libs/uuid/uuid.min.js" defer></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.452.0.min.js" defer></script>
 
-    <script src="environments/current.js"></script>
-
-    <u-app></u-app>
+    <link href="https://fonts.googleapis.com/css?family=PT+Serif:400,400i,700,700i&amp;subset=cyrillic,cyrillic-ext" rel="stylesheet">
   </body>
 </html>

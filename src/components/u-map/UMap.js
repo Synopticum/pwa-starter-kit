@@ -176,6 +176,10 @@ class UMap extends connect(store)(LitElement) {
             transition: opacity .3s;
         }
         
+        .leaflet-marker-icon:focus {
+            outline: none;
+        }
+        
         .leaflet-marker-icon__new {
             filter: hue-rotate(0deg);
         }
@@ -432,7 +436,10 @@ class UMap extends connect(store)(LitElement) {
   }
 
   firstUpdated() {
-    this._init().catch(e => { throw new Error(e) });
+    this._init()
+        .then(() => new Promise((resolve, reject) => { setTimeout(() => resolve(), 2000) }))
+        .then(() => {  this.$globalSpinner.setAttribute('idle', 'true') })
+        .catch(e => { throw new Error(e) });
   }
 
   async _init() {
@@ -461,6 +468,7 @@ class UMap extends connect(store)(LitElement) {
   _setReferences() {
     this._$tempDot = null;
     this._$clouds = this.querySelector('.container');
+    this.$globalSpinner = document.querySelector('u-global-spinner');
   }
 
   _setDefaults() {
