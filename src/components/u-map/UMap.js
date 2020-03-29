@@ -529,8 +529,9 @@ class UMap extends connect(store)(LitElement) {
         this._map.unproject([0, this.height], this.maxZoom),
         this._map.unproject([this.width, 0], this.maxZoom)
     );
+    const tileExtension = UMap.doesBrowserSupportWebP() ? 'png.webp' : 'png';
 
-    L.tileLayer(`${ENV[window.ENV].static}/static/images/tiles/{z}/{x}/{y}.png`, {
+    L.tileLayer(`${ENV[window.ENV].static}/static/images/tiles/{z}/{x}/{y}.${tileExtension}`, {
       minZoom: this.minZoom,
       maxZoom: this.maxZoom,
       bounds,
@@ -962,6 +963,18 @@ class UMap extends connect(store)(LitElement) {
     }
   }
   // ----- end of listeners -----
+
+  static doesBrowserSupportWebP() {
+    var elem = document.createElement('canvas');
+
+    if (!!(elem.getContext && elem.getContext('2d'))) {
+      // was able or not to get WebP representation
+      return elem.toDataURL('image/webp').indexOf('data:image/webp') === 0;
+    }
+
+    // very old browser like IE 8, canvas not supported
+    return false;
+  }
 }
 
 class ObjectModel {
