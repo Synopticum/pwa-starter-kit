@@ -437,7 +437,7 @@ class UMap extends connect(store)(LitElement) {
 
   firstUpdated() {
     this._init()
-        .then(() => {  this.$globalSpinner.setAttribute('idle', 'true') })
+        .then(() => { this.$globalSpinner.setAttribute('idle', 'true') })
         .catch(e => { throw new Error(e) });
   }
 
