@@ -14,6 +14,7 @@
     "node_modules/@webcomponents/webcomponentsjs/**",
     "node_modules/leaflet/**",
     "node_modules/leaflet-draw/**",
+    "node_modules/leaflet-rotatedmarker/**",
     "node_modules/lit-element/**",
     "node_modules/lit-html/**",
     "node_modules/pwa-helpers/**",

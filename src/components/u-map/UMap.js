@@ -1,11 +1,11 @@
 import {ENV} from '../../../environments/environments';
-import {getApiHeaders} from '../../../environments/api';
 import {html, LitElement} from 'lit-element/lit-element';
 import {classMap} from 'lit-html/directives/class-map';
 import debounce from 'lodash-es/debounce';
 import isEmpty from 'lodash-es/isEmpty';
 import {store} from '../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
+import 'leaflet-rotatedmarker';
 import {
   fetchDots,
   fetchObjects,
@@ -140,6 +140,10 @@ class UMap extends connect(store)(LitElement) {
             background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADAQMAAABs5if8AAAABlBMVEUAAAD///+l2Z/dAAAAAXRSTlMAQObYZgAAAA5JREFUCNdjeMDQwNAAAAZmAeFpNQSMAAAAAElFTkSuQmCC');
         }
         
+        .leaflet-tile-pane {
+            filter: saturate(.3);
+        }
+        
         path.leaflet-interactive {
             cursor: pointer;
             opacity: .75;
@@ -172,8 +176,21 @@ class UMap extends connect(store)(LitElement) {
         }
         
         .leaflet-marker-icon {
-            opacity: .85;
-            transition: opacity .3s;
+          position: relative;
+          background: linear-gradient(var(--from), var(--to));
+          border-radius: 50%;
+        }
+        
+        .leaflet-marker-icon::before {
+          content: '';
+          position: absolute;
+          left: calc(50% - 4.5px);
+          top: calc(50% - 12px);
+          background: url("data:image/svg+xml,%3C%3Fxml version='1.0' %3F%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg height='512px' id='Layer_1' style='enable-background:new 0 0 512 512;' version='1.1' viewBox='0 0 512 512' width='512px' xml:space='preserve' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Cpath fill='white' d='M184.7,413.1l2.1-1.8l156.5-136c5.3-4.6,8.6-11.5,8.6-19.2c0-7.7-3.4-14.6-8.6-19.2L187.1,101l-2.6-2.3 C182,97,179,96,175.8,96c-8.7,0-15.8,7.4-15.8,16.6h0v286.8h0c0,9.2,7.1,16.6,15.8,16.6C179.1,416,182.2,414.9,184.7,413.1z'/%3E%3C/svg%3E") no-repeat; 
+          background-size: 9px;
+          width: 9px;
+          height: 9px; 
+          transform: rotate(-90deg);
         }
         
         .leaflet-marker-icon:focus {
@@ -181,16 +198,19 @@ class UMap extends connect(store)(LitElement) {
         }
         
         .leaflet-marker-icon__new {
-            filter: hue-rotate(0deg);
+            --from: lawngreen;
+            --to: lawngreen;
         }
         
         .leaflet-marker-icon__old-and-new {
-            filter: hue-rotate(-40deg);
+            --from: #ffb631;
+            --to: #ffb631;
         }
         
         .leaflet-marker-icon__old,
         .leaflet-marker-icon__unknown {
-            filter: grayscale(100%);
+            --from: lightgrey;
+            --to: lightgrey;
         }
         
         .leaflet-marker-icon:hover {
@@ -376,14 +396,14 @@ class UMap extends connect(store)(LitElement) {
               .lng="${this._dotCreator.position.lng}"></u-dot-creator>
         
           ${isAnonymous(this._user) ?
-            html`<a href="https://oauth.vk.com/authorize?client_id=4447151&display=page&redirect_uri=${ENV[window.ENV].static}&response_type=code&v=5.95" class="login"></a>`: 
-            html`<div class="user" @click="${this._toggleUserMenu}">
+        html`<a href="https://oauth.vk.com/authorize?client_id=4447151&display=page&redirect_uri=${ENV[window.ENV].static}&response_type=code&v=5.95" class="login"></a>` :
+        html`<div class="user" @click="${this._toggleUserMenu}">
                     <div class="${classMap(userImageClasses)}"></div>
                     <div class="${classMap(userMenuClasses)}">
                         <div class="user__menu-option" @click="${this._logout}">Выйти</div>
                     </div>
                  </div>`
-          }
+    }
         </div>
         
         <div id="map"></div>
@@ -728,13 +748,15 @@ class UMap extends connect(store)(LitElement) {
   }
 
   _createMarker(dot) {
+    const icon = L.divIcon({
+      iconSize: [9, 9],
+      className: `leaflet-marker-icon__${dot.type}`
+    });
+
     return L.marker(dot.coordinates, {
       id: dot.id,
-      icon: L.icon({
-              iconUrl: `${ENV[window.ENV].static}/static/images/markers/default.png`,
-              iconSize: [24, 24],
-              className: `leaflet-marker-icon__${dot.type}`
-            })
+      icon,
+      rotationAngle: dot.rotationAngle || 0
     })
         .on('mouseover', e => { this._toggleTooltip('dot',true, e) })
         .on('mouseout', e => { this._toggleTooltip('dot',false, e) })

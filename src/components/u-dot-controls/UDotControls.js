@@ -89,11 +89,24 @@ export class UDotControls extends connect(store)(LitElement) {
                     </section>
                     
                     <section class="controls__section controls__select-layer">
-                       <label for="select-select-layer" class="controls__label">Слой:</label>      
+                       <label for="select-layer" class="controls__label">Слой:</label>      
                         <select class="${classMap(selectLayerClasses)}" @change="${this.changeDotLayer}" id="select-layer"> 
                            <option value="0" ?selected="${!this._dot.layer}" disabled hidden>Выберите слой</option>
                            ${this.decadeLayers.map(decade => html`<option value="${decade}" ?selected="${this._dot.layer === decade}">${decade}</option>`)}
                        </select>
+                    </section>  
+                    
+                    <section class="controls__section controls__select-rotation-angle">
+                       <label for="select-rotation-angle" class="controls__label">Угол съемки:</label>  
+                       
+                       <div class="controls__input">
+                           <input 
+                            type="number" 
+                            @keyup="${this.inputRotationAngle}" 
+                            class="textarea" id="select-rotation-angle" value="${this._dot.rotationAngle}"/>
+                            
+                           <u-text-button @click="${this.changeRotationAngle}" class="save">Сохранить</u-text-button>
+                       </div>
                     </section>  
                     
                     <section class="controls__section controls__delete-dot">
@@ -266,6 +279,15 @@ export class UDotControls extends connect(store)(LitElement) {
 
     changeFullDescription() {
         let updatedDot = { ...this._dot, fullDescription: this.fullDescription };
+        store.dispatch(putDot(updatedDot, this.dotId));
+    }
+
+    inputRotationAngle(e) {
+        this.rotationAngle = e.target.value;
+    }
+
+    changeRotationAngle() {
+        let updatedDot = { ...this._dot, rotationAngle: this.rotationAngle };
         store.dispatch(putDot(updatedDot, this.dotId));
     }
 }
