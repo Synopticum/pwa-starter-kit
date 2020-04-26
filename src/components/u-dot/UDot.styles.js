@@ -84,6 +84,10 @@ export default css`
     transition: opacity .3s;
 }
 
+.image-overlay {
+    display: none;
+}
+
 .image-overlay::before {
     content: '';
     position:absolute;
@@ -94,6 +98,10 @@ export default css`
     opacity: 0;
     background: linear-gradient(to left, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0) 100%);
     transition: opacity .3s;
+}
+
+.image-overlay--active {
+    display: block;
 }
 
 .image-overlay--active::before {
