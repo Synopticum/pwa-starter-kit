@@ -734,8 +734,6 @@ class UMap extends connect(store)(LitElement) {
     const marker = e.target;
     const position = marker.getLatLng();
     const { lat, lng } = position;
-    marker.setLatLng(new L.LatLng(lat, lng), { draggable:'true' });
-    this._map.panTo(new L.LatLng(lat, lng));
 
     store.dispatch(putDot({ id: marker.options.id, coordinates: [lat, lng] }));
   }
@@ -944,9 +942,9 @@ class UMap extends connect(store)(LitElement) {
 
   _addTempDot(coordinates) {
     this._$tempDot = new L.marker(coordinates, {
-      icon: L.icon({
-        iconUrl: `${ENV[window.ENV].static}/static/images/markers/unknown.png`,
-        iconSize: [24, 24], // size of the icon
+      icon: L.divIcon({
+        iconSize: [9, 9],
+        className: `leaflet-marker-icon__unknown`
       })
     })
         .on('click', (e) => { this._toggleDot(true, e) })

@@ -209,9 +209,10 @@ export const dots = (state = {
             };
 
         case MapConstants.DOTS.UPDATE:
+            const updatedItems = state.items.filter(item => item.id !== action.payload.id);
             return {
                 ...state,
-                items: [...state.items, action.payload]
+                items: [...updatedItems, action.payload]
             };
 
         case DotConstants.DELETE:
