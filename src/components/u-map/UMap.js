@@ -781,8 +781,8 @@ class UMap extends connect(store)(LitElement) {
       draggable: 'true',
       rotationAngle: dot.rotationAngle || 0
     })
-        .on('mouseover', e => { this._toggleTooltip('dot',true, e) })
-        .on('mouseout', e => { this._toggleTooltip('dot',false, e) })
+        // .on('mouseover', e => { this._toggleTooltip('dot',true, e) })
+        // .on('mouseout', e => { this._toggleTooltip('dot',false, e) })
         .on('click', e => { this._toggleDot(true, e) })
         .on('dragend', e => { this._updateMarkerCoordinates(null, e); });
   }
