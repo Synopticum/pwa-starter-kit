@@ -19,6 +19,7 @@ import {
   setSettings
 } from './UMap.actions';
 import { putObject } from '../u-object/UObject.actions';
+import { putDot } from '../u-dot/UDot.actions';
 import props from './UMap.props';
 import {app} from "../u-app/UApp.reducer";
 import {dots, map, objects } from "./UMap.reducer";
@@ -542,8 +543,8 @@ class UMap extends connect(store)(LitElement) {
   }
 
   _setDefaultSettings() {
-    let lat = 62;
-    let lng = 33;
+    let lat = 69.65;
+    let lng = -20.25;
 
     if (location.search) {
       let params = new URLSearchParams(location.search);
@@ -562,7 +563,7 @@ class UMap extends connect(store)(LitElement) {
         this._map.unproject([0, this.height], this.maxZoom),
         this._map.unproject([this.width, 0], this.maxZoom)
     );
-    const tileExtension = UMap.doesBrowserSupportWebP() ? 'png.webp' : 'png';
+    const tileExtension = UMap.doesBrowserSupportWebP() ? 'png' : 'png';
 
     L.tileLayer(`${ENV[window.ENV].static}/static/images/tiles/{z}/{x}/{y}.${tileExtension}`, {
       minZoom: this.minZoom,
@@ -729,6 +730,16 @@ class UMap extends connect(store)(LitElement) {
     }
   }
 
+  _updateMarkerCoordinates(value, e) {
+    const marker = e.target;
+    const position = marker.getLatLng();
+    const { lat, lng } = position;
+    marker.setLatLng(new L.LatLng(lat, lng), { draggable:'true' });
+    this._map.panTo(new L.LatLng(lat, lng));
+
+    store.dispatch(putDot({ id: marker.options.id, coordinates: [lat, lng] }));
+  }
+
   _drawDots(dots) {
     try {
       this._removeCurrentLayersAndMarkers();
@@ -769,11 +780,13 @@ class UMap extends connect(store)(LitElement) {
     return L.marker(dot.coordinates, {
       id: dot.id,
       icon,
+      draggable: 'true',
       rotationAngle: dot.rotationAngle || 0
     })
         .on('mouseover', e => { this._toggleTooltip('dot',true, e) })
         .on('mouseout', e => { this._toggleTooltip('dot',false, e) })
-        .on('click', (e) => { this._toggleDot(true, e) });
+        .on('click', e => { this._toggleDot(true, e) })
+        .on('dragend', e => { this._updateMarkerCoordinates(null, e); });
   }
   // ----- end of drawing methods -----
 
@@ -994,7 +1007,9 @@ class UMap extends connect(store)(LitElement) {
 
   getCoordinates(e) {
     if (this._settings.isDrawingObject) {
-      this.__currentObject.push([e.latlng.lat.toFixed(2), e.latlng.lng.toFixed(2)]);
+      const [lat, lng] = [e.latlng.lat.toFixed(2), e.latlng.lng.toFixed(2)];
+      // alert(`[${lat}, ${lng}]`);
+      this.__currentObject.push([lat, lng]);
     }
   }
   // ----- end of listeners -----

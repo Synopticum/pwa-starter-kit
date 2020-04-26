@@ -21,11 +21,11 @@ class UApp extends connect(store)(LitElement) {
   render() {
     return html`
       <div class="u-app">
-        <u-map width="6400"
-               height="4000"
+        <u-map width="10000"
+               height="6250"
                min-zoom="4" 
-               max-zoom="5"
-               max-bounds="[[5,-180],[122,100]]"
+               max-zoom="6"
+               max-bounds="[[39.5,-180],[100,39.5]]"
                object-fill-color="#ffc600"
                object-stroke-width="2"></u-map>
           
