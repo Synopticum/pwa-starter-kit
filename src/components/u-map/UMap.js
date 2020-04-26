@@ -178,15 +178,36 @@ class UMap extends connect(store)(LitElement) {
         }
         
         .leaflet-marker-icon::before {
-          content: '';
-          position: absolute;
-          left: calc(50% - 4.5px);
-          top: calc(50% - 12px);
-          background: url("data:image/svg+xml,%3C%3Fxml version='1.0' %3F%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg height='512px' id='Layer_1' style='enable-background:new 0 0 512 512;' version='1.1' viewBox='0 0 512 512' width='512px' xml:space='preserve' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Cpath fill='white' d='M184.7,413.1l2.1-1.8l156.5-136c5.3-4.6,8.6-11.5,8.6-19.2c0-7.7-3.4-14.6-8.6-19.2L187.1,101l-2.6-2.3 C182,97,179,96,175.8,96c-8.7,0-15.8,7.4-15.8,16.6h0v286.8h0c0,9.2,7.1,16.6,15.8,16.6C179.1,416,182.2,414.9,184.7,413.1z'/%3E%3C/svg%3E") no-repeat; 
-          background-size: 9px;
-          width: 9px;
-          height: 9px; 
-          transform: rotate(-90deg);
+            pointer-events: none;
+            content: '';
+            position: absolute;
+            left: calc(50% - 4.5px);
+            top: calc(50% - 12px);
+            background: url("data:image/svg+xml,%3C%3Fxml version='1.0' %3F%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg height='512px' id='Layer_1' style='enable-background:new 0 0 512 512;' version='1.1' viewBox='0 0 512 512' width='512px' xml:space='preserve' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Cpath fill='white' d='M184.7,413.1l2.1-1.8l156.5-136c5.3-4.6,8.6-11.5,8.6-19.2c0-7.7-3.4-14.6-8.6-19.2L187.1,101l-2.6-2.3 C182,97,179,96,175.8,96c-8.7,0-15.8,7.4-15.8,16.6h0v286.8h0c0,9.2,7.1,16.6,15.8,16.6C179.1,416,182.2,414.9,184.7,413.1z'/%3E%3C/svg%3E") no-repeat; 
+            background-size: 9px;
+            width: 9px;
+            height: 9px; 
+            transform: rotate(-90deg);
+        }
+        
+        .leaflet-marker-icon::after {
+            pointer-events: none;
+            opacity: 0;
+            content: '';
+            position: absolute;
+            left: -5px;
+            bottom: -5px;
+            width: 20px;
+            height: 70px;
+            background: rgb(255,241,224);
+            -webkit-mask-image: -webkit-gradient(linear, left bottom, left top, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
+            transform: perspective(25px) rotateX(-40deg);
+            transition: opacity .3s;
+            filter: blur(5px);
+        }
+        
+        .leaflet-marker-icon:hover::after {
+            opacity: 1;
         }
         
         .leaflet-marker-icon:focus {
