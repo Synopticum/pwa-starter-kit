@@ -563,7 +563,7 @@ class UMap extends connect(store)(LitElement) {
         this._map.unproject([0, this.height], this.maxZoom),
         this._map.unproject([this.width, 0], this.maxZoom)
     );
-    const tileExtension = UMap.doesBrowserSupportWebP() ? 'png' : 'png';
+    const tileExtension = UMap.doesBrowserSupportWebP() ? 'png.webp' : 'png';
 
     L.tileLayer(`${ENV[window.ENV].static}/static/images/tiles/{z}/{x}/{y}.${tileExtension}`, {
       minZoom: this.minZoom,
