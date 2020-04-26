@@ -778,7 +778,7 @@ class UMap extends connect(store)(LitElement) {
     return L.marker(dot.coordinates, {
       id: dot.id,
       icon,
-      draggable: 'true',
+      draggable: false,
       rotationAngle: dot.rotationAngle || 0
     })
         // .on('mouseover', e => { this._toggleTooltip('dot',true, e) })
