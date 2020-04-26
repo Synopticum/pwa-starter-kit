@@ -140,10 +140,6 @@ class UMap extends connect(store)(LitElement) {
             background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADAQMAAABs5if8AAAABlBMVEUAAAD///+l2Z/dAAAAAXRSTlMAQObYZgAAAA5JREFUCNdjeMDQwNAAAAZmAeFpNQSMAAAAAElFTkSuQmCC');
         }
         
-        .leaflet-tile-pane {
-            filter: saturate(.3);
-        }
-        
         path.leaflet-interactive {
             cursor: pointer;
             opacity: .75;
@@ -226,10 +222,6 @@ class UMap extends connect(store)(LitElement) {
         
         .leaflet-control-container {
             z-index: 200;
-        }
-        
-        .leaflet-container .leaflet-tile {
-            filter: grayscale(30%);
         }
         
         .leaflet-editing-icon {
