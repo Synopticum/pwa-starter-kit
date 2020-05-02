@@ -5,6 +5,8 @@ import {store} from '../../store.js';
 import {enableAnonymousMode, fetchUserInfo, navigate} from './UApp.actions';
 import props from './UApp.props';
 
+import '../u-nav/UNav.js';
+import '../u-page/UPage.js';
 import '../u-map/UMap.js';
 import '../u-404/U404.js';
 import {authenticate} from "./authenticate";
@@ -21,6 +23,9 @@ class UApp extends connect(store)(LitElement) {
   render() {
     return html`
       <div class="u-app">
+        <u-nav></u-nav>
+        <u-page default></u-page>
+        
         <u-map width="10000"
                height="6250"
                min-zoom="4" 

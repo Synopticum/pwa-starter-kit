@@ -49,16 +49,6 @@ class UMap extends connect(store)(LitElement) {
       [`container--clouds-${this._clouds.visibility}`]: true
     };
 
-    let userImageClasses = {
-      'user__image': true,
-      'user__image--none': !this._user.image
-    };
-
-    let userMenuClasses = {
-      'user__menu': true,
-      'user__menu--active': this._isUserMenuVisible
-    };
-
     let tooltipClasses = {
       'tooltip': true,
       'tooltip--dot': this._tooltip.item && this._tooltip.item.instanceType === 'dot',
@@ -246,6 +236,17 @@ class UMap extends connect(store)(LitElement) {
             z-index: 200;
         }
         
+        .leaflet-control-attribution {
+            margin: 0 20px 20px 0 !important;
+            background: none !important;
+        }
+        
+        .leaflet-control-attribution a {
+            color: #fff !important;
+            text-decoration: none !important;
+            opacity: .5;
+        }
+        
         .leaflet-editing-icon {
             width: 4px !important;
             height: 4px !important;
@@ -263,107 +264,6 @@ class UMap extends connect(store)(LitElement) {
             color: #ffffff;
             padding: 10px;
         }
-        
-        .login {
-            position: fixed;
-            left: 12px;
-            bottom: 12px;
-            background: url('/static/images/user.svg') no-repeat 50% 50%;
-            background-size: 44px;
-            color: #ffffff;
-            width: 44px;
-            height: 44px;
-            z-index: 100;
-            opacity: .5;
-            transition: opacity .3s;
-        }
-        
-        .login:hover {
-            opacity: .75;
-        }
-        
-        .user {
-            position: fixed;
-            left: 12px;
-            bottom: 12px;
-            z-index: 5;
-        }
-        
-        .user__image {
-            position: relative;
-            z-index: 20;
-            cursor: pointer;
-            width: 44px;
-            height: 44px;
-            background: url(${this._user.avatar}) no-repeat 50% 50% #ddd;
-            background-size: cover;
-            border-radius: 50%;
-            overflow: hidden;
-            text-indent: -9999px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            color: #111;                  
-        }
-        
-        .user__image--none {
-            text-indent: 0;
-        }
-        
-        .user__menu {
-            position: absolute;
-            top: -5px;
-            left: -5px;
-            z-index: 10;
-            padding: 0 20px 0 60px;
-            min-height: 55px;
-            display: flex;
-            align-items: center;
-            transform: scale(0);
-            transition: .2s transform;
-            box-shadow: transparent 0 0 0 1px inset, rgba(34, 36, 38, 0.15) 0 0 0 0 inset, rgba(0, 0, 0, 0.3) 0px 1px 2px;
-            background: 50% 50% no-repeat rgb(224, 225, 226);
-            border-radius: 0.285714rem;
-        }
-        
-        .user__menu--active {
-            transform: scale(1);
-        }
-        
-        .user__menu-option {
-            cursor: pointer;
-        }
-        
-        .settings {
-            position: fixed;
-            left: 70px;
-            bottom: 12px;
-            z-index: 5;
-        }
-        
-        .settings__item {
-            cursor: pointer;
-            width: 44px;
-            height: 44px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 50%;
-            background-color: #ffffff;
-            opacity: .5;
-            transition: opacity .3s;
-            user-select: none;
-        }
-        
-        .settings__item:hover {
-            opacity: .75;
-        }
-        
-        .settings__item--active,
-        .settings__item--active:hover {
-            opacity: 1;
-        }
       </style>
       
       <div class="u-map">
@@ -379,19 +279,7 @@ class UMap extends connect(store)(LitElement) {
               .type="${this._tooltip.item && this._tooltip.item.type}"
               .instanceType="${this._tooltip.item && this._tooltip.item.instanceType}"
               .thumbnail="${this._tooltip.item && this._tooltip.item.images ? `https://urussu.s3.amazonaws.com/${this._getTooltipImage()}` : ''}">
-          </u-tooltip>               
-          
-          ${this._dotPage.isVisible ? html`
-              <u-dot .dotId="${this._dotPage.currentDotId}"
-                     @hide-dot="${(e) => this._toggleDot(false, e)}"></u-dot>` : ``}              
-          
-          ${this._objectPage.isVisible ? html`
-              <u-object .objectId="${this._objectPage.currentObjectId}"
-                        @hide-object="${(e) => this._toggleObject(false, e)}"></u-object>` : ``}             
-          
-          ${this._pathPage.isVisible ? html`
-              <u-path .pathId="${this._pathPage.currentPathId}"
-                        @hide-path="${(e) => this._togglePath(false, e)}"></u-path>` : ``}
+          </u-tooltip>     
               
           <u-context-menu
               ?hidden="${!this._contextMenu.isVisible}"
@@ -408,16 +296,6 @@ class UMap extends connect(store)(LitElement) {
               .y="${this._dotCreator.position.y}"
               .lat="${this._dotCreator.position.lat}"
               .lng="${this._dotCreator.position.lng}"></u-dot-creator>
-        
-          ${isAnonymous(this._user) ?
-        html`<a href="https://oauth.vk.com/authorize?client_id=4447151&display=page&redirect_uri=${ENV[window.ENV].static}&response_type=code&v=5.95" class="login"></a>` :
-        html`<div class="user" @click="${this._toggleUserMenu}">
-                    <div class="${classMap(userImageClasses)}"></div>
-                    <div class="${classMap(userMenuClasses)}">
-                        <div class="user__menu-option" @click="${this._logout}">Выйти</div>
-                    </div>
-                 </div>`
-    }
         </div>
         
         <div id="map"></div>
@@ -450,9 +328,6 @@ class UMap extends connect(store)(LitElement) {
     this._tooltip = state.map.tooltip;
     this._dotCreator = state.map.dotCreator;
     this._clouds = state.map.clouds;
-    this._dotPage = state.map.dotPage;
-    this._objectPage = state.map.objectPage;
-    this._pathPage = state.map.pathPage;
     this._settings = state.map.settings;
     this._user = state.app.user;
 
@@ -888,15 +763,6 @@ class UMap extends connect(store)(LitElement) {
       store.dispatch(setCloudsVisibility('none'));
       store.dispatch(toggleDotCreator(false, { x: this._dotCreator.position.x, y: this._dotCreator.position.y }));
     }
-  }
-
-  _toggleUserMenu() {
-    this._isUserMenuVisible = !this._isUserMenuVisible;
-  }
-
-  _logout() {
-    localStorage.token = '';
-    location.reload();
   }
 
   _showPuttingObjectError(object) {

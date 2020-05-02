@@ -3,6 +3,7 @@ import {css} from 'lit-element/lit-element';
 export default css`
 :host {
     display: flex;
+    width: 100%;
 }
 
 :host([hidden]) {
@@ -18,17 +19,16 @@ export default css`
 
 .u-dot {
     position: relative;
+    width: 100%;
+    height: 100%;
     z-index: 200;
     pointer-events: all;
     border-radius: 3px;
-    background-color: #111;
-    box-shadow: 4px 4px 4px rgba(0,0,0,.15);
-    border: 2px solid rgba(111,155,52,1);
 }
 
 .u-dot--loading {
-    width: 200px;
-    height: 200px;
+    width: 100%;
+    height: 100%;
     background: url('/static/images/spinner.gif') no-repeat 50% 50% transparent;
     box-shadow: none;
     border: 0;
@@ -51,6 +51,9 @@ export default css`
     width: 100%;
     height: 100%;
     font-size: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .form {
