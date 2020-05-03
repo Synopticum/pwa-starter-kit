@@ -13,14 +13,19 @@ export default css`
 
 .u-nav {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     box-sizing: border-box;
-    justify-content: center;
-    padding: 15px 0;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 0 15px 0;
     height: 100%;
 }
 
 :host([hidden]) {
     display: none;
+}
+
+.buttons {
+    justify-content: center;
 }
 `;

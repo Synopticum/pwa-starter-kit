@@ -2,7 +2,6 @@ import {css} from 'lit-element/lit-element';
 
 export default css`
 :host {
-    align-self: flex-end;
     margin-left: -2px;
 }
         
@@ -24,8 +23,10 @@ export default css`
     align-items: center;
     justify-content: center;
     font-size: 24px;
-    color: #111;     
-    transition: box-shadow .2s;          
+    color: #111;
+    border: 2px solid #ccc;
+    box-shadow: inset 7px 7px 7px rgba(255,255,255,.1);
+    transition: box-shadow .2s;       
 }
 
 .user__image--none {
@@ -33,11 +34,11 @@ export default css`
 }
 
 .user__image:hover {
-    box-shadow: inset 2px 2px 2px rgba(0,0,0,.5);
+    box-shadow: inset 7px 7px 7px rgba(255,255,255,.2);
 }
 
 .user__image:active {
-    box-shadow: inset 3px 3px 3px rgba(0,0,0,.75);
+    box-shadow: inset 7px 7px 7px rgba(0,0,0,.4);
 }
         
 .login {
