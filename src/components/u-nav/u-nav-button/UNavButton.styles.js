@@ -69,6 +69,7 @@ export default css`
 }
 
 // news
+:host {}
 :host([type="news"]) {
     background-image: url('/static/images/nav/news.png');
 }
@@ -88,6 +89,7 @@ export default css`
 }
 
 // transport
+:host {}
 :host([type="transport"]) {
     background-image: url('/static/images/nav/transport.png');
 }
@@ -107,6 +109,7 @@ export default css`
 }
 
 // services
+:host {}
 :host([type="services"]) {
     background-image: url('/static/images/nav/services.png');
 }
@@ -126,6 +129,7 @@ export default css`
 }
 
 // ads
+:host {}
 :host([type="ads"]) {
     background-image: url('/static/images/nav/ads.png');
 }
@@ -145,6 +149,7 @@ export default css`
 }
 
 // anonymous
+:host {}
 :host([type="anonymous"]) {
     background-image: url('/static/images/nav/anonymous.png');
 }
@@ -164,6 +169,7 @@ export default css`
 }
 
 // claims
+:host {}
 :host([type="claims"]) {
     background-image: url('/static/images/nav/claims.png');
 }
