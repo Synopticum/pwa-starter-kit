@@ -9,7 +9,7 @@ export default {
         attribute: 'type'
     },
 
-    decade: {
+    year: {
         type: String,
         attribute: false
     },

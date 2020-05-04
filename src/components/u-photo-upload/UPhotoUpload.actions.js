@@ -8,20 +8,20 @@ export const UPhotoUploadConstants = {
 };
 
 // -------
-export const uploadPhoto = (photo, type, decade, id) => async (dispatch) => {
+export const uploadPhoto = (photo, type, year, id) => async (dispatch) => {
     dispatch({
         type: UPhotoUploadConstants.PUT,
         async: true,
         httpMethodToInvoke: _uploadPhoto,
-        params: [photo, type, decade, id, dispatch]
+        params: [photo, type, year, id, dispatch]
     });
 };
 
-const _uploadPhoto = async (photo, type, decade, id, dispatch) => {
+const _uploadPhoto = async (photo, type, year, id, dispatch) => {
     let formData = new FormData();
     formData.append('photo', photo);
 
-    let response = await fetch(`${ENV[window.ENV].api}/api/${type}/${id}/photos/${decade}`, {
+    let response = await fetch(`${ENV[window.ENV].api}/api/${type}/${id}/photos/${year}`, {
         method: 'PUT',
         headers: getApiHeadersFormData(localStorage.token),
         body: formData
@@ -33,24 +33,24 @@ const _uploadPhoto = async (photo, type, decade, id, dispatch) => {
 
     let json = await response.json();
 
-    dispatch(addDotImage(decade, json.key));
-    dispatch(setActiveImage(decade, json.key));
+    dispatch(addDotImage(year, json.key));
+    dispatch(setActiveImage(year, json.key));
 
     return json;
 };
 
 // -------
-export const deletePhoto = (type, id, decade) => async (dispatch) => {
+export const deletePhoto = (type, id, year) => async (dispatch) => {
     dispatch({
         type: UPhotoUploadConstants.DELETE,
         async: true,
         httpMethodToInvoke: _deletePhoto,
-        params: [type, id, decade, dispatch]
+        params: [type, id, year, dispatch]
     });
 };
 
-const _deletePhoto = async (type, id, decade, dispatch) => {
-    let response = await fetch(`${ENV[window.ENV].api}/api/${type}/${id}/photos/${decade}`, {
+const _deletePhoto = async (type, id, year, dispatch) => {
+    let response = await fetch(`${ENV[window.ENV].api}/api/${type}/${id}/photos/${year}`, {
         method: 'DELETE',
         headers: getApiHeadersFormData(localStorage.token)
     });
@@ -59,5 +59,5 @@ const _deletePhoto = async (type, id, decade, dispatch) => {
         throw new Error('Error while deleting a dot photo');
     }
 
-    return dispatch(deleteDotImage(decade));
+    return dispatch(deleteDotImage(year));
 };

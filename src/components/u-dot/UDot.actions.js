@@ -37,10 +37,10 @@ const _fetchDot = async (dotId, dispatch) => {
   history.pushState(null, null, `${ENV[window.ENV].static}/dots/${dot.id.split('-')[0]}`);
 
   if (!isEmpty(dot.images)) {
-    let activeDecade = Math.min(...Object.keys(dot.images)).toString();
-    let activeImage = dot.images[activeDecade];
+    let activeYear = Math.min(...Object.keys(dot.images)).toString();
+    let activeImage = dot.images[activeYear];
 
-    dispatch(setActiveImage(activeDecade, activeImage));
+    dispatch(setActiveImage(activeYear, activeImage));
   }
 
   return dot;
@@ -98,24 +98,24 @@ const _deleteDot = async (dotId) => {
 };
 
 // -------
-export const addDotImage = (decade, key) => (dispatch, getState) => {
+export const addDotImage = (year, key) => (dispatch, getState) => {
   dispatch({
     type: DotConstants.ADD_IMAGE,
-    payload: { decade, key }
+    payload: { year, key }
   });
 };
 
-export const deleteDotImage = (decade) => (dispatch, getState) => {
+export const deleteDotImage = (year) => (dispatch, getState) => {
   dispatch({
     type: DotConstants.DELETE_IMAGE,
-    payload: { decade }
+    payload: { year }
   });
 };
 
-export const setActiveImage = (decade, image) => (dispatch, getState) => {
+export const setActiveImage = (year, image) => (dispatch, getState) => {
   dispatch({
     type: DotConstants.SET_ACTIVE_IMAGE,
-    payload: { image, decade }
+    payload: { image, year }
   });
 };
 

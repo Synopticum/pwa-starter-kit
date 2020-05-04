@@ -97,9 +97,7 @@ class UDotCreator extends connect(store)(LitElement) {
         // let layerType = isAdmin(this._user) ? 'OfficialDefault' : 'UserDefault';
 
         let dot = new Dot({
-            layer: 'Sergey Novikov',
-            type: 'old',
-            label: 'unknown',
+            layer: '2020',
             coordinates: [this.lat, this.lng],
             authorId: this._user.id
         });
@@ -118,11 +116,16 @@ class UDotCreator extends connect(store)(LitElement) {
 class Dot {
     constructor(options) {
         this.id = uuidv4();
+        this.instanceType = 'dot';
         this.layer = options.layer;
-        this.label = options.label;
-        this.type = options.type;
         this.coordinates = options.coordinates;
         this.authorId = options.authorId;
+        this.images = {};
+        this.rotationAngle = 0;
+        this.title = '';
+        this.shortDescription = '';
+        this.fullDescription = '';
+        this.thumbnail = '';
     }
 }
 

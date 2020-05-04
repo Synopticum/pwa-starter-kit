@@ -9,7 +9,7 @@ import {
 export const dotPage = (state = {
     dot: { },
     activeImage: '',
-    activeDecade: '',
+    activeYear: '',
     isFetching: false,
     isUpdating: false,
     isLoadingError: false
@@ -62,27 +62,27 @@ export const dotPage = (state = {
                 ...state,
                 dot: {
                     ...state.dot,
-                    activeDecade: action.payload.decade,
+                    activeYear: action.payload.year,
                     activeImage: action.payload.key,
                     images: {
                         ...state.dot.images,
-                        [action.payload.decade]: action.payload.key
+                        [action.payload.year]: action.payload.key
                     }
                 }
             };
 
         case DotConstants.DELETE_IMAGE:
             const updatedImages = { ...state.dot.images };
-            delete updatedImages[action.payload.decade];
+            delete updatedImages[action.payload.year];
 
             // Once an image deleted, check if there are other images and show the oldest available one
             // If not, show nothing
-            const activeDecade = !isEmpty(updatedImages) ? Math.min(...Object.keys(updatedImages)) : '';
-            const activeImage = !isEmpty(updatedImages) ? updatedImages[activeDecade] : '';
+            const activeYear = !isEmpty(updatedImages) ? Math.min(...Object.keys(updatedImages)) : '';
+            const activeImage = !isEmpty(updatedImages) ? updatedImages[activeYear] : '';
 
             return {
                 ...state,
-                activeDecade,
+                activeYear,
                 activeImage,
                 dot: {
                     ...state.dot,
@@ -94,7 +94,7 @@ export const dotPage = (state = {
             return {
                 ...state,
                 activeImage: action.payload.image,
-                activeDecade: action.payload.decade
+                activeYear: action.payload.year
             };
 
         case DotConstants.CLEAR_STATE:

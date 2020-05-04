@@ -23,19 +23,19 @@ export class UDotTimeline extends LitElement {
     }
 
     render() {
-        let decadesClasses = {
-            'decades': true,
-            'decades--only-child': Object.entries(this.images).length === 1
+        let yearsClasses = {
+            'years': true,
+            'years--only-child': Object.entries(this.images).length === 1
         };
 
         return html`
           <div class="u-dot-timeline">
             
-            <nav class="${classMap(decadesClasses)}">
+            <nav class="${classMap(yearsClasses)}">
               <div class="underline"></div>
               <div class="underline"></div>
               <div class="underline"></div>
-              ${this.images && this.activeDecade ? Object.entries(this.images).map((decade, index) => this.renderDecade(decade, index)) : ''}
+              ${this.images && this.activeYear ? Object.entries(this.images).map((year, index) => this.renderYear(year, index)) : ''}
             </nav>
           </div> 
     `;
@@ -63,21 +63,21 @@ export class UDotTimeline extends LitElement {
     /*
         List of render methods
      */
-    renderDecade(decade, index) {
-        let decadeClasses = {
-            'decade': true,
-            'decade--active': decade[0] === this.activeDecade
+    renderYear(year, index) {
+        let yearClasses = {
+            'year': true,
+            'year--active': year[0] === this.activeYear
         };
 
-        return html`<a class="${classMap(decadeClasses)}" @click="${() => this.changeImage(decade[0], index)}">${decade[0]}</a>`;
+        return html`<a class="${classMap(yearClasses)}" @click="${() => this.changeImage(year[0], index)}">${year[0]}</a>`;
     }
 
     /*
         List of custom component's methods
     */
-    changeImage(decade, index) {
+    changeImage(year, index) {
         this.ul(index);
-        this.dispatchEvent(new CustomEvent('u-dot-timeline:change-image', { detail: { decade }, composed: true }));
+        this.dispatchEvent(new CustomEvent('u-dot-timeline:change-image', { detail: { year }, composed: true }));
     }
 
     ul(index) {

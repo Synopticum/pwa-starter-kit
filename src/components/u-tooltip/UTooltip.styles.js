@@ -35,15 +35,11 @@ export default css`
     border-radius: 50%;
 }
 
-.thumbnail--old-and-new {
+.thumbnail--gold {
     border: 3px solid rgb(214,183,98);
 }
 
-.thumbnail--old {
-    border: 3px solid #ccc;
-}
-
-.thumbnail--new {
+.thumbnail--regular {
     border: 3px solid #91B64A;
 }
 

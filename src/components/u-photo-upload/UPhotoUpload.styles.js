@@ -14,11 +14,11 @@ export default css`
 }
 
 /* select */
-.select-decade {
+.select-year {
     display: none;
 }
 
-.select-decade--active {
+.select-year--active {
     display: block;
     margin: 10px 0;
 }

@@ -125,7 +125,7 @@ export class UDotControls extends connect(store)(LitElement) {
         this._dotControls = state.dotControls;
 
         this._activeImage = state.dotPage.activeImage;
-        this._activeDecade = state.dotPage.activeDecade;
+        this._activeYear = state.dotPage.activeYear;
 
         this._isFetching = state.dotPage.isFetching;
         this._isUpdating = state.dotPage.isUpdating;
@@ -173,7 +173,7 @@ export class UDotControls extends connect(store)(LitElement) {
     }
 
     deletePhoto() {
-        store.dispatch(deletePhoto('dot', this.dotId, this._activeDecade));
+        store.dispatch(deletePhoto('dot', this.dotId, this._activeYear));
     }
 
     changeDotLabel(e) {

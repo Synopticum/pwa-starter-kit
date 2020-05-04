@@ -56,11 +56,11 @@ class UDot extends connect(store)(LitElement) {
                         <div class="${classMap(photoOverlayClasses)}"></div>
                         <img src="https://urussu.s3.amazonaws.com/${this._activeImage}" 
                              class="image" 
-                             alt="Уруссу, ${this._activeDecade} годы"
+                             alt="Уруссу, ${this._activeYear}"
                              @load="${this.hideSpinner}">
                             
-                        <u-dot-timeline .images="${this._dot.images}" .activeDecade="${this._activeDecade}"></u-dot-timeline>` 
-                        : 'Изображения отсутствуют'
+                        <u-dot-timeline .images="${this._dot.images}" .activeYear="${this._activeYear}"></u-dot-timeline>` 
+                        : (() => { this.hideSpinner(); return 'Изображения отсутствуют' })()
                     }
     
                     ${this.areControlsVisible ? html`<u-dot-controls .dotId="${this.dotId}"></u-dot-controls>` : ''}
@@ -82,7 +82,7 @@ class UDot extends connect(store)(LitElement) {
         this._dot = state.dotPage.dot;
 
         this._activeImage = state.dotPage.activeImage;
-        this._activeDecade = state.dotPage.activeDecade;
+        this._activeYear = state.dotPage.activeYear;
 
         this._isLoadingError = state.dotPage.isLoadingError;
     }
@@ -147,8 +147,8 @@ class UDot extends connect(store)(LitElement) {
     }
 
     changeImage(e) {
-        const decade = e.detail.decade;
-        store.dispatch(setActiveImage(decade, this._dot.images[decade]));
+        const year = e.detail.year;
+        store.dispatch(setActiveImage(year, this._dot.images[year]));
 
         this.isSpinnerVisible = true;
     }

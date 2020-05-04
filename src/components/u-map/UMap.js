@@ -205,20 +205,14 @@ class UMap extends connect(store)(LitElement) {
             outline: none;
         }
         
-        .leaflet-marker-icon__new {
+        .leaflet-marker-icon__regular {
             --from: lawngreen;
             --to: lawngreen;
         }
         
-        .leaflet-marker-icon__old-and-new {
+        .leaflet-marker-icon__gold {
             --from: #ffb631;
             --to: #ffb631;
-        }
-        
-        .leaflet-marker-icon__old,
-        .leaflet-marker-icon__unknown {
-            --from: lightgrey;
-            --to: lightgrey;
         }
         
         .leaflet-marker-icon:hover {
@@ -645,9 +639,11 @@ class UMap extends connect(store)(LitElement) {
   }
 
   _createMarker(dot) {
+    const hasMoreThanOneImage = dot.images && Array.isArray(Object.keys(dot.images)) && Object.keys(dot.images).length > 1;
+
     const icon = L.divIcon({
       iconSize: [9, 9],
-      className: `leaflet-marker-icon__old`
+      className: `leaflet-marker-icon__${hasMoreThanOneImage ? 'gold' : 'regular'}`
     });
 
     return L.marker(dot.coordinates, {

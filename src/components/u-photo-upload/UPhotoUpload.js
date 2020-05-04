@@ -12,6 +12,10 @@ import styles from './UPhotoUpload.styles';
 
 store.addReducers({photoUpload});
 
+const range = (x,y) => Array.from((function *() {
+    while (x <= y) yield x++;
+})());
+
 class UPhotoUpload extends connect(store)(LitElement) {
     /*
         List of required methods
@@ -26,14 +30,14 @@ class UPhotoUpload extends connect(store)(LitElement) {
     }
 
     render() {
-        let selectDecadeClasses = {
-            'select-decade': true,
-            'select-decade--active': this.isFileSelected
+        let selectYearClasses = {
+            'select-year': true,
+            'select-year--active': this.isFileSelected
         };
 
         let uploadButtonClasses = {
             'upload': true,
-            'upload--active': this.isFileSelected && this.decade
+            'upload--active': this.isFileSelected && this.year
         };
 
         return html`
@@ -45,22 +49,15 @@ class UPhotoUpload extends connect(store)(LitElement) {
                    @change="${this.selectFile}"
                    ?disabled="${this.disabled || this._isUploading}">
                                              
-            <select class="${classMap(selectDecadeClasses)}" @change="${this.changeDecade}">
-                <option value="0" ?selected="${!this.decade}" disabled hidden>Выберите десятилетие съемки</option>
-                <option value="1940" ?selected="${this.decade === '1940'}">В сороковых</option>
-                <option value="1950" ?selected="${this.decade === '1950'}">В пятидесятых</option>
-                <option value="1960" ?selected="${this.decade === '1960'}">В шестидесятых</option>
-                <option value="1970" ?selected="${this.decade === '1970'}">В семидесятых</option>
-                <option value="1980" ?selected="${this.decade === '1980'}">В восьмидесятых</option>
-                <option value="1990" ?selected="${this.decade === '1990'}">В девяностых</option>
-                <option value="2000" ?selected="${this.decade === '2000'}">В нулевых</option>
-                <option value="2010" ?selected="${this.decade === '2010'}">В десятых</option>
+            <select class="${classMap(selectYearClasses)}" @change="${this.changeYear}">
+                <option value="0" ?selected="${!this.year}" disabled hidden>Выберите год съемки</option>
+                ${this.layers.map(layer => html`<option value="${layer.toString()}" ?selected="${this.year === layer.toString()}">${layer}</option>`)}
             </select>
                    
             <u-text-button 
                 class="${classMap(uploadButtonClasses)}"
                 @click="${this.upload}"
-                ?disabled="${this._isUploading || !this.decade || !this.isFileSelected}">Загрузить!</u-text-button>
+                ?disabled="${this._isUploading || !this.year || !this.isFileSelected}">Загрузить!</u-text-button>
           </div>
     `
     }
@@ -98,8 +95,9 @@ class UPhotoUpload extends connect(store)(LitElement) {
     }
 
     _setDefaults() {
-        this.decade = '';
+        this.year = '';
         this.isFileSelected = false;
+        this.layers = range(1940,2020);
     }
 
     /*
@@ -110,18 +108,18 @@ class UPhotoUpload extends connect(store)(LitElement) {
         let files = this.$input.files;
 
         const photo = files[0];
-        store.dispatch(uploadPhoto(photo, this.type, this.decade, this.id));
+        store.dispatch(uploadPhoto(photo, this.type, this.year, this.id));
 
         this.isFileSelected = false;
-        this.decade = '';
+        this.year = '';
     }
 
     selectFile(e) {
         this.isFileSelected = Boolean(e.target.files.length);
     }
 
-    changeDecade(e) {
-        this.decade = e.target.value;
+    changeYear(e) {
+        this.year = e.target.value;
     }
 }
 

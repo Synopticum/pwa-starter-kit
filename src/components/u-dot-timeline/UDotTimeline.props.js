@@ -4,7 +4,7 @@ export default {
         attribute: false
     },
 
-    activeDecade: {
+    activeYear: {
         type: String,
         attribute: false
     }

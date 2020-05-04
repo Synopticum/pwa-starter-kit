@@ -24,7 +24,7 @@ export default css`
     display: none;
 }
 
-.decades {
+.years {
     position: relative;
     font-size: 16px;
     white-space: nowrap;
@@ -39,11 +39,11 @@ export default css`
                 rgba(0, 0, 0, 0.3) 0 1px 2px;
 }
 
-.decades--only-child {
+.years--only-child {
     width: 100px;
 }
 
-.decade {
+.year {
     display: inline-block;
     z-index: 10;
     width: 50%;
@@ -54,11 +54,11 @@ export default css`
     transition: box-shadow .3s ease-out;
 }
 
-.decade--active {
+.year--active {
     box-shadow: inset 5px 5px 5px rgba(0,0,0,.15);
 }
 
-.decades--only-child .decade {
+.years--only-child .year {
     width: 100%;
 }
 
@@ -78,7 +78,7 @@ export default css`
     border-radius: 100% 100% 0 0;
 }
 
-.decades--only-child .underline {
+.years--only-child .underline {
     width: 100%;
 }
 

@@ -19,9 +19,8 @@ class UTooltip extends LitElement {
   render() {
     let thumbnailClasses = {
       'thumbnail': true,
-      'thumbnail--old-and-new': this.type === 'old-and-new',
-      'thumbnail--old': this.type === 'old',
-      'thumbnail--new': this.type === 'new'
+      'thumbnail--gold': this.type === 'gold',
+      'thumbnail--regular': this.type === 'regular'
     };
 
     let textAlign = this.origin === 'top left' || this.origin === 'bottom left' ? 'left' : 'right';
