@@ -31,6 +31,7 @@ import '../u-dot-creator/UDotCreator';
 import '../u-dot/UDot';
 import '../u-object/UObject';
 import '../u-path/UPath';
+import './u-map-range/UMapRange';
 
 store.addReducers({ app, map, dots, objects });
 
@@ -90,11 +91,13 @@ class UMap extends connect(store)(LitElement) {
         .container.container--clouds-partly::before {
           opacity: .45;
           pointer-events: all;
+          z-index: 35;
         }
         
         .container.container--clouds-full::before {
           opacity: .75;
           pointer-events: all;
+          z-index: 35;
         }
 
         #map {
@@ -226,8 +229,8 @@ class UMap extends connect(store)(LitElement) {
             filter: grayscale(100%);
         }
         
-        .leaflet-control-container {
-            z-index: 200;
+        .leaflet-control-layers {
+            display: none;
         }
         
         .leaflet-control-attribution {
@@ -292,9 +295,41 @@ class UMap extends connect(store)(LitElement) {
               .lng="${this._dotCreator.position.lng}"></u-dot-creator>
         </div>
         
+        <u-map-range 
+            current-min="1940" 
+            current-max="2020" 
+            min="1940" 
+            max="2020" 
+            @update-range="${debounce(this.updateMarkers, 300).bind(this)}"></u-map-range>
+        
         <div id="map"></div>
       </div>
     `;
+  }
+
+  updateMarkers({ detail: [min, max] }) {
+    const layers = document.querySelectorAll('.leaflet-control-layers-selector');
+
+    // hide all layers
+    for (let layer of layers) {
+      const input = layer;
+
+      if (input.checked) {
+        input.nextSibling.click();
+        input.checked = false;
+      }
+    }
+
+    // show layers that in range
+    for (let layer of layers) {
+      const input = layer;
+      const value = input.nextSibling.textContent.trim();
+
+      if (value >= min && value <= max) {
+        input.nextSibling.click();
+        input.checked = true;
+      }
+    }
   }
 
   createRenderRoot() {

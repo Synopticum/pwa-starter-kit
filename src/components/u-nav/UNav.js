@@ -29,11 +29,11 @@ export class UNav extends connect(store)(LitElement) {
           <div class="u-nav">
             <div class="buttons">
                 <u-nav-button type="news" description="Новости" disabled></u-nav-button>
-                <u-nav-button type="transport" description="Транспорт" active></u-nav-button>
+                <u-nav-button type="transport" description="Транспорт" disabled></u-nav-button>
                 <u-nav-button type="services" description="Услуги" disabled></u-nav-button>
                 <u-nav-button type="ads" description="Объявления" disabled></u-nav-button>
                 <u-nav-button type="anonymous" description="Анонимно" disabled></u-nav-button>
-                <u-nav-button type="claims" description="Жалобы" ></u-nav-button>
+                <u-nav-button type="claims" description="Жалобы" disabled></u-nav-button>
             </div>
           
             <u-nav-login ?is-anonymous="${isAnonymous(this._user)}" image-url="${this._user.avatar}"></u-nav-login>
