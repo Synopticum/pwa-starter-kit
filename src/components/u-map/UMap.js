@@ -647,7 +647,7 @@ class UMap extends connect(store)(LitElement) {
   _createMarker(dot) {
     const icon = L.divIcon({
       iconSize: [9, 9],
-      className: `leaflet-marker-icon__${dot.type}`
+      className: `leaflet-marker-icon__old`
     });
 
     return L.marker(dot.coordinates, {

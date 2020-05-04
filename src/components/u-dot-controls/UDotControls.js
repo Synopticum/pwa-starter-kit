@@ -14,6 +14,10 @@ import styles from './UDotControls.styles';
 
 store.addReducers({dotControls});
 
+const range = (x,y) => Array.from((function *() {
+    while (x <= y) yield x++;
+})());
+
 export class UDotControls extends connect(store)(LitElement) {
     /*
         List of required methods
@@ -28,19 +32,9 @@ export class UDotControls extends connect(store)(LitElement) {
     }
 
     render() {
-        let selectTypeClasses = {
-            'select-type': true,
-            'select-type--active': this._dot.type
-        };
-
         let selectLayerClasses = {
             'select-layer': true,
             'select-layer--active': this._dot.layer
-        };
-
-        let selectLabelClasses = {
-            'select-label': true,
-            'select-label--active': this._dot.label
         };
 
         return html`
@@ -78,21 +72,11 @@ export class UDotControls extends connect(store)(LitElement) {
                        </div>
                     </section>
                     
-                    <section class="controls__section controls__select-type">
-                       <label for="select-label" class="controls__label">Тип:</label>                      
-                        <select class="${classMap(selectTypeClasses)}" @change="${this.changeDotType}" id="select-type"> 
-                            <option value="0" ?selected="${!this._dot.type}" disabled hidden>Выберите тип</option>
-                            <option value="old-and-new" ?selected="${this._dot.type === 'old-and-new'}">Содержит старое и новое фото</option>
-                            <option value="old" ?selected="${this._dot.type === 'old'}">Содержит только старое фото</option>
-                            <option value="new" ?selected="${this._dot.type === 'new'}">Содержит только новое фото</option>
-                        </select>
-                    </section>
-                    
                     <section class="controls__section controls__select-layer">
                        <label for="select-layer" class="controls__label">Слой:</label>      
                         <select class="${classMap(selectLayerClasses)}" @change="${this.changeDotLayer}" id="select-layer"> 
                            <option value="0" ?selected="${!this._dot.layer}" disabled hidden>Выберите слой</option>
-                           ${this.decadeLayers.map(decade => html`<option value="${decade}" ?selected="${this._dot.layer === decade}">${decade}</option>`)}
+                           ${this.layers.map(layer => html`<option value="${layer.toString()}" ?selected="${this._dot.layer === layer.toString()}">${layer}</option>`)}
                        </select>
                     </section>  
                     
@@ -114,25 +98,6 @@ export class UDotControls extends connect(store)(LitElement) {
                                       ?disabled="${this._isFetching || this._isUpdating}"
                                       @click="${this.remove}">Удалить точку</u-text-button>
                     </section>
-                </main>
-                        
-                <main class="controls__segment">     
-                    <div class="controls__segment-title">Настройки фотографии</div>        
-                    
-                    <section class="controls__section controls__select-label">
-                       <label for="select-label" class="controls__label">Выберите десятилетие съемки:</label>
-                        <select class="${classMap(selectLabelClasses)}" @change="${this.changeDotLabel}" id="select-label"> 
-                            <option value="0" ?selected="${!this._dot.label}" disabled hidden>Выберите метку</option>
-                            ${Object.entries(this.decadeLabels).map(entry => html`<option value="${entry[0]}" ?selected="${this._dot.label === entry[0]}">${entry[1]}</option>`)}
-                        </select>
-                    </section>
-                               
-                    ${this.hasImage() ?
-                        html`<section class="controls__section controls__delete-photo">
-                                <u-text-button class="delete-image"
-                                               ?disabled="${this._isFetching || this._isUpdating}"
-                                               @click="${this.deletePhoto}">Удалить текущую фотографию</u-text-button>
-                             </section>` : ''}
                 </main>
                      
                 <main class="controls__segment">     
@@ -189,30 +154,7 @@ export class UDotControls extends connect(store)(LitElement) {
     }
 
     _setDefaults() {
-        this.decadeLabels = {
-            '40th': 'Сороковые',
-            '50th': 'Пятидесятые',
-            '60th': 'Шестидесятые',
-            '70th': 'Семидесятые',
-            '80th': 'Восьмидесятые',
-            '90th': 'Девяностые',
-            '00th': 'Нулевые',
-            '10th': 'Десятые',
-            'unknown': 'Неизвестно'
-        };
-
-        this.decadeLayers = [
-            'Сороковые',
-            'Пятидесятые',
-            'Шестидесятые',
-            'Семидесятые',
-            'Восьмидесятые',
-            'Девяностые',
-            'Нулевые',
-            'Десятые',
-            'Неизвестно',
-            'Sergey Novikov'
-        ];
+        this.layers = range(1940,2020);
     }
 
     /*
