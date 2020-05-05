@@ -2,8 +2,7 @@
   "entrypoint": "index.html",
   "shell": "src/components/u-app/UApp.js",
   "sources": [
-    "static/images/**/*",
-    "static/libs/**/*"
+    "static/**/**/*",
   ],
   "extraDependencies": [
     "environments/**",
