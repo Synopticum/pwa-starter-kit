@@ -31,6 +31,7 @@ import './u-dot-creator/UDotCreator';
 import '../u-dot/UDot';
 import '../u-object/UObject';
 import '../u-path/UPath';
+import '../shared/u-noise/UNoise';
 import './u-map-range/UMapRange';
 
 store.addReducers({ app, map, dots, objects });
@@ -265,6 +266,12 @@ class UMap extends connect(store)(LitElement) {
             color: #ffffff;
             padding: 10px;
         }
+        
+        #noise {
+            --z-index: 15;
+            --background-color: rgba(0,0,0,.1);
+            --noise-opacity: .2;
+        }
       </style>
       
       <div class="u-map">
@@ -307,6 +314,7 @@ class UMap extends connect(store)(LitElement) {
             @update-range="${debounce(this.updateMarkers, 300).bind(this)}"></u-map-range>
         
         <div id="map"></div>
+        <u-noise id="noise"></u-noise>
       </div>
     `;
   }

@@ -30,8 +30,8 @@ export class UPage extends connect(store)(LitElement) {
     render() {
         return html`
           <div class="u-page">
-              ${visitedBefore() ? html`<u-play src="/edu_ya_na_rodinu.mp3" class="first-time-play"></u-play>` : ''}
-              ${visitedBefore() ? html`<u-global-spinner context="first-time" @close="${this.skipIntro}"></u-global-spinner>` : ''}
+              ${!visitedBefore() ? html`<u-play src="/edu_ya_na_rodinu.mp3" class="first-time-play"></u-play>` : ''}
+              ${!visitedBefore() ? html`<u-global-spinner context="first-time" @close="${this.skipIntro}"></u-global-spinner>` : ''}
           
               ${this._dotPage.isVisible ? html`
                   <u-dot .dotId="${this._dotPage.currentDotId}"

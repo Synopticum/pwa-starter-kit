@@ -25,7 +25,7 @@ class UApp extends connect(store)(LitElement) {
     return html`
       <div class="u-app">
         <u-nav></u-nav>
-        <u-page ?default="${!visitedBefore()}"></u-page>
+        <u-page ?default="${visitedBefore()}"></u-page>
         
         <u-map width="10000"
                height="6250"
