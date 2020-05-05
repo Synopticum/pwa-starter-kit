@@ -69,8 +69,6 @@ export class UMapRange extends LitElement {
         this.$thumbLeft.style.left = `${value}%`;
         this.$signLeft.style.left = `${value}%`;
         this.$signLeft.textContent = this.$inputMin.value;
-
-        this.updateRange(this.$inputMin.value, this.$inputMax.value);
     }
 
     updateMax() {
@@ -83,7 +81,7 @@ export class UMapRange extends LitElement {
         this.$signRight.style.left = `${value}%`;
         this.$signRight.textContent = this.$inputMax.value;
 
-        this.updateRange(this.$inputMin.value, this.$inputMax.value);
+        this.updateRange(this.$inputMin.value, this.$inputMax.value, (100-value)/100);
     }
 
     getPosition(value) {
@@ -123,9 +121,8 @@ export class UMapRange extends LitElement {
         List of custom component's methods
         Any other methods
     */
-    updateRange(min, max) {
-        this.dispatchEvent(new CustomEvent('update-range', { detail: [min, max], composed: true }));
-
+    updateRange(min, max, sepia) {
+        this.dispatchEvent(new CustomEvent('update-range', { detail: { range: [min, max], sepia }, composed: true }));
     }
 }
 

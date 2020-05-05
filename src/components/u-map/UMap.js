@@ -135,6 +135,10 @@ class UMap extends connect(store)(LitElement) {
             background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADAQMAAABs5if8AAAABlBMVEUAAAD///+l2Z/dAAAAAXRSTlMAQObYZgAAAA5JREFUCNdjeMDQwNAAAAZmAeFpNQSMAAAAAElFTkSuQmCC');
         }
         
+        .leaflet-tile-pane {
+            filter: sepia(0);
+        }
+        
         path.leaflet-interactive {
             cursor: pointer;
             opacity: .75;
@@ -270,7 +274,7 @@ class UMap extends connect(store)(LitElement) {
         #noise {
             --z-index: 15;
             --background-color: rgba(0,0,0,.1);
-            --noise-opacity: .2;
+            --noise-opacity: .1;
         }
       </style>
       
@@ -311,7 +315,7 @@ class UMap extends connect(store)(LitElement) {
             current-max="2020" 
             min="1940" 
             max="2020" 
-            @update-range="${debounce(this.updateMarkers, 300).bind(this)}"></u-map-range>
+            @update-range="${debounce(this.updateRange, 300).bind(this)}"></u-map-range>
         
         <div id="map"></div>
         <u-noise id="noise"></u-noise>
@@ -319,7 +323,12 @@ class UMap extends connect(store)(LitElement) {
     `;
   }
 
-  updateMarkers({ detail: [min, max] }) {
+  updateRange({ detail: { range: [min, max], sepia } }) {
+    this.updateMarkers(min, max);
+    this.updateSepia(sepia);
+  }
+
+  updateMarkers(min, max) {
     const layers = document.querySelectorAll('.leaflet-control-layers-selector');
 
     // hide all layers
@@ -342,6 +351,10 @@ class UMap extends connect(store)(LitElement) {
         input.checked = true;
       }
     }
+  }
+
+  updateSepia(sepia) {
+    this.$tilePane.style.filter = `sepia(${sepia})`;
   }
 
   createRenderRoot() {
@@ -409,7 +422,7 @@ class UMap extends connect(store)(LitElement) {
     this._map.on('click', (e) => this._handleClick(e));
     this._map.on('dblclick', (e) => this._handleDblClick(e));
     this._map.on('dragstart', () => this._hideControls());
-    this._map.on('drag', debounce(this._updateUrl, 300).bind(this));
+    this._map.on('drag', debounce(this._updateUrl, 50).bind(this));
     this._map.on('click', this.getCoordinates.bind(this));
     this.addEventListener('click', this._handleOutsideClicks);
   }
@@ -418,6 +431,7 @@ class UMap extends connect(store)(LitElement) {
     this._$tempDot = null;
     this._$clouds = this.querySelector('.container');
     this.$globalSpinner = document.querySelector('u-global-spinner');
+    this.$tilePane = document.querySelector('.leaflet-tile-pane');
   }
 
   _setDefaults() {
