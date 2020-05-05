@@ -168,6 +168,7 @@ class UMap extends connect(store)(LitElement) {
         .leaflet-marker-icon {
           position: relative;
           background: linear-gradient(var(--from), var(--to));
+          border: 2px solid transparent;
           border-radius: 50%;
         }
         
@@ -182,6 +183,7 @@ class UMap extends connect(store)(LitElement) {
             width: 9px;
             height: 9px; 
             transform: rotate(-90deg);
+            box-sizing: border-box;
         }
         
         .leaflet-marker-icon::after {
@@ -211,11 +213,13 @@ class UMap extends connect(store)(LitElement) {
         .leaflet-marker-icon__regular {
             --from: lawngreen;
             --to: lawngreen;
+            border-color: green;
         }
         
         .leaflet-marker-icon__gold {
             --from: #ffb631;
             --to: #ffb631;
+            border-color: darkgoldenrod;
         }
         
         .leaflet-marker-icon:hover {

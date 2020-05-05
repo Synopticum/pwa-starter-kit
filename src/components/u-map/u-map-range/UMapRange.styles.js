@@ -2,9 +2,10 @@ import {css} from 'lit-element/lit-element';
 
 export default css`
 :host {
+    display: block;
     position: fixed; 
     bottom: 15px; 
-    left: calc(50% - 135px); 
+    left: calc(50% - 175px); 
     z-index: 25;
     width: 400px; 
     background: #111;
