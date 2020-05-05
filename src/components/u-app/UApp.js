@@ -10,6 +10,7 @@ import '../u-page/UPage.js';
 import '../u-map/UMap.js';
 import '../u-404/U404.js';
 import {authenticate} from "./authenticate";
+import visitedBefore from '../../helpers/visitedBefore';
 
 class UApp extends connect(store)(LitElement) {
   /*
@@ -24,7 +25,7 @@ class UApp extends connect(store)(LitElement) {
     return html`
       <div class="u-app">
         <u-nav></u-nav>
-        <u-page default></u-page>
+        <u-page ?default="${!visitedBefore()}"></u-page>
         
         <u-map width="10000"
                height="6250"

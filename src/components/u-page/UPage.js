@@ -9,6 +9,8 @@ import {fetch, toggle} from './UPage.actions';
 import {pieceOfState} from "./UPage.reducer";
 import props from './UPage.props';
 import styles from './UPage.styles';
+import visitedBefore from '../../helpers/visitedBefore';
+import '../shared/u-play/UPlay';
 
 store.addReducers({pieceOfState});
 
@@ -27,7 +29,10 @@ export class UPage extends connect(store)(LitElement) {
 
     render() {
         return html`
-          <div class="u-page">     
+          <div class="u-page">
+              ${visitedBefore() ? html`<u-play src="/edu_ya_na_rodinu.mp3" class="first-time-play"></u-play>` : ''}
+              ${visitedBefore() ? html`<u-global-spinner context="first-time" @close="${this.skipIntro}"></u-global-spinner>` : ''}
+          
               ${this._dotPage.isVisible ? html`
                   <u-dot .dotId="${this._dotPage.currentDotId}"
                          @hide-dot="${(e) => this._toggleDot(false, e)}"></u-dot>` : ``}              
@@ -97,6 +102,12 @@ export class UPage extends connect(store)(LitElement) {
         } else {
             store.dispatch(setCurrentDotId(''));
         }
+    }
+
+    skipIntro() {
+        this.shadowRoot.querySelector('u-play').remove();
+        this.setAttribute('default', true);
+        localStorage.setItem('visited_before', 'true');
     }
 }
 

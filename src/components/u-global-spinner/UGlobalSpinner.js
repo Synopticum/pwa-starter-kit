@@ -8,10 +8,18 @@ class UGlobalSpinner extends HTMLElement {
   }
 
   createTemplate() {
-    const template = document.getElementById('u-global-spinner');
+    const template = document.createElement('div');
+    template.innerHTML = `
+        <canvas class="noise"></canvas>
+        <div class="loader">
+            <img src="/static/images/loading.png" class="loading" alt="" />
+        </div>
+    `;
 
     this.shadow = this.attachShadow({ mode: 'open' });
-    this.shadow.appendChild(template.content);
+    this.shadow.appendChild(template);
+
+    this.shadow.querySelector('.loading').addEventListener('click', () => this.close());
   }
 
   createStyle() {
@@ -32,6 +40,10 @@ class UGlobalSpinner extends HTMLElement {
         transition: background-color .2s;
       }
       
+      :host([context="first-time"]) {
+        background: rgba(0,0,0,.4);
+      }
+      
       .noise {
         position: absolute;
         left: 0;
@@ -39,6 +51,10 @@ class UGlobalSpinner extends HTMLElement {
         right: 0;
         bottom: 0;
         opacity: .04;
+      }
+      
+      :host([context="first-time"]) .noise {
+        opacity: .3;
       }
       
       :host([idle]) {
@@ -57,8 +73,19 @@ class UGlobalSpinner extends HTMLElement {
         top: 0;
         right: 0;
         bottom: 0;
-        background: url('/static/images/loading.png') no-repeat 50% 50%;
-        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      
+      .loading {
+        pointer-events: none;
+      }
+      
+      :host([context="first-time"]) .loading {
+        pointer-events: all;
+        cursor: pointer;
+        margin-left: 70px;
       }
     `;
 
@@ -168,6 +195,11 @@ class UGlobalSpinner extends HTMLElement {
 
   disconnectedCallback() {
     this.stopNoise();
+  }
+
+  close() {
+    this.remove();
+    this.dispatchEvent(new CustomEvent('close', { composed: true }));
   }
 }
 
