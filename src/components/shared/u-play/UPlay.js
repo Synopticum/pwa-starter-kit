@@ -24,7 +24,7 @@ export class UPlay extends LitElement {
       </style>
       
       <div class="u-play">
-          <audio src="/static/sound/${this.src}" loop></audio>
+          <audio src="/static/sound${this.src}" loop></audio>
       </div>
     `;
     }
