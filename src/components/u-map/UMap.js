@@ -25,9 +25,9 @@ import {app} from "../u-app/UApp.reducer";
 import {dots, map, objects } from "./UMap.reducer";
 import {isAdmin, isAnonymous} from "../u-app/UApp.helpers";
 
-import '../u-context-menu/UContextMenu';
-import '../u-tooltip/UTooltip';
-import '../u-dot-creator/UDotCreator';
+import '../shared/u-context-menu/UContextMenu';
+import '../shared/u-tooltip/UTooltip';
+import './u-dot-creator/UDotCreator';
 import '../u-dot/UDot';
 import '../u-object/UObject';
 import '../u-path/UPath';

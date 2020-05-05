@@ -8,10 +8,10 @@ import {clearObjectState, fetchObject} from './UObject.actions';
 import {setCloudsVisibility} from '../u-map/UMap.actions';
 import {objectPage} from "./UObject.reducer";
 import {isAdmin} from "../u-app/UApp.helpers";
-import '../u-textbox/UTextbox';
+import '../shared/u-textbox/UTextbox';
 import '../u-comments/UComments';
-import '../u-icon-button/UIconButton';
-import '../u-object-controls/UObjectControls';
+import '../shared/u-icon-button/UIconButton';
+import './u-object-controls/UObjectControls';
 import {fetchComments} from "../u-comments/UComments.actions";
 
 store.addReducers({objectPage});

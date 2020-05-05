@@ -5,7 +5,7 @@ import {DateTime} from "luxon";
 import props from './UComment.props';
 import styles from './UComment.styles';
 import {connect} from "pwa-helpers/connect-mixin";
-import {store} from "../../store";
+import {store} from "../../../store";
 import {fetchAvatar} from './UComment.actions';
 
 export class UComment extends connect(store)(LitElement)  {

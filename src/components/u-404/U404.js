@@ -1,5 +1,5 @@
 import {html} from 'lit-element/lit-element';
-import {PageViewElement} from '../page-view-element/PageViewElement.js';
+import {PageViewElement} from '../shared/page-view-element/PageViewElement.js';
 
 class U404 extends PageViewElement {
   render() {

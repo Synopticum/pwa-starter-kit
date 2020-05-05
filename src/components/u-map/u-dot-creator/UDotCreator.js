@@ -1,10 +1,10 @@
 import {html, LitElement} from 'lit-element/lit-element';
-import {store} from '../../store';
+import {store} from '../../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
-import {putDot} from '../u-dot/UDot.actions';
-import {setCloudsVisibility, toggleDotCreator} from '../u-map/UMap.actions';
-import {map} from "../u-map/UMap.reducer";
-import '../u-text-button/UTextButton';
+import {putDot} from '../../u-dot/UDot.actions';
+import {setCloudsVisibility, toggleDotCreator} from '../UMap.actions';
+import {map} from "../UMap.reducer";
+import '../../shared/u-text-button/UTextButton';
 import props from './UDotCreator.props';
 import styles from './UDotCreator.styles';
 

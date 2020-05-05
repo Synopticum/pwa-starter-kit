@@ -1,19 +1,19 @@
 import {html, LitElement} from 'lit-element/lit-element';
 import {classMap} from 'lit-html/directives/class-map';
-import {store} from '../../store';
+import {store} from '../../../store';
 import {connect} from 'pwa-helpers';
-import {pathControls} from "./UPathControls.reducer";
-import {clearPathState, deletePath, putPath} from "../u-path/UPath.actions";
+import {objectControls} from "./UObjectControls.reducer";
+import {clearObjectState, deleteObject, putObject} from "../UObject.actions";
 // import {deletePhoto} from "../u-photo-upload/UPhotoUpload.actions";
 // import '../u-photo-upload/UPhotoUpload';
-import '../u-text-button/UTextButton';
-import {setCloudsVisibility} from "../u-map/UMap.actions";
-import props from './UPathControls.props';
-import styles from './UPathControls.styles';
+import '../../shared/u-text-button/UTextButton';
+import {setCloudsVisibility} from "../../u-map/UMap.actions";
+import props from './UObjectControls.props';
+import styles from './UObjectControls.styles';
 
-store.addReducers({pathControls});
+store.addReducers({objectControls});
 
-export class UPathControls extends connect(store)(LitElement) {
+export class UObjectControls extends connect(store)(LitElement) {
     /*
         List of required methods
         Needed for initialization, rendering, fetching and setting default values
@@ -28,18 +28,18 @@ export class UPathControls extends connect(store)(LitElement) {
 
     render() {
         return html`
-          <div class="u-path-controls">
+          <div class="u-object-controls">
             <div class="title">Управление</div>
         
             <div class="controls">  
                 <main class="controls__segment">
-                    <div class="controls__segment-title">Настройки пути</div>
+                    <div class="controls__segment-title">Настройки объекта</div>
                     
                     <section class="controls__section controls__title">
                        <label class="controls__label">Заголовок:</label>
                        
                        <div class="controls__input">
-                           <input type="text" @keyup="${this.inputTitle}" value="${this._path.title}" class="textinput">
+                           <input type="text" @keyup="${this.inputTitle}" value="${this._object.title}" class="textinput">
                            <u-text-button @click="${this.changeTitle}" class="save">Сохранить</u-text-button>
                        </div>
                     </section>
@@ -48,7 +48,7 @@ export class UPathControls extends connect(store)(LitElement) {
                        <label class="controls__label">Краткое описание:</label>
                        
                        <div class="controls__input">
-                           <textarea @keyup="${this.inputShortDescription}" class="textarea">${this._path.shortDescription}</textarea>
+                           <textarea @keyup="${this.inputShortDescription}" class="textarea">${this._object.shortDescription}</textarea>
                            <u-text-button type="button" @click="${this.changeShortDescription}" class="save">Сохранить</u-text-button>
                        </div>
                     </section>
@@ -57,15 +57,15 @@ export class UPathControls extends connect(store)(LitElement) {
                        <label class="controls__label">Полное описание:</label>
                        
                        <div class="controls__input">
-                           <textarea @keyup="${this.inputFullDescription}" class="textarea">${this._path.fullDescription}</textarea>
+                           <textarea @keyup="${this.inputFullDescription}" class="textarea">${this._object.fullDescription}</textarea>
                            <u-text-button type="button" @click="${this.changeFullDescription}" class="save">Сохранить</u-text-button>
                        </div>
                     </section>
                     
-                    <section class="controls__section controls__delete-path">
+                    <section class="controls__section controls__delete-object">
                        <u-text-button class="remove"
                                       ?disabled="${this._isFetching || this._isUpdating}"
-                                      @click="${this.remove}">Удалить путь</u-text-button>
+                                      @click="${this.remove}">Удалить объект</u-text-button>
                     </section>
                 </main>
                         
@@ -82,10 +82,10 @@ export class UPathControls extends connect(store)(LitElement) {
                      
                 <main class="controls__segment">
                     <section class="controls__section controls__add-photo">
-                       <label for="${this.pathId}" class="controls__label">Добавить новую фотографию:</label>
-                       <u-photo-upload type="path"
+                       <label for="${this.objectId}" class="controls__label">Добавить новую фотографию:</label>
+                       <u-photo-upload type="object"
                                        ?disabled="${this._isFetching || this._isUpdating}"
-                                       id="${this.pathId}"></u-photo-upload>
+                                       id="${this.objectId}"></u-photo-upload>
                     </section>
                 </main>
             </div>
@@ -100,12 +100,12 @@ export class UPathControls extends connect(store)(LitElement) {
 
     stateChanged(state) {
         this._user = state.app.user;
-        this._path = state.pathPage.path;
+        this._object = state.objectPage.object;
 
-        this._pathControls = state.pathControls;
+        this._objectControls = state.objectControls;
 
-        this._isFetching = state.pathPage.isFetching;
-        this._isUpdating = state.pathPage.isUpdating;
+        this._isFetching = state.objectPage.isFetching;
+        this._isUpdating = state.objectPage.isUpdating;
     }
 
     firstUpdated() {
@@ -139,29 +139,29 @@ export class UPathControls extends connect(store)(LitElement) {
         Any other methods
     */
     remove() {
-        store.dispatch(deletePath(this.pathId));
+        store.dispatch(deleteObject(this.objectId));
         this.close();
     }
 
     close() {
         store.dispatch(setCloudsVisibility('none'));
-        store.dispatch(clearPathState());
-        this.dispatchEvent(new CustomEvent('hide-path', {composed: true}));
+        store.dispatch(clearObjectState());
+        this.dispatchEvent(new CustomEvent('hide-object', {composed: true}));
     }
 
     deletePhoto() {
-        store.dispatch(deletePhoto('path', this.pathId));
+        store.dispatch(deletePhoto('object', this.objectId));
     }
 
-    changePathLabel(e) {
+    changeObjectLabel(e) {
         let label = e.target.value;
 
-        let updatedPath = {
-            ...this._path,
+        let updatedObject = {
+            ...this._object,
             label
         };
 
-        store.dispatch(putPath(updatedPath, this.pathId));
+        store.dispatch(putObject(updatedObject, this.objectId));
     }
 
     hasImage() {
@@ -173,8 +173,8 @@ export class UPathControls extends connect(store)(LitElement) {
     }
 
     changeTitle() {
-        let updatedPath = { ...this._path, title: this.title };
-        store.dispatch(putPath(updatedPath, this.pathId));
+        let updatedObject = { ...this._object, title: this.title };
+        store.dispatch(putObject(updatedObject, this.objectId));
     }
 
     inputShortDescription(e) {
@@ -182,8 +182,8 @@ export class UPathControls extends connect(store)(LitElement) {
     }
 
     changeShortDescription() {
-        let updatedPath = { ...this._path, shortDescription: this.shortDescription };
-        store.dispatch(putPath(updatedPath, this.pathId));
+        let updatedObject = { ...this._object, shortDescription: this.shortDescription };
+        store.dispatch(putObject(updatedObject, this.objectId));
     }
 
     inputFullDescription(e) {
@@ -191,9 +191,9 @@ export class UPathControls extends connect(store)(LitElement) {
     }
 
     changeFullDescription() {
-        let updatedPath = { ...this._path, fullDescription: this.fullDescription };
-        store.dispatch(putPath(updatedPath, this.pathId));
+        let updatedObject = { ...this._object, fullDescription: this.fullDescription };
+        store.dispatch(putObject(updatedObject, this.objectId));
     }
 }
 
-window.customElements.define('u-path-controls', UPathControls);
+window.customElements.define('u-object-controls', UObjectControls);

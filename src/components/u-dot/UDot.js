@@ -8,11 +8,11 @@ import {clearDotState, fetchDot, setActiveImage} from './UDot.actions';
 import {setCloudsVisibility} from '../u-map/UMap.actions';
 import {dotPage} from "./UDot.reducer";
 import {isAdmin} from "../u-app/UApp.helpers";
-import '../u-textbox/UTextbox';
+import '../shared/u-textbox/UTextbox';
 import '../u-comments/UComments';
-import '../u-icon-button/UIconButton';
-import '../u-dot-controls/UDotControls';
-import '../u-dot-timeline/UDotTimeline';
+import '../shared/u-icon-button/UIconButton';
+import './u-dot-controls/UDotControls';
+import './u-dot-timeline/UDotTimeline';
 import {fetchComments} from "../u-comments/UComments.actions";
 
 store.addReducers({dotPage});

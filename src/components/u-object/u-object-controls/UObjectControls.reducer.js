@@ -1,28 +1,28 @@
-import {UPathControlsConstants} from "./UPathControls.actions";
+import {UObjectControlsConstants} from "./UObjectControls.actions";
 import {
     generateErrorActionTypeName,
     generateInProgressActionTypeName,
     generateSuccessActionTypeName
-} from "../../middleware/asyncActionsMiddleware";
+} from "../../../middleware/asyncActionsMiddleware";
 
-export const pathControls = (state = {}, action) => {
+export const objectControls = (state = {}, action) => {
     switch (action.type) {
 
         // -------
-        case generateInProgressActionTypeName(UPathControlsConstants.FETCH):
+        case generateInProgressActionTypeName(UObjectControlsConstants.FETCH):
             return state;
 
-        case generateSuccessActionTypeName(UPathControlsConstants.FETCH):
+        case generateSuccessActionTypeName(UObjectControlsConstants.FETCH):
             return {
                 ...state,
                 user: action.payload
             };
 
-        case generateErrorActionTypeName(UPathControlsConstants.FETCH):
+        case generateErrorActionTypeName(UObjectControlsConstants.FETCH):
             return state;
 
         // -------
-        case UPathControlsConstants.TOGGLE:
+        case UObjectControlsConstants.TOGGLE:
             return {
                 ...state,
                 data: 123

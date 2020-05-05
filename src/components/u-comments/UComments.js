@@ -7,9 +7,9 @@ import {connect} from 'pwa-helpers';
 import {deleteComment, fetchComments, putComment} from './UComments.actions';
 import {comments} from "./UComments.reducer";
 import {isAdmin, isAnonymous} from "../u-app/UApp.helpers";
-import '../u-default-spinner/UDefaultSpinner';
-import '../u-textarea/UTextarea';
-import '../u-comment/UComment';
+import '../shared/u-default-spinner/UDefaultSpinner';
+import '../shared/u-textarea/UTextarea';
+import './u-comment/UComment';
 import props from './UComments.props';
 import styles from './UComments.styles';
 

@@ -1,14 +1,14 @@
 import {html, LitElement} from 'lit-element/lit-element';
 import debounce from 'lodash-es/debounce';
 import {classMap} from 'lit-html/directives/class-map';
-import {store} from '../../store';
+import {store} from '../../../store';
 import {connect} from 'pwa-helpers';
 import {dotControls} from "./UDotControls.reducer";
-import {clearDotState, deleteDot, putDot} from "../u-dot/UDot.actions";
-import {deletePhoto} from "../u-photo-upload/UPhotoUpload.actions";
-import '../u-photo-upload/UPhotoUpload';
-import '../u-text-button/UTextButton';
-import {setCloudsVisibility} from "../u-map/UMap.actions";
+import {clearDotState, deleteDot, putDot} from "../UDot.actions";
+import {deletePhoto} from "../../u-photo-upload/UPhotoUpload.actions";
+import '../../u-photo-upload/UPhotoUpload';
+import '../../shared/u-text-button/UTextButton';
+import {setCloudsVisibility} from "../../u-map/UMap.actions";
 import props from './UDotControls.props';
 import styles from './UDotControls.styles';
 

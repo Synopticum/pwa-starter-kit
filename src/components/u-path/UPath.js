@@ -8,10 +8,10 @@ import {clearPathState, fetchPath} from './UPath.actions';
 import {setCloudsVisibility} from '../u-map/UMap.actions';
 import {pathPage} from "./UPath.reducer";
 import {isAdmin} from "../u-app/UApp.helpers";
-import '../u-textbox/UTextbox';
+import '../shared/u-textbox/UTextbox';
 import '../u-comments/UComments';
-import '../u-icon-button/UIconButton';
-import '../u-path-controls/UPathControls';
+import '../shared/u-icon-button/UIconButton';
+import './u-path-controls/UPathControls';
 import {fetchComments} from "../u-comments/UComments.actions";
 
 store.addReducers({pathPage});

@@ -5,7 +5,7 @@ import {store} from '../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
 import {photoUpload} from "./UPhotoUpload.reducer";
 import {uploadPhoto} from './UPhotoUpload.actions';
-import '../u-text-button/UTextButton';
+import '../shared/u-text-button/UTextButton';
 
 import props from './UPhotoUpload.props';
 import styles from './UPhotoUpload.styles';

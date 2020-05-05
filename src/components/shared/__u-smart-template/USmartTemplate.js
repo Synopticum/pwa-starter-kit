@@ -1,5 +1,5 @@
 import {html, LitElement} from 'lit-element/lit-element';
-import {store} from '../../store';
+import {store} from '../../../store';
 import {connect} from 'pwa-helpers';
 import {fetch, toggle} from './USmartTemplate.actions';
 import {pieceOfState} from "./USmartTemplate.reducer";

@@ -1,7 +1,7 @@
-import {ENV} from '../../../environments/environments';
-import {getApiHeaders} from '../../../environments/api';
-import {store} from "../../store";
-import {updateAvatarsCache} from "../u-app/UApp.actions";
+import {ENV} from '../../../../environments/environments';
+import {getApiHeaders} from '../../../../environments/api';
+import {store} from "../../../store";
+import {updateAvatarsCache} from "../../u-app/UApp.actions";
 
 export const UCommentActions = {
     FETCH: 'COMMENT_AVATAR_FETCH'

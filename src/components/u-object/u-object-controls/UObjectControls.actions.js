@@ -1,16 +1,16 @@
-import {ENV} from '../../../environments/environments';
-import {getApiHeaders} from '../../../environments/api';
+import {ENV} from '../../../../environments/environments';
+import {getApiHeaders} from '../../../../environments/api';
 
-export const UDotControlsConstants = {
-    FETCH: 'DOT_CONTROLS_FETCH',
-    UPDATE: 'DOT_CONTROLS_UPDATE',
-    TOGGLE: 'DOT_CONTROLS_TOGGLE'
+export const UObjectControlsConstants = {
+    FETCH: 'OBJECT_CONTROLS_FETCH',
+    UPDATE: 'OBJECT_CONTROLS_UPDATE',
+    TOGGLE: 'OBJECT_CONTROLS_TOGGLE'
 };
 
 // -------
 export const fetch = () => async (dispatch) => {
     dispatch({
-        type: UDotControlsConstants.FETCH,
+        type: UObjectControlsConstants.FETCH,
         async: true,
         httpMethodToInvoke: _fetch,
         params: []
@@ -33,7 +33,7 @@ const _fetch = async () => {
 // -------
 export const toggle = (value) => {
     return {
-        type: UDotControlsConstants.TOGGLE,
+        type: UObjectControlsConstants.TOGGLE,
         payload: value
     }
 };
