@@ -82,6 +82,11 @@ input[type=range] {
   top: -50px;
   width: 100%;
   opacity: 0;
+  cursor: grab;
+}
+
+input[type=range]:active {
+  cursor: grabbing;
 }
 
 input[type=range]:focus::-webkit-slider-runnable-track {

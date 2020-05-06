@@ -102,7 +102,7 @@ class UMap extends connect(store)(LitElement) {
         }
 
         #map {
-            cursor: ${this._settings.isDrawingObject ? 'default' : 'move'};
+            cursor: ${this._settings.isDrawingObject ? 'default' : 'grab'};
             position: fixed;
             left: 0;
             top: 0;
@@ -110,6 +110,10 @@ class UMap extends connect(store)(LitElement) {
             height: 100vh;
             background-color: #000000;
             pointer-events: all;
+        }
+        
+        #map:active {
+            cursor: ${this._settings.isDrawingObject ? 'default' : 'grabbing'};
         }
         
         #map::before,
