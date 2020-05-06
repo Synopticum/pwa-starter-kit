@@ -140,7 +140,8 @@ class UMap extends connect(store)(LitElement) {
         }
         
         .leaflet-tile-pane {
-            filter: sepia(0);
+            filter: none;
+            will-change: filter;
         }
         
         path.leaflet-interactive {
