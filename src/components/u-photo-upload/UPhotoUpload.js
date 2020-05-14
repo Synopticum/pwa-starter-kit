@@ -6,15 +6,12 @@ import {connect} from 'pwa-helpers/connect-mixin';
 import {photoUpload} from "./UPhotoUpload.reducer";
 import {uploadPhoto} from './UPhotoUpload.actions';
 import '../shared/u-text-button/UTextButton';
+import { range } from '../../helpers/range';
 
 import props from './UPhotoUpload.props';
 import styles from './UPhotoUpload.styles';
 
 store.addReducers({photoUpload});
-
-const range = (x,y) => Array.from((function *() {
-    while (x <= y) yield x++;
-})());
 
 class UPhotoUpload extends connect(store)(LitElement) {
     /*

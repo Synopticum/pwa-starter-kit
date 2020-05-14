@@ -14,5 +14,5 @@ export default {
     max: {
         type: Number,
         attribute: 'max'
-    }
+    },
 };

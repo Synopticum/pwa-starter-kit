@@ -11,12 +11,9 @@ import '../../shared/u-text-button/UTextButton';
 import {setCloudsVisibility} from "../../u-map/UMap.actions";
 import props from './UDotControls.props';
 import styles from './UDotControls.styles';
+import { range } from '../../../helpers/range';
 
 store.addReducers({dotControls});
-
-const range = (x,y) => Array.from((function *() {
-    while (x <= y) yield x++;
-})());
 
 export class UDotControls extends connect(store)(LitElement) {
     /*

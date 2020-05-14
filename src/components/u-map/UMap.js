@@ -24,6 +24,7 @@ import props from './UMap.props';
 import {app} from "../u-app/UApp.reducer";
 import {dots, map, objects } from "./UMap.reducer";
 import {isAdmin, isAnonymous} from "../u-app/UApp.helpers";
+import { range } from '../../helpers/range';
 
 import '../shared/u-context-menu/UContextMenu';
 import '../shared/u-tooltip/UTooltip';
@@ -177,7 +178,7 @@ class UMap extends connect(store)(LitElement) {
         
         .leaflet-marker-icon {
           position: relative;
-          background: linear-gradient(var(--from), var(--to));
+          background: var(--background-color);
           border: 2px solid transparent;
           border-radius: 50%;
         }
@@ -220,15 +221,10 @@ class UMap extends connect(store)(LitElement) {
             outline: none;
         }
         
-        .leaflet-marker-icon__regular {
-            --from: lawngreen;
-            --to: lawngreen;
-            border-color: green;
-        }
+        ${this.markerClasses}
         
         .leaflet-marker-icon__gold {
-            --from: #ffb631;
-            --to: #ffb631;
+            background-color: #ffb631;
             border-color: darkgoldenrod;
         }
         
@@ -443,6 +439,47 @@ class UMap extends connect(store)(LitElement) {
     this._tooltipHoverTimeOut = null;
     this._overlayMaps = {};
     this.__currentObject = [];
+
+    this.markerGradient = [
+      [
+        0,
+        [100, 100, 100]
+      ],
+      [
+        12.5,
+        [142, 142, 69]
+      ],
+      [
+        25,
+        [255, 174, 30]
+      ],
+      [
+        37.5,
+        [0, 105, 230]
+      ],
+      [
+        50,
+        [150, 88, 255]
+      ],
+      [
+        62.5,
+        [255, 108, 0]
+      ],
+      [
+        75,
+        [185, 32, 93]
+      ],
+      [
+        87.5,
+        [129, 196, 69]
+      ],
+      [
+        100,
+        [129, 196, 69]
+      ],
+    ];
+
+    this.markerClasses = range(1940,2020).map(year => this._getMarkerStyles(year)).join('\n');
   }
 
   /*
@@ -705,11 +742,19 @@ class UMap extends connect(store)(LitElement) {
   }
 
   _createMarker(dot) {
+    let className;
+    const year = Object.keys(dot.images)[0];
     const hasMoreThanOneImage = dot.images && Array.isArray(Object.keys(dot.images)) && Object.keys(dot.images).length > 1;
+
+    if (hasMoreThanOneImage) {
+      className = `leaflet-marker-icon__${year}`;
+    } else {
+      className = `leaflet-marker-icon__${year}`;
+    }
 
     const icon = L.divIcon({
       iconSize: [9, 9],
-      className: `leaflet-marker-icon__${hasMoreThanOneImage ? 'gold' : 'regular'}`
+      className
     });
 
     return L.marker(dot.coordinates, {
@@ -722,6 +767,47 @@ class UMap extends connect(store)(LitElement) {
         // .on('mouseout', e => { this._toggleTooltip('dot',false, e) })
         .on('click', e => { this._toggleDot(true, e) })
         .on('dragend', e => { this._updateMarkerCoordinates(null, e); });
+  }
+
+  _getMarkerStyles(year) {
+    const value = (year - 1940)/(2020 - 1940) * 100;
+    const [color1, color2] = this._getColorRange(value);
+    const weight = year.toString()[3] / 10;
+
+    const backgroundColor = this._getMarkerColor(color1, color2, weight);
+    const borderColor = this._getMarkerColor(this._offsetRgb(color1, 50), this._offsetRgb(color2, 50), weight);
+
+    return `
+        .leaflet-marker-icon__${year} { 
+          background-color: rgb(${backgroundColor}); 
+          border-color: rgb(${borderColor});
+        }
+      `.trim();
+  };
+
+  _offsetRgb(color, offset) {
+    return [color[0] - offset, color[1] - offset, color[2] - offset];
+  }
+
+  _getColorRange(value) {
+    let upperThresholdIndex = this.markerGradient.findIndex(([percent], index) => percent > value);
+    if (value === 100) upperThresholdIndex = this.markerGradient.length - 1;
+
+    const [, color1] = this.markerGradient[upperThresholdIndex];
+    const [, color2] = this.markerGradient[upperThresholdIndex - 1];
+
+    return [color1, color2];
+  }
+
+
+  _getMarkerColor(color1, color2, weight) {
+    let w1 = weight;
+    let w2 = 1 - w1;
+    let rgb = [Math.round(color1[0] * w1 + color2[0] * w2),
+      Math.round(color1[1] * w1 + color2[1] * w2),
+      Math.round(color1[2] * w1 + color2[2] * w2)];
+
+    return rgb;
   }
   // ----- end of drawing methods -----
 
