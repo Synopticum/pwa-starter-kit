@@ -69,6 +69,8 @@ export class UMapRange extends LitElement {
         this.$thumbLeft.style.left = `${value}%`;
         this.$signLeft.style.left = `${value}%`;
         this.$signLeft.textContent = this.$inputMin.value;
+
+        this.updateRange(this.$inputMin.value, this.$inputMax.value);
     }
 
     updateMax() {

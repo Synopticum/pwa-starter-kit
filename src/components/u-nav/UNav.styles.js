@@ -17,7 +17,7 @@ export default css`
     box-sizing: border-box;
     justify-content: space-between;
     align-items: center;
-    padding: 22px 0 15px 0;
+    padding: 13px 0 15px 0;
     height: 100%;
 }
 
