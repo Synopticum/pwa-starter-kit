@@ -65,13 +65,13 @@ const _fetchDots = async () => {
 };
 
 // -------
-export const toggleTooltip = (type, enable, id, position = {}) => async (dispatch) => {
+export const toggleTooltip = (type, enable, id, coordinates = { position: {}, origin: ''}) => async (dispatch) => {
   if (enable) {
     dispatch({
       type: MapConstants.TOOLTIP.FETCH,
       async: true,
       httpMethodToInvoke: _fetchById,
-      params: [type, enable, id, position, dispatch]
+      params: [type, enable, id, coordinates, dispatch]
     });
   } else {
     dispatch({
@@ -81,7 +81,7 @@ export const toggleTooltip = (type, enable, id, position = {}) => async (dispatc
   }
 };
 
-const _fetchById = async (type, enable, id, position, dispatch) => {
+const _fetchById = async (type, enable, id, coordinates, dispatch) => {
   let response = await fetch(`${ENV[window.ENV].api}/api/${type}s/${id}`, {
     headers: getApiHeaders(localStorage.token)
   });
@@ -94,7 +94,7 @@ const _fetchById = async (type, enable, id, position, dispatch) => {
   let item = await response.json();
 
   dispatch({ type: MapConstants.TOGGLE.TOOLTIP, payload: true });
-  return { item, position };
+  return { item, coordinates };
 };
 
 // -------

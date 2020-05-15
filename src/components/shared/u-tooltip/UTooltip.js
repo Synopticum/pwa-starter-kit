@@ -4,36 +4,29 @@ import props from './UTooltip.props';
 import styles from './UTooltip.styles';
 
 class UTooltip extends LitElement {
-  /*
-      List of required methods
-      Needed for initialization, rendering, fetching and setting default values
-  */
-  static get properties() {
-    return props;
-  }
+    /*
+        List of required methods
+        Needed for initialization, rendering, fetching and setting default values
+    */
+    static get properties() {
+        return props;
+    }
 
-  static get styles() {
-    return styles;
-  }
+    static get styles() {
+        return styles;
+    }
 
-  render() {
-    let thumbnailClasses = {
-      'thumbnail': true,
-      'thumbnail--gold': this.type === 'gold',
-      'thumbnail--regular': this.type === 'regular'
-    };
+    render() {
+        let thumbnailClasses = {
+            'thumbnail': true,
+            'thumbnail--gold': this.type === 'gold',
+            'thumbnail--regular': this.type === 'regular'
+        };
 
-    let textAlign = this.origin === 'top left' || this.origin === 'bottom left' ? 'left' : 'right';
-    let padding = this.origin === 'top left' || this.origin === 'bottom left' ? '0 0 0 15px' : '0 10px 0 0';
-
-    return html`
+        return html`
       <style>
         :host {
-          left: ${this.x}px;
-          top: ${this.y}px;
-          transform-origin: ${this.origin};
-          text-align: ${textAlign};
-          padding: ${padding}
+          ${this._calculateStyle(this.position, this.origin, 20)};
         }
       </style>
       
@@ -46,15 +39,38 @@ class UTooltip extends LitElement {
           <div class="path-tooltip">${this.title}</div>
         ` : ''}
         
-        ${this.instanceType === 'dot' ? html`<img src="${this.thumbnail}" width="120" height="120" alt="" class="${classMap(thumbnailClasses)}">` : ''}
+        ${this.instanceType === 'dot' ? html`
+            <img src="${this.thumbnail}" width="120" height="120" alt="" class="${classMap(thumbnailClasses)}" style="display: none">
+            <div class="dot-tooltip">
+            
+            </div>
+        ` : ''}
       </div> 
     `
-  }
+    }
 
-  /*
-      List of custom component's methods
-      Any other methods
-  */
+    /*
+        List of custom component's methods
+        Any other methods
+    */
+
+    _calculateStyle(position, origin, offset) {
+        const { top, right, bottom, left } = position;
+
+        switch (origin) {
+            case 'top left':
+                return `top: ${top + offset}px; left: ${left + offset}px;`;
+
+            case 'top right':
+                return `top: ${top + offset}px; right: ${right + offset}px;`;
+
+            case 'bottom left':
+                return `bottom: ${bottom + offset}px; left: ${left + offset}px;`;
+
+            case 'bottom right':
+                return `bottom: ${bottom + offset}px; right: ${right + offset}px;`;
+        }
+    }
 }
 
 window.customElements.define('u-tooltip', UTooltip);

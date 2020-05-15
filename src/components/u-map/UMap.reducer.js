@@ -13,7 +13,7 @@ export const map = (state = {
         isVisible: false,
         isFetching: false,
         item: {},
-        position: {},
+        coordinates: { position: {}, origin: ''},
     },
 
     contextMenu: {
@@ -68,7 +68,7 @@ export const map = (state = {
                     ...state.tooltip,
                     isFetching: false,
                     item: action.payload.item,
-                    position: action.payload.position
+                    coordinates: action.payload.coordinates
                 }
             };
 

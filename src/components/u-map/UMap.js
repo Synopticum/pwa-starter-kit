@@ -284,9 +284,8 @@ class UMap extends connect(store)(LitElement) {
           <u-tooltip 
               class="${classMap(tooltipClasses)}"
               ?hidden="${!this._tooltip.isVisible}" 
-              .x="${this._tooltip.position.x}"
-              .y="${this._tooltip.position.y}"
-              .origin="${this._tooltip.position.origin}"
+              .position="${this._tooltip.coordinates.position}"
+              .origin="${this._tooltip.coordinates.origin}"
               .title="${this._tooltip.item && this._tooltip.item.title}"
               .shortDescription="${this._tooltip.item && this._tooltip.item.shortDescription}"
               .type="${this._tooltip.item && this._tooltip.item.type}"
@@ -763,8 +762,8 @@ class UMap extends connect(store)(LitElement) {
       draggable: false,
       rotationAngle: dot.rotationAngle || 0
     })
-        // .on('mouseover', e => { this._toggleTooltip('dot',true, e) })
-        // .on('mouseout', e => { this._toggleTooltip('dot',false, e) })
+        .on('mouseover', e => { this._toggleTooltip('dot',true, e) })
+        .on('mouseout', e => { this._toggleTooltip('dot',false, e) })
         .on('click', e => { this._toggleDot(true, e) })
         .on('dragend', e => { this._updateMarkerCoordinates(null, e); });
   }
@@ -821,7 +820,7 @@ class UMap extends connect(store)(LitElement) {
 
         switch (type) {
           case 'dot':
-            containerWidth = 120;
+            containerWidth = 350;
             containerHeight = 120;
             break;
 
@@ -841,9 +840,10 @@ class UMap extends connect(store)(LitElement) {
             break;
         }
 
-        let position = UMap._calculatePosition(e.containerPoint.x, e.containerPoint.y, containerWidth, containerHeight);
+        const { top, right, bottom, left } = e.originalEvent.target.getBoundingClientRect();
+        let coordinates = UMap._calculatePosition({ top, right, bottom, left }, { width: containerWidth, height: containerHeight });
 
-        store.dispatch(toggleTooltip(type,true, id, position));
+        store.dispatch(toggleTooltip(type,true, id, coordinates));
       }, 1000);
     } else {
       clearTimeout(this._tooltipHoverTimeOut);
@@ -926,25 +926,34 @@ class UMap extends connect(store)(LitElement) {
   // ----- end of map UI control methods -----
 
 
-  static _calculatePosition(mouseX, mouseY, containerWidth, containerHeight) {
-    let html = document.querySelector('html'),
-        x, y, origin;
+  static _calculatePosition(position, container) {
+    const html = document.querySelector('html');
+    const { top, right, bottom, left } = position;
+    let origin;
 
-    html.clientWidth/2 < mouseX ? x = mouseX - containerWidth : x = mouseX;
-    html.clientHeight/2 < mouseY ? y = mouseY - containerHeight : y = mouseY;
+    // html.clientWidth/2 < mouseX ? x = mouseX - containerWidth : x = mouseX;
+    // html.clientHeight/2 < mouseY ? y = mouseY - containerHeight : y = mouseY;
 
     // calculate transform-origin
-    if (html.clientWidth/2 < mouseX && html.clientHeight/2 < mouseY) {
+    if (html.clientWidth/2 < left && html.clientHeight/2 < top) {
       origin = 'bottom right';
-    } else if (html.clientWidth/2 < mouseX && html.clientHeight/2 >= mouseY) {
+    } else if (html.clientWidth/2 < left && html.clientHeight/2 >= top) {
       origin = 'top right';
-    } else if (html.clientWidth/2 >= mouseX && html.clientHeight/2 < mouseY) {
+    } else if (html.clientWidth/2 >= left && html.clientHeight/2 < top) {
       origin = 'bottom left';
-    } else if (html.clientWidth/2 >= mouseX && html.clientHeight/2 >= mouseY) {
+    } else if (html.clientWidth/2 >= left && html.clientHeight/2 >= top) {
       origin = 'top left';
     }
 
-    return { x, y, origin };
+    return {
+      position: {
+        top: parseInt(top),
+        right: html.clientWidth - parseInt(right),
+        bottom: html.clientHeight - parseInt(bottom),
+        left: parseInt(left)
+      },
+      origin
+    };
   }
 
 

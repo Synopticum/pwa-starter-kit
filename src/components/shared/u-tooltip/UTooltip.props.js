@@ -1,10 +1,6 @@
 export default {
-    x: {
-        type: Number
-    },
-
-    y: {
-        type: Number
+    position: {
+        type: Object
     },
 
     origin: {

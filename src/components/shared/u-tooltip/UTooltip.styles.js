@@ -6,12 +6,15 @@ export default css`
     z-index: 200;
     transform: scale(1);
     transition: transform .3s;
-    background-size: cover;
     box-sizing: border-box;
+    background: #fff;
+    border-radius: .28571429rem;
+    box-shadow: 0 0 0 1px transparent inset, 0 0 0 0 rgba(34,36,38,.15) inset, 0 1px 2px rgba(0,0,0,.3);
+    
 }
 
 :host(.tooltip--dot) {
-  width: 120px;
+  width: 350px;
   height: 120px;
 }
 
@@ -41,6 +44,10 @@ export default css`
 
 .thumbnail--regular {
     border: 3px solid #91B64A;
+}
+
+.dot-tooltip {
+
 }
 
 .path-tooltip {
