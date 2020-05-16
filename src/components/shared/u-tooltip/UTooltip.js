@@ -17,16 +17,32 @@ class UTooltip extends LitElement {
     }
 
     render() {
-        let thumbnailClasses = {
-            'thumbnail': true,
-            'thumbnail--gold': this.type === 'gold',
-            'thumbnail--regular': this.type === 'regular'
-        };
+        const { top, right, bottom, left } = this.position;
 
         return html`
       <style>
         :host {
-          ${this._calculateStyle(this.position, this.origin, 20)};
+        
+        }
+        
+        :host(.tooltip--top-left) {
+            top: ${top - 20}px; 
+            left: ${left}px;
+        }
+        
+        :host(.tooltip--top-right) {
+            top: ${top - 20}px; 
+            right: ${right}px;
+        }
+        
+        :host(.tooltip--bottom-left) {
+            bottom: ${bottom - 20}px; 
+            left: ${left}px;
+        }
+        
+        :host(.tooltip--bottom-right) {
+            bottom: ${bottom - 20}px; 
+            right: ${right}px;
         }
       </style>
       
@@ -40,9 +56,9 @@ class UTooltip extends LitElement {
         ` : ''}
         
         ${this.instanceType === 'dot' ? html`
-            <img src="${this.thumbnail}" width="120" height="120" alt="" class="${classMap(thumbnailClasses)}" style="display: none">
             <div class="dot-tooltip">
-            
+                <img src="${this.thumbnail}" width="120" height="120" alt="">
+                text asd
             </div>
         ` : ''}
       </div> 
@@ -53,24 +69,6 @@ class UTooltip extends LitElement {
         List of custom component's methods
         Any other methods
     */
-
-    _calculateStyle(position, origin, offset) {
-        const { top, right, bottom, left } = position;
-
-        switch (origin) {
-            case 'top left':
-                return `top: ${top + offset}px; left: ${left + offset}px;`;
-
-            case 'top right':
-                return `top: ${top + offset}px; right: ${right + offset}px;`;
-
-            case 'bottom left':
-                return `bottom: ${bottom + offset}px; left: ${left + offset}px;`;
-
-            case 'bottom right':
-                return `bottom: ${bottom + offset}px; right: ${right + offset}px;`;
-        }
-    }
 }
 
 window.customElements.define('u-tooltip', UTooltip);

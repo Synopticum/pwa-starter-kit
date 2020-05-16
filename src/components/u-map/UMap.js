@@ -47,15 +47,21 @@ class UMap extends connect(store)(LitElement) {
   }
 
   render() {
-    let containerClasses = {
+    const containerClasses = {
       'container': true,
       [`container--clouds-${this._clouds.visibility}`]: true
     };
 
-    let tooltipClasses = {
+    const { item, coordinates } = this._tooltip;
+
+    const tooltipClasses = {
       'tooltip': true,
-      'tooltip--dot': this._tooltip.item && this._tooltip.item.instanceType === 'dot',
-      'tooltip--path': this._tooltip.item && this._tooltip.item.instanceType === 'path'
+      'tooltip--dot': item && item.instanceType === 'dot',
+      'tooltip--path': item && item.instanceType === 'path',
+      'tooltip--top-left': coordinates && coordinates.origin === 'top left',
+      'tooltip--top-right': coordinates && coordinates.origin === 'top right',
+      'tooltip--bottom-left': coordinates && coordinates.origin === 'bottom left',
+      'tooltip--bottom-right': coordinates && coordinates.origin === 'bottom right'
     };
 
     return html`      
@@ -290,7 +296,8 @@ class UMap extends connect(store)(LitElement) {
               .shortDescription="${this._tooltip.item && this._tooltip.item.shortDescription}"
               .type="${this._tooltip.item && this._tooltip.item.type}"
               .instanceType="${this._tooltip.item && this._tooltip.item.instanceType}"
-              .thumbnail="${this._tooltip.item && this._tooltip.item.images ? `https://urussu.s3.amazonaws.com/${this._getTooltipImage()}` : ''}">
+              .thumbnail="${this._tooltip.item && this._tooltip.item.images ? `https://urussu.s3.amazonaws.com/${this._getTooltipImage()}` : ''}"
+              @mouseout="${() => this._toggleTooltip('dot',false)}">
           </u-tooltip>     
               
           <u-context-menu
@@ -763,7 +770,6 @@ class UMap extends connect(store)(LitElement) {
       rotationAngle: dot.rotationAngle || 0
     })
         .on('mouseover', e => { this._toggleTooltip('dot',true, e) })
-        .on('mouseout', e => { this._toggleTooltip('dot',false, e) })
         .on('click', e => { this._toggleDot(true, e) })
         .on('dragend', e => { this._updateMarkerCoordinates(null, e); });
   }
@@ -816,32 +822,9 @@ class UMap extends connect(store)(LitElement) {
     if (isVisible) {
       this._tooltipHoverTimeOut = setTimeout(() => {
         let id = e.target.options.id;
-        let containerWidth, containerHeight;
-
-        switch (type) {
-          case 'dot':
-            containerWidth = 350;
-            containerHeight = 120;
-            break;
-
-          case 'path':
-            containerWidth = 300;
-            containerHeight = 30;
-            break;
-
-          case 'object':
-            containerWidth = 300;
-            containerHeight = 30;
-            break;
-
-          default:
-            containerWidth = 120;
-            containerHeight = 120;
-            break;
-        }
 
         const { top, right, bottom, left } = e.originalEvent.target.getBoundingClientRect();
-        let coordinates = UMap._calculatePosition({ top, right, bottom, left }, { width: containerWidth, height: containerHeight });
+        let coordinates = UMap._calculatePosition({ top, right, bottom, left });
 
         store.dispatch(toggleTooltip(type,true, id, coordinates));
       }, 1000);
