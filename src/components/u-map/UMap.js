@@ -770,6 +770,7 @@ class UMap extends connect(store)(LitElement) {
       rotationAngle: dot.rotationAngle || 0
     })
         .on('mouseover', e => { this._toggleTooltip('dot',true, e) })
+        .on('mouseout', () => clearTimeout(this._tooltipHoverTimeOut))
         .on('click', e => { this._toggleDot(true, e) })
         .on('dragend', e => { this._updateMarkerCoordinates(null, e); });
   }
