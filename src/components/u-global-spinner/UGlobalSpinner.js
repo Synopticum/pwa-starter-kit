@@ -82,6 +82,33 @@ class UGlobalSpinner extends HTMLElement {
         pointer-events: none;
       }
       
+      @media screen and (max-width: 360px) {
+        .loading {
+          position: relative;
+          left: -10px;
+          width: 220px;
+          height: 140px;
+        }
+      }
+      
+      @media screen and (min-width: 361px) and (max-width: 480px) {
+        .loading {
+          position: relative;
+          left: -10px;
+          width: 290px;
+          height: 184px;
+        }
+      }
+      
+      @media screen and (max-height: 375px) {
+        .loading {
+          position: relative;
+          left: -10px;
+          width: 330px;
+          height: 210px;
+        }
+      }
+      
       :host([context="first-time"]) .loading {
         pointer-events: all;
         cursor: pointer;
