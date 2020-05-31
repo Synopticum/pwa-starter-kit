@@ -151,6 +151,12 @@ class UMap extends connect(store)(LitElement) {
             will-change: filter;
         }
         
+        .leaflet-control-container {
+            top: 20px;
+            left: 70px;
+            position: relative;
+        }
+        
         path.leaflet-interactive {
             cursor: pointer;
             opacity: .75;
