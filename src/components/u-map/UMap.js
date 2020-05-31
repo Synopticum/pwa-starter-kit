@@ -159,7 +159,8 @@ class UMap extends connect(store)(LitElement) {
         
         path.leaflet-interactive {
             cursor: pointer;
-            opacity: .75;
+            /*opacity: .75;*/
+            opacity: 0;
             transition: opacity .3s;
         }
         
@@ -387,6 +388,7 @@ class UMap extends connect(store)(LitElement) {
     if (this._objects !== state.objects.items) {
       this._drawObjects(state.objects.items.filter(object => object.instanceType === 'object'));
       this._drawPaths(state.objects.items.filter(object => object.instanceType === 'path'));
+      this._drawCircles(state.objects.items.filter(object => object.instanceType === 'circle'));
     }
 
     this._objects = state.objects.items;
@@ -438,6 +440,16 @@ class UMap extends connect(store)(LitElement) {
     this._map.on('drag', debounce(this._updateUrl, 50).bind(this));
     this._map.on('click', this.getCoordinates.bind(this));
     this.addEventListener('click', this._handleOutsideClicks);
+
+    // this.addEventListener('keypress', (e) => {
+    //   if (e.key === 'd') {
+    //     document.querySelector('.leaflet-draw-draw-polygon').dispatchEvent(new Event('click'));
+    //   }
+    //
+    //   if (e.key === 'f') {
+    //     document.querySelector('a[title="Finish drawing"]').dispatchEvent(new Event('click'));
+    //   }
+    // });
   }
 
   _setReferences() {
@@ -607,6 +619,12 @@ class UMap extends connect(store)(LitElement) {
           coordinates = e.layer.editing.latlngs[0];
           this.addPathToMap(coordinates);
           break;
+
+        case 'circle':
+          const radius = e.layer._mRadius;
+          const latlng = e.layer._latlng;
+          this.addCircleToMap(latlng, radius);
+          break;
       }
 
       this._editableLayers.addLayer(layer);
@@ -669,7 +687,7 @@ class UMap extends connect(store)(LitElement) {
       this._removeCurrentPaths();
       this._addPathsToMap(paths);
     } catch (e) {
-      !isEmpty(objects) ? console.error('Unable to draw objects\n\n', e) : '';
+      !isEmpty(paths) ? console.error('Unable to draw paths\n\n', e) : '';
     }
   }
 
@@ -712,6 +730,42 @@ class UMap extends connect(store)(LitElement) {
         }
       }
     }
+  }
+
+  _drawCircles(circles) {
+    try {
+      // this._removeCurrentCircles();
+      this._addCirclesToMap(circles);
+    } catch (e) {
+      !isEmpty(circles) ? console.error('Unable to draw circles\n\n', e) : '';
+    }
+  }
+
+  _addCirclesToMap(circles) {
+    circles.forEach(circle => {
+      const { coordinates, radius } = circle;
+
+      L.circle(coordinates[0], radius, {
+        id: circle.id,
+        color: 'rgb(255, 198, 0)',
+        weight: 2
+      })
+          // .on('mouseover', e => { this._toggleTooltip('path',true, e) })
+          // .on('mouseout', e => { this._toggleTooltip('path',false, e) })
+          // .on('click', e => { this._togglePath(true, e) })
+          .addTo(this._map);
+    });
+  }
+
+  addCircleToMap(coordinates, radius) {
+    const object = new ObjectModel({
+      instanceType: 'circle',
+      coordinates: coordinates,
+      radius,
+      id: uuidv4()
+    });
+
+    store.dispatch(putObject(object));
   }
 
   _updateMarkerCoordinates(value, e) {
@@ -1042,6 +1096,7 @@ class ObjectModel {
   constructor(options) {
     this.id = uuidv4();
     this.coordinates = options.coordinates;
+    this.radius = options.radius;
     this.instanceType = options.instanceType;
   }
 }
