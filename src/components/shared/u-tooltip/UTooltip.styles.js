@@ -11,8 +11,8 @@ export default css`
 }
 
 :host(.tooltip--dot) {
-  width: 350px;
-  height: 140px;
+  width: 430px;
+  height: 145px;
 }
 
 :host(.tooltip--path) {
@@ -93,6 +93,21 @@ export default css`
 :host(.tooltip--bottom-right) .dot-tooltip::before {
   bottom: 20px;
   right: -10px;
+}
+
+.thumbnail {
+  object-fit: cover;
+  border: 1px solid #ccc;
+  margin-right: 15px;
+}
+
+.title {
+  margin-bottom: 10px;
+}
+
+.description {
+  font-size: 14px;
+  line-height: 1.4;
 }
 
 .path-tooltip {

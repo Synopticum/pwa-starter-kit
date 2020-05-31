@@ -1,5 +1,4 @@
 import {html, LitElement} from 'lit-element/lit-element';
-import {classMap} from 'lit-html/directives/class-map';
 import props from './UTooltip.props';
 import styles from './UTooltip.styles';
 
@@ -57,8 +56,12 @@ class UTooltip extends LitElement {
         
         ${this.instanceType === 'dot' ? html`
             <div class="dot-tooltip">
-                <img src="${this.thumbnail}" width="120" height="120" alt="">
-                text asd
+                <img src="${this.thumbnail}" width="120" height="120" alt="" class="thumbnail">
+                
+                <div class="content">
+                    <div class="title">${this.title}</div>
+                    <div class="description">${this.shortDescription}</div>
+                </div>
             </div>
         ` : ''}
       </div> 
