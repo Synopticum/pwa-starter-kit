@@ -159,8 +159,8 @@ class UMap extends connect(store)(LitElement) {
         
         path.leaflet-interactive {
             cursor: pointer;
-            /*opacity: .75;*/
-            opacity: 0;
+            opacity: .75;
+            /*opacity: 0;*/
             transition: opacity .3s;
         }
         
@@ -643,9 +643,19 @@ class UMap extends connect(store)(LitElement) {
 
   _addObjectsToMap(objects) {
     objects.forEach(object => {
+      let color;
+
+      if (object.street && object.house) {
+        color = this.objectFillColor;
+      } else if (object.street === '' && object.house === '') {
+        color = '#00f';
+      } else {
+        color = '#f00';
+      }
+
       L.polygon(object.coordinates, {
         id: object.id,
-        color: this.objectFillColor,
+        color,
         weight: this.objectStrokeWidth
       })
       .on('mouseover', e => { this._toggleTooltip('object', true, e) })

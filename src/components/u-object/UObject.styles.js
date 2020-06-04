@@ -96,4 +96,10 @@ export default css`
     border: 0;
   }
 }
+
+.temp-nav {
+  position: absolute;
+  right: 100px;
+  top: 100px;
+}
 `;
