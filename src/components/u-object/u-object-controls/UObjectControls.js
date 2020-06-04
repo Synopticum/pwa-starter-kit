@@ -62,6 +62,24 @@ export class UObjectControls extends connect(store)(LitElement) {
                        </div>
                     </section>
                     
+                    <section class="controls__section controls__street">
+                       <label class="controls__label">Улица:</label>
+                       
+                       <div class="controls__input">
+                           <input type="text" @keyup="${this.inputStreet}" class="textarea" value="${this._object.street}">
+                           <u-text-button type="button" @click="${this.changeStreet}" class="save">Сохранить</u-text-button>
+                       </div>
+                    </section>
+                    
+                    <section class="controls__section controls__house">
+                       <label class="controls__label">Номер дома:</label>
+                       
+                       <div class="controls__input">
+                           <input type="text" @keyup="${this.inputHouse}" class="textarea" value="${this._object.house}">
+                           <u-text-button type="button" @click="${this.changeHouse}" class="save">Сохранить</u-text-button>
+                       </div>
+                    </section>
+                    
                     <section class="controls__section controls__delete-object">
                        <u-text-button class="remove"
                                       ?disabled="${this._isFetching || this._isUpdating}"
@@ -174,6 +192,24 @@ export class UObjectControls extends connect(store)(LitElement) {
 
     changeTitle() {
         let updatedObject = { ...this._object, title: this.title };
+        store.dispatch(putObject(updatedObject, this.objectId));
+    }
+
+    inputStreet(e) {
+        this.street = e.target.value;
+    }
+
+    changeStreet() {
+        let updatedObject = { ...this._object, street: this.street };
+        store.dispatch(putObject(updatedObject, this.objectId));
+    }
+
+    inputHouse(e) {
+        this.house = e.target.value;
+    }
+
+    changeHouse() {
+        let updatedObject = { ...this._object, house: this.house };
         store.dispatch(putObject(updatedObject, this.objectId));
     }
 
