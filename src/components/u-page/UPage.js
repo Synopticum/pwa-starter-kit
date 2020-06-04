@@ -3,6 +3,7 @@ import {store} from '../../store';
 import {connect} from 'pwa-helpers';
 import {
     setCurrentDotId,
+    setCurrentObjectId,
     toggleDotCreator,
 } from '../u-map/UMap.actions';
 import {fetch, toggle} from './UPage.actions';
@@ -94,13 +95,28 @@ export class UPage extends connect(store)(LitElement) {
             store.dispatch(setCurrentDotId(''));
             requestAnimationFrame(() => store.dispatch(setCurrentDotId(e.target.options.id)));
 
-            store.dispatch(toggleDotCreator(false, { x: this._dotCreator.position.x, y: this._dotCreator.position.y }));
-
-            if (this._dotCreator.isVisible) {
-                this._toggleDotCreator(false);
-            }
+            this._hideDotCreator();
         } else {
             store.dispatch(setCurrentDotId(''));
+        }
+    }
+
+    _toggleObject(isVisible, e) {
+        if (isVisible) {
+            store.dispatch(setCurrentObjectId(''));
+            requestAnimationFrame(() => store.dispatch(setCurrentObjectId(e.target.options.id)));
+
+            this._hideDotCreator();
+        } else {
+            store.dispatch(setCurrentObjectId(''));
+        }
+    }
+
+    _hideDotCreator() {
+        store.dispatch(toggleDotCreator(false, { x: this._dotCreator.position.x, y: this._dotCreator.position.y }));
+
+        if (this._dotCreator.isVisible) {
+            this._toggleDotCreator(false);
         }
     }
 
