@@ -33,5 +33,9 @@ export default {
 
     instanceType: {
         type: String
+    },
+
+    instanceId: {
+        type: String
     }
 };

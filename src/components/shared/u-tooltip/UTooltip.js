@@ -60,12 +60,18 @@ class UTooltip extends LitElement {
         
         ${this.instanceType === 'dot' ? html`
             <div class="tooltip-wrapper">
-                <img src="${this.thumbnail}" width="120" height="120" alt="" class="thumbnail">
+                <img 
+                    src="${this.thumbnail}" 
+                    width="120" 
+                    height="120" 
+                    alt="" 
+                    class="thumbnail"
+                    @click="${this.showDot}">
                 
-                <div class="content">
+                <!-- <div class="content">
                     <div class="title">${this.title}</div>
                     <div class="description">${this.shortDescription}</div>
-                </div>
+                </div> -->
             </div>
         ` : ''}
       </div> 
@@ -78,6 +84,10 @@ class UTooltip extends LitElement {
     */
     getAddress() {
         return this.street && this.house ? `${this.street}, ${this.house}` : 'Терра инкогнита';
+    }
+
+    showDot() {
+        this.dispatchEvent(new CustomEvent('show-dot', { detail: this.instanceId, composed: true, bubbles: true }));
     }
 }
 

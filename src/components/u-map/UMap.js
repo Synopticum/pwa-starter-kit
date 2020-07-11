@@ -306,6 +306,7 @@ class UMap extends connect(store)(LitElement) {
               .house="${this._tooltip.item && this._tooltip.item.house}"
               .type="${this._tooltip.item && this._tooltip.item.type}"
               .instanceType="${this._tooltip.item && this._tooltip.item.instanceType}"
+              .instanceId="${this._tooltip.item && this._tooltip.item.id}"
               .thumbnail="${this._tooltip.item && this._tooltip.item.images ? `https://urussu.s3.amazonaws.com/${this._getTooltipImage()}` : ''}"
               @mouseout="${() => this._toggleTooltip('dot',false)}">
           </u-tooltip>     
@@ -443,16 +444,7 @@ class UMap extends connect(store)(LitElement) {
     this._map.on('drag', debounce(this._updateUrl, 50).bind(this));
     this._map.on('click', this.getCoordinates.bind(this));
     this.addEventListener('click', this._handleOutsideClicks);
-
-    // this.addEventListener('keypress', (e) => {
-    //   if (e.key === 'd') {
-    //     document.querySelector('.leaflet-draw-draw-polygon').dispatchEvent(new Event('click'));
-    //   }
-    //
-    //   if (e.key === 'f') {
-    //     document.querySelector('a[title="Finish drawing"]').dispatchEvent(new Event('click'));
-    //   }
-    // });
+    // this.addEventListener('show-dot', e => this._toggleDot(true, { target: { options: e.detail }}));
   }
 
   _setReferences() {

@@ -4,31 +4,32 @@ export default css`
 :host {
     position: fixed;
     z-index: 200;
-    width: 0;
     overflow: hidden;
-    transition: width .3s;
+    opacity: 0;
+    transition: opacity .3s;
     box-sizing: border-box;
 }
 
 :host(.tooltip--dot) {
-  width: 430px;
+  opacity: 1;
   height: 145px;
 }
 
 :host(.tooltip--path) {
-  width: 300px;
+  display: flex;
   height: 30px;
 }
 
 :host(.tooltip--object) {
+  opacity: 1;
   display: flex;
-  width: 200px;
   min-height: 60px;
 }
 
 :host([hidden]) {
   display: block !important;
-  width: 0;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .u-tooltip {
@@ -116,7 +117,6 @@ export default css`
 .thumbnail {
   object-fit: cover;
   border: 1px solid #ccc;
-  margin-right: 15px;
 }
 
 .title {
