@@ -989,55 +989,41 @@ class UMap extends connect(store)(LitElement) {
     const { top, right, bottom, left } = position;
     let origin;
 
-    // calculate transform-origin
-    switch (type) {
-      case 'dot':
-        if (html.clientWidth/2 < left && html.clientHeight/2 < top) {
-          origin = 'bottom right';
-        } else if (html.clientWidth/2 < left && html.clientHeight/2 >= top) {
-          origin = 'top right';
-        } else if (html.clientWidth/2 >= left && html.clientHeight/2 < top) {
-          origin = 'bottom left';
-        } else if (html.clientWidth/2 >= left && html.clientHeight/2 >= top) {
-          origin = 'top left';
-        }
+    const params = {
+      'dot': {
+        right: html.clientWidth - right,
+        left
+      },
+      'object': {
+        right: html.clientWidth - left,
+        left: right
+      }
+    };
 
-        return {
-          position: {
-            top: top - 20,
-            right: html.clientWidth - parseInt(right),
-            bottom: html.clientHeight - bottom - 20,
-            left: parseInt(left)
-          },
-          origin
-        };
+    const ratherTop = Math.abs(html.clientHeight/2-top) > Math.abs(html.clientHeight/2-bottom);
+    const ratherBottom = Math.abs(html.clientHeight/2-top) < Math.abs(html.clientHeight/2-bottom);
+    const ratherLeft = Math.abs(html.clientWidth/2-left) > Math.abs(html.clientWidth/2-right);
+    const ratherRight = Math.abs(html.clientWidth/2-left) < Math.abs(html.clientWidth/2-right);
 
-      case 'object':
-        const ratherTop = Math.abs(html.clientHeight/2-top) > Math.abs(html.clientHeight/2-bottom);
-        const ratherBottom = Math.abs(html.clientHeight/2-top) < Math.abs(html.clientHeight/2-bottom);
-        const ratherLeft = Math.abs(html.clientWidth/2-left) > Math.abs(html.clientWidth/2-right);
-        const ratherRight = Math.abs(html.clientWidth/2-left) < Math.abs(html.clientWidth/2-right);
-
-        if (ratherBottom < left && ratherRight) {
-          origin = 'bottom right';
-        } else if (ratherTop && ratherRight) {
-          origin = 'top right';
-        } else if (ratherBottom && ratherLeft) {
-          origin = 'bottom left';
-        } else if (ratherTop && ratherLeft) {
-          origin = 'top left';
-        }
-
-        return {
-          position: {
-            top: (top+((bottom-top)/2)) - 30,
-            right: html.clientWidth - parseInt(left),
-            bottom: (html.clientHeight-top-((bottom-top)/2)) - 30,
-            left: parseInt(right)
-          },
-          origin
-        };
+    if (ratherBottom < left && ratherRight) {
+      origin = 'bottom right';
+    } else if (ratherTop && ratherRight) {
+      origin = 'top right';
+    } else if (ratherBottom && ratherLeft) {
+      origin = 'bottom left';
+    } else if (ratherTop && ratherLeft) {
+      origin = 'top left';
     }
+
+    return {
+      position: {
+        top: (top+((bottom-top)/2)) - 30,
+        right: params[type].right,
+        bottom: (html.clientHeight-top-((bottom-top)/2)) - 30,
+        left: params[type].left
+      },
+      origin
+    };
   }
 
 
