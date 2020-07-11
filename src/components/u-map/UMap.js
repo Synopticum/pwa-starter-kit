@@ -1013,17 +1013,21 @@ class UMap extends connect(store)(LitElement) {
         };
 
       case 'object':
-        if (html.clientWidth/2 < left && html.clientHeight/2 < top) {
+        const ratherTop = Math.abs(html.clientHeight/2-top) > Math.abs(html.clientHeight/2-bottom);
+        const ratherBottom = Math.abs(html.clientHeight/2-top) < Math.abs(html.clientHeight/2-bottom);
+        const ratherLeft = Math.abs(html.clientWidth/2-left) > Math.abs(html.clientWidth/2-right);
+        const ratherRight = Math.abs(html.clientWidth/2-left) < Math.abs(html.clientWidth/2-right);
+
+        if (ratherBottom < left && ratherRight) {
           origin = 'bottom right';
-        } else if (html.clientWidth/2 < left && html.clientHeight/2 >= bottom) {
+        } else if (ratherTop && ratherRight) {
           origin = 'top right';
-        } else if (html.clientWidth/2 >= right && html.clientHeight/2 < top) {
+        } else if (ratherBottom && ratherLeft) {
           origin = 'bottom left';
-        } else if (html.clientWidth/2 >= right && html.clientHeight/2 >= bottom) {
+        } else if (ratherTop && ratherLeft) {
           origin = 'top left';
         }
 
-        // debugger;
         return {
           position: {
             top: (top+((bottom-top)/2)) - 30,
