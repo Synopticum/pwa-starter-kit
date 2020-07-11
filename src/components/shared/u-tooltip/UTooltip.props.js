@@ -15,6 +15,14 @@ export default {
         type: String
     },
 
+    street: {
+        type: String
+    },
+
+    house: {
+        type: String
+    },
+
     thumbnail: {
         type: String
     },

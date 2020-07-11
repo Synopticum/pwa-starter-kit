@@ -25,29 +25,33 @@ class UTooltip extends LitElement {
         }
         
         :host(.tooltip--top-left) {
-            top: ${top - 20}px; 
+            top: ${top}px; 
             left: ${left}px;
         }
         
         :host(.tooltip--top-right) {
-            top: ${top - 20}px; 
+            top: ${top}px; 
             right: ${right}px;
         }
         
         :host(.tooltip--bottom-left) {
-            bottom: ${bottom - 20}px; 
+            bottom: ${bottom}px; 
             left: ${left}px;
         }
         
         :host(.tooltip--bottom-right) {
-            bottom: ${bottom - 20}px; 
+            bottom: ${bottom}px; 
             right: ${right}px;
         }
       </style>
       
       <div class="u-tooltip">
         ${this.instanceType === 'object' ? html`
-          <div class="object-tooltip">${this.title}</div>
+            <div class="tooltip-wrapper">
+                <div class="content">
+                    <div class="title">${this.getAddress()}</div>
+                </div>
+            </div>
         ` : ''}
         
         ${this.instanceType === 'path' ? html`
@@ -55,7 +59,7 @@ class UTooltip extends LitElement {
         ` : ''}
         
         ${this.instanceType === 'dot' ? html`
-            <div class="dot-tooltip">
+            <div class="tooltip-wrapper">
                 <img src="${this.thumbnail}" width="120" height="120" alt="" class="thumbnail">
                 
                 <div class="content">
@@ -72,6 +76,9 @@ class UTooltip extends LitElement {
         List of custom component's methods
         Any other methods
     */
+    getAddress() {
+        return this.street && this.house ? `${this.street}, ${this.house}` : 'Терра инкогнита';
+    }
 }
 
 window.customElements.define('u-tooltip', UTooltip);

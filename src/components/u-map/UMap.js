@@ -57,6 +57,7 @@ class UMap extends connect(store)(LitElement) {
     const tooltipClasses = {
       'tooltip': true,
       'tooltip--dot': item && item.instanceType === 'dot',
+      'tooltip--object': item && item.instanceType === 'object',
       'tooltip--path': item && item.instanceType === 'path',
       'tooltip--top-left': coordinates && coordinates.origin === 'top left',
       'tooltip--top-right': coordinates && coordinates.origin === 'top right',
@@ -159,8 +160,8 @@ class UMap extends connect(store)(LitElement) {
         
         path.leaflet-interactive {
             cursor: pointer;
-            opacity: .75;
-            /*opacity: 0;*/
+            /*opacity: .75;*/
+            opacity: 0;
             transition: opacity .3s;
         }
         
@@ -301,6 +302,8 @@ class UMap extends connect(store)(LitElement) {
               .origin="${this._tooltip.coordinates.origin}"
               .title="${this._tooltip.item && this._tooltip.item.title}"
               .shortDescription="${this._tooltip.item && this._tooltip.item.shortDescription}"
+              .street="${this._tooltip.item && this._tooltip.item.street}"
+              .house="${this._tooltip.item && this._tooltip.item.house}"
               .type="${this._tooltip.item && this._tooltip.item.type}"
               .instanceType="${this._tooltip.item && this._tooltip.item.instanceType}"
               .thumbnail="${this._tooltip.item && this._tooltip.item.images ? `https://urussu.s3.amazonaws.com/${this._getTooltipImage()}` : ''}"
@@ -332,7 +335,7 @@ class UMap extends connect(store)(LitElement) {
             @update-range="${debounce(this.updateRange, 300).bind(this)}"></u-map-range>
         
         <div id="map"></div>
-        <u-noise id="noise"></u-noise>
+<!--        <u-noise id="noise"></u-noise>-->
       </div>
     `;
   }
@@ -660,7 +663,7 @@ class UMap extends connect(store)(LitElement) {
       })
       .on('mouseover', e => { this._toggleTooltip('object', true, e) })
       .on('mouseout', e => { this._toggleTooltip('object', false, e) })
-      .on('click', e => { this._toggleObject(true, e) })
+      // .on('click', e => { this._toggleObject(true, e) })
           .addTo(this._map);
     });
   }
@@ -895,8 +898,9 @@ class UMap extends connect(store)(LitElement) {
         let id = e.target.options.id;
 
         const { top, right, bottom, left } = e.originalEvent.target.getBoundingClientRect();
-        let coordinates = UMap._calculatePosition({ top, right, bottom, left });
+        let coordinates = UMap._calculatePosition(type, { top, right, bottom, left });
 
+        // debugger;
         store.dispatch(toggleTooltip(type,true, id, coordinates));
       }, 1000);
     } else {
@@ -980,34 +984,56 @@ class UMap extends connect(store)(LitElement) {
   // ----- end of map UI control methods -----
 
 
-  static _calculatePosition(position, container) {
+  static _calculatePosition(type, position) {
     const html = document.querySelector('html');
     const { top, right, bottom, left } = position;
     let origin;
 
-    // html.clientWidth/2 < mouseX ? x = mouseX - containerWidth : x = mouseX;
-    // html.clientHeight/2 < mouseY ? y = mouseY - containerHeight : y = mouseY;
-
     // calculate transform-origin
-    if (html.clientWidth/2 < left && html.clientHeight/2 < top) {
-      origin = 'bottom right';
-    } else if (html.clientWidth/2 < left && html.clientHeight/2 >= top) {
-      origin = 'top right';
-    } else if (html.clientWidth/2 >= left && html.clientHeight/2 < top) {
-      origin = 'bottom left';
-    } else if (html.clientWidth/2 >= left && html.clientHeight/2 >= top) {
-      origin = 'top left';
-    }
+    switch (type) {
+      case 'dot':
+        if (html.clientWidth/2 < left && html.clientHeight/2 < top) {
+          origin = 'bottom right';
+        } else if (html.clientWidth/2 < left && html.clientHeight/2 >= top) {
+          origin = 'top right';
+        } else if (html.clientWidth/2 >= left && html.clientHeight/2 < top) {
+          origin = 'bottom left';
+        } else if (html.clientWidth/2 >= left && html.clientHeight/2 >= top) {
+          origin = 'top left';
+        }
 
-    return {
-      position: {
-        top: parseInt(top),
-        right: html.clientWidth - parseInt(right),
-        bottom: html.clientHeight - parseInt(bottom),
-        left: parseInt(left)
-      },
-      origin
-    };
+        return {
+          position: {
+            top: top - 20,
+            right: html.clientWidth - parseInt(right),
+            bottom: html.clientHeight - bottom - 20,
+            left: parseInt(left)
+          },
+          origin
+        };
+
+      case 'object':
+        if (html.clientWidth/2 < left && html.clientHeight/2 < top) {
+          origin = 'bottom right';
+        } else if (html.clientWidth/2 < left && html.clientHeight/2 >= bottom) {
+          origin = 'top right';
+        } else if (html.clientWidth/2 >= right && html.clientHeight/2 < top) {
+          origin = 'bottom left';
+        } else if (html.clientWidth/2 >= right && html.clientHeight/2 >= bottom) {
+          origin = 'top left';
+        }
+
+        // debugger;
+        return {
+          position: {
+            top: (top+((bottom-top)/2)) - 30,
+            right: html.clientWidth - parseInt(left),
+            bottom: (html.clientHeight-top-((bottom-top)/2)) - 30,
+            left: parseInt(right)
+          },
+          origin
+        };
+    }
   }
 
 

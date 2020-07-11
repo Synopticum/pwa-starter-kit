@@ -74,11 +74,13 @@ class UObject extends connect(store)(LitElement) {
 
         let updatedObject = { ...this._object, street, house };
         store.dispatch(putObject(updatedObject, this.objectId));
+        this.close();
     }
 
     testSave2() {
         let updatedObject = { ...this._object, street: '', house: '' };
         store.dispatch(putObject(updatedObject, this.objectId));
+        this.close();
     }
 
     constructor() {

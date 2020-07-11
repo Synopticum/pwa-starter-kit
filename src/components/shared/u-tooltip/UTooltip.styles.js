@@ -21,76 +21,94 @@ export default css`
 }
 
 :host(.tooltip--object) {
-  width: 300px;
-  height: 30px;
+  display: flex;
+  width: 200px;
+  min-height: 60px;
 }
 
 :host([hidden]) {
-    display: block !important;
-    width: 0;
+  display: block !important;
+  width: 0;
 }
 
-.dot-tooltip {
+.u-tooltip {
+  display: flex;
+  width: 100%;
+}
+
+.tooltip-wrapper {
   position: relative;
+  width: 100%;
   background: #fff;
   display: flex;
   padding: 10px;
   border-radius: .28571429rem;
   box-shadow: 0 0 0 1px transparent inset, 0 0 0 0 rgba(34,36,38,.15) inset, 0 1px 2px rgba(0,0,0,.3);
   box-sizing: border-box;
+  align-items: center;
 }
         
-.dot-tooltip::before {
+.tooltip-wrapper::before {
   position: absolute;
   content: '';
   width: 0; 
   height: 0; 
 }
 
-:host(.tooltip--top-left) .dot-tooltip,
-:host(.tooltip--bottom-left) .dot-tooltip {
+:host(.tooltip--dot.tooltip--top-left) .tooltip-wrapper,
+:host(.tooltip--dot.tooltip--bottom-left) .tooltip-wrapper {
     margin-left: 30px;
 }
 
-:host(.tooltip--top-right) .dot-tooltip,
-:host(.tooltip--bottom-right) .dot-tooltip {
+:host(.tooltip--dot.tooltip--top-right) .tooltip-wrapper,
+:host(.tooltip--dot.tooltip--bottom-right) .tooltip-wrapper {
     margin-right: 30px;
 }
 
-:host([hidden]) .dot-tooltip::before {
+:host(.tooltip--object.tooltip--top-left) .tooltip-wrapper,
+:host(.tooltip--object.tooltip--bottom-left) .tooltip-wrapper {
+    margin-left: 20px;
+}
+
+:host(.tooltip--object.tooltip--top-right) .tooltip-wrapper,
+:host(.tooltip--object.tooltip--bottom-right) .tooltip-wrapper {
+    margin-right: 20px;
+}
+
+:host([hidden]) .tooltip-wrapper::before {
     display: none;
 }
 
-:host(.tooltip--top-left) .dot-tooltip::before,
-:host(.tooltip--bottom-left) .dot-tooltip::before {
+:host(.tooltip--top-left) .tooltip-wrapper::before,
+:host(.tooltip--bottom-left) .tooltip-wrapper::before {
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
   border-right: 10px solid #fff;
 }
 
-:host(.tooltip--top-right) .dot-tooltip::before,
-:host(.tooltip--bottom-right) .dot-tooltip::before {
+:host(.tooltip--top-right) .tooltip-wrapper::before,
+:host(.tooltip--bottom-right) .tooltip-wrapper::before {
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
   border-left: 10px solid #fff;
 }
         
-:host(.tooltip--top-left) .dot-tooltip::before {
+:host(.tooltip--top-left) .tooltip-wrapper::before {
   top: 20px;
   left: -10px;
 }
         
-:host(.tooltip--top-right) .dot-tooltip::before {
+:host(.tooltip--top-right) .tooltip-wrapper::before {
   top: 20px;
   right: -10px;
 }
         
-:host(.tooltip--bottom-left) .dot-tooltip::before {
+:host(.tooltip--bottom-left) .tooltip-wrapper::before {
   bottom: 20px;
   left: -10px;
 }
         
-:host(.tooltip--bottom-right) .dot-tooltip::before {
+:host(.tooltip--bottom-right) .tooltip-wrapper::before {
   bottom: 20px;
   right: -10px;
 }
@@ -102,6 +120,10 @@ export default css`
 }
 
 .title {
+    white-space: nowrap;
+}
+
+:host(.tooltip--dot) .title {
   margin-bottom: 10px;
 }
 
