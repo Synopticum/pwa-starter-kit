@@ -117,6 +117,7 @@ export default css`
 .thumbnail {
   object-fit: cover;
   border: 1px solid #ccc;
+  margin-right: 10px;
 }
 
 .title {

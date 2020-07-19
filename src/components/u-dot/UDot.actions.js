@@ -10,7 +10,7 @@ export const DotConstants = {
   CLEAR_STATE: 'DOT_CLEAR_STATE',
   ADD_IMAGE: 'DOT_ADD_IMAGE',
   DELETE_IMAGE: 'DOT_DELETE_IMAGE',
-  SET_ACTIVE_IMAGE: 'SET_ACTIVE_IMAGE'
+  SET_ACTIVE_IMAGE: 'DOT_SET_ACTIVE_IMAGE'
 };
 
 // -------
@@ -40,7 +40,7 @@ const _fetchDot = async (dotId, dispatch) => {
     let activeYear = Math.min(...Object.keys(dot.images)).toString();
     let activeImage = dot.images[activeYear];
 
-    dispatch(setActiveImage(activeYear, activeImage));
+    dispatch(setActiveDotImage(activeYear, activeImage));
   }
 
   return dot;
@@ -112,7 +112,7 @@ export const deleteDotImage = (year) => (dispatch, getState) => {
   });
 };
 
-export const setActiveImage = (year, image) => (dispatch, getState) => {
+export const setActiveDotImage = (year, image) => (dispatch, getState) => {
   dispatch({
     type: DotConstants.SET_ACTIVE_IMAGE,
     payload: { image, year }

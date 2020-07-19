@@ -4,7 +4,7 @@ import {store} from '../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
 import props from './UObject.props';
 import styles from './UObject.styles';
-import {clearObjectState, fetchObject, putObject} from './UObject.actions';
+import {clearObjectState, fetchObject, setActiveObjectImage } from './UObject.actions';
 import {setCloudsVisibility} from '../u-map/UMap.actions';
 import {objectPage} from "./UObject.reducer";
 import {isAdmin} from "../u-app/UApp.helpers";
@@ -12,6 +12,7 @@ import '../shared/u-textbox/UTextbox';
 import '../u-comments/UComments';
 import '../shared/u-icon-button/UIconButton';
 import './u-object-controls/UObjectControls';
+import './u-object-timeline/UObjectTimeline';
 import {fetchComments} from "../u-comments/UComments.actions";
 
 store.addReducers({objectPage});
@@ -35,6 +36,11 @@ class UObject extends connect(store)(LitElement) {
             'u-object--loading': this._isFetching
         };
 
+        let photoOverlayClasses = {
+            'image-overlay': true,
+            'image-overlay--active': this.areCommentsVisible || this.areControlsVisible
+        };
+
         return html`          
           <div class="${classMap(uObjectClasses)}">
             <nav class="nav">
@@ -45,7 +51,18 @@ class UObject extends connect(store)(LitElement) {
             </nav>
             
             ${!this._isLoadingError ? html`
-                <main class="wrapper">       
+                <main class="wrapper">
+                    ${this.hasImage() ? html`
+                        <div class="${classMap(photoOverlayClasses)}"></div>
+                        <img src="https://urussu.s3.amazonaws.com/${this._activeImage}" 
+                             class="image" 
+                             alt="Уруссу, ${this._activeYear}"
+                             @load="${this.hideSpinner}">
+                            
+                        <u-object-timeline .images="${this._object.images}" .activeYear="${this._activeYear}"></u-object-timeline>`
+                            : (() => { this.hideSpinner(); return 'Изображения отсутствуют' })()
+                        }
+                    
                     ${this.areControlsVisible ? html`<u-object-controls .objectId="${this.objectId}"></u-object-controls>` : ''}
     
                     ${this.areCommentsVisible ? html`<u-comments origin-type="object" origin-id="${this.objectId}"></u-comments>` : ''}
@@ -63,6 +80,9 @@ class UObject extends connect(store)(LitElement) {
     stateChanged(state) {
         this._user = state.app.user;
         this._object = state.objectPage.object;
+
+        this._activeImage = state.objectPage.activeImage;
+        this._activeYear = state.objectPage.activeYear;
 
         this._isLoadingError = state.objectPage.isLoadingError;
         this._isFetching = state.objectPage.isFetching;
@@ -97,12 +117,14 @@ class UObject extends connect(store)(LitElement) {
             .querySelector('body')
             .addEventListener('keyup', (e) => this.handleEscapePress(e) );
 
+        this.addEventListener('u-object-timeline:change-image', this.changeImage);
         this.addEventListener('u-comments:hide-sidebar', this.hideSidebar);
     }
 
     _setDefaults() {
         this.areCommentsVisible = false;
         this.areControlsVisible = false;
+        this.isSpinnerVisible = true;
     }
 
     /*
@@ -125,6 +147,13 @@ class UObject extends connect(store)(LitElement) {
         return user.id === this._object.authorId;
     }
 
+    changeImage(e) {
+        const year = e.detail.year;
+        store.dispatch(setActiveObjectImage(year, this._object.images[year]));
+
+        this.isSpinnerVisible = true;
+    }
+
     toggleComments() {
         this.areCommentsVisible = !this.areCommentsVisible;
     }
@@ -140,6 +169,10 @@ class UObject extends connect(store)(LitElement) {
 
     hasImage() {
         return Boolean(this._activeImage);
+    }
+
+    hideSpinner() {
+        this.isSpinnerVisible = false;
     }
 }
 

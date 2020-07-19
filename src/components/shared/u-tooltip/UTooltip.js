@@ -85,13 +85,25 @@ class UTooltip extends LitElement {
     }
 
     showDot() {
-        this.dispatchEvent(new CustomEvent('show-dot', { detail: this.instanceId, composed: true, bubbles: true }));
+        this.dispatchEvent(new CustomEvent('u-tooltip::show-dot', { detail: this.instanceId, composed: true, bubbles: true }));
+    }
+
+    showObject() {
+        this.dispatchEvent(new CustomEvent('u-tooltip::show-object', { detail: this.instanceId, composed: true, bubbles: true }));
     }
 
     renderContent() {
         switch (this.instanceType) {
             case 'object':
                 return html`
+                    <img 
+                        src="${this.thumbnail ? this.thumbnail : '/static/images/tooltip/unknown.png'}" 
+                        width="90" 
+                        height="90" 
+                        alt="" 
+                        class="thumbnail"
+                        @click="${this.showObject}">
+                        
                     <div class="content">
                         <div class="title">${this.getObjectTitle()}</div>
                     </div>

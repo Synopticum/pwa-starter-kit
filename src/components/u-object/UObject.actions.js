@@ -1,12 +1,16 @@
 import {ENV} from "../../../environments/environments";
 import {getApiHeaders} from "../../../environments/api";
 import {MapConstants} from "../u-map/UMap.actions";
+import isEmpty from "lodash-es/isEmpty";
 
 export const ObjectConstants = {
     FETCH: 'OBJECT_FETCH',
     PUT: 'OBJECT_PUT',
     DELETE: 'OBJECT_DELETE',
-    CLEAR_STATE: 'OBJECT_CLEAR_STATE'
+    CLEAR_STATE: 'OBJECT_CLEAR_STATE',
+    ADD_IMAGE: 'OBJECT_ADD_IMAGE',
+    DELETE_IMAGE: 'OBJECT_DELETE_IMAGE',
+    SET_ACTIVE_IMAGE: 'OBJECT_SET_ACTIVE_IMAGE'
 };
 
 // -------
@@ -31,6 +35,13 @@ const _fetchObject = async (objectId, dispatch) => {
 
     let object = await response.json();
     history.pushState(null, null, `${ENV[window.ENV].static}/objects/${object.id.split('-')[0]}`);
+
+    if (!isEmpty(object.images)) {
+        let activeYear = Math.min(...Object.keys(object.images)).toString();
+        let activeImage = object.images[activeYear];
+
+        dispatch(setActiveObjectImage(activeYear, activeImage));
+    }
 
     return object;
 };
@@ -85,6 +96,28 @@ const _putObject = async (objectToPut, dispatch) => {
     dispatch({ type: MapConstants.OBJECTS.UPDATE, payload: object });
 
     return object;
+};
+
+// -------
+export const addObjectImage = (year, key) => (dispatch, getState) => {
+    dispatch({
+        type: ObjectConstants.ADD_IMAGE,
+        payload: { year, key }
+    });
+};
+
+export const deleteObjectImage = (year) => (dispatch, getState) => {
+    dispatch({
+        type: ObjectConstants.DELETE_IMAGE,
+        payload: { year }
+    });
+};
+
+export const setActiveObjectImage = (year, image) => (dispatch, getState) => {
+    dispatch({
+        type: ObjectConstants.SET_ACTIVE_IMAGE,
+        payload: { image, year }
+    });
 };
 
 export const clearObjectState = () => (dispatch, getState) => {

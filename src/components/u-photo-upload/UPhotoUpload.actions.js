@@ -1,11 +1,42 @@
 import {ENV} from "../../../environments/environments";
 import {getApiHeadersFormData} from "../../../environments/api";
-import {addDotImage, deleteDotImage, setActiveImage} from "../u-dot/UDot.actions";
+import {addDotImage, deleteDotImage, setActiveDotImage} from "../u-dot/UDot.actions";
+import {addObjectImage, deleteObjectImage, setActiveObjectImage} from "../u-object/UObject.actions";
 
 export const UPhotoUploadConstants = {
     PUT: 'PHOTO_UPLOAD_PUT',
     DELETE: 'PHOTO_UPLOAD_DELETE'
 };
+
+const _uploadImage = (type, year, jsonKey) => {
+    switch (type) {
+        case 'dot':
+            return addDotImage(year, jsonKey);
+
+        case 'object':
+            return addObjectImage(year, jsonKey);
+    }
+}
+
+const _setActiveImage = (type, year, jsonKey) => {
+    switch (type) {
+        case 'dot':
+            return setActiveDotImage(year, jsonKey);
+
+        case 'object':
+            return setActiveObjectImage(year, jsonKey);
+    }
+}
+
+const _deleteImage = (type, year, jsonKey) => {
+    switch (type) {
+        case 'dot':
+            return deleteDotImage(year);
+
+        case 'object':
+            return deleteObjectImage(year);
+    }
+}
 
 // -------
 export const uploadPhoto = (photo, type, year, id) => async (dispatch) => {
@@ -33,8 +64,8 @@ const _uploadPhoto = async (photo, type, year, id, dispatch) => {
 
     let json = await response.json();
 
-    dispatch(addDotImage(year, json.key));
-    dispatch(setActiveImage(year, json.key));
+    dispatch(_uploadImage(type, year, json.key));
+    dispatch(_setActiveImage(type, year, json.key));
 
     return json;
 };
@@ -59,5 +90,5 @@ const _deletePhoto = async (type, id, year, dispatch) => {
         throw new Error('Error while deleting a dot photo');
     }
 
-    return dispatch(deleteDotImage(year));
+    return dispatch(_deleteImage(year));
 };

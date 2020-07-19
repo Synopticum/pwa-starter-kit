@@ -3,6 +3,7 @@ import {css} from 'lit-element/lit-element';
 export default css`
 :host {
     display: flex;
+    width: 100%;
 }
 
 :host([hidden]) {
@@ -18,19 +19,16 @@ export default css`
 
 .u-object {
     position: relative;
+    width: 100%;
+    height: 100%;
     z-index: 200;
     pointer-events: all;
     border-radius: 3px;
-    background-color: #111;
-    box-shadow: 4px 4px 4px rgba(0,0,0,.15);
-    border: 2px solid rgba(111,155,52,1);
-    width: 90vw;
-    height: 90vh;
 }
 
 .u-object--loading {
-    width: 200px;
-    height: 200px;
+    width: 100%;
+    height: 100%;
     background: url('/static/images/spinner.gif') no-repeat 50% 50% transparent;
     box-shadow: none;
     border: 0;
@@ -38,7 +36,7 @@ export default css`
 
 .u-object--loading .nav,
 .u-object--loading .image,
-.u-object--loading u-dot-timeline {
+.u-object--loading u-object-timeline {
     display: none;
 }
 
@@ -53,6 +51,9 @@ export default css`
     width: 100%;
     height: 100%;
     font-size: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .form {
@@ -76,6 +77,40 @@ export default css`
     align-items: center;
 }
 
+.image {
+    width: 100%;
+    height: 100%;
+    max-width: 95vw;
+    max-height: 95vh;
+    object-fit: contain;
+    opacity: 1;
+    transition: opacity .3s;
+}
+
+.image-overlay {
+    display: none;
+}
+
+.image-overlay::before {
+    content: '';
+    position:absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    opacity: 0;
+    background: linear-gradient(to left, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0) 100%);
+    transition: opacity .3s;
+}
+
+.image-overlay--active {
+    display: block;
+}
+
+.image-overlay--active::before {
+    opacity: 1;
+}
+
 .hide-sidebar {
     position: absolute;
     right: 385px;
@@ -95,11 +130,11 @@ export default css`
     height: 100%;
     border: 0;
   }
-}
-
-.temp-nav {
-  position: absolute;
-  right: 100px;
-  top: 100px;
-}
+  
+  .image {
+    object-fit: cover;
+    max-width: 100%;
+    max-height: 100%;
+  }
+}}
 `;

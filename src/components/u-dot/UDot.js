@@ -4,7 +4,7 @@ import {store} from '../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
 import props from './UDot.props';
 import styles from './UDot.styles';
-import {clearDotState, fetchDot, setActiveImage} from './UDot.actions';
+import {clearDotState, fetchDot, setActiveDotImage} from './UDot.actions';
 import {setCloudsVisibility} from '../u-map/UMap.actions';
 import {dotPage} from "./UDot.reducer";
 import {isAdmin} from "../u-app/UApp.helpers";
@@ -148,7 +148,7 @@ class UDot extends connect(store)(LitElement) {
 
     changeImage(e) {
         const year = e.detail.year;
-        store.dispatch(setActiveImage(year, this._dot.images[year]));
+        store.dispatch(setActiveDotImage(year, this._dot.images[year]));
 
         this.isSpinnerVisible = true;
     }

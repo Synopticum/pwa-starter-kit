@@ -444,7 +444,8 @@ class UMap extends connect(store)(LitElement) {
     this._map.on('drag', debounce(this._updateUrl, 50).bind(this));
     this._map.on('click', this.getCoordinates.bind(this));
     this.addEventListener('click', this._handleOutsideClicks);
-    // this.addEventListener('show-dot', e => this._toggleDot(true, { target: { options: e.detail }}));
+    // this.addEventListener('u-tooltip::show-dot', e => this._toggleDot(true, { target: { options: e.detail }}));
+    // this.addEventListener('u-tooltip::show-object', e => this._toggleDot(true, { target: { options: e.detail }}));
   }
 
   _setReferences() {
