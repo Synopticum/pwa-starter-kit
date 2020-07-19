@@ -4,6 +4,7 @@ import {connect} from 'pwa-helpers';
 import {
     setCurrentDotId,
     setCurrentObjectId,
+    setCurrentPathId,
     toggleDotCreator,
 } from '../u-map/UMap.actions';
 import {fetch, toggle} from './UPage.actions';
@@ -109,6 +110,17 @@ export class UPage extends connect(store)(LitElement) {
             this._hideDotCreator();
         } else {
             store.dispatch(setCurrentObjectId(''));
+        }
+    }
+
+    _togglePath(isVisible, e) {
+        if (isVisible) {
+            store.dispatch(setCurrentPathId(''));
+            requestAnimationFrame(() => store.dispatch(setCurrentPathId(e.target.options.id)));
+
+            this._hideDotCreator();
+        } else {
+            store.dispatch(setCurrentPathId(''));
         }
     }
 

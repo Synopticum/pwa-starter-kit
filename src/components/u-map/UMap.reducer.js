@@ -267,6 +267,48 @@ export const objects = (state = {
                 items: state.items.filter(object => object.id !== objectId)
             };
 
+        case MapConstants.OBJECTS.THROW_ERROR:
+            return {
+                ...state,
+                failedObject: action.payload
+            };
+
+        default:
+            return state;
+    }
+};
+
+export const paths = (state = {
+    items: [],
+    isFetching: false,
+    failedPath: null
+}, action) => {
+    switch (action.type) {
+        case generateInProgressActionTypeName(MapConstants.PATHS.FETCH):
+            return {
+                ...state,
+                isFetching: true
+            };
+
+        case generateSuccessActionTypeName(MapConstants.PATHS.FETCH):
+            return {
+                ...state,
+                isFetching: false,
+                items: action.payload
+            };
+
+        case generateErrorActionTypeName(MapConstants.PATHS.FETCH):
+            return {
+                ...state,
+                isFetching: false
+            };
+
+        case MapConstants.PATHS.UPDATE:
+            return {
+                ...state,
+                items: [...state.items, action.payload]
+            };
+
         case PathConstants.DELETE:
             const pathId = action.params[0];
 
@@ -275,10 +317,10 @@ export const objects = (state = {
                 items: state.items.filter(path => path.id !== pathId)
             };
 
-        case MapConstants.OBJECTS.THROW_ERROR:
+        case MapConstants.PATHS.THROW_ERROR:
             return {
                 ...state,
-                failedObject: action.payload
+                failedPath: action.payload
             };
 
         default:

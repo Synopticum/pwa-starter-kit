@@ -2,6 +2,7 @@ import {ENV} from "../../../environments/environments";
 import {getApiHeadersFormData} from "../../../environments/api";
 import {addDotImage, deleteDotImage, setActiveDotImage} from "../u-dot/UDot.actions";
 import {addObjectImage, deleteObjectImage, setActiveObjectImage} from "../u-object/UObject.actions";
+import {addPathImage, deletePathImage, setActivePathImage} from "../u-path/UPath.actions";
 
 export const UPhotoUploadConstants = {
     PUT: 'PHOTO_UPLOAD_PUT',
@@ -15,6 +16,9 @@ const _uploadImage = (type, year, jsonKey) => {
 
         case 'object':
             return addObjectImage(year, jsonKey);
+
+        case 'path':
+            return addPathImage(year, jsonKey);
     }
 }
 
@@ -25,6 +29,9 @@ const _setActiveImage = (type, year, jsonKey) => {
 
         case 'object':
             return setActiveObjectImage(year, jsonKey);
+
+        case 'path':
+            return setActivePathImage(year, jsonKey);
     }
 }
 
@@ -35,6 +42,9 @@ const _deleteImage = (type, year) => {
 
         case 'object':
             return deleteObjectImage(year);
+
+        case 'path':
+            return deletePathImage(year);
     }
 }
 

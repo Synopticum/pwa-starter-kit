@@ -88,21 +88,19 @@ export class UObjectControls extends connect(store)(LitElement) {
                         
                 <main class="controls__segment">     
                     <div class="controls__segment-title">Настройки фотографии</div>
-                               
-                    <section class="controls__section controls__delete-photo">
-                        <u-text-button class="delete-image"
-                                       ?disabled="${this._isFetching || this._isUpdating}"
-                                       @click="${this.deletePhoto}">Удалить текущую фотографию</u-text-button>
-                     </section>
-                </main>
-                     
-                <main class="controls__segment">
+                    
                     <section class="controls__section controls__add-photo">
                        <label for="${this.objectId}" class="controls__label">Добавить новую фотографию:</label>
                        <u-photo-upload type="object"
                                        ?disabled="${this._isFetching || this._isUpdating}"
                                        id="${this.objectId}"></u-photo-upload>
                     </section>
+                               
+                    <section class="controls__section controls__delete-photo">
+                        <u-text-button class="delete-image"
+                                       ?disabled="${this._isFetching || this._isUpdating}"
+                                       @click="${this.deletePhoto}">Удалить текущую фотографию</u-text-button>
+                     </section>
                 </main>
             </div>
           </div>
@@ -167,17 +165,6 @@ export class UObjectControls extends connect(store)(LitElement) {
 
     deletePhoto() {
         store.dispatch(deletePhoto('object', this.objectId, this.activeYear));
-    }
-
-    changeObjectLabel(e) {
-        let label = e.target.value;
-
-        let updatedObject = {
-            ...this._object,
-            label
-        };
-
-        store.dispatch(putObject(updatedObject, this.objectId));
     }
 
     inputTitle(e) {

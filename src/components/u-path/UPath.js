@@ -4,7 +4,7 @@ import {store} from '../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
 import props from './UPath.props';
 import styles from './UPath.styles';
-import {clearPathState, fetchPath} from './UPath.actions';
+import {clearPathState, fetchPath, setActivePathImage } from './UPath.actions';
 import {setCloudsVisibility} from '../u-map/UMap.actions';
 import {pathPage} from "./UPath.reducer";
 import {isAdmin} from "../u-app/UApp.helpers";
@@ -12,6 +12,7 @@ import '../shared/u-textbox/UTextbox';
 import '../u-comments/UComments';
 import '../shared/u-icon-button/UIconButton';
 import './u-path-controls/UPathControls';
+import './u-path-timeline/UPathTimeline';
 import {fetchComments} from "../u-comments/UComments.actions";
 
 store.addReducers({pathPage});
@@ -30,13 +31,18 @@ class UPath extends connect(store)(LitElement) {
     }
 
     render() {
-        let uPathClasses = {
+        let UPathClasses = {
             'u-path': true,
             'u-path--loading': this._isFetching
         };
 
+        let photoOverlayClasses = {
+            'image-overlay': true,
+            'image-overlay--active': this.areCommentsVisible || this.areControlsVisible
+        };
+
         return html`          
-          <div class="${classMap(uPathClasses)}">
+          <div class="${classMap(UPathClasses)}">
             <nav class="nav">
                 ${this.areCommentsVisible || this.areControlsVisible ? html`<u-icon-button @click="${this.hideSidebar}" icon="close" class="hide-sidebar"></u-icon-button>` : ''}
                 ${isAdmin(this._user) ? html`<u-icon-button @click="${this.toggleControls}" icon="gear"></u-icon-button>` : ''}
@@ -45,8 +51,22 @@ class UPath extends connect(store)(LitElement) {
             </nav>
             
             ${!this._isLoadingError ? html`
-                <main class="wrapper">       
-                    ${this.areControlsVisible ? html`<u-path-controls .pathId="${this.pathId}"></u-path-controls>` : ''}
+                <main class="wrapper">
+                    ${this.hasImage() ? html`
+                        <div class="${classMap(photoOverlayClasses)}"></div>
+                        <img src="https://urussu.s3.amazonaws.com/${this._activeImage}" 
+                             class="image" 
+                             alt="Уруссу, ${this._activeYear}"
+                             @load="${this.hideSpinner}">
+                            
+                        <u-path-timeline .images="${this._path.images}" .activeYear="${this._activeYear}"></u-path-timeline>`
+            : (() => { this.hideSpinner(); return 'Изображения отсутствуют' })()
+        }
+                    
+                    ${this.areControlsVisible ? html`
+                        <u-path-controls 
+                            .pathId="${this.pathId}" 
+                            .activeYear="${this._activeYear}"></u-path-controls>` : ''}
     
                     ${this.areCommentsVisible ? html`<u-comments origin-type="path" origin-id="${this.pathId}"></u-comments>` : ''}
                 </main>
@@ -63,6 +83,9 @@ class UPath extends connect(store)(LitElement) {
     stateChanged(state) {
         this._user = state.app.user;
         this._path = state.pathPage.path;
+
+        this._activeImage = state.pathPage.activeImage;
+        this._activeYear = state.pathPage.activeYear;
 
         this._isLoadingError = state.pathPage.isLoadingError;
         this._isFetching = state.pathPage.isFetching;
@@ -97,12 +120,14 @@ class UPath extends connect(store)(LitElement) {
             .querySelector('body')
             .addEventListener('keyup', (e) => this.handleEscapePress(e) );
 
+        this.addEventListener('u-path-timeline:change-image', this.changeImage);
         this.addEventListener('u-comments:hide-sidebar', this.hideSidebar);
     }
 
     _setDefaults() {
         this.areCommentsVisible = false;
         this.areControlsVisible = false;
+        this.isSpinnerVisible = true;
     }
 
     /*
@@ -125,6 +150,13 @@ class UPath extends connect(store)(LitElement) {
         return user.id === this._path.authorId;
     }
 
+    changeImage(e) {
+        const year = e.detail.year;
+        store.dispatch(setActivePathImage(year, this._path.images[year]));
+
+        this.isSpinnerVisible = true;
+    }
+
     toggleComments() {
         this.areCommentsVisible = !this.areCommentsVisible;
     }
@@ -140,6 +172,10 @@ class UPath extends connect(store)(LitElement) {
 
     hasImage() {
         return Boolean(this._activeImage);
+    }
+
+    hideSpinner() {
+        this.isSpinnerVisible = false;
     }
 }
 

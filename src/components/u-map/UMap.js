@@ -9,6 +9,7 @@ import 'leaflet-rotatedmarker';
 import {
   fetchDots,
   fetchObjects,
+  fetchPaths,
   setCloudsVisibility,
   setCurrentDotId,
   setCurrentObjectId,
@@ -18,11 +19,12 @@ import {
   toggleTooltip,
   setSettings
 } from './UMap.actions';
+import { putPath } from '../u-path/UPath.actions';
 import { putObject } from '../u-object/UObject.actions';
 import { putDot } from '../u-dot/UDot.actions';
 import props from './UMap.props';
 import {app} from "../u-app/UApp.reducer";
-import {dots, map, objects } from "./UMap.reducer";
+import {dots, map, objects, paths } from "./UMap.reducer";
 import {isAdmin, isAnonymous} from "../u-app/UApp.helpers";
 import { range } from '../../helpers/range';
 
@@ -35,7 +37,7 @@ import '../u-path/UPath';
 import '../shared/u-noise/UNoise';
 import './u-map-range/UMapRange';
 
-store.addReducers({ app, map, dots, objects });
+store.addReducers({ app, map, dots, objects, paths });
 
 class UMap extends connect(store)(LitElement) {
   /*
@@ -391,12 +393,16 @@ class UMap extends connect(store)(LitElement) {
 
     if (this._objects !== state.objects.items) {
       this._drawObjects(state.objects.items.filter(object => object.instanceType === 'object'));
-      this._drawPaths(state.objects.items.filter(object => object.instanceType === 'path'));
       this._drawCircles(state.objects.items.filter(object => object.instanceType === 'circle'));
+    }
+
+    if (this._paths !== state.paths.items) {
+      this._drawPaths(state.paths.items);
     }
 
     this._objects = state.objects.items;
     this._dots = state.dots.items;
+    this._paths = state.paths.items;
     this._contextMenu = state.map.contextMenu;
     this._tooltip = state.map.tooltip;
     this._dotCreator = state.map.dotCreator;
@@ -415,6 +421,7 @@ class UMap extends connect(store)(LitElement) {
     if (state.map.dotCreator.tempDot === null && this._$tempDot) this._removeTempDot();
 
     if (state.objects.failedObject !== null && state.objects.failedObject.coordinates) this._showPuttingObjectError(state.objects.failedObject);
+    if (state.paths.failedPath !== null && state.paths.failedObject.coordinates) this._showPuttingObjectError(state.paths.failedPath);
   }
 
   firstUpdated() {
@@ -434,6 +441,7 @@ class UMap extends connect(store)(LitElement) {
   _setStore() {
     store.dispatch(fetchDots());
     store.dispatch(fetchObjects());
+    store.dispatch(fetchPaths());
   }
 
   _setListeners() {
@@ -512,7 +520,6 @@ class UMap extends connect(store)(LitElement) {
     this._setDefaultSettings();
     this._setMaxBounds();
     this._initializeTiles();
-    await this._drawObjects();
   }
 
   _createMapInstance() {
@@ -672,20 +679,20 @@ class UMap extends connect(store)(LitElement) {
   }
 
   _removeCurrentObjects() {
-    const layers = Object.entries(this._map._layers);
-
-    for (let layer of layers) {
-      const [ id ] = layer;
-
-      if (this._map._layers[id]._path !== undefined) {
-        try {
-          this._map.removeLayer(this._map._layers[id]);
-        }
-        catch (e) {
-          console.log('Problem with ' + e + this._map._layers[id]);
-        }
-      }
-    }
+    // const layers = Object.entries(this._map._layers);
+    //
+    // for (let layer of layers) {
+    //   const [ id ] = layer;
+    //
+    //   if (this._map._layers[id]._path !== undefined) {
+    //     try {
+    //       this._map.removeLayer(this._map._layers[id]);
+    //     }
+    //     catch (e) {
+    //       console.log('Problem with ' + e + this._map._layers[id]);
+    //     }
+    //   }
+    // }
   }
 
   _drawPaths(paths) {
@@ -712,13 +719,13 @@ class UMap extends connect(store)(LitElement) {
   }
 
   addPathToMap(coordinates) {
-    const object = new ObjectModel({
+    const path = new PathModel({
       instanceType: 'path',
       coordinates: coordinates,
       id: uuidv4()
     });
 
-    store.dispatch(putObject(object));
+    store.dispatch(putPath(path));
   }
 
   _removeCurrentPaths() {
@@ -727,7 +734,7 @@ class UMap extends connect(store)(LitElement) {
     for (let layer of layers) {
       const [ id ] = layer;
 
-      if (this._map._layers[id]._poly !== undefined) {
+      if (this._map._layers[id]._path !== undefined) {
         try {
           this._map.removeLayer(this._map._layers[id]);
         }
@@ -1115,6 +1122,14 @@ class ObjectModel {
     this.id = uuidv4();
     this.coordinates = options.coordinates;
     this.radius = options.radius;
+    this.instanceType = options.instanceType;
+  }
+}
+
+class PathModel {
+  constructor(options) {
+    this.id = uuidv4();
+    this.coordinates = options.coordinates;
     this.instanceType = options.instanceType;
   }
 }

@@ -1,11 +1,10 @@
 import {html, LitElement} from 'lit-element/lit-element';
-import {classMap} from 'lit-html/directives/class-map';
 import {store} from '../../../store';
 import {connect} from 'pwa-helpers';
 import {pathControls} from "./UPathControls.reducer";
 import {clearPathState, deletePath, putPath} from "../UPath.actions";
-// import {deletePhoto} from "../u-photo-upload/UPhotoUpload.actions";
-// import '../u-photo-upload/UPhotoUpload';
+import {deletePhoto} from "../../u-photo-upload/UPhotoUpload.actions";
+import '../../u-photo-upload/UPhotoUpload';
 import '../../shared/u-text-button/UTextButton';
 import {setCloudsVisibility} from "../../u-map/UMap.actions";
 import props from './UPathControls.props';
@@ -33,7 +32,7 @@ export class UPathControls extends connect(store)(LitElement) {
         
             <div class="controls">  
                 <main class="controls__segment">
-                    <div class="controls__segment-title">Настройки пути</div>
+                    <div class="controls__segment-title">Настройки объекта</div>
                     
                     <section class="controls__section controls__title">
                        <label class="controls__label">Заголовок:</label>
@@ -65,28 +64,25 @@ export class UPathControls extends connect(store)(LitElement) {
                     <section class="controls__section controls__delete-path">
                        <u-text-button class="remove"
                                       ?disabled="${this._isFetching || this._isUpdating}"
-                                      @click="${this.remove}">Удалить путь</u-text-button>
+                                      @click="${this.remove}">Удалить объект</u-text-button>
                     </section>
                 </main>
                         
                 <main class="controls__segment">     
                     <div class="controls__segment-title">Настройки фотографии</div>
-                               
-                    ${this.hasImage() ?
-                        html`<section class="controls__section controls__delete-photo">
-                                <u-text-button class="delete-image"
-                                               ?disabled="${this._isFetching || this._isUpdating}"
-                                               @click="${this.deletePhoto}">Удалить текущую фотографию</u-text-button>
-                             </section>` : ''}
-                </main>
-                     
-                <main class="controls__segment">
+                    
                     <section class="controls__section controls__add-photo">
                        <label for="${this.pathId}" class="controls__label">Добавить новую фотографию:</label>
                        <u-photo-upload type="path"
                                        ?disabled="${this._isFetching || this._isUpdating}"
                                        id="${this.pathId}"></u-photo-upload>
                     </section>
+                               
+                    <section class="controls__section controls__delete-photo">
+                        <u-text-button class="delete-image"
+                                       ?disabled="${this._isFetching || this._isUpdating}"
+                                       @click="${this.deletePhoto}">Удалить текущую фотографию</u-text-button>
+                     </section>
                 </main>
             </div>
           </div>
@@ -150,22 +146,7 @@ export class UPathControls extends connect(store)(LitElement) {
     }
 
     deletePhoto() {
-        store.dispatch(deletePhoto('path', this.pathId));
-    }
-
-    changePathLabel(e) {
-        let label = e.target.value;
-
-        let updatedPath = {
-            ...this._path,
-            label
-        };
-
-        store.dispatch(putPath(updatedPath, this.pathId));
-    }
-
-    hasImage() {
-        return Boolean(this._activeImage);
+        store.dispatch(deletePhoto('path', this.pathId, this.activeYear));
     }
 
     inputTitle(e) {
