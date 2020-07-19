@@ -46,34 +46,9 @@ class UTooltip extends LitElement {
       </style>
       
       <div class="u-tooltip">
-        ${this.instanceType === 'object' ? html`
-            <div class="tooltip-wrapper">
-                <div class="content">
-                    <div class="title">${this.getAddress()}</div>
-                </div>
-            </div>
-        ` : ''}
-        
-        ${this.instanceType === 'path' ? html`
-          <div class="path-tooltip">${this.title}</div>
-        ` : ''}
-        
-        ${this.instanceType === 'dot' ? html`
-            <div class="tooltip-wrapper">
-                <img 
-                    src="${this.thumbnail}" 
-                    width="120" 
-                    height="120" 
-                    alt="" 
-                    class="thumbnail"
-                    @click="${this.showDot}">
-                
-                <!-- <div class="content">
-                    <div class="title">${this.title}</div>
-                    <div class="description">${this.shortDescription}</div>
-                </div> -->
-            </div>
-        ` : ''}
+        <div class="tooltip-wrapper">
+            ${this.renderContent()}
+        </div>
       </div> 
     `
     }
@@ -82,12 +57,62 @@ class UTooltip extends LitElement {
         List of custom component's methods
         Any other methods
     */
+    getObjectTitle() {
+        if (this.street && this.house) {
+            return this.getAddress();
+        } else if (this.title) {
+            return this.getTitle();
+        } else {
+            return 'Терра инкогнита';
+        }
+    }
+
     getAddress() {
-        return this.street && this.house ? `${this.street}, ${this.house}` : 'Терра инкогнита';
+        return html`<div class="title">${this.street}, ${this.house}</div>`;
+    }
+
+    getTitle() {
+        if (this.title && this.shortDescription) {
+            return html`
+                <div class="title">${this.title}</div>
+                <div class="short-description">${this.shortDescription}</div>
+            `;
+        } else if (this.title) {
+            return html`<div class="title">${this.title}</div>`;
+        } else {
+            return '';
+        }
     }
 
     showDot() {
         this.dispatchEvent(new CustomEvent('show-dot', { detail: this.instanceId, composed: true, bubbles: true }));
+    }
+
+    renderContent() {
+        switch (this.instanceType) {
+            case 'object':
+                return html`
+                    <div class="content">
+                        <div class="title">${this.getObjectTitle()}</div>
+                    </div>
+                `;
+
+            case 'dot':
+                return html`
+                    <img 
+                        src="${this.thumbnail}" 
+                        width="120" 
+                        height="120" 
+                        alt="" 
+                        class="thumbnail"
+                        @click="${this.showDot}">
+                    
+                    <!-- <div class="content">
+                        <div class="title">${this.title}</div>
+                        <div class="description">${this.shortDescription}</div>
+                    </div> -->
+                `;
+        }
     }
 }
 

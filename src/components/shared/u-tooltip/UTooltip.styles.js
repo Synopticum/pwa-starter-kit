@@ -42,7 +42,7 @@ export default css`
   width: 100%;
   background: #fff;
   display: flex;
-  padding: 10px;
+  padding: 10px 15px;
   border-radius: .28571429rem;
   box-shadow: 0 0 0 1px transparent inset, 0 0 0 0 rgba(34,36,38,.15) inset, 0 1px 2px rgba(0,0,0,.3);
   box-sizing: border-box;
@@ -121,6 +121,14 @@ export default css`
 
 .title {
     white-space: nowrap;
+    font-size: 16px;
+}
+
+.short-description {
+    white-space: nowrap;
+    font-size: 14px;
+    color: #999;
+    font-style: italic;
 }
 
 :host(.tooltip--dot) .title {

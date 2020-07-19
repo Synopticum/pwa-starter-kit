@@ -51,36 +51,8 @@ class UObject extends connect(store)(LitElement) {
                     ${this.areCommentsVisible ? html`<u-comments origin-type="object" origin-id="${this.objectId}"></u-comments>` : ''}
                 </main>
             ` : 'Object not found'}
-            
-            <div class="temp-nav">
-                <div>
-                    <input type="text" value="${this._object.street}" id="street"><br>
-                    <input type="text" value="${this._object.house}" id="house"><br>
-                    <button type="button" @click="${this.testSave}">Сохранить</button>
-                </div>
-                
-                <br>
-                <br>
-                
-                <button type="button" @click="${this.testSave2}">Сбросить</button>
-            </div>
           </div>
       `
-    }
-
-    testSave() {
-        const street = this.shadowRoot.querySelector('#street').value;
-        const house = this.shadowRoot.querySelector('#house').value;
-
-        let updatedObject = { ...this._object, street, house };
-        store.dispatch(putObject(updatedObject, this.objectId));
-        this.close();
-    }
-
-    testSave2() {
-        let updatedObject = { ...this._object, street: '', house: '' };
-        store.dispatch(putObject(updatedObject, this.objectId));
-        this.close();
     }
 
     constructor() {

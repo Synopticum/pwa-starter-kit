@@ -386,7 +386,7 @@ class UMap extends connect(store)(LitElement) {
 
   stateChanged(state) {
     if (this._dots !== state.dots.items) {
-      this._drawDots(state.dots.items);
+      // this._drawDots(state.dots.items);
     }
 
     if (this._objects !== state.objects.items) {
@@ -655,7 +655,7 @@ class UMap extends connect(store)(LitElement) {
       })
       .on('mouseover', e => { this._toggleTooltip('object', true, e) })
       .on('mouseout', e => { this._toggleTooltip('object', false, e) })
-      // .on('click', e => { this._toggleObject(true, e) })
+      .on('click', e => { this._toggleObject(true, e) })
           .addTo(this._map);
     });
   }
