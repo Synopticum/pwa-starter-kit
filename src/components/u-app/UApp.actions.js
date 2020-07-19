@@ -41,7 +41,7 @@ const _fetchUserInfo = async () => {
   }
 
   if (user.id) {
-    avatar = await fetch(`${ENV[window.ENV].api}/api/users/${user.id}/avatar`).then(response => response.json());
+    avatar = await fetch(`${ENV[window.ENV].api}/api/users/${user.id}/avatar`).then(response => response.text());
   }
 
   return { ...user, avatar };
