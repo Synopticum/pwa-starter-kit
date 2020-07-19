@@ -25,7 +25,7 @@ export class UPathTimeline extends LitElement {
     render() {
         let yearsClasses = {
             'years': true,
-            'years--only-child': Path.entries(this.images).length === 1
+            'years--only-child': Object.entries(this.images).length === 1
         };
 
         return html`
@@ -35,7 +35,7 @@ export class UPathTimeline extends LitElement {
               <div class="underline"></div>
               <div class="underline"></div>
               <div class="underline"></div>
-              ${this.images && this.activeYear ? Path.entries(this.images).map((year, index) => this.renderYear(year, index)) : ''}
+              ${this.images && this.activeYear ? Object.entries(this.images).map((year, index) => this.renderYear(year, index)) : ''}
             </nav>
           </div> 
     `;

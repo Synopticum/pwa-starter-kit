@@ -70,7 +70,7 @@ class UPath extends connect(store)(LitElement) {
     
                     ${this.areCommentsVisible ? html`<u-comments origin-type="path" origin-id="${this.pathId}"></u-comments>` : ''}
                 </main>
-            ` : 'Path not found'}
+            ` : 'Улица не найдена'}
           </div>
       `
     }

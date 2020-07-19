@@ -105,7 +105,8 @@ class UPhotoUpload extends connect(store)(LitElement) {
         let files = this.$input.files;
 
         const photo = files[0];
-        store.dispatch(uploadPhoto(photo, this.type, this.year, this.id));
+        const id = this.id.split('-')[0];
+        store.dispatch(uploadPhoto(photo, this.type, this.year, id));
 
         this.isFileSelected = false;
         this.year = '';
