@@ -178,6 +178,7 @@ export class UDotControls extends connect(store)(LitElement) {
         let updatedDot = { ...this._dot, label };
         store.dispatch(putDot(updatedDot, this.dotId));
     }
+
     changeDotType(e) {
         let type = e.target.value;
         let updatedDot = { ...this._dot, type };
@@ -188,10 +189,6 @@ export class UDotControls extends connect(store)(LitElement) {
         let layer = e.target.value;
         let updatedDot = { ...this._dot, layer };
         store.dispatch(putDot(updatedDot, this.dotId));
-    }
-
-    hasImage() {
-        return Boolean(this._activeImage);
     }
 
     inputTitle(e) {

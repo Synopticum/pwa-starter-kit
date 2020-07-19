@@ -63,7 +63,10 @@ class UObject extends connect(store)(LitElement) {
                             : (() => { this.hideSpinner(); return 'Изображения отсутствуют' })()
                         }
                     
-                    ${this.areControlsVisible ? html`<u-object-controls .objectId="${this.objectId}"></u-object-controls>` : ''}
+                    ${this.areControlsVisible ? html`
+                        <u-object-controls 
+                            .objectId="${this.objectId}" 
+                            .activeYear="${this._activeYear}"></u-object-controls>` : ''}
     
                     ${this.areCommentsVisible ? html`<u-comments origin-type="object" origin-id="${this.objectId}"></u-comments>` : ''}
                 </main>

@@ -1,11 +1,10 @@
 import {html, LitElement} from 'lit-element/lit-element';
-import {classMap} from 'lit-html/directives/class-map';
 import {store} from '../../../store';
 import {connect} from 'pwa-helpers';
 import {objectControls} from "./UObjectControls.reducer";
 import {clearObjectState, deleteObject, putObject} from "../UObject.actions";
-// import {deletePhoto} from "../u-photo-upload/UPhotoUpload.actions";
-// import '../u-photo-upload/UPhotoUpload';
+import {deletePhoto} from "../../u-photo-upload/UPhotoUpload.actions";
+import '../../u-photo-upload/UPhotoUpload';
 import '../../shared/u-text-button/UTextButton';
 import {setCloudsVisibility} from "../../u-map/UMap.actions";
 import props from './UObjectControls.props';
@@ -90,12 +89,11 @@ export class UObjectControls extends connect(store)(LitElement) {
                 <main class="controls__segment">     
                     <div class="controls__segment-title">Настройки фотографии</div>
                                
-                    ${this.hasImage() ?
-                        html`<section class="controls__section controls__delete-photo">
-                                <u-text-button class="delete-image"
-                                               ?disabled="${this._isFetching || this._isUpdating}"
-                                               @click="${this.deletePhoto}">Удалить текущую фотографию</u-text-button>
-                             </section>` : ''}
+                    <section class="controls__section controls__delete-photo">
+                        <u-text-button class="delete-image"
+                                       ?disabled="${this._isFetching || this._isUpdating}"
+                                       @click="${this.deletePhoto}">Удалить текущую фотографию</u-text-button>
+                     </section>
                 </main>
                      
                 <main class="controls__segment">
@@ -168,7 +166,7 @@ export class UObjectControls extends connect(store)(LitElement) {
     }
 
     deletePhoto() {
-        store.dispatch(deletePhoto('object', this.objectId));
+        store.dispatch(deletePhoto('object', this.objectId, this.activeYear));
     }
 
     changeObjectLabel(e) {
@@ -180,10 +178,6 @@ export class UObjectControls extends connect(store)(LitElement) {
         };
 
         store.dispatch(putObject(updatedObject, this.objectId));
-    }
-
-    hasImage() {
-        return Boolean(this._activeImage);
     }
 
     inputTitle(e) {

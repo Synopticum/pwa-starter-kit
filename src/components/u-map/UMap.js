@@ -386,7 +386,7 @@ class UMap extends connect(store)(LitElement) {
 
   stateChanged(state) {
     if (this._dots !== state.dots.items) {
-      // this._drawDots(state.dots.items);
+      this._drawDots(state.dots.items);
     }
 
     if (this._objects !== state.objects.items) {
@@ -893,7 +893,6 @@ class UMap extends connect(store)(LitElement) {
         const { top, right, bottom, left } = e.originalEvent.target.getBoundingClientRect();
         let coordinates = UMap._calculatePosition(type, { top, right, bottom, left });
 
-        // debugger;
         store.dispatch(toggleTooltip(type,true, id, coordinates));
       }, 1000);
     } else {

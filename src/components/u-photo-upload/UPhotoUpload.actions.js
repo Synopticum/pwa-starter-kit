@@ -28,7 +28,7 @@ const _setActiveImage = (type, year, jsonKey) => {
     }
 }
 
-const _deleteImage = (type, year, jsonKey) => {
+const _deleteImage = (type, year) => {
     switch (type) {
         case 'dot':
             return deleteDotImage(year);
@@ -90,5 +90,5 @@ const _deletePhoto = async (type, id, year, dispatch) => {
         throw new Error('Error while deleting a dot photo');
     }
 
-    return dispatch(_deleteImage(year));
+    return dispatch(_deleteImage(type, year));
 };

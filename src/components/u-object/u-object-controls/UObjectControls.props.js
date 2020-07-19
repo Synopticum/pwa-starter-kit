@@ -14,6 +14,11 @@ export default {
         attribute: false
     },
 
+    activeYear: {
+        type: String,
+        attribute: false
+    },
+
     _user: {
         type: Object,
         attribute: false

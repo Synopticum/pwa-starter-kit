@@ -112,17 +112,16 @@ class UTooltip extends LitElement {
             case 'dot':
                 return html`
                     <img 
-                        src="${this.thumbnail}" 
-                        width="120" 
-                        height="120" 
+                        src="${this.thumbnail ? this.thumbnail : '/static/images/tooltip/unknown.png'}" 
+                        width="90" 
+                        height="90" 
                         alt="" 
                         class="thumbnail"
                         @click="${this.showDot}">
-                    
-                    <!-- <div class="content">
-                        <div class="title">${this.title}</div>
-                        <div class="description">${this.shortDescription}</div>
-                    </div> -->
+                        
+                    <div class="content">
+                        <div class="title">${this.getTitle()}</div>
+                    </div>
                 `;
         }
     }
