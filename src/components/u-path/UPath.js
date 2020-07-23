@@ -11,8 +11,8 @@ import {isAdmin} from "../u-app/UApp.helpers";
 import '../shared/u-textbox/UTextbox';
 import '../u-comments/UComments';
 import '../shared/u-icon-button/UIconButton';
+import '../shared/u-timeline/UTimeline';
 import './u-path-controls/UPathControls';
-import './u-path-timeline/UPathTimeline';
 import {fetchComments} from "../u-comments/UComments.actions";
 
 store.addReducers({pathPage});
@@ -59,7 +59,7 @@ class UPath extends connect(store)(LitElement) {
                              alt="Уруссу, ${this._activeYear}"
                              @load="${this.hideSpinner}">
                             
-                        <u-path-timeline .images="${this._path.images}" .activeYear="${this._activeYear}"></u-path-timeline>`
+                        <u-timeline .type="${`path`}" .images="${this._path.images}" .activeYear="${this._activeYear}"></u-timeline>`
             : (() => { this.hideSpinner(); return 'Изображения отсутствуют' })()
         }
                     
@@ -120,7 +120,7 @@ class UPath extends connect(store)(LitElement) {
             .querySelector('body')
             .addEventListener('keyup', (e) => this.handleEscapePress(e) );
 
-        this.addEventListener('u-path-timeline:change-image', this.changeImage);
+        this.addEventListener('u-timeline:change-image', this.changeImage);
         this.addEventListener('u-comments:hide-sidebar', this.hideSidebar);
     }
 
@@ -151,10 +151,12 @@ class UPath extends connect(store)(LitElement) {
     }
 
     changeImage(e) {
-        const year = e.detail.year;
-        store.dispatch(setActivePathImage(year, this._path.images[year]));
+        if (e.detail.type === 'path') {
+            const name = e.detail.name;
+            store.dispatch(setActivePathImage(name, this._path.images[name]));
 
-        this.isSpinnerVisible = true;
+            this.isSpinnerVisible = true;
+        }
     }
 
     toggleComments() {

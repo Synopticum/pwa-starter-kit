@@ -5,6 +5,7 @@ import {
     generateInProgressActionTypeName,
     generateSuccessActionTypeName,
 } from "../../middleware/asyncActionsMiddleware";
+import { groupImages } from '../../helpers/groupImages';
 
 export const dotPage = (state = {
     dot: { },
@@ -26,7 +27,10 @@ export const dotPage = (state = {
             return {
                 ...state,
                 isFetching: false,
-                dot: action.payload
+                dot: {
+                    ...action.payload,
+                    groupedImages: groupImages(action.payload.images)
+                }
             };
 
         case generateErrorActionTypeName(DotConstants.FETCH):
@@ -41,14 +45,20 @@ export const dotPage = (state = {
             return {
                 ...state,
                 isUpdating: true,
-                dotToBeUpdated: action.payload
+                dotToBeUpdated: {
+                    ...action.payload,
+                    groupedImages: groupImages(action.payload.images)
+                }
             };
 
         case generateSuccessActionTypeName(DotConstants.PUT):
             return {
                 ...state,
                 isUpdating: false,
-                dot: action.payload
+                dot: {
+                    ...action.payload,
+                    groupedImages: groupImages(action.payload.images)
+                }
             };
 
         case generateErrorActionTypeName(DotConstants.PUT):
@@ -58,27 +68,30 @@ export const dotPage = (state = {
             };
 
         case DotConstants.ADD_IMAGE:
+            const updatedImagesOnAdd = {
+                ...state.dot.images,
+                [action.payload.year]: action.payload.key
+            };
+
             return {
                 ...state,
                 dot: {
                     ...state.dot,
                     activeYear: action.payload.year,
                     activeImage: action.payload.key,
-                    images: {
-                        ...state.dot.images,
-                        [action.payload.year]: action.payload.key
-                    }
+                    images: updatedImagesOnAdd,
+                    groupedImages: groupImages(updatedImagesOnAdd)
                 }
             };
 
         case DotConstants.DELETE_IMAGE:
-            const updatedImages = { ...state.dot.images };
-            delete updatedImages[action.payload.year];
+            const updatedImagesOnDelete = { ...state.dot.images };
+            delete updatedImagesOnDelete[action.payload.year];
 
             // Once an image deleted, check if there are other images and show the oldest available one
             // If not, show nothing
-            const activeYear = !isEmpty(updatedImages) ? Math.min(...Object.keys(updatedImages)) : '';
-            const activeImage = !isEmpty(updatedImages) ? updatedImages[activeYear] : '';
+            const activeYear = !isEmpty(updatedImagesOnDelete) ? Math.min(...Object.keys(updatedImagesOnDelete)) : '';
+            const activeImage = !isEmpty(updatedImagesOnDelete) ? updatedImagesOnDelete[activeYear] : '';
 
             return {
                 ...state,
@@ -86,7 +99,8 @@ export const dotPage = (state = {
                 activeImage,
                 dot: {
                     ...state.dot,
-                    images: updatedImages
+                    images: updatedImagesOnDelete,
+                    groupedImages: groupImages(updatedImagesOnDelete)
                 }
             };
 

@@ -49,20 +49,22 @@ const _deleteImage = (type, year) => {
 }
 
 // -------
-export const uploadPhoto = (photo, type, year, id) => async (dispatch) => {
+export const uploadPhoto = (photo, type, year, id, join) => async (dispatch) => {
     dispatch({
         type: UPhotoUploadConstants.PUT,
         async: true,
         httpMethodToInvoke: _uploadPhoto,
-        params: [photo, type, year, id, dispatch]
+        params: [photo, type, year, id, join, dispatch]
     });
 };
 
-const _uploadPhoto = async (photo, type, year, id, dispatch) => {
+const _uploadPhoto = async (photo, type, year, id, join, dispatch) => {
     let formData = new FormData();
     formData.append('photo', photo);
 
-    let response = await fetch(`${ENV[window.ENV].api}/api/${type}/${id}/photos/${year}`, {
+    const yearName = join ? `${join.activeYear}_${join.newYear}` : year;
+
+    let response = await fetch(`${ENV[window.ENV].api}/api/${type}/${id}/photos/${yearName}`, {
         method: 'PUT',
         headers: getApiHeadersFormData(localStorage.token),
         body: formData

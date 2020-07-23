@@ -7,5 +7,10 @@ export default {
     activeYear: {
         type: String,
         attribute: false
+    },
+
+    type: {
+        type: String,
+        attribute: false
     }
 };

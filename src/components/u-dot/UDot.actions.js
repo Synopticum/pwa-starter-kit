@@ -37,7 +37,7 @@ const _fetchDot = async (dotId, dispatch) => {
   history.pushState(null, null, `${ENV[window.ENV].static}/dots/${dot.id.split('-')[0]}`);
 
   if (!isEmpty(dot.images)) {
-    let activeYear = Math.min(...Object.keys(dot.images)).toString();
+    let activeYear = Math.min(...Object.keys(dot.images).filter(item => !item.includes('_'))).toString();
     let activeImage = dot.images[activeYear];
 
     dispatch(setActiveDotImage(activeYear, activeImage));

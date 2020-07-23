@@ -93,7 +93,8 @@ export class UObjectControls extends connect(store)(LitElement) {
                        <label for="${this.objectId}" class="controls__label">Добавить новую фотографию:</label>
                        <u-photo-upload type="object"
                                        ?disabled="${this._isFetching || this._isUpdating}"
-                                       id="${this.objectId}"></u-photo-upload>
+                                       id="${this.objectId}"
+                                       .activeYear="${this.activeYear}"></u-photo-upload>
                     </section>
                                
                     <section class="controls__section controls__delete-photo">

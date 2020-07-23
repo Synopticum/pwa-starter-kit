@@ -5,6 +5,7 @@ import {
     generateSuccessActionTypeName,
 } from "../../middleware/asyncActionsMiddleware";
 import isEmpty from "lodash-es/isEmpty";
+import { groupImages } from '../../helpers/groupImages';
 
 export const pathPage = (state = {
     path: { },
@@ -24,7 +25,10 @@ export const pathPage = (state = {
             return {
                 ...state,
                 isFetching: false,
-                path: action.payload
+                path: {
+                    ...action.payload,
+                    groupedImages: groupImages(action.payload.images)
+                }
             };
 
         case generateErrorActionTypeName(PathConstants.FETCH):
@@ -39,14 +43,20 @@ export const pathPage = (state = {
             return {
                 ...state,
                 isUpdating: true,
-                pathToBeUpdated: action.payload
+                pathToBeUpdated: {
+                    ...action.payload,
+                    groupedImages: groupImages(action.payload.images)
+                }
             };
 
         case generateSuccessActionTypeName(PathConstants.PUT):
             return {
                 ...state,
                 isUpdating: false,
-                path: action.payload
+                path: {
+                    ...action.payload,
+                    groupedImages: groupImages(action.payload.images)
+                }
             };
 
         case generateErrorActionTypeName(PathConstants.PUT):
@@ -56,27 +66,30 @@ export const pathPage = (state = {
             };
 
         case PathConstants.ADD_IMAGE:
+            const updatedImagesOnAdd = {
+                ...state.path.images,
+                [action.payload.year]: action.payload.key
+            };
+
             return {
                 ...state,
                 path: {
                     ...state.path,
                     activeYear: action.payload.year,
                     activeImage: action.payload.key,
-                    images: {
-                        ...state.path.images,
-                        [action.payload.year]: action.payload.key
-                    }
+                    images: updatedImagesOnAdd,
+                    groupedImages: groupImages(updatedImagesOnAdd)
                 }
             };
 
         case PathConstants.DELETE_IMAGE:
-            const updatedImages = { ...state.path.images };
-            delete updatedImages[action.payload.year];
+            const updatedImagesOnDelete = { ...state.path.images };
+            delete updatedImagesOnDelete[action.payload.year];
 
             // Once an image deleted, check if there are other images and show the oldest available one
             // If not, show nothing
-            const activeYear = !isEmpty(updatedImages) ? Math.min(...Object.keys(updatedImages)) : '';
-            const activeImage = !isEmpty(updatedImages) ? updatedImages[activeYear] : '';
+            const activeYear = !isEmpty(updatedImagesOnDelete) ? Math.min(...Object.keys(updatedImagesOnDelete)) : '';
+            const activeImage = !isEmpty(updatedImagesOnDelete) ? updatedImagesOnDelete[activeYear] : '';
 
             return {
                 ...state,
@@ -84,7 +97,8 @@ export const pathPage = (state = {
                 activeImage,
                 path: {
                     ...state.path,
-                    images: updatedImages
+                    images: updatedImagesOnDelete,
+                    groupedImages: groupImages(updatedImagesOnDelete)
                 }
             };
 

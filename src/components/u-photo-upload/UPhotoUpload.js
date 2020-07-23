@@ -27,12 +27,17 @@ class UPhotoUpload extends connect(store)(LitElement) {
     }
 
     render() {
-        let selectYearClasses = {
+        const selectYearClasses = {
             'select-year': true,
             'select-year--active': this.isFileSelected
         };
 
-        let uploadButtonClasses = {
+        const joinClasses = {
+            'join': true,
+            'join--active': this.isFileSelected
+        };
+
+        const uploadButtonClasses = {
             'upload': true,
             'upload--active': this.isFileSelected && this.year
         };
@@ -50,6 +55,16 @@ class UPhotoUpload extends connect(store)(LitElement) {
                 <option value="0" ?selected="${!this.year}" disabled hidden>Выберите год съемки</option>
                 ${this.layers.map(layer => html`<option value="${layer.toString()}" ?selected="${this.year === layer.toString()}">${layer}</option>`)}
             </select>
+            
+            <div class="${classMap(joinClasses)}">
+                <input 
+                    type="checkbox" 
+                    id="join"
+                    @change="${this.toggleJoin}"
+                    ?checked="${this.isJoinChecked}"
+                    ?disabled="${this.disabled || this._isUploading}"> 
+                <label for="join">Совместить с текущим</label>
+            </div>
                    
             <u-text-button 
                 class="${classMap(uploadButtonClasses)}"
@@ -106,7 +121,8 @@ class UPhotoUpload extends connect(store)(LitElement) {
 
         const photo = files[0];
         const id = this.id.split('-')[0];
-        store.dispatch(uploadPhoto(photo, this.type, this.year, id));
+        const join = this.isJoinChecked ? { activeYear: this.activeYear, newYear: this.year } : null;
+        store.dispatch(uploadPhoto(photo, this.type, this.year, id, join));
 
         this.isFileSelected = false;
         this.year = '';
@@ -114,6 +130,10 @@ class UPhotoUpload extends connect(store)(LitElement) {
 
     selectFile(e) {
         this.isFileSelected = Boolean(e.target.files.length);
+    }
+
+    toggleJoin(e) {
+        this.isJoinChecked = e.currentTarget.checked;
     }
 
     changeYear(e) {

@@ -11,8 +11,8 @@ import {isAdmin} from "../u-app/UApp.helpers";
 import '../shared/u-textbox/UTextbox';
 import '../u-comments/UComments';
 import '../shared/u-icon-button/UIconButton';
+import '../shared/u-timeline/UTimeline';
 import './u-object-controls/UObjectControls';
-import './u-object-timeline/UObjectTimeline';
 import {fetchComments} from "../u-comments/UComments.actions";
 
 store.addReducers({objectPage});
@@ -59,7 +59,7 @@ class UObject extends connect(store)(LitElement) {
                              alt="Уруссу, ${this._activeYear}"
                              @load="${this.hideSpinner}">
                             
-                        <u-object-timeline .images="${this._object.images}" .activeYear="${this._activeYear}"></u-object-timeline>`
+                        <u-timeline .type="${`object`}" .images="${this._object.groupedImages}" .activeYear="${this._activeYear}"></u-timeline>`
                             : (() => { this.hideSpinner(); return 'Изображения отсутствуют' })()
                         }
                     
@@ -120,7 +120,7 @@ class UObject extends connect(store)(LitElement) {
             .querySelector('body')
             .addEventListener('keyup', (e) => this.handleEscapePress(e) );
 
-        this.addEventListener('u-object-timeline:change-image', this.changeImage);
+        this.addEventListener('u-timeline:change-image', this.changeImage);
         this.addEventListener('u-comments:hide-sidebar', this.hideSidebar);
     }
 
@@ -151,10 +151,12 @@ class UObject extends connect(store)(LitElement) {
     }
 
     changeImage(e) {
-        const year = e.detail.year;
-        store.dispatch(setActiveObjectImage(year, this._object.images[year]));
+        if (e.detail.type === 'object') {
+            const name = e.detail.name;
+            store.dispatch(setActiveObjectImage(name, this._object.images[name]));
 
-        this.isSpinnerVisible = true;
+            this.isSpinnerVisible = true;
+        }
     }
 
     toggleComments() {

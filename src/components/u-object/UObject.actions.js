@@ -37,7 +37,7 @@ const _fetchObject = async (objectId, dispatch) => {
     history.pushState(null, null, `${ENV[window.ENV].static}/objects/${object.id.split('-')[0]}`);
 
     if (!isEmpty(object.images)) {
-        let activeYear = Math.min(...Object.keys(object.images)).toString();
+        let activeYear = Math.min(...Object.keys(object.images).filter(item => !item.includes('_'))).toString();
         let activeImage = object.images[activeYear];
 
         dispatch(setActiveObjectImage(activeYear, activeImage));

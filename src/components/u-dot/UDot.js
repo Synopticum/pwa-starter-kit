@@ -11,8 +11,8 @@ import {isAdmin} from "../u-app/UApp.helpers";
 import '../shared/u-textbox/UTextbox';
 import '../u-comments/UComments';
 import '../shared/u-icon-button/UIconButton';
+import '../shared/u-timeline/UTimeline';
 import './u-dot-controls/UDotControls';
-import './u-dot-timeline/UDotTimeline';
 import {fetchComments} from "../u-comments/UComments.actions";
 
 store.addReducers({dotPage});
@@ -59,7 +59,7 @@ class UDot extends connect(store)(LitElement) {
                              alt="Уруссу, ${this._activeYear}"
                              @load="${this.hideSpinner}">
                             
-                        <u-dot-timeline .images="${this._dot.images}" .activeYear="${this._activeYear}"></u-dot-timeline>` 
+                        <u-timeline .type="${`dot`}" .images="${this._dot.images}" .activeYear="${this._activeYear}"></u-timeline>` 
                         : (() => { this.hideSpinner(); return 'Изображения отсутствуют' })()
                     }
     
@@ -116,7 +116,7 @@ class UDot extends connect(store)(LitElement) {
             .querySelector('body')
             .addEventListener('keyup', (e) => this.handleEscapePress(e) );
 
-        this.addEventListener('u-dot-timeline:change-image', this.changeImage);
+        this.addEventListener('u-timeline:change-image', this.changeImage);
         this.addEventListener('u-comments:hide-sidebar', this.hideSidebar);
     }
 
@@ -147,10 +147,12 @@ class UDot extends connect(store)(LitElement) {
     }
 
     changeImage(e) {
-        const year = e.detail.year;
-        store.dispatch(setActiveDotImage(year, this._dot.images[year]));
+        if (e.detail.type === 'dot') {
+            const name = e.detail.name;
+            store.dispatch(setActiveDotImage(name, this._dot.images[name]));
 
-        this.isSpinnerVisible = true;
+            this.isSpinnerVisible = true;
+        }
     }
 
     toggleComments() {

@@ -37,7 +37,7 @@ const _fetchPath = async (pathId, dispatch) => {
     history.pushState(null, null, `${ENV[window.ENV].static}/paths/${path.id.split('-')[0]}`);
 
     if (!isEmpty(path.images)) {
-        let activeYear = Math.min(...Object.keys(path.images)).toString();
+        let activeYear = Math.min(...Object.keys(path.images).filter(item => !item.includes('_'))).toString();
         let activeImage = path.images[activeYear];
 
         dispatch(setActivePathImage(activeYear, activeImage));

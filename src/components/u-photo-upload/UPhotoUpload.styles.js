@@ -23,6 +23,22 @@ export default css`
     margin: 10px 0;
 }
 
+/* join */
+.join {
+    display: none;
+}
+
+.join--active {
+    display: block;
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+.join input[type="checkbox"] {
+    position: relative;
+    top: 1px;
+}
+
 /* upload button */
 .upload {
     display: none;

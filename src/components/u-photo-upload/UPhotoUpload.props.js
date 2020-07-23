@@ -19,6 +19,11 @@ export default {
         attribute: false
     },
 
+    isJoinChecked: {
+        type: Boolean,
+        attribute: false
+    },
+
     id: {
         type: String,
         attribute: 'id'
@@ -27,5 +32,10 @@ export default {
     disabled: {
         type: Boolean,
         attribute: 'disabled'
+    },
+
+    activeYear: {
+        type: String,
+        attribute: false
     }
 };
