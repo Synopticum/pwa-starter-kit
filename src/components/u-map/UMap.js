@@ -822,7 +822,7 @@ class UMap extends connect(store)(LitElement) {
 
   _createMarker(dot) {
     let className;
-    const year = Object.keys(dot.images)[0];
+    const year = dot.images ? Object.keys(dot.images)[0] : 1940;
     const hasMoreThanOneImage = dot.images && Array.isArray(Object.keys(dot.images)) && Object.keys(dot.images).length > 1;
 
     if (hasMoreThanOneImage) {
@@ -898,7 +898,7 @@ class UMap extends connect(store)(LitElement) {
         let id = e.target.options.id;
 
         const { top, right, bottom, left } = e.originalEvent.target.getBoundingClientRect();
-        let coordinates = UMap._calculatePosition(type, { top, right, bottom, left });
+        let coordinates = UMap._calculateTooltipPosition(type, { top, right, bottom, left });
 
         store.dispatch(toggleTooltip(type,true, id, coordinates));
       }, 1000);
@@ -952,7 +952,7 @@ class UMap extends connect(store)(LitElement) {
   _toggleContextMenu(isVisible, e) {
     if (isAdmin(this._user)) {
       if (isVisible) {
-        let position = UMap._calculatePosition(e.containerPoint.x, e.containerPoint.y, 150, 63);
+        let position = UMap._calculateContextMenuPosition(e.containerPoint.x, e.containerPoint.y, 150, 63);
         store.dispatch(toggleContextMenu(true, position));
       } else {
         store.dispatch(toggleContextMenu(false, { x: this._contextMenu.position.x, y: this._contextMenu.position.y }));
@@ -983,7 +983,7 @@ class UMap extends connect(store)(LitElement) {
   // ----- end of map UI control methods -----
 
 
-  static _calculatePosition(type, position) {
+  static _calculateTooltipPosition(type, position) {
     const html = document.querySelector('html');
     const { top, right, bottom, left } = position;
     let origin;
@@ -1023,6 +1023,10 @@ class UMap extends connect(store)(LitElement) {
       },
       origin
     };
+  }
+
+  static _calculateContextMenuPosition(x, y, width, height) {
+    return { x, y, origin: 'top left' };
   }
 
 
