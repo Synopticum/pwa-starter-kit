@@ -179,6 +179,10 @@ class UMap extends connect(store)(LitElement) {
             animation-fill-mode: forwards;
         }
         
+        path.leaflet-interactive--has-images {
+            opacity: .75;
+        }
+        
         @keyframes disappear {
           0% {
             opacity: .75;
@@ -659,7 +663,8 @@ class UMap extends connect(store)(LitElement) {
       L.polygon(object.coordinates, {
         id: object.id,
         color,
-        weight: this.objectStrokeWidth
+        weight: this.objectStrokeWidth,
+        className: object.images ? 'leaflet-interactive--has-images' : ''
       })
       .on('mouseover', e => { this._toggleTooltip('object', true, e) })
       .on('mouseout', e => { this._toggleTooltip('object', false, e) })
