@@ -94,7 +94,7 @@ export class UObjectControls extends connect(store)(LitElement) {
                        <u-photo-upload type="object"
                                        ?disabled="${this._isFetching || this._isUpdating}"
                                        id="${this.objectId}"
-                                       .activeYear="${this.activeYear}"></u-photo-upload>
+                                       .activeYear="${this._activeYear}"></u-photo-upload>
                     </section>
                                
                     <section class="controls__section controls__delete-photo">
@@ -118,6 +118,8 @@ export class UObjectControls extends connect(store)(LitElement) {
         this._object = state.objectPage.object;
 
         this._objectControls = state.objectControls;
+
+        this._activeYear = state.objectPage.activeYear;
 
         this._isFetching = state.objectPage.isFetching;
         this._isUpdating = state.objectPage.isUpdating;
@@ -165,7 +167,7 @@ export class UObjectControls extends connect(store)(LitElement) {
     }
 
     deletePhoto() {
-        store.dispatch(deletePhoto('object', this.objectId, this.activeYear));
+        store.dispatch(deletePhoto('object', this.objectId, this._activeYear));
     }
 
     inputTitle(e) {

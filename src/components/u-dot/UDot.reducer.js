@@ -45,10 +45,7 @@ export const dotPage = (state = {
             return {
                 ...state,
                 isUpdating: true,
-                dotToBeUpdated: {
-                    ...action.payload,
-                    groupedImages: groupImages(action.payload.images)
-                }
+                dotToBeUpdated: action.payload
             };
 
         case generateSuccessActionTypeName(DotConstants.PUT):

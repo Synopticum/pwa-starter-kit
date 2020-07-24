@@ -75,7 +75,8 @@ export class UPathControls extends connect(store)(LitElement) {
                        <label for="${this.pathId}" class="controls__label">Добавить новую фотографию:</label>
                        <u-photo-upload type="path"
                                        ?disabled="${this._isFetching || this._isUpdating}"
-                                       id="${this.pathId}"></u-photo-upload>
+                                       id="${this.pathId}"
+                                       .activeYear="${this._activeYear}"></u-photo-upload>
                     </section>
                                
                     <section class="controls__section controls__delete-photo">
@@ -99,6 +100,8 @@ export class UPathControls extends connect(store)(LitElement) {
         this._path = state.pathPage.path;
 
         this._pathControls = state.pathControls;
+
+        this._activeYear = state.pathPage.activeYear;
 
         this._isFetching = state.pathPage.isFetching;
         this._isUpdating = state.pathPage.isUpdating;
@@ -146,7 +149,7 @@ export class UPathControls extends connect(store)(LitElement) {
     }
 
     deletePhoto() {
-        store.dispatch(deletePhoto('path', this.pathId, this.activeYear));
+        store.dispatch(deletePhoto('path', this.pathId, this._activeYear));
     }
 
     inputTitle(e) {

@@ -43,10 +43,7 @@ export const pathPage = (state = {
             return {
                 ...state,
                 isUpdating: true,
-                pathToBeUpdated: {
-                    ...action.payload,
-                    groupedImages: groupImages(action.payload.images)
-                }
+                pathToBeUpdated: action.payload
             };
 
         case generateSuccessActionTypeName(PathConstants.PUT):

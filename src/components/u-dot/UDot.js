@@ -59,11 +59,14 @@ class UDot extends connect(store)(LitElement) {
                              alt="Уруссу, ${this._activeYear}"
                              @load="${this.hideSpinner}">
                             
-                        <u-timeline .type="${`dot`}" .images="${this._dot.images}" .activeYear="${this._activeYear}"></u-timeline>` 
+                        <u-timeline .type="${`dot`}" .images="${this._dot.groupedImages}" .activeYear="${this._activeYear}"></u-timeline>` 
                         : (() => { this.hideSpinner(); return 'Изображения отсутствуют' })()
                     }
     
-                    ${this.areControlsVisible ? html`<u-dot-controls .dotId="${this.dotId}"></u-dot-controls>` : ''}
+                    ${this.areControlsVisible ? html`
+                        <u-dot-controls 
+                            .dotId="${this.dotId}"
+                            .activeYear="${this._activeYear}"></u-dot-controls>` : ''}
     
                     ${this.areCommentsVisible ? html`<u-comments origin-type="dot" origin-id="${this.dotId}"></u-comments>` : ''}
                 </main>

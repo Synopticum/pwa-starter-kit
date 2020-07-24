@@ -104,7 +104,8 @@ export class UDotControls extends connect(store)(LitElement) {
                        <label for="${this.dotId}" class="controls__label">Добавить новую фотографию:</label>
                        <u-photo-upload type="dot"
                                        ?disabled="${this._isFetching || this._isUpdating}"
-                                       id="${this.dotId}"></u-photo-upload>
+                                       id="${this.dotId}"
+                                       .activeYear="${this._activeYear}"></u-photo-upload>
                     </section>
                                
                     <section class="controls__section controls__delete-photo">
@@ -129,7 +130,6 @@ export class UDotControls extends connect(store)(LitElement) {
 
         this._dotControls = state.dotControls;
 
-        this._activeImage = state.dotPage.activeImage;
         this._activeYear = state.dotPage.activeYear;
 
         this._isFetching = state.dotPage.isFetching;

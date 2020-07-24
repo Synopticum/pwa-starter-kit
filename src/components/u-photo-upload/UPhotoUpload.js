@@ -122,6 +122,7 @@ class UPhotoUpload extends connect(store)(LitElement) {
         const photo = files[0];
         const id = this.id.split('-')[0];
         const join = this.isJoinChecked ? { activeYear: this.activeYear, newYear: this.year } : null;
+
         store.dispatch(uploadPhoto(photo, this.type, this.year, id, join));
 
         this.isFileSelected = false;

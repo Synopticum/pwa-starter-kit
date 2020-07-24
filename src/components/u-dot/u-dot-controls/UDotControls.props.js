@@ -29,11 +29,6 @@ export default {
         attribute: false
     },
 
-    _activeImage: {
-        type: String,
-        attribute: false
-    },
-
     _activeYear: {
         type: String,
         attribute: false

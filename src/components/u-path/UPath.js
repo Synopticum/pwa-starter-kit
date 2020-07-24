@@ -59,7 +59,7 @@ class UPath extends connect(store)(LitElement) {
                              alt="Уруссу, ${this._activeYear}"
                              @load="${this.hideSpinner}">
                             
-                        <u-timeline .type="${`path`}" .images="${this._path.images}" .activeYear="${this._activeYear}"></u-timeline>`
+                        <u-timeline .type="${`path`}" .images="${this._path.groupedImages}" .activeYear="${this._activeYear}"></u-timeline>`
             : (() => { this.hideSpinner(); return 'Изображения отсутствуют' })()
         }
                     

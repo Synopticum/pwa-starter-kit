@@ -43,10 +43,7 @@ export const objectPage = (state = {
             return {
                 ...state,
                 isUpdating: true,
-                objectToBeUpdated: {
-                    ...action.payload,
-                    groupedImages: groupImages(action.payload.images)
-                }
+                objectToBeUpdated: action.payload
             };
 
         case generateSuccessActionTypeName(ObjectConstants.PUT):
