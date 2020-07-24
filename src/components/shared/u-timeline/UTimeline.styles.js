@@ -11,8 +11,6 @@ export default css`
     display: flex;
     justify-content: center;
     align-items: flex-end;
-    --underline-height: 5px;
-    --transition-duration: .5s;
 }
 
 .u-timeline {
@@ -25,39 +23,108 @@ export default css`
 }
 
 .years {
-    position: relative;
-    font-size: 16px;
-    white-space: nowrap;
-    padding: 0;
-    margin-bottom: 10px;
-    background-color: rgb(224, 225, 226);
-    border-radius: 7px;
-    overflow: hidden;
-    box-shadow: transparent 0 0 0 1px inset, 
-                rgba(34, 36, 38, 0.15) 0 0 0 0 inset, 
-                rgba(0, 0, 0, 0.3) 0 1px 2px;
+    font-size: 14px;
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 20px;
 }
 
 .years--only-child {
-    width: 100px;
+
 }
 
 .year {
-    display: inline-block;
-    z-index: 10;
-    padding: 9px 25px 10px 25px;
-    text-align: center;
+    position: relative;
     cursor: pointer;
-    text-transform: uppercase;
-    transition: box-shadow .3s ease-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #111;
+    color: #fff;
+    border-radius: 15px;
+    padding: 5px 10px;
+    margin: 0 7px;
+    transition: background-color .3s;
+    user-select: none;
 }
 
+.year::before, year::after {
+    content: '';
+}
+
+.year:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    right: -14px;
+    top: calc(50% - 1px);
+    width: 14px;
+    height: 2px;
+    background: #000;
+}
+
+.year--active:not(:last-child)::before {
+    background: #b00;
+}
+
+.year:not(:first-child)::before {
+    display: none;
+    content: '';
+    position: absolute;
+    left: -15px;
+    top: calc(50% - 1px);
+    width: 15px;
+    height: 2px;
+    background: #000;
+    z-index: 50;
+}
+
+.year:not(:first-child)::before,
+.year--active:not(:first-child)::before {
+    display: block;
+}
+
+.year--active:not(:first-child)::before {
+    background: #b00;
+}
+
+.nested-year:last-child .year::before {
+    display: none;
+} 
+
 .year--active {
-    box-shadow: inset 5px 5px 5px rgba(0,0,0,.15);
-    border-bottom: 3px solid #000;
+    background: #b00;
 }
 
 .years--only-child .year {
     width: 100%;
+}
+
+.nested-year {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.nested-year .year {
+    margin: 5px 7px 0 7px;
+    position: relative;
+}
+
+.nested-year .year:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: calc(50% - 1px);
+    top: -5px;
+    width: 2px;
+    height: 5px;
+    background: #000;
+}
+
+.nested-year .year--active:not(:last-child)::after {
+    background: #b00;
+}
+
+.nested-year .year:not(:first-child)::before,
+.nested-year .year--active:not(:first-child)::before {
+    display: none;
 }
 `;

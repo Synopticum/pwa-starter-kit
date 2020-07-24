@@ -1,32 +1,39 @@
 export const groupImages = (images) => {
-    const getRootYears = images => Object
-        .keys(images)
-        .filter(year => year.includes('_'))
-        .map(year => year.split('_')[0]);
+    if (images) {
+        const getRootYears = images => Object
+            .keys(images)
+            .filter(year => year.includes('_'))
+            .map(year => year.split('_')[0]);
 
-    const groupedImages = {};
-    const rootYears = getRootYears(images);
+        const groupedImages = {};
+        const rootYears = getRootYears(images);
 
-    if (rootYears.length) {
-        for (let key of Object.keys(images)) {
-            for (let rootYear of rootYears) {
-                if (!groupedImages[rootYear]) groupedImages[rootYear] = {};
+        if (rootYears.length) {
+            Object.keys(images).forEach(name => {
+                if (name.includes('_')) {
+                    const groupName = name.split('_')[0];
+                    groupedImages[groupName] = {};
+                }
+            });
 
-                if (key.startsWith(rootYear)) {
-                    if (key.includes('_')) {
-                        const k = key.split('_')[1];
-                        groupedImages[rootYear][k] = images[key];
-                    } else {
-                        groupedImages[rootYear][key] = images[key];
+            Object.keys(images).forEach(name => {
+                if (!name.includes('_')) {
+                    try {
+                        groupedImages[name][name] = images[name];
+                    } catch (e) {
+                        groupedImages[name] = images[name];
                     }
                 } else {
-                    groupedImages[key] = images[key];
+                    const [n,m] = name.split('_');
+                    groupedImages[n][m] = images[name];
                 }
-            }
+            });
+
+            return groupedImages;
         }
 
-        return groupedImages;
+        return images;
     }
 
-    return images;
+    return {};
 }

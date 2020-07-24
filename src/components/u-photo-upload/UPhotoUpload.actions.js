@@ -76,8 +76,8 @@ const _uploadPhoto = async (photo, type, year, id, join, dispatch) => {
 
     let json = await response.json();
 
-    dispatch(_uploadImage(type, year, json.key));
-    dispatch(_setActiveImage(type, year, json.key));
+    dispatch(_uploadImage(type, yearName, json.key));
+    dispatch(_setActiveImage(type, yearName, json.key));
 
     return json;
 };

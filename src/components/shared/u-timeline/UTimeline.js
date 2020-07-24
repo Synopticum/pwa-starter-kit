@@ -60,7 +60,7 @@ export class UTimeline extends LitElement {
         List of render methods
      */
     renderTimeline(images) {
-        const timeline = Object.entries(images).map(([index, image]) => {
+        return Object.entries(images).map(([index, image]) => {
             if (typeof image === 'object') return this.renderNestedYear(image, index);
 
             const year = index;
@@ -68,26 +68,28 @@ export class UTimeline extends LitElement {
             const name = index;
             return this.renderYear(year, url, name);
         });
-
-        return timeline;
     }
 
     renderYear(year, url, name) {
         const yearClasses = {
             'year': true,
-            'year--active': year === this.activeYear
+            'year--active': name === this.activeYear
         };
 
-        return html`<a class="${classMap(yearClasses)}" @click="${() => this.changeImage(name)}">${year}</a>`;
+        return html`<a class="${classMap(yearClasses)}" 
+                       @click="${() => this.changeImage(name)}">${year}</a>`;
     }
 
     renderNestedYear(images, index) {
-        return html`<div>${Object.entries(images).map(([year, url]) => {
-            const isNested = parseInt(year) !== parseInt(index);
-            const name = isNested ? `${index}_${year}` : index;
-
-            return this.renderYear(year, url, name);
-        })}</div>`
+        return html`
+            <div class="nested-year">
+            ${Object.entries(images).map(([year, url]) => {
+                const isNested = parseInt(year) !== parseInt(index);
+                const name = isNested ? `${index}_${year}` : index;
+    
+                return this.renderYear(year, url, name);
+            })}
+            </div>`
     }
 
     /*

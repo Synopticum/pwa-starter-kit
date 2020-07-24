@@ -912,7 +912,8 @@ class UMap extends connect(store)(LitElement) {
   }
 
   _getTooltipImage() {
-    let oldestImage = Math.min(...Object.keys(this._tooltip.item.images));
+    const images = Object.keys(this._tooltip.item.images).filter(name => !name.includes('_'));
+    const oldestImage = Math.min(...images);
     return this._tooltip.item.images[oldestImage];
   }
 
