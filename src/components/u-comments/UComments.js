@@ -1,7 +1,7 @@
 import {html, LitElement} from 'lit-element/lit-element';
 import {DateTime} from "luxon";
 import {repeat} from 'lit-html/directives/repeat';
-import isEmpty from 'lodash-es/isEmpty';
+import isEmpty from '../../helpers/isEmpty';
 import {store} from '../../store';
 import {connect} from 'pwa-helpers';
 import {deleteComment, fetchComments, putComment} from './UComments.actions';

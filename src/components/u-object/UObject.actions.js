@@ -1,7 +1,7 @@
 import {ENV} from "../../../environments/environments";
 import {getApiHeaders} from "../../../environments/api";
 import {MapConstants} from "../u-map/UMap.actions";
-import isEmpty from "lodash-es/isEmpty";
+import isEmpty from "../../helpers/isEmpty";
 
 export const ObjectConstants = {
     FETCH: 'OBJECT_FETCH',

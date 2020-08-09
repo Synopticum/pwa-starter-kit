@@ -1,4 +1,4 @@
-import isEmpty from 'lodash-es/isEmpty';
+import isEmpty from '../../helpers/isEmpty';
 import {DotConstants} from "./UDot.actions";
 import {
     generateErrorActionTypeName,

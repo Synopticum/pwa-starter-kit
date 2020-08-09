@@ -4,7 +4,7 @@ import {
     generateInProgressActionTypeName,
     generateSuccessActionTypeName,
 } from "../../middleware/asyncActionsMiddleware";
-import isEmpty from "lodash-es/isEmpty";
+import isEmpty from "../../helpers/isEmpty";
 import { groupImages } from '../../helpers/groupImages';
 
 export const pathPage = (state = {

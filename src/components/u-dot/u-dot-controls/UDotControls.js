@@ -1,5 +1,4 @@
 import {html, LitElement} from 'lit-element/lit-element';
-import debounce from 'lodash-es/debounce';
 import {classMap} from 'lit-html/directives/class-map';
 import {store} from '../../../store';
 import {connect} from 'pwa-helpers';

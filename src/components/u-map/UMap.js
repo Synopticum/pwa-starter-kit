@@ -1,8 +1,8 @@
 import {ENV} from '../../../environments/environments';
 import {html, LitElement} from 'lit-element/lit-element';
 import {classMap} from 'lit-html/directives/class-map';
-import debounce from 'lodash-es/debounce';
-import isEmpty from 'lodash-es/isEmpty';
+import debounce from '../../helpers/debounce';
+import isEmpty from "../../helpers/isEmpty";
 import {store} from '../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
 import 'leaflet-rotatedmarker';
@@ -341,7 +341,7 @@ class UMap extends connect(store)(LitElement) {
             current-max="2020" 
             min="1940" 
             max="2020" 
-            @update-range="${debounce(this.updateRange, 300).bind(this)}"></u-map-range>
+            @update-range="${debounce(this.updateRange.bind(this), 300)}"></u-map-range>
         
         <div id="map"></div>
         <u-noise id="noise"></u-noise>
@@ -455,7 +455,7 @@ class UMap extends connect(store)(LitElement) {
     this._map.on('click', (e) => this._handleClick(e));
     this._map.on('dblclick', (e) => this._handleDblClick(e));
     this._map.on('dragstart', () => this._hideControls());
-    this._map.on('drag', debounce(this._updateUrl, 50).bind(this));
+    this._map.on('drag', debounce(this._updateUrl.bind(this), 50));
     this._map.on('zoomend', this._updateUrl.bind(this));
     this._map.on('click', this.getCoordinates.bind(this));
     this.addEventListener('click', this._handleOutsideClicks);
@@ -613,7 +613,7 @@ class UMap extends connect(store)(LitElement) {
       this._removeCurrentObjects();
       this._addObjectsToMap(objects);
     } catch (e) {
-      !isEmpty(objects) ? console.error('Unable to draw objects\n\n', e) : '';
+      Array.isArray(objects) && !objects.length ? console.error('Unable to draw objects\n\n', e) : '';
     }
   }
 

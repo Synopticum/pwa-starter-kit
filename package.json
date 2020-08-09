@@ -18,7 +18,6 @@
     "leaflet-draw": "^1.0.4",
     "leaflet-rotatedmarker": "^0.2.0",
     "lit-element": "2.2.1",
-    "lodash-es": "^4.17.11",
     "luxon": "^1.12.1",
     "pwa-helpers": "^0.9.0",
     "redux": "^4.0.1",
