@@ -452,6 +452,7 @@ class UMap extends connect(store)(LitElement) {
     this._map.on('dblclick', (e) => this._handleDblClick(e));
     this._map.on('dragstart', () => this._hideControls());
     this._map.on('drag', debounce(this._updateUrl, 50).bind(this));
+    this._map.on('zoomend', this._updateUrl.bind(this));
     this._map.on('click', this.getCoordinates.bind(this));
     this.addEventListener('click', this._handleOutsideClicks);
     // this.addEventListener('u-tooltip::show-dot', e => this._toggleDot(true, { target: { options: e.detail }}));
@@ -505,13 +506,19 @@ class UMap extends connect(store)(LitElement) {
   _setDefaultSettings() {
     let lat = 69.65;
     let lng = -20.25;
+    let zoom = 5;
 
     if (location.search) {
       let params = new URLSearchParams(location.search);
       lat = params.get('lat');
       lng = params.get('lng');
+      zoom = params.get('zoom');
+    } else {
+      const url = `?lat=${lat.toFixed(2)}&lng=${lng.toFixed(2)}&zoom=${zoom}`
+      window.history.replaceState( {}, '', url);
     }
-    this._map.setView([lat, lng], 5);
+
+    this._map.setView([lat, lng], zoom);
   }
 
   _setMaxBounds() {
@@ -1004,9 +1011,10 @@ class UMap extends connect(store)(LitElement) {
   }
 
   _updateUrl() {
-    let { lat, lng } = this._map.getCenter();
-    window.history.replaceState( {}, '', `?lat=${lat.toFixed(2)}&lng=${lng.toFixed(2)}`);
-    // location.search = `?lat=${lat.toFixed(2)}&lng=${lng.toFixed(2)}`;
+    const { lat, lng } = this._map.getCenter();
+    const zoom = this._map.getZoom();
+    const url = `?lat=${lat.toFixed(2)}&lng=${lng.toFixed(2)}&zoom=${zoom}`
+    window.history.replaceState( {}, '', url);
   }
 
   _handleOutsideClicks(e) {
