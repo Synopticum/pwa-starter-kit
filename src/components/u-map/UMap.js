@@ -180,7 +180,7 @@ class UMap extends connect(store)(LitElement) {
         }
         
         path.leaflet-interactive--has-images {
-            opacity: .75;
+            /*opacity: .75;*/
         }
         
         @keyframes disappear {
@@ -401,7 +401,7 @@ class UMap extends connect(store)(LitElement) {
     }
 
     if (this._paths !== state.paths.items) {
-      this._drawPaths(state.paths.items);
+      // this._drawPaths(state.paths.items);
     }
 
     this._objects = state.objects.items;
