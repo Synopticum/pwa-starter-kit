@@ -4,7 +4,6 @@ export default css`
 :host {
     position: fixed;
     z-index: 200;
-    overflow: hidden;
     opacity: 0;
     transition: opacity .3s;
     box-sizing: border-box;
@@ -42,7 +41,7 @@ export default css`
   width: 100%;
   background: #fff;
   display: flex;
-  padding: 10px 15px;
+  padding: 5px;
   border-radius: .28571429rem;
   box-shadow: 0 0 0 1px transparent inset, 0 0 0 0 rgba(34,36,38,.15) inset, 0 1px 2px rgba(0,0,0,.3);
   box-sizing: border-box;
@@ -82,47 +81,53 @@ export default css`
 
 :host(.tooltip--top-left) .tooltip-wrapper::before,
 :host(.tooltip--bottom-left) .tooltip-wrapper::before {
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  border-right: 10px solid #fff;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-right: 7px solid #fff;
 }
 
 :host(.tooltip--top-right) .tooltip-wrapper::before,
 :host(.tooltip--bottom-right) .tooltip-wrapper::before {
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  border-left: 10px solid #fff;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-left: 7px solid #fff;
 }
         
 :host(.tooltip--top-left) .tooltip-wrapper::before {
   top: 20px;
-  left: -10px;
+  left: -7px;
 }
         
 :host(.tooltip--top-right) .tooltip-wrapper::before {
   top: 20px;
-  right: -10px;
+  right: -7px;
 }
         
 :host(.tooltip--bottom-left) .tooltip-wrapper::before {
   bottom: 20px;
-  left: -10px;
+  left: -7px;
 }
         
 :host(.tooltip--bottom-right) .tooltip-wrapper::before {
   bottom: 20px;
-  right: -10px;
+  right: -7px;
 }
 
 .thumbnail {
   object-fit: cover;
-  border: 1px solid #ccc;
-  margin-right: 10px;
+}
+
+.content {
+    position: absolute;
 }
 
 .title {
     white-space: nowrap;
     font-size: 16px;
+    padding: 7px 15px;
+    background: #111;
+    color: #fff;
+    border-radius: 5px;
 }
 
 .short-description {

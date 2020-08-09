@@ -29,19 +29,42 @@ class UTooltip extends LitElement {
             left: ${left}px;
         }
         
+        :host(.tooltip--top-left) .content {
+            top: 0; 
+            left: calc(100% + 5px);
+        }
+        
+        
         :host(.tooltip--top-right) {
             top: ${top}px; 
             right: ${right}px;
         }
+        
+        :host(.tooltip--top-right) .content {
+            top: 0; 
+            right: calc(100% + 5px);
+        }
+        
         
         :host(.tooltip--bottom-left) {
             bottom: ${bottom}px; 
             left: ${left}px;
         }
         
+        :host(.tooltip--bottom-left) .content {
+            bottom: 0; 
+            left: calc(100% + 5px);
+        }
+        
+        
         :host(.tooltip--bottom-right) {
             bottom: ${bottom}px; 
             right: ${right}px;
+        }
+        
+        :host(.tooltip--bottom-right) .content {
+            bottom: 0; 
+            right: calc(100% + 5px);
         }
       </style>
       
@@ -63,7 +86,7 @@ class UTooltip extends LitElement {
         } else if (this.title) {
             return this.getTitle();
         } else {
-            return 'Терра инкогнита';
+            return html`<div class="title">Терра инкогнита</div>`;
         }
     }
 
@@ -105,7 +128,7 @@ class UTooltip extends LitElement {
                         @click="${this.showObject}">
                         
                     <div class="content">
-                        <div class="title">${this.getObjectTitle()}</div>
+                        ${this.getObjectTitle()}
                     </div>
                 `;
 

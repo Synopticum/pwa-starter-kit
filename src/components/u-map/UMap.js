@@ -938,7 +938,7 @@ class UMap extends connect(store)(LitElement) {
     const ratherLeft = Math.abs(html.clientWidth/2-left) > Math.abs(html.clientWidth/2-right);
     const ratherRight = Math.abs(html.clientWidth/2-left) < Math.abs(html.clientWidth/2-right);
 
-    if (ratherBottom < left && ratherRight) {
+    if (ratherBottom && ratherRight) {
       origin = 'bottom right';
     } else if (ratherTop && ratherRight) {
       origin = 'top right';
