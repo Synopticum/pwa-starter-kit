@@ -14,7 +14,7 @@ export default css`
     vertical-align: baseline;
     background: #e0e1e2 none;
     color: rgba(0,0,0,.6);
-    font-family: 'PT Serif', Helvetica, 'Times New Roman', serif;
+    font-family: inherit;
     font-size: 12px;
     padding: .78571429em 1.5em .78571429em;
     text-transform: none;

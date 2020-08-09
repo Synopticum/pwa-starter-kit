@@ -14,7 +14,7 @@ export default css`
 .textbox__element {
     width: 100%;
     padding: 5px 10px;
-    font-family: 'PT Serif', Helvetica, 'Times New Roman', serif;
+    font-family: inherit;
     font-size: var(--font-size);
     font-style: var(--font-style);
     color: #fff;

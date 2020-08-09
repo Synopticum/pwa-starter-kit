@@ -13,7 +13,7 @@ export default css`
 
 .textarea__element {
     width: 100%;
-    font-family: 'PT Serif', Helvetica, 'Times New Roman', serif;
+    font-family: inherit;
     border: 1px dashed #ccc;
     background-color: #f9f9f9;
     font-size: 14px;
