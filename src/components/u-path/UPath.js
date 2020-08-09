@@ -33,7 +33,8 @@ class UPath extends connect(store)(LitElement) {
     render() {
         let UPathClasses = {
             'u-path': true,
-            'u-path--loading': this._isFetching
+            'u-entity': true,
+            'u-entity--loading': this._isFetching
         };
 
         let photoOverlayClasses = {

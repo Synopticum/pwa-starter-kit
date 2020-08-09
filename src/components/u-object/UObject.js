@@ -33,7 +33,8 @@ class UObject extends connect(store)(LitElement) {
     render() {
         let uObjectClasses = {
             'u-object': true,
-            'u-object--loading': this._isFetching
+            'u-entity': true,
+            'u-entity--loading': this._isFetching
         };
 
         let photoOverlayClasses = {

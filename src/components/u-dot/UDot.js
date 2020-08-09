@@ -33,7 +33,8 @@ class UDot extends connect(store)(LitElement) {
     render() {
       let uDotClasses = {
           'u-dot': true,
-          'u-dot--loading': this.isSpinnerVisible
+          'u-entity': true,
+          'u-entity--loading': this.isSpinnerVisible
       };
 
       let photoOverlayClasses = {
