@@ -198,8 +198,8 @@ class UMap extends connect(store)(LitElement) {
         
         .leaflet-marker-icon {
           position: relative;
-          background: var(--background-color);
-          border: 2px solid transparent;
+          background: rgb(232,168,38);
+          border: 2px solid rgb(182,118,-12);
           border-radius: 50%;
         }
         
@@ -240,8 +240,6 @@ class UMap extends connect(store)(LitElement) {
         .leaflet-marker-icon:focus {
             outline: none;
         }
-        
-        ${this.markerClasses}
         
         .leaflet-marker-icon__gold {
             background-color: #ffb631;
@@ -471,47 +469,6 @@ class UMap extends connect(store)(LitElement) {
     this._tooltipHoverTimeOut = null;
     this._overlayMaps = {};
     this.__currentObject = [];
-
-    this.markerGradient = [
-      [
-        0,
-        [100, 100, 100]
-      ],
-      [
-        12.5,
-        [142, 142, 69]
-      ],
-      [
-        25,
-        [255, 174, 30]
-      ],
-      [
-        37.5,
-        [0, 105, 230]
-      ],
-      [
-        50,
-        [150, 88, 255]
-      ],
-      [
-        62.5,
-        [255, 108, 0]
-      ],
-      [
-        75,
-        [185, 32, 93]
-      ],
-      [
-        87.5,
-        [129, 196, 69]
-      ],
-      [
-        100,
-        [129, 196, 69]
-      ],
-    ];
-
-    this.markerClasses = range(1940,2020).map(year => this._getMarkerStyles(year)).join('\n');
   }
 
   /*
@@ -851,47 +808,6 @@ class UMap extends connect(store)(LitElement) {
         .on('mouseout', () => clearTimeout(this._tooltipHoverTimeOut))
         .on('click', e => { this._toggleDot(true, e) })
         .on('dragend', e => { this._updateMarkerCoordinates(null, e); });
-  }
-
-  _getMarkerStyles(year) {
-    const value = (year - 1940)/(2020 - 1940) * 100;
-    const [color1, color2] = this._getColorRange(value);
-    const weight = year.toString()[3] / 10;
-
-    const backgroundColor = this._getMarkerColor(color1, color2, weight);
-    const borderColor = this._getMarkerColor(this._offsetRgb(color1, 50), this._offsetRgb(color2, 50), weight);
-
-    return `
-        .leaflet-marker-icon__${year} { 
-          background-color: rgb(${backgroundColor}); 
-          border-color: rgb(${borderColor});
-        }
-      `.trim();
-  };
-
-  _offsetRgb(color, offset) {
-    return [color[0] - offset, color[1] - offset, color[2] - offset];
-  }
-
-  _getColorRange(value) {
-    let upperThresholdIndex = this.markerGradient.findIndex(([percent], index) => percent > value);
-    if (value === 100) upperThresholdIndex = this.markerGradient.length - 1;
-
-    const [, color1] = this.markerGradient[upperThresholdIndex];
-    const [, color2] = this.markerGradient[upperThresholdIndex - 1];
-
-    return [color1, color2];
-  }
-
-
-  _getMarkerColor(color1, color2, weight) {
-    let w1 = weight;
-    let w2 = 1 - w1;
-    let rgb = [Math.round(color1[0] * w1 + color2[0] * w2),
-      Math.round(color1[1] * w1 + color2[1] * w2),
-      Math.round(color1[2] * w1 + color2[2] * w2)];
-
-    return rgb;
   }
   // ----- end of drawing methods -----
 
