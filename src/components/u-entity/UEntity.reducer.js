@@ -8,7 +8,7 @@ import {
 import isEmpty from "../../helpers/isEmpty";
 import { groupImages } from '../../helpers/groupImages';
 
-export const createBasePageReducer = (type) => (state = {
+export const createEntityPageReducer = (type) => (state = {
     [type]: { },
     isFetching: false,
     isUpdating: false,

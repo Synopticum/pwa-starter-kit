@@ -1,3 +1,3 @@
-import {createBasePageReducer} from "../u-entity/UEntity.reducer";
+import {createEntityPageReducer} from "../u-entity/UEntity.reducer";
 
-export const objectPage = createBasePageReducer('object');
+export const objectPage = createEntityPageReducer('object');

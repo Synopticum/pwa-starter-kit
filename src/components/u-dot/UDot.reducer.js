@@ -1,3 +1,3 @@
-import {createBasePageReducer} from "../u-entity/UEntity.reducer";
+import {createEntityPageReducer} from "../u-entity/UEntity.reducer";
 
-export const dotPage = createBasePageReducer('dot');
+export const dotPage = createEntityPageReducer('dot');

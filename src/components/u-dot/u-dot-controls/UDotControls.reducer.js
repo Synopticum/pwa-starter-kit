@@ -1,34 +1,3 @@
-import {UDotControlsConstants} from "./UDotControls.actions";
-import {
-    generateErrorActionTypeName,
-    generateInProgressActionTypeName,
-    generateSuccessActionTypeName
-} from "../../../middleware/asyncActionsMiddleware";
+import {createEntityControlsReducer} from "../../u-entity/u-entity-controls/UEntityControls.reducer";
 
-export const dotControls = (state = {}, action) => {
-    switch (action.type) {
-
-        // -------
-        case generateInProgressActionTypeName(UDotControlsConstants.FETCH):
-            return state;
-
-        case generateSuccessActionTypeName(UDotControlsConstants.FETCH):
-            return {
-                ...state,
-                user: action.payload
-            };
-
-        case generateErrorActionTypeName(UDotControlsConstants.FETCH):
-            return state;
-
-        // -------
-        case UDotControlsConstants.TOGGLE:
-            return {
-                ...state,
-                data: 123
-            };
-
-        default:
-            return state;
-    }
-};
+export const dotControls = createEntityControlsReducer('dot');
