@@ -2,22 +2,7 @@ import {ENV} from "../../../environments/environments";
 import {getApiHeaders} from "../../../environments/api";
 import {MapConstants} from "../u-map/UMap.actions";
 import isEmpty from "../../helpers/isEmpty";
-import {ObjectConstants} from "../u-object/UObject.actions";
-import {DotConstants} from "../u-dot/UDot.actions";
-import {PathConstants} from "../u-path/UPath.actions";
-
-const getConstants = (type) => {
-    switch (type) {
-        case 'object':
-            return ObjectConstants;
-
-        case 'dot':
-            return DotConstants;
-
-        case 'path':
-            return PathConstants;
-    }
-};
+import { getConstants } from './helpers';
 
 // -------
 export const fetchEntity = (type, id) => async (dispatch) => {
