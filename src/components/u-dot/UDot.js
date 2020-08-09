@@ -4,7 +4,7 @@ import {store} from '../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
 import props from './UDot.props';
 import styles from './UDot.styles';
-import {clearDotState, fetchDot, setActiveDotImage} from './UDot.actions';
+import {clearEntityState, fetchEntity, setActiveEntityImage} from '../u-entity/UEntity.actions';
 import {setCloudsVisibility} from '../u-map/UMap.actions';
 import {dotPage} from "./UDot.reducer";
 import {isAdmin} from "../u-app/UApp.helpers";
@@ -106,7 +106,7 @@ class UDot extends connect(store)(LitElement) {
 
     _setStore() {
         store.dispatch(setCloudsVisibility('full'));
-        store.dispatch(fetchDot(this.dotId));
+        store.dispatch(fetchEntity('dot', this.dotId));
         store.dispatch(fetchComments('dot', this.dotId));
     }
 
@@ -135,7 +135,7 @@ class UDot extends connect(store)(LitElement) {
     */
     close() {
         store.dispatch(setCloudsVisibility('none'));
-        store.dispatch(clearDotState());
+        store.dispatch(clearEntityState('object'));
         this.dispatchEvent(new CustomEvent('hide-dot', {composed: true}));
     }
 
@@ -152,7 +152,7 @@ class UDot extends connect(store)(LitElement) {
     changeImage(e) {
         if (e.detail.type === 'dot') {
             const name = e.detail.name;
-            store.dispatch(setActiveDotImage(name, this._dot.images[name]));
+            store.dispatch(setActiveEntityImage('dot', name, this._dot.images[name]));
 
             this.isSpinnerVisible = true;
         }

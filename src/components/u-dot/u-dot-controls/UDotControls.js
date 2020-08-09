@@ -3,7 +3,7 @@ import {classMap} from 'lit-html/directives/class-map';
 import {store} from '../../../store';
 import {connect} from 'pwa-helpers';
 import {dotControls} from "./UDotControls.reducer";
-import {clearDotState, deleteDot, putDot} from "../UDot.actions";
+import {clearEntityState, deleteEntity, putEntity} from "../../u-entity/UEntity.actions";
 import {deletePhoto} from "../../u-photo-upload/UPhotoUpload.actions";
 import '../../u-photo-upload/UPhotoUpload';
 import '../../shared/u-text-button/UTextButton';
@@ -166,13 +166,13 @@ export class UDotControls extends connect(store)(LitElement) {
         Any other methods
     */
     remove() {
-        store.dispatch(deleteDot(this.dotId));
+        store.dispatch(deleteEntity('dot', this.dotId));
         this.close();
     }
 
     close() {
         store.dispatch(setCloudsVisibility('none'));
-        store.dispatch(clearDotState());
+        store.dispatch(clearEntityState('dot'));
         this.dispatchEvent(new CustomEvent('hide-dot', {composed: true}));
     }
 
@@ -183,13 +183,13 @@ export class UDotControls extends connect(store)(LitElement) {
     changeDotType(e) {
         let type = e.target.value;
         let updatedDot = { ...this._dot, type };
-        store.dispatch(putDot(updatedDot, this.dotId));
+        store.dispatch(putEntity('dot', updatedDot, this.dotId));
     }
 
     changeDotLayer(e) {
         let layer = e.target.value;
         let updatedDot = { ...this._dot, layer };
-        store.dispatch(putDot(updatedDot, this.dotId));
+        store.dispatch(putEntity('dot', updatedDot, this.dotId));
     }
 
     inputTitle(e) {
@@ -198,7 +198,7 @@ export class UDotControls extends connect(store)(LitElement) {
 
     changeTitle() {
         let updatedDot = { ...this._dot, title: this.title };
-        store.dispatch(putDot(updatedDot, this.dotId));
+        store.dispatch(putEntity('dot', updatedDot, this.dotId));
     }
 
     inputShortDescription(e) {
@@ -207,7 +207,7 @@ export class UDotControls extends connect(store)(LitElement) {
 
     changeShortDescription() {
         let updatedDot = { ...this._dot, shortDescription: this.shortDescription };
-        store.dispatch(putDot(updatedDot, this.dotId));
+        store.dispatch(putEntity('dot', updatedDot, this.dotId));
     }
 
     inputFullDescription(e) {
@@ -216,7 +216,7 @@ export class UDotControls extends connect(store)(LitElement) {
 
     changeFullDescription() {
         let updatedDot = { ...this._dot, fullDescription: this.fullDescription };
-        store.dispatch(putDot(updatedDot, this.dotId));
+        store.dispatch(putEntity('dot', updatedDot, this.dotId));
     }
 
     inputRotationAngle(e) {
@@ -225,7 +225,7 @@ export class UDotControls extends connect(store)(LitElement) {
 
     changeRotationAngle() {
         let updatedDot = { ...this._dot, rotationAngle: this.rotationAngle };
-        store.dispatch(putDot(updatedDot, this.dotId));
+        store.dispatch(putEntity('dot', updatedDot, this.dotId));
     }
 }
 

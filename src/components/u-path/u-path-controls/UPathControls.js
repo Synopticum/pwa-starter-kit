@@ -2,7 +2,7 @@ import {html, LitElement} from 'lit-element/lit-element';
 import {store} from '../../../store';
 import {connect} from 'pwa-helpers';
 import {pathControls} from "./UPathControls.reducer";
-import {clearPathState, deletePath, putPath} from "../UPath.actions";
+import {clearEntityState, deleteEntity, putEntity} from "../../u-entity/UEntity.actions";
 import {deletePhoto} from "../../u-photo-upload/UPhotoUpload.actions";
 import '../../u-photo-upload/UPhotoUpload';
 import '../../shared/u-text-button/UTextButton';
@@ -138,13 +138,13 @@ export class UPathControls extends connect(store)(LitElement) {
         Any other methods
     */
     remove() {
-        store.dispatch(deletePath(this.pathId));
+        store.dispatch(deleteEntity('path', this.pathId));
         this.close();
     }
 
     close() {
         store.dispatch(setCloudsVisibility('none'));
-        store.dispatch(clearPathState());
+        store.dispatch(clearEntityState('path'));
         this.dispatchEvent(new CustomEvent('hide-path', {composed: true}));
     }
 
@@ -158,7 +158,7 @@ export class UPathControls extends connect(store)(LitElement) {
 
     changeTitle() {
         let updatedPath = { ...this._path, title: this.title };
-        store.dispatch(putPath(updatedPath, this.pathId));
+        store.dispatch(putEntity('path', updatedPath, this.pathId));
     }
 
     inputShortDescription(e) {
@@ -167,7 +167,7 @@ export class UPathControls extends connect(store)(LitElement) {
 
     changeShortDescription() {
         let updatedPath = { ...this._path, shortDescription: this.shortDescription };
-        store.dispatch(putPath(updatedPath, this.pathId));
+        store.dispatch(putEntity('path', updatedPath, this.pathId));
     }
 
     inputFullDescription(e) {
@@ -176,7 +176,7 @@ export class UPathControls extends connect(store)(LitElement) {
 
     changeFullDescription() {
         let updatedPath = { ...this._path, fullDescription: this.fullDescription };
-        store.dispatch(putPath(updatedPath, this.pathId));
+        store.dispatch(putEntity('path', updatedPath, this.pathId));
     }
 }
 

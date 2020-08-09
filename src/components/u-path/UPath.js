@@ -4,7 +4,7 @@ import {store} from '../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
 import props from './UPath.props';
 import styles from './UPath.styles';
-import {clearPathState, fetchPath, setActivePathImage } from './UPath.actions';
+import {clearEntityState, fetchEntity, setActiveEntityImage } from '../u-entity/UEntity.actions';
 import {setCloudsVisibility} from '../u-map/UMap.actions';
 import {pathPage} from "./UPath.reducer";
 import {isAdmin} from "../u-app/UApp.helpers";
@@ -107,7 +107,7 @@ class UPath extends connect(store)(LitElement) {
 
     _setStore() {
         store.dispatch(setCloudsVisibility('full'));
-        store.dispatch(fetchPath(this.pathId));
+        store.dispatch(fetchEntity('path', this.pathId));
         store.dispatch(fetchComments('path', this.pathId));
     }
 
@@ -136,7 +136,7 @@ class UPath extends connect(store)(LitElement) {
     */
     close() {
         store.dispatch(setCloudsVisibility('none'));
-        store.dispatch(clearPathState());
+        store.dispatch(clearEntityState('path'));
         this.dispatchEvent(new CustomEvent('hide-path', {composed: true}));
     }
 
@@ -153,7 +153,7 @@ class UPath extends connect(store)(LitElement) {
     changeImage(e) {
         if (e.detail.type === 'path') {
             const name = e.detail.name;
-            store.dispatch(setActivePathImage(name, this._path.images[name]));
+            store.dispatch(setActiveEntityImage('path', name, this._path.images[name]));
 
             this.isSpinnerVisible = true;
         }

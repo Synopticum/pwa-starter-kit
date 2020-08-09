@@ -1,52 +1,11 @@
 import {ENV} from "../../../environments/environments";
 import {getApiHeadersFormData} from "../../../environments/api";
-import {addDotImage, deleteDotImage, setActiveDotImage} from "../u-dot/UDot.actions";
-import {addObjectImage, deleteObjectImage, setActiveObjectImage} from "../u-object/UObject.actions";
-import {addPathImage, deletePathImage, setActivePathImage} from "../u-path/UPath.actions";
+import {addEntityImage, deleteEntityImage, setActiveEntityImage} from "../u-entity/UEntity.actions";
 
 export const UPhotoUploadConstants = {
     PUT: 'PHOTO_UPLOAD_PUT',
     DELETE: 'PHOTO_UPLOAD_DELETE'
 };
-
-const _uploadImage = (type, year, jsonKey) => {
-    switch (type) {
-        case 'dot':
-            return addDotImage(year, jsonKey);
-
-        case 'object':
-            return addObjectImage(year, jsonKey);
-
-        case 'path':
-            return addPathImage(year, jsonKey);
-    }
-}
-
-const _setActiveImage = (type, year, jsonKey) => {
-    switch (type) {
-        case 'dot':
-            return setActiveDotImage(year, jsonKey);
-
-        case 'object':
-            return setActiveObjectImage(year, jsonKey);
-
-        case 'path':
-            return setActivePathImage(year, jsonKey);
-    }
-}
-
-const _deleteImage = (type, year) => {
-    switch (type) {
-        case 'dot':
-            return deleteDotImage(year);
-
-        case 'object':
-            return deleteObjectImage(year);
-
-        case 'path':
-            return deletePathImage(year);
-    }
-}
 
 // -------
 export const uploadPhoto = (photo, type, year, id, join) => async (dispatch) => {
@@ -76,8 +35,8 @@ const _uploadPhoto = async (photo, type, year, id, join, dispatch) => {
 
     let json = await response.json();
 
-    dispatch(_uploadImage(type, yearName, json.key));
-    dispatch(_setActiveImage(type, yearName, json.key));
+    dispatch(addEntityImage(type, yearName, json.key));
+    dispatch(setActiveEntityImage(type, yearName, json.key));
 
     return json;
 };
@@ -102,5 +61,5 @@ const _deletePhoto = async (type, id, year, dispatch) => {
         throw new Error('Error while deleting a dot photo');
     }
 
-    return dispatch(_deleteImage(type, year));
+    return dispatch(deleteEntityImage(type, year));
 };

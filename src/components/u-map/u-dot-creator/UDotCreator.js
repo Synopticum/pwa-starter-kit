@@ -1,7 +1,7 @@
 import {html, LitElement} from 'lit-element/lit-element';
 import {store} from '../../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
-import {putDot} from '../../u-dot/UDot.actions';
+import {putEntity} from '../../u-entity/UEntity.actions';
 import {setCloudsVisibility, toggleDotCreator} from '../UMap.actions';
 import {map} from "../UMap.reducer";
 import '../../shared/u-text-button/UTextButton';
@@ -102,7 +102,7 @@ class UDotCreator extends connect(store)(LitElement) {
             authorId: this._user.id
         });
 
-        store.dispatch(putDot(dot));
+        store.dispatch(putEntity('dot', dot));
         store.dispatch(toggleDotCreator(false, {x: this.x, y: this.y}));
         store.dispatch(setCloudsVisibility('none'));
     }

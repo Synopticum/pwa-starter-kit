@@ -19,14 +19,11 @@ import {
   toggleTooltip,
   setSettings
 } from './UMap.actions';
-import { putPath } from '../u-path/UPath.actions';
-import { putObject } from '../u-object/UObject.actions';
-import { putDot } from '../u-dot/UDot.actions';
+import { putEntity } from '../u-entity/UEntity.actions';
 import props from './UMap.props';
 import {app} from "../u-app/UApp.reducer";
 import {dots, map, objects, paths } from "./UMap.reducer";
-import {isAdmin, isAnonymous} from "../u-app/UApp.helpers";
-import { range } from '../../helpers/range';
+import {isAdmin} from "../u-app/UApp.helpers";
 
 import '../shared/u-context-menu/UContextMenu';
 import '../shared/u-tooltip/UTooltip';
@@ -649,7 +646,7 @@ class UMap extends connect(store)(LitElement) {
       id: uuidv4()
     });
 
-    store.dispatch(putObject(object));
+    store.dispatch(putEntity('object', object));
   }
 
   _removeCurrentObjects() {
@@ -699,7 +696,7 @@ class UMap extends connect(store)(LitElement) {
       id: uuidv4()
     });
 
-    store.dispatch(putPath(path));
+    store.dispatch(putEntity('path', path));
   }
 
   _removeCurrentPaths() {
@@ -752,7 +749,7 @@ class UMap extends connect(store)(LitElement) {
       id: uuidv4()
     });
 
-    store.dispatch(putObject(object));
+    store.dispatch(putEntity('object', object));
   }
 
   _updateMarkerCoordinates(value, e) {
@@ -760,7 +757,7 @@ class UMap extends connect(store)(LitElement) {
     const position = marker.getLatLng();
     const { lat, lng } = position;
 
-    store.dispatch(putDot({ id: marker.options.id, coordinates: [lat, lng] }));
+    store.dispatch(putEntity('dot', { id: marker.options.id, coordinates: [lat, lng] }));
   }
 
   _drawDots(dots) {

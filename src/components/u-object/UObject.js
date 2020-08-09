@@ -4,7 +4,7 @@ import {store} from '../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
 import props from './UObject.props';
 import styles from './UObject.styles';
-import {clearObjectState, fetchObject, setActiveObjectImage } from './UObject.actions';
+import {clearEntityState, fetchEntity, setActiveEntityImage } from '../u-entity/UEntity.actions';
 import {setCloudsVisibility} from '../u-map/UMap.actions';
 import {objectPage} from "./UObject.reducer";
 import {isAdmin} from "../u-app/UApp.helpers";
@@ -107,7 +107,7 @@ class UObject extends connect(store)(LitElement) {
 
     _setStore() {
         store.dispatch(setCloudsVisibility('full'));
-        store.dispatch(fetchObject(this.objectId));
+        store.dispatch(fetchEntity('object', this.objectId));
         store.dispatch(fetchComments('object', this.objectId));
     }
 
@@ -136,7 +136,7 @@ class UObject extends connect(store)(LitElement) {
     */
     close() {
         store.dispatch(setCloudsVisibility('none'));
-        store.dispatch(clearObjectState());
+        store.dispatch(clearEntityState('object'));
         this.dispatchEvent(new CustomEvent('hide-object', {composed: true}));
     }
 
@@ -153,7 +153,7 @@ class UObject extends connect(store)(LitElement) {
     changeImage(e) {
         if (e.detail.type === 'object') {
             const name = e.detail.name;
-            store.dispatch(setActiveObjectImage(name, this._object.images[name]));
+            store.dispatch(setActiveEntityImage('object', name, this._object.images[name]));
 
             this.isSpinnerVisible = true;
         }

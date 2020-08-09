@@ -2,7 +2,7 @@ import {html, LitElement} from 'lit-element/lit-element';
 import {store} from '../../../store';
 import {connect} from 'pwa-helpers';
 import {objectControls} from "./UObjectControls.reducer";
-import {clearObjectState, deleteObject, putObject} from "../UObject.actions";
+import {clearEntityState, deleteEntity, putEntity} from "../../u-entity/UEntity.actions";
 import {deletePhoto} from "../../u-photo-upload/UPhotoUpload.actions";
 import '../../u-photo-upload/UPhotoUpload';
 import '../../shared/u-text-button/UTextButton';
@@ -156,13 +156,13 @@ export class UObjectControls extends connect(store)(LitElement) {
         Any other methods
     */
     remove() {
-        store.dispatch(deleteObject(this.objectId));
+        store.dispatch(deleteEntity('type', this.objectId));
         this.close();
     }
 
     close() {
         store.dispatch(setCloudsVisibility('none'));
-        store.dispatch(clearObjectState());
+        store.dispatch(clearEntityState('object'));
         this.dispatchEvent(new CustomEvent('hide-object', {composed: true}));
     }
 
@@ -176,7 +176,7 @@ export class UObjectControls extends connect(store)(LitElement) {
 
     changeTitle() {
         let updatedObject = { ...this._object, title: this.title };
-        store.dispatch(putObject(updatedObject, this.objectId));
+        store.dispatch(putEntity('object', updatedObject, this.objectId));
     }
 
     inputStreet(e) {
@@ -185,7 +185,7 @@ export class UObjectControls extends connect(store)(LitElement) {
 
     changeStreet() {
         let updatedObject = { ...this._object, street: this.street };
-        store.dispatch(putObject(updatedObject, this.objectId));
+        store.dispatch(putEntity('object', updatedObject, this.objectId));
     }
 
     inputHouse(e) {
@@ -194,7 +194,7 @@ export class UObjectControls extends connect(store)(LitElement) {
 
     changeHouse() {
         let updatedObject = { ...this._object, house: this.house };
-        store.dispatch(putObject(updatedObject, this.objectId));
+        store.dispatch(putEntity('object', updatedObject, this.objectId));
     }
 
     inputShortDescription(e) {
@@ -203,7 +203,7 @@ export class UObjectControls extends connect(store)(LitElement) {
 
     changeShortDescription() {
         let updatedObject = { ...this._object, shortDescription: this.shortDescription };
-        store.dispatch(putObject(updatedObject, this.objectId));
+        store.dispatch(putEntity('object', updatedObject, this.objectId));
     }
 
     inputFullDescription(e) {
@@ -212,7 +212,7 @@ export class UObjectControls extends connect(store)(LitElement) {
 
     changeFullDescription() {
         let updatedObject = { ...this._object, fullDescription: this.fullDescription };
-        store.dispatch(putObject(updatedObject, this.objectId));
+        store.dispatch(putEntity('object', updatedObject, this.objectId));
     }
 }
 
