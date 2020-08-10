@@ -29,7 +29,8 @@ const _fetchEntity = async (type, id, dispatch) => {
     const entity = await response.json();
     history.pushState(null, null, `${ENV[window.ENV].static}/${type}s/${entity.id.split('-')[0]}`);
 
-    if (!isEmpty(entity.images)) {
+    if (entity.images && !isEmpty(entity.images)) {
+        debugger;
         let activeYear = Math.min(...Object.keys(entity.images).filter(item => !item.includes('_'))).toString();
         let activeImage = entity.images[activeYear];
 

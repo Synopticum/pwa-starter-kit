@@ -5,4 +5,12 @@ export default css`
     ${entityControlsStyles}
     
     .u-object-controls {}
+    
+    .street {
+        width: 220px;
+    }
+    
+    .save: {
+        align-self: flex-end;
+    }
 `;

@@ -19,7 +19,8 @@ export class UIconButton extends LitElement {
     render() {
         let iconButtonClasses = {
             'icon-button': true,
-            [`icon-button--${this.icon}`]: true
+            [`icon-button--${this.icon}`]: true,
+            [`icon-button--${this.size}`]: true
         };
 
         return html`        

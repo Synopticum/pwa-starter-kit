@@ -38,8 +38,7 @@ export class UPathControls extends connect(store)(LitElement) {
                        <label class="controls__label">Заголовок:</label>
                        
                        <div class="controls__input">
-                           <input type="text" @keyup="${this.inputTitle}" value="${this._path.title}" class="textinput">
-                           <u-text-button @click="${this.changeTitle}" class="save">Сохранить</u-text-button>
+                           <u-textbox type="text" @keyup="${this.inputTitle}" value="${this._path.title}" class="textinput">
                        </div>
                     </section>
                     
@@ -47,8 +46,7 @@ export class UPathControls extends connect(store)(LitElement) {
                        <label class="controls__label">Краткое описание:</label>
                        
                        <div class="controls__input">
-                           <textarea @keyup="${this.inputShortDescription}" class="textarea">${this._path.shortDescription}</textarea>
-                           <u-text-button type="button" @click="${this.changeShortDescription}" class="save">Сохранить</u-text-button>
+                           <u-textarea @keyup="${this.inputShortDescription}" class="textarea" value="${this._path.shortDescription}"></u-textarea>
                        </div>
                     </section>
                     
@@ -56,8 +54,7 @@ export class UPathControls extends connect(store)(LitElement) {
                        <label class="controls__label">Полное описание:</label>
                        
                        <div class="controls__input">
-                           <textarea @keyup="${this.inputFullDescription}" class="textarea">${this._path.fullDescription}</textarea>
-                           <u-text-button type="button" @click="${this.changeFullDescription}" class="save">Сохранить</u-text-button>
+                           <u-textarea @keyup="${this.inputFullDescription}" class="textarea" value="${this._path.fullDescription}"></u-textarea>
                        </div>
                     </section>
                     
@@ -65,6 +62,8 @@ export class UPathControls extends connect(store)(LitElement) {
                        <u-text-button class="remove"
                                       ?disabled="${this._isFetching || this._isUpdating}"
                                       @click="${this.remove}">Удалить объект</u-text-button>
+                                      
+                       <u-text-button type="button" @click="${this.saveChanges}" class="save">Сохранить</u-text-button>
                     </section>
                 </main>
                         
@@ -156,26 +155,22 @@ export class UPathControls extends connect(store)(LitElement) {
         this.title = e.target.value;
     }
 
-    changeTitle() {
-        let updatedPath = { ...this._path, title: this.title };
-        store.dispatch(putEntity('path', updatedPath, this.pathId));
-    }
-
     inputShortDescription(e) {
         this.shortDescription = e.target.value;
-    }
-
-    changeShortDescription() {
-        let updatedPath = { ...this._path, shortDescription: this.shortDescription };
-        store.dispatch(putEntity('path', updatedPath, this.pathId));
     }
 
     inputFullDescription(e) {
         this.fullDescription = e.target.value;
     }
 
-    changeFullDescription() {
-        let updatedPath = { ...this._path, fullDescription: this.fullDescription };
+    saveChanges() {
+        let updatedPath = {
+            ...this._path,
+            title: this.title,
+            shortDescription: this.shortDescription,
+            fullDescription: this.fullDescription
+        };
+
         store.dispatch(putEntity('path', updatedPath, this.pathId));
     }
 }

@@ -11,7 +11,7 @@ export default {
 
     value: {
         type: String,
-        attribute: false
+        attribute: 'value'
     },
 
     placeholder: {

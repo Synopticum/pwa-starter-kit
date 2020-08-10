@@ -45,8 +45,7 @@ export class UDotControls extends connect(store)(LitElement) {
                        <label class="controls__label">Заголовок:</label>
                        
                        <div class="controls__input">
-                           <input type="text" @keyup="${this.inputTitle}" value="${this._dot.title}" class="textinput">
-                           <u-text-button @click="${this.changeTitle}" class="save">Сохранить</u-text-button>
+                           <u-textbox type="text" @keyup="${this.inputTitle}" value="${this._dot.title}" class="textinput">
                        </div>
                     </section>
                     
@@ -54,8 +53,7 @@ export class UDotControls extends connect(store)(LitElement) {
                        <label class="controls__label">Краткое описание:</label>
                        
                        <div class="controls__input">
-                           <textarea @keyup="${this.inputShortDescription}" class="textarea">${this._dot.shortDescription}</textarea>
-                           <u-text-button @click="${this.changeShortDescription}" class="save">Сохранить</u-text-button>
+                           <u-textarea @keyup="${this.inputShortDescription}" class="textarea" value="${this._dot.shortDescription}"></u-textarea>
                        </div>
                     </section>
                     
@@ -63,8 +61,7 @@ export class UDotControls extends connect(store)(LitElement) {
                        <label class="controls__label">Полное описание:</label>
                        
                        <div class="controls__input">
-                           <textarea @keyup="${this.inputFullDescription}" class="textarea">${this._dot.fullDescription}</textarea>
-                           <u-text-button @click="${this.changeFullDescription}" class="save">Сохранить</u-text-button>
+                           <u-textarea @keyup="${this.inputFullDescription}" class="textarea" value="${this._dot.fullDescription}"></u-textarea>
                        </div>
                     </section>
                     
@@ -80,12 +77,10 @@ export class UDotControls extends connect(store)(LitElement) {
                        <label for="select-rotation-angle" class="controls__label">Угол съемки:</label>  
                        
                        <div class="controls__input">
-                           <input 
-                            type="number" 
-                            @keyup="${this.inputRotationAngle}" 
-                            class="textarea" id="select-rotation-angle" value="${this._dot.rotationAngle}"/>
-                            
-                           <u-text-button @click="${this.changeRotationAngle}" class="save">Сохранить</u-text-button>
+                           <u-textbox 
+                                type="number" 
+                                @keyup="${this.inputRotationAngle}" 
+                                class="textarea" id="select-rotation-angle" value="${this._dot.rotationAngle}"/>
                        </div>
                     </section>  
                     
@@ -93,6 +88,8 @@ export class UDotControls extends connect(store)(LitElement) {
                        <u-text-button class="remove"
                                       ?disabled="${this._isFetching || this._isUpdating}"
                                       @click="${this.remove}">Удалить точку</u-text-button>
+                            
+                       <u-text-button @click="${this.saveChanges}" class="save">Сохранить</u-text-button>
                     </section>
                 </main>
                         
@@ -180,12 +177,6 @@ export class UDotControls extends connect(store)(LitElement) {
         store.dispatch(deletePhoto('dot', this.dotId, this._activeYear));
     }
 
-    changeDotType(e) {
-        let type = e.target.value;
-        let updatedDot = { ...this._dot, type };
-        store.dispatch(putEntity('dot', updatedDot, this.dotId));
-    }
-
     changeDotLayer(e) {
         let layer = e.target.value;
         let updatedDot = { ...this._dot, layer };
@@ -196,35 +187,27 @@ export class UDotControls extends connect(store)(LitElement) {
         this.title = e.target.value;
     }
 
-    changeTitle() {
-        let updatedDot = { ...this._dot, title: this.title };
-        store.dispatch(putEntity('dot', updatedDot, this.dotId));
-    }
-
     inputShortDescription(e) {
         this.shortDescription = e.target.value;
-    }
-
-    changeShortDescription() {
-        let updatedDot = { ...this._dot, shortDescription: this.shortDescription };
-        store.dispatch(putEntity('dot', updatedDot, this.dotId));
     }
 
     inputFullDescription(e) {
         this.fullDescription = e.target.value;
     }
 
-    changeFullDescription() {
-        let updatedDot = { ...this._dot, fullDescription: this.fullDescription };
-        store.dispatch(putEntity('dot', updatedDot, this.dotId));
-    }
-
     inputRotationAngle(e) {
         this.rotationAngle = e.target.value;
     }
 
-    changeRotationAngle() {
-        let updatedDot = { ...this._dot, rotationAngle: this.rotationAngle };
+    saveChanges() {
+        let updatedDot = {
+            ...this._dot,
+            title: this.title,
+            shortDescription: this.shortDescription,
+            fullDescription: this.fullDescription,
+            rotationAngle: this.rotationAngle
+        };
+
         store.dispatch(putEntity('dot', updatedDot, this.dotId));
     }
 }

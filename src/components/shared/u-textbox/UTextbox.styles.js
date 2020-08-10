@@ -13,23 +13,24 @@ export default css`
 
 .textbox__element {
     width: 100%;
-    padding: 5px 10px;
+    padding: 0 10px;
+    height: 32px;
     font-family: inherit;
-    font-size: var(--font-size);
-    font-style: var(--font-style);
-    color: #fff;
+    font-size: var(--font-size, 14px);
+    font-style: var(--font-style, none);
+    color: #000;
     outline: none;
     transition: border-color .3s;
-    background: none;
-    border: 0 dashed rgba(255,255,255,.5);
+    border: 1px dashed #ccc;
+    background-color: #f9f9f9;
 }
 
 .textbox__element:hover {
-  border-color: rgba(255,255,255,.5);
+    // border-color: rgba(255,255,255,.5);
 }
 
 .textbox__element:focus {
-    border-color: #ccc;
+    border-color: #999;
     border-style: dashed;
 }
 

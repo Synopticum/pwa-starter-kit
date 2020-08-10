@@ -29,16 +29,19 @@ export class UTextarea extends LitElement {
             [`textarea--${this.type}`]: true
         };
 
+        const placeholder = this.placeholder && this.placeholder !== 'undefined' ? this.placeholder : '';
+        const value = this.value && this.value !== 'undefined' ? this.value : '';
+
         return html`
           <div class="u-textarea">
               <div class="${classMap(textareaClasses)}">
                 <textarea
                     class="textarea__element"
                     id="textarea__${this.id}" 
-                    placeholder="${this.placeholder}"
+                    placeholder="${placeholder}"
                     @keyup="${this.valueChanged}"
                     ?disabled="${this.disabled}"
-                    ?required="${this.required}">${this.value}</textarea>
+                    ?required="${this.required}">${value}</textarea>
               </div>
           </div>
     `;

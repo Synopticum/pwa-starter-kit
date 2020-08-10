@@ -28,6 +28,9 @@ export class UTextbox extends LitElement {
             'textbox--is-updating': this.isFetching || this.isUpdating
         };
 
+        const placeholder = this.placeholder && this.placeholder !== 'undefined' ? this.placeholder : '';
+        const value = this.value && this.value !== 'undefined' ? this.value : '';
+
         return html`
           <div class="u-textbox">
               <div class="${classMap(textboxClasses)}">
@@ -35,10 +38,10 @@ export class UTextbox extends LitElement {
                     type="text" 
                     id="textbox__${this.id}"
                     class="textbox__element"
-                    value="${this.value}" 
+                    value="${value}" 
                     @keyup="${this.valueChanged}"
-                    placeholder="${this.placeholder}"
-                    ?disabled="${this.disabled || this.isFetching  || this.isUpdating}"
+                    placeholder="${placeholder}"
+                    ?disabled="${this.disabled || this.isFetching || this.isUpdating}"
                     ?required="${this.required}"
                     autocomplete="off">
               </div>

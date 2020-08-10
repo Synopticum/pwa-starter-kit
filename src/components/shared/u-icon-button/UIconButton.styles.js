@@ -75,4 +75,14 @@ export default css`
     background-image: url('/static/images/dot/check.svg');
     background-size: 21px;
 }
+
+.icon-button--save {
+    background-image: url('/static/images/shared/u-icon-button/save.svg');
+    background-size: 21px;
+}
+
+.icon-button--regular {
+    padding: 15px;
+    background-size: 15px;
+}
 `;

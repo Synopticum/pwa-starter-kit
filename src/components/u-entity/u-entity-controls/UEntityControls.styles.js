@@ -67,21 +67,38 @@ export default css`
 
 .controls__input {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: flex-start;
 }
 
 .textinput {
-  box-sizing: border-box;
+    box-sizing: border-box;
+    flex: 1;
 }
 
 .textarea {
-  box-sizing: border-box;
+    box-sizing: border-box;
+    flex: 1;
 }
 
 .save {
-    margin-top: 5px;
-    flex: 1;
-    align-self: flex-end;
+    margin-left: 10px;
+}
+
+.controls__row {
+    display: flex;
+}
+
+.controls__col {
+    padding: 0 10px;
+}
+
+.controls__col:first-child {
+    padding-left: 0;
+}
+
+.controls__col:last-child {
+    padding-right: 0;
 }
 
 @media only screen and (max-width: 992px)  {

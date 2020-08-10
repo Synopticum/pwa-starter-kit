@@ -400,7 +400,7 @@ class UMap extends connect(store)(LitElement) {
     }
 
     if (this._paths !== state.paths.items) {
-      // this._drawPaths(state.paths.items);
+      this._drawPaths(state.paths.items);
     }
 
     this._objects = state.objects.items;

@@ -5,12 +5,17 @@ import {objectControls} from "./UObjectControls.reducer";
 import {clearEntityState, deleteEntity, putEntity} from "../../u-entity/UEntity.actions";
 import {deletePhoto} from "../../u-photo-upload/UPhotoUpload.actions";
 import '../../u-photo-upload/UPhotoUpload';
+import '../../shared/u-textbox/UTextbox';
+import '../../shared/u-textarea/UTextarea';
 import '../../shared/u-text-button/UTextButton';
+import '../../shared/u-icon-button/UIconButton';
 import {setCloudsVisibility} from "../../u-map/UMap.actions";
 import props from './UObjectControls.props';
 import styles from './UObjectControls.styles';
 
 store.addReducers({objectControls});
+
+const NOT_SET = '[Не задано]';
 
 export class UObjectControls extends connect(store)(LitElement) {
     /*
@@ -38,8 +43,11 @@ export class UObjectControls extends connect(store)(LitElement) {
                        <label class="controls__label">Заголовок:</label>
                        
                        <div class="controls__input">
-                           <input type="text" @keyup="${this.inputTitle}" value="${this._object.title}" class="textinput">
-                           <u-text-button @click="${this.changeTitle}" class="save">Сохранить</u-text-button>
+                           <u-textbox 
+                                type="text" 
+                                @keyup="${this.inputTitle}" 
+                                value="${this._object.title}" 
+                                class="textinput"></u-textbox>
                        </div>
                     </section>
                     
@@ -47,8 +55,10 @@ export class UObjectControls extends connect(store)(LitElement) {
                        <label class="controls__label">Краткое описание:</label>
                        
                        <div class="controls__input">
-                           <textarea @keyup="${this.inputShortDescription}" class="textarea">${this._object.shortDescription}</textarea>
-                           <u-text-button type="button" @click="${this.changeShortDescription}" class="save">Сохранить</u-text-button>
+                           <u-textarea 
+                                @keyup="${this.inputShortDescription}" 
+                                class="textarea"
+                                value="${this._object.shortDescription}"></u-textarea>
                        </div>
                     </section>
                     
@@ -56,26 +66,38 @@ export class UObjectControls extends connect(store)(LitElement) {
                        <label class="controls__label">Полное описание:</label>
                        
                        <div class="controls__input">
-                           <textarea @keyup="${this.inputFullDescription}" class="textarea">${this._object.fullDescription}</textarea>
-                           <u-text-button type="button" @click="${this.changeFullDescription}" class="save">Сохранить</u-text-button>
+                           <u-textarea 
+                                @keyup="${this.inputFullDescription}" 
+                                class="textarea"
+                                value="${this._object.fullDescription}"></u-textarea>
                        </div>
                     </section>
                     
                     <section class="controls__section controls__street">
-                       <label class="controls__label">Улица:</label>
+                       <div class="controls__row">
+                        <div class="controls__col">
+                           <label class="controls__label">Улица:</label>
                        
-                       <div class="controls__input">
-                           <input type="text" @keyup="${this.inputStreet}" class="textarea" value="${this._object.street}">
-                           <u-text-button type="button" @click="${this.changeStreet}" class="save">Сохранить</u-text-button>
-                       </div>
-                    </section>
-                    
-                    <section class="controls__section controls__house">
-                       <label class="controls__label">Номер дома:</label>
-                       
-                       <div class="controls__input">
-                           <input type="text" @keyup="${this.inputHouse}" class="textarea" value="${this._object.house}">
-                           <u-text-button type="button" @click="${this.changeHouse}" class="save">Сохранить</u-text-button>
+                           <div class="controls__input">
+                               <u-textbox 
+                                    type="text" 
+                                    @keyup="${this.inputStreet}" 
+                                    class="textinput street" 
+                                    value="${this._object.street}"></u-textbox>
+                           </div>
+                        </div>
+                        
+                        <div class="controls__col">
+                           <label class="controls__label">Номер дома:</label>
+                           
+                           <div class="controls__input">
+                               <u-textbox 
+                                    type="text" 
+                                    @keyup="${this.inputHouse}" 
+                                    class="textinput house" 
+                                    value="${this._object.house}"></u-textbox>
+                           </div>
+                        </div>
                        </div>
                     </section>
                     
@@ -83,6 +105,11 @@ export class UObjectControls extends connect(store)(LitElement) {
                        <u-text-button class="remove"
                                       ?disabled="${this._isFetching || this._isUpdating}"
                                       @click="${this.remove}">Удалить объект</u-text-button>
+                                    
+                       <u-text-button 
+                            type="button" 
+                            @click="${this.saveChanges}" 
+                            class="save">Сохранить</u-text-button>
                     </section>
                 </main>
                         
@@ -174,44 +201,32 @@ export class UObjectControls extends connect(store)(LitElement) {
         this.title = e.target.value;
     }
 
-    changeTitle() {
-        let updatedObject = { ...this._object, title: this.title };
-        store.dispatch(putEntity('object', updatedObject, this.objectId));
-    }
-
     inputStreet(e) {
         this.street = e.target.value;
-    }
-
-    changeStreet() {
-        let updatedObject = { ...this._object, street: this.street };
-        store.dispatch(putEntity('object', updatedObject, this.objectId));
     }
 
     inputHouse(e) {
         this.house = e.target.value;
     }
 
-    changeHouse() {
-        let updatedObject = { ...this._object, house: this.house };
-        store.dispatch(putEntity('object', updatedObject, this.objectId));
-    }
-
     inputShortDescription(e) {
         this.shortDescription = e.target.value;
-    }
-
-    changeShortDescription() {
-        let updatedObject = { ...this._object, shortDescription: this.shortDescription };
-        store.dispatch(putEntity('object', updatedObject, this.objectId));
     }
 
     inputFullDescription(e) {
         this.fullDescription = e.target.value;
     }
 
-    changeFullDescription() {
-        let updatedObject = { ...this._object, fullDescription: this.fullDescription };
+    saveChanges() {
+        let updatedObject = {
+            ...this._object,
+            title: this.title,
+            street: this.street,
+            house: this.house,
+            shortDescription: this.shortDescription,
+            fullDescription: this.fullDescription
+        };
+
         store.dispatch(putEntity('object', updatedObject, this.objectId));
     }
 }
