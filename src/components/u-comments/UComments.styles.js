@@ -12,6 +12,7 @@ export default css`
     box-sizing: border-box;
     background-color: rgba(255,255,255,.95);
     border-left: 2px solid rgba(111,155,52,.95);
+    color: #000;
 }
 
 :host([hidden]) {

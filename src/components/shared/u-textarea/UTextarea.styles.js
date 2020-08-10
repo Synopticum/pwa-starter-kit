@@ -20,12 +20,13 @@ export default css`
     padding: 10px;
     resize: none;
     outline: none;
-    transition: border-color .3s;
+    transition: border-color, background-color .3s;
 }
 
 .textarea__element:focus {
     border-color: #999;
     border-style: dashed;
+    background-color: #fff;
 }
 
 .textarea__element::-webkit-input-placeholder {

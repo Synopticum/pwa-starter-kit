@@ -20,7 +20,7 @@ export default css`
     font-style: var(--font-style, none);
     color: #000;
     outline: none;
-    transition: border-color .3s;
+    transition: border-color, background-color .3s;
     border: 1px dashed #ccc;
     background-color: #f9f9f9;
 }
@@ -32,6 +32,7 @@ export default css`
 .textbox__element:focus {
     border-color: #999;
     border-style: dashed;
+    background-color: #fff;
 }
 
 .textbox__element::selection {

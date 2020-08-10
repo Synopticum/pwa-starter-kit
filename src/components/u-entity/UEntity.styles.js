@@ -50,7 +50,8 @@ export default css`
 .wrapper {
     width: 100%;
     height: 100%;
-    font-size: 0;
+    font-size: 48px;
+    color: #fff;
     display: flex;
     justify-content: center;
     align-items: center;

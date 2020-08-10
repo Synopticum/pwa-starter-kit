@@ -61,7 +61,7 @@ class UObject extends connect(store)(LitElement) {
                              @load="${this.hideSpinner}">
                             
                         <u-timeline .type="${`object`}" .images="${this._object.groupedImages}" .activeYear="${this._activeYear}"></u-timeline>`
-                            : (() => { this.hideSpinner(); return 'Изображения отсутствуют' })()
+                            : (() => { this.hideSpinner(); return 'Фотографии отсутствуют :(' })()
                         }
                     
                     ${this.areControlsVisible ? html`

@@ -61,7 +61,7 @@ class UDot extends connect(store)(LitElement) {
                              @load="${this.hideSpinner}">
                             
                         <u-timeline .type="${`dot`}" .images="${this._dot.groupedImages}" .activeYear="${this._activeYear}"></u-timeline>` 
-                        : (() => { this.hideSpinner(); return 'Изображения отсутствуют' })()
+                        : (() => { this.hideSpinner(); return 'Фотографии отсутствуют :(' })()
                     }
     
                     ${this.areControlsVisible ? html`
