@@ -1,7 +1,6 @@
 import {html, LitElement} from 'lit-element/lit-element';
 import {store} from '../../store';
 import {connect} from 'pwa-helpers';
-import {fetch, toggle} from './UNav.actions';
 import {pieceOfState} from "./UNav.reducer";
 import props from './UNav.props';
 import styles from './UNav.styles';
@@ -28,9 +27,11 @@ export class UNav extends connect(store)(LitElement) {
         return html`   
           <div class="u-nav">
             <div class="buttons">
-                <u-nav-button type="news" description="Новости" disabled></u-nav-button>
-                <u-nav-button type="transport" description="Транспорт" disabled></u-nav-button>
-                <u-nav-button type="ads" description="Объявления" disabled></u-nav-button>
+                <u-search-button description="Поиск на карте"></u-search-button>
+                <u-nav-button type="search" description="Поиск на карте"></u-nav-button>
+<!--                <u-nav-button type="news" description="Новости" disabled></u-nav-button>-->
+<!--                <u-nav-button type="transport" description="Транспорт" disabled></u-nav-button>-->
+<!--                <u-nav-button type="ads" description="Объявления" disabled></u-nav-button>-->
             </div>
           
             <u-nav-login ?is-anonymous="${isAnonymous(this._user)}" image-url="${this._user.avatar}"></u-nav-login>

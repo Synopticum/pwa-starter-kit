@@ -68,6 +68,13 @@ export default css`
     top: -2px;
 }
 
+// search
+:host {}
+:host([type="search"]) {
+    background-image: url('/static/images/u-nav/u-search-button/search.svg');
+    background-size: 24px;
+}
+
 // news
 :host {}
 :host([type="news"]) {
