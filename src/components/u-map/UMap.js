@@ -953,7 +953,7 @@ class UMap extends connect(store)(LitElement) {
       position: {
         top: (top+((bottom-top)/2)) - 30,
         right: params[type].right,
-        bottom: (html.clientHeight-top-((bottom-top)/2)) - 30,
+        bottom: (html.clientHeight-top-((bottom-top)/2)) - (type === 'dot' ? 70 : 30),
         left: params[type].left
       },
       origin
