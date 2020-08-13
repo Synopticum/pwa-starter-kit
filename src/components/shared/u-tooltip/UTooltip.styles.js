@@ -119,26 +119,36 @@ export default css`
 
 .content {
     position: absolute;
+    font-size: 0;
+}
+
+:host(.tooltip--top-right) .content,
+:host(.tooltip--bottom-right) .content {
+    text-align: right;
 }
 
 .title {
+    display: inline-block;
     white-space: nowrap;
-    font-size: 16px;
-    padding: 7px 15px;
+    font-size: 18px;
+    padding: 7px 10px;
     background: #111;
     color: #fff;
-    border-radius: 5px;
 }
 
 .short-description {
+    display: inline-block;
     white-space: nowrap;
-    font-size: 14px;
-    color: #999;
-    font-style: italic;
+    font-size: 10px;
+    text-transform: uppercase;
+    color: #111;
+    background: #e8a826;
+    padding: 3px 10px;
+    margin: 0 0px;
 }
 
 :host(.tooltip--dot) .title {
-  margin-bottom: 10px;
+  margin-bottom: 0;
 }
 
 .description {

@@ -68,6 +68,8 @@ class UMap extends connect(store)(LitElement) {
 
     return html`      
       <style>
+        .ololo { background: red !important }
+        
         [hidden] {
           display: none;
         }
@@ -801,6 +803,8 @@ class UMap extends connect(store)(LitElement) {
     } else {
       className = `leaflet-marker-icon__${year}`;
     }
+
+    if (!dot.title) className += ' ololo';
 
     const icon = L.divIcon({
       iconSize: [9, 9],

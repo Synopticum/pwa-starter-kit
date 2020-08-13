@@ -33,6 +33,11 @@ export default css`
     font-style: italic;
 }
 
+.textarea__element::selection {
+    background-color: rgb(111, 155, 52);
+    color: #ffffff;
+}
+
 .textarea__element::-moz-placeholder {
     font-style: italic;
 }

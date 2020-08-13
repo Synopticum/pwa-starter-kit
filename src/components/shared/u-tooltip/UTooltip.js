@@ -97,7 +97,7 @@ class UTooltip extends LitElement {
     getTitle() {
         if (this.title && this.shortDescription) {
             return html`
-                <div class="title">${this.title}</div>
+                <div class="title">${this.title}</div><br>
                 <div class="short-description">${this.shortDescription}</div>
             `;
         } else if (this.title) {
@@ -143,7 +143,7 @@ class UTooltip extends LitElement {
                         @click="${this.showDot}">
                         
                     <div class="content">
-                        <div class="title">${this.getTitle()}</div>
+                        ${this.getTitle()}
                     </div>
                 `;
         }

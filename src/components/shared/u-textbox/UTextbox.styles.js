@@ -36,7 +36,7 @@ export default css`
 }
 
 .textbox__element::selection {
-    background-color: var(--selection-color);
+    background-color: rgb(111, 155, 52);
     color: #ffffff;
 }
 

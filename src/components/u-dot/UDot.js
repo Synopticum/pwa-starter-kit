@@ -53,6 +53,11 @@ class UDot extends connect(store)(LitElement) {
             
             ${!this._isLoadingError ? html`
                 <main class="wrapper">
+                    <div class="head">
+                        <div class="head__title">${this._dot.title}</div><br>
+                        <div class="head__short-description">${this._dot.shortDescription}</div>
+                    </div>
+                
                     ${this.hasImage() ? html`
                         <div class="${classMap(photoOverlayClasses)}"></div>
                         <img src="https://urussu.s3.amazonaws.com/${this._activeImage}" 

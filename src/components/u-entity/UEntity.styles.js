@@ -118,6 +118,30 @@ export default css`
     top: 0;
 }
 
+.head {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    font-size: 0;
+}
+
+.head__title {
+    display: inline-block;
+    background: #111;
+    color: #fff;
+    padding: 0 10px;
+    font-size: 36px;
+}
+
+.head__short-description {
+    display: inline-block;
+    background: #e8a826;
+    color: #000;
+    padding: 3px 10px;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
 @media only screen and (max-width: 992px)  {
   :host {
     width: 100vw;

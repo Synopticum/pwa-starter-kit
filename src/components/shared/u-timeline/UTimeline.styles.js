@@ -42,7 +42,7 @@ export default css`
     background: #111;
     color: #fff;
     border-radius: 15px;
-    padding: 5px 10px;
+    padding: 5px 10px 4px 10px;
     margin: 0 7px;
     transition: background-color .3s;
     user-select: none;
@@ -62,10 +62,6 @@ export default css`
     background: #000;
 }
 
-.year--active:not(:last-child)::before {
-    background: #b00;
-}
-
 .year:not(:first-child)::before {
     display: none;
     content: '';
@@ -78,21 +74,13 @@ export default css`
     z-index: 50;
 }
 
-.year:not(:first-child)::before,
-.year--active:not(:first-child)::before {
-    display: block;
-}
-
-.year--active:not(:first-child)::before {
-    background: #b00;
-}
-
 .nested-year:last-child .year::before {
     display: none;
 } 
 
 .year--active {
-    background: #b00;
+    color: #000;
+    background: #e8a826;
 }
 
 .years--only-child .year {
@@ -117,10 +105,6 @@ export default css`
     width: 2px;
     height: 5px;
     background: #000;
-}
-
-.nested-year .year--active:not(:last-child)::after {
-    background: #b00;
 }
 
 .nested-year .year:not(:first-child)::before,
