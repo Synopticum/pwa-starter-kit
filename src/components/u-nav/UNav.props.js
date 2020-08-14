@@ -7,4 +7,9 @@ export default {
         type: Object,
         attribute: false
     },
+
+    isSearchVisible: {
+        type: Boolean,
+        attribute: false
+    }
 };

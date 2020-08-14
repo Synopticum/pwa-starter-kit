@@ -458,6 +458,7 @@ class UMap extends connect(store)(LitElement) {
     this._map.on('zoomend', this._updateUrl.bind(this));
     this._map.on('click', this.getCoordinates.bind(this));
     this.addEventListener('click', this._handleOutsideClicks);
+    this.addEventListener('u-nav-search::set-view', e => this._goTo(e.detail));
     // this.addEventListener('u-tooltip::show-dot', e => this._toggleDot(true, { target: { options: e.detail }}));
     // this.addEventListener('u-tooltip::show-object', e => this._toggleDot(true, { target: { options: e.detail }}));
   }
@@ -636,7 +637,7 @@ class UMap extends connect(store)(LitElement) {
       })
       .on('mouseover', e => { this._toggleTooltip('object', true, e) })
       .on('mouseout', e => { this._toggleTooltip('object', false, e) })
-      .on('click', e => { this._toggleObject(true, e) })
+      .on('click', e => { this._toggleObject(true, e.target.options.id) })
           .addTo(this._map);
     });
   }
@@ -851,10 +852,10 @@ class UMap extends connect(store)(LitElement) {
     return this._tooltip.item.images[oldestImage];
   }
 
-  _toggleObject(isVisible, e) {
+  _toggleObject(isVisible, id) {
     if (isVisible) {
       store.dispatch(setCurrentObjectId(''));
-      requestAnimationFrame(() => store.dispatch(setCurrentObjectId(e.target.options.id)));
+      requestAnimationFrame(() => store.dispatch(setCurrentObjectId(id)));
     } else {
       store.dispatch(setCurrentObjectId(''));
     }
@@ -882,6 +883,13 @@ class UMap extends connect(store)(LitElement) {
     } else {
       store.dispatch(setCurrentDotId(''));
     }
+  }
+
+  _goTo(detail) {
+    const { coordinates, zoom, id } = detail;
+    this._map.setView(coordinates, zoom);
+
+    this._toggleObject(true, id);
   }
 
   _toggleContextMenu(isVisible, e) {

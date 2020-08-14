@@ -15,8 +15,7 @@ export default css`
     box-shadow: inset 7px 7px 7px rgba(255,255,255,.1);
     transition: box-shadow .2s, border-radius .2s;
     margin-bottom: 7px;
-    filter: saturate(0);
-    opacity: .5;
+    // opacity: .5;
 }
 
 :host::after {
@@ -47,10 +46,6 @@ export default css`
 }
 
 :host([active]) {
-    pointer-events: none;
-    border-radius: 10px 0 0 10px;
-    box-shadow: inset 3px 3px 3px rgba(0,0,0,.5);
-    filter: saturate(1);
     opacity: 1;
 }
 
@@ -61,13 +56,6 @@ export default css`
     opacity: .5;
 }
 
-:host([active])::after,
-:host([active]):hover::after {
-    opacity: 1;
-    height: 48px;
-    top: -2px;
-}
-
 // search
 :host {}
 :host([type="search"]) {
@@ -75,124 +63,9 @@ export default css`
     background-size: 24px;
 }
 
-// news
-:host {}
-:host([type="news"]) {
-    background-image: url('/static/images/nav/news.png');
-}
-
-@media (-webkit-min-device-pixel-ratio: 2) { 
-    :host([type="news"]) {
-        background-image: url('/static/images/nav/news@2x.png');
-    }
-}
-
-:host([type="news"][active]) {
-    border-color: #428ef2;
-}
-
-:host([type="news"][active])::after {
-    background-color: #428ef2;
-}
-
-// transport
-:host {}
-:host([type="transport"]) {
-    background-image: url('/static/images/nav/transport.png');
-}
-
-@media (-webkit-min-device-pixel-ratio: 2) { 
-    :host([type="transport"]) {
-        background-image: url('/static/images/nav/transport@2x.png');
-    }
-}
-
-:host([type="transport"][active]) {
-    border-color: rgb(111, 155, 52);
-}
-
-:host([type="transport"][active])::after {
-    background-color: rgb(111, 155, 52);
-}
-
-// services
-:host {}
-:host([type="services"]) {
-    background-image: url('/static/images/nav/services.png');
-}
-
-@media (-webkit-min-device-pixel-ratio: 2) { 
-    :host([type="services"]) {
-        background-image: url('/static/images/nav/services@2x.png');
-    }
-}
-
-:host([type="services"][active]) {
-    border-color: #3fc4cd;
-}
-
-:host([type="services"][active])::after {
-    background-color: #3fc4cd;
-}
-
-// ads
-:host {}
-:host([type="ads"]) {
-    background-image: url('/static/images/nav/ads.png');
-}
-
-@media (-webkit-min-device-pixel-ratio: 2) { 
-    :host([type="ads"]) {
-        background-image: url('/static/images/nav/ads@2x.png');
-    }
-}
-
-:host([type="ads"][active]) {
-    border-color: #85a119;
-}
-
-:host([type="ads"][active])::after {
-    background-color: #85a119;
-}
-
-// anonymous
-:host {}
-:host([type="anonymous"]) {
-    background-image: url('/static/images/nav/anonymous.png');
-}
-
-@media (-webkit-min-device-pixel-ratio: 2) { 
-    :host([type="anonymous"]) {
-        background-image: url('/static/images/nav/anonymous@2x.png');
-    }
-}
-
-:host([type="anonymous"][active]) {
-    border-color: #ccc;
-}
-
-:host([type="anonymous"][active])::after {
-    background-color: #ccc;
-}
-
-// claims
-:host {}
-:host([type="claims"]) {
-    background-image: url('/static/images/nav/claims.png');
-}
-
-@media (-webkit-min-device-pixel-ratio: 2) { 
-    :host([type="claims"]) {
-        background-image: url('/static/images/nav/claims@2x.png');
-    }
-}
-
-:host([type="claims"][active]) {
-    border-color: #bf2f39;
-}
-
-:host([type="claims"][active])::after {
-    background-color: #bf2f39;
+:host([type="search"][active]) {
+    background-image: url('/static/images/u-nav/u-search-button/close.svg');
+    background-size: 24px;
 }
 
 .title {
@@ -211,6 +84,7 @@ export default css`
     color: #fff;
     text-transform: uppercase;
     transition: opacity .3s;
+    white-space: nowrap;
 }
 
 :host(:hover) .title {
@@ -232,5 +106,11 @@ export default css`
 
 :host([active]) .title {
     opacity: 0;
+}
+
+.feature {
+    position: absolute;
+    left: calc(100% + 15px);
+    top: 5px;
 }
 `;

@@ -25,6 +25,10 @@ export class UNavButton extends LitElement {
       
       <div class="u-nav-button">
         <div class="title">${this.description}</div>
+        
+        <div class="feature">
+            <slot></slot>
+        </div>
       </div>
     `;
     }

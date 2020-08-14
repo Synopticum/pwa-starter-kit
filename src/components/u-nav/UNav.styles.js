@@ -27,5 +27,6 @@ export default css`
 
 .buttons {
     justify-content: center;
+    padding-top: 20px;
 }
 `;

@@ -6,6 +6,7 @@ import props from './UNav.props';
 import styles from './UNav.styles';
 import {isAnonymous} from "../u-app/UApp.helpers";
 import './u-nav-button/UNavButton';
+import './u-nav-search/UNavSearch';
 import './u-nav-login/UNavLogin';
 
 store.addReducers({pieceOfState});
@@ -27,11 +28,13 @@ export class UNav extends connect(store)(LitElement) {
         return html`   
           <div class="u-nav">
             <div class="buttons">
-                <u-search-button description="Поиск на карте"></u-search-button>
-                <u-nav-button type="search" description="Поиск на карте"></u-nav-button>
-<!--                <u-nav-button type="news" description="Новости" disabled></u-nav-button>-->
-<!--                <u-nav-button type="transport" description="Транспорт" disabled></u-nav-button>-->
-<!--                <u-nav-button type="ads" description="Объявления" disabled></u-nav-button>-->
+                <u-nav-button 
+                    type="search" 
+                    description="Поиск на карте" 
+                    @click="${this.toggleSearch}"
+                    ?active="${this.isSearchVisible}">
+                        ${this.isSearchVisible ? html`<u-nav-search></u-nav-search>` : ''}
+                </u-nav-button>
             </div>
           
             <u-nav-login ?is-anonymous="${isAnonymous(this._user)}" image-url="${this._user.avatar}"></u-nav-login>
@@ -71,13 +74,16 @@ export class UNav extends connect(store)(LitElement) {
     }
 
     _setDefaults() {
-
+        this.isSearchVisible = true;
     }
 
     /*
         List of custom component's methods
         Any other methods
     */
+    toggleSearch() {
+        this.isSearchVisible = !this.isSearchVisible;
+    }
 }
 
 window.customElements.define('u-nav', UNav);

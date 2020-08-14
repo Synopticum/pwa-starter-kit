@@ -4,7 +4,7 @@ export default css`
 * { box-sizing: border-box }  
           
 :host {
-    display: inline-block;
+    display: block;
 }
 
 :host([hidden]) {
