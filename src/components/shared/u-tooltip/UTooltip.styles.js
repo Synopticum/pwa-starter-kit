@@ -114,6 +114,7 @@ export default css`
 }
 
 .thumbnail {
+  cursor: pointer;
   object-fit: cover;
 }
 

@@ -5,7 +5,7 @@ export default css`
     cursor: default;
     position: relative;
     top: -14px;
-    left: 0;
+    left: -4px;
 }
 
 :host([hidden]) {
@@ -15,10 +15,8 @@ export default css`
 .u-nav-search {
     width: 350px;
     background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 0 10px #111;
     padding: 15px;
-    border-radius: 0 5px 5px 0;
+    border-radius: 0;
 }
 
 .controls {

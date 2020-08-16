@@ -108,11 +108,18 @@ class UTooltip extends LitElement {
     }
 
     showDot() {
-        this.dispatchEvent(new CustomEvent('u-tooltip::show-dot', { detail: this.instanceId, composed: true, bubbles: true }));
-    }
+        const [lat, lng] = this.coordinates;
+        const zoom = new URLSearchParams(location.search).get('zoom');
 
-    showObject() {
-        this.dispatchEvent(new CustomEvent('u-tooltip::show-object', { detail: this.instanceId, composed: true, bubbles: true }));
+        this.dispatchEvent(new CustomEvent('u-tooltip::show-dot', {
+            detail: {
+                id: this.instanceId,
+                coordinates: { lat, lng },
+                zoom
+            },
+            composed: true,
+            bubbles: true
+        }));
     }
 
     renderContent() {
@@ -124,8 +131,7 @@ class UTooltip extends LitElement {
                         width="90" 
                         height="90" 
                         alt="" 
-                        class="thumbnail"
-                        @click="${this.showObject}">
+                        class="thumbnail">
                         
                     <div class="content">
                         ${this.getObjectTitle()}

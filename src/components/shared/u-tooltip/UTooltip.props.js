@@ -37,5 +37,9 @@ export default {
 
     instanceId: {
         type: String
+    },
+
+    coordinates: {
+        type: Array
     }
 };

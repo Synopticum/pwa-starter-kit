@@ -198,6 +198,7 @@ class UMap extends connect(store)(LitElement) {
         }
         
         .leaflet-marker-icon {
+          cursor: default !important;
           position: relative;
           background: rgb(232,168,38);
           border: 2px solid rgb(182,118,-12);
@@ -314,6 +315,7 @@ class UMap extends connect(store)(LitElement) {
               .type="${this._tooltip.item && this._tooltip.item.type}"
               .instanceType="${this._tooltip.item && this._tooltip.item.instanceType}"
               .instanceId="${this._tooltip.item && this._tooltip.item.id}"
+              .coordinates="${this._tooltip.item && this._tooltip.item.coordinates}"
               .thumbnail="${this._tooltip.item && this._tooltip.item.images ? `https://urussu.s3.amazonaws.com/${this._getTooltipImage()}` : ''}"
               @mouseout="${() => this._toggleTooltip('dot',false)}">
           </u-tooltip>     
@@ -458,9 +460,8 @@ class UMap extends connect(store)(LitElement) {
     this._map.on('zoomend', this._updateUrl.bind(this));
     this._map.on('click', this.getCoordinates.bind(this));
     this.addEventListener('click', this._handleOutsideClicks);
-    this.addEventListener('u-nav-search::set-view', e => this._goTo(e.detail));
-    // this.addEventListener('u-tooltip::show-dot', e => this._toggleDot(true, { target: { options: e.detail }}));
-    // this.addEventListener('u-tooltip::show-object', e => this._toggleDot(true, { target: { options: e.detail }}));
+    this.addEventListener('u-nav-search::set-view', e => this._goTo('object', e.detail));
+    this.addEventListener('u-tooltip::show-dot', e => this._goTo('dot', e.detail));
   }
 
   _setReferences() {
@@ -820,7 +821,6 @@ class UMap extends connect(store)(LitElement) {
     })
         .on('mouseover', e => { this._toggleTooltip('dot',true, e) })
         .on('mouseout', () => clearTimeout(this._tooltipHoverTimeOut))
-        .on('click', e => { this._toggleDot(true, e) })
         .on('dragend', e => { this._updateMarkerCoordinates(null, e); });
   }
   // ----- end of drawing methods -----
@@ -870,10 +870,10 @@ class UMap extends connect(store)(LitElement) {
     }
   }
 
-  _toggleDot(isVisible, e) {
+  _toggleDot(isVisible, id) {
     if (isVisible) {
         store.dispatch(setCurrentDotId(''));
-        requestAnimationFrame(() => store.dispatch(setCurrentDotId(e.target.options.id)));
+        requestAnimationFrame(() => store.dispatch(setCurrentDotId(id)));
 
         store.dispatch(toggleDotCreator(false, { x: this._dotCreator.position.x, y: this._dotCreator.position.y }));
 
@@ -885,11 +885,19 @@ class UMap extends connect(store)(LitElement) {
     }
   }
 
-  _goTo(detail) {
+  _goTo(type, detail) {
     const { coordinates, zoom, id } = detail;
     this._map.setView(coordinates, zoom);
 
-    this._toggleObject(true, id);
+    switch (type) {
+      case 'object':
+        this._toggleObject(true, id);
+        break;
+
+      case 'dot':
+        this._toggleDot(true, id);
+        break;
+    }
   }
 
   _toggleContextMenu(isVisible, e) {
@@ -985,7 +993,7 @@ class UMap extends connect(store)(LitElement) {
         className: `leaflet-marker-icon__unknown`
       })
     })
-        .on('click', (e) => { this._toggleDot(true, e) })
+        .on('click', (e) => { this._toggleDot(true, e.target.options.id) })
         .addTo(this._map);
     this._$tempDot._icon.classList.add('leaflet-marker-icon--is-updating');
   }
