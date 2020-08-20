@@ -93,6 +93,6 @@ export default css`
     background-size: 36px;
 }
 
-.results__entry-address {
+.results__entry-title {
 }
 `;

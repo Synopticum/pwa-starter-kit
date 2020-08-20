@@ -38,8 +38,6 @@ export class UNavSearch extends connect(store)(LitElement) {
             </div>
             
             ${this._searchResults && !isEmpty(this._searchResults) ? this.renderResults() : ''}
-            
-<!--            <button @click="${toggle}"></button>-->
           </div>
       `
     }
@@ -104,26 +102,54 @@ export class UNavSearch extends connect(store)(LitElement) {
                 ${this.renderObjectEntry(entry)}
             </div>
         `;
+
+        if (entry.instanceType === 'dot') return html`
+            <div class="results__entry" @click="${() => this.openDot(entry)}">
+                ${this.renderDotEntry(entry)}
+            </div>
+        `;
+
+        if (entry.instanceType === 'path') return html`
+            <div class="results__entry" @click="${() => this.openPath(entry)}">
+                ${this.renderPathEntry(entry)}
+            </div>
+        `;
     }
 
     renderObjectEntry(entry) {
         if (entry.street && entry.house) {
             return html`
                     <div class="results__entry-tag results__entry-tag--house"></div>
-                    <div class="results__entry-address">${entry.street}, ${entry.house}</div>
-                `;
-        }
-
-        if (entry.title && entry.shortDescription) {
-            return html`
-                    <div>${entry.title}</div>
-                    <div>${entry.shortDescription}</div>
+                    <div class="results__entry-title">${entry.street}, ${entry.house}</div>
                 `;
         }
 
         if (entry.title) {
             return html`
-                    <div>${entry.title}</div>
+                    <div class="results__entry-tag results__entry-tag--house"></div>
+                    <div class="results__entry-title">${entry.title}</div>
+                `;
+        }
+
+        return '';
+    }
+
+    renderDotEntry(entry) {
+        if (entry.title) {
+            return html`
+                    <div class="results__entry-tag results__entry-tag--dot"></div>
+                    <div class="results__entry-title">${entry.title}</div>
+                `;
+        }
+
+        return '';
+    }
+
+    renderPathEntry(entry) {
+        if (entry.title) {
+            return html`
+                    <div class="results__entry-tag results__entry-tag--street"></div>
+                    <div class="results__entry-title">${entry.title}</div>
                 `;
         }
 
@@ -140,6 +166,30 @@ export class UNavSearch extends connect(store)(LitElement) {
             composed: true,
             bubbles: true
         }));
+    }
+
+    openDot(entry) {
+        // const [coordinates] = entry.coordinates[0];
+        // const zoom = this._settings.zoom;
+        // const id = entry.id.split('-')[0];
+        //
+        // this._map.dispatchEvent(new CustomEvent('u-nav-search::set-view', {
+        //     detail: { coordinates, zoom, id },
+        //     composed: true,
+        //     bubbles: true
+        // }));
+    }
+
+    openPath(entry) {
+        // const [coordinates] = entry.coordinates[0];
+        // const zoom = this._settings.zoom;
+        // const id = entry.id.split('-')[0];
+        //
+        // this._map.dispatchEvent(new CustomEvent('u-nav-search::set-view', {
+        //     detail: { coordinates, zoom, id },
+        //     composed: true,
+        //     bubbles: true
+        // }));
     }
 }
 

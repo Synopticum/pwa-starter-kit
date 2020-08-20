@@ -74,7 +74,7 @@ export class UNav extends connect(store)(LitElement) {
     }
 
     _setDefaults() {
-        this.isSearchVisible = true;
+
     }
 
     /*
