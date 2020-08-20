@@ -98,19 +98,19 @@ export class UNavSearch extends connect(store)(LitElement) {
 
     renderEntry(entry) {
         if (entry.instanceType === 'object') return html`
-            <div class="results__entry" @click="${() => this.openObject(entry)}">
+            <div class="results__entry" @click="${() => this.openEntry(entry)}">
                 ${this.renderObjectEntry(entry)}
             </div>
         `;
 
         if (entry.instanceType === 'dot') return html`
-            <div class="results__entry" @click="${() => this.openDot(entry)}">
+            <div class="results__entry" @click="${() => this.openEntry(entry)}">
                 ${this.renderDotEntry(entry)}
             </div>
         `;
 
         if (entry.instanceType === 'path') return html`
-            <div class="results__entry" @click="${() => this.openPath(entry)}">
+            <div class="results__entry" @click="${() => this.openEntry(entry)}">
                 ${this.renderPathEntry(entry)}
             </div>
         `;
@@ -156,40 +156,31 @@ export class UNavSearch extends connect(store)(LitElement) {
         return '';
     }
 
-    openObject(entry) {
-        const [coordinates] = entry.coordinates[0];
+    openEntry(entry) {
+        const type = entry.instanceType;
         const zoom = this._settings.zoom;
         const id = entry.id.split('-')[0];
+        let coordinates;
 
-        this._map.dispatchEvent(new CustomEvent('u-nav-search::set-view', {
+        switch (type) {
+            case 'object':
+                [coordinates] = entry.coordinates[0];
+                break;
+
+            case 'path':
+                coordinates = entry.coordinates[0];
+                break;
+
+            case 'dot':
+                coordinates = entry.coordinates;
+                break;
+        }
+
+        this._map.dispatchEvent(new CustomEvent(`u-nav-search::set-view-${type}`, {
             detail: { coordinates, zoom, id },
             composed: true,
             bubbles: true
         }));
-    }
-
-    openDot(entry) {
-        // const [coordinates] = entry.coordinates[0];
-        // const zoom = this._settings.zoom;
-        // const id = entry.id.split('-')[0];
-        //
-        // this._map.dispatchEvent(new CustomEvent('u-nav-search::set-view', {
-        //     detail: { coordinates, zoom, id },
-        //     composed: true,
-        //     bubbles: true
-        // }));
-    }
-
-    openPath(entry) {
-        // const [coordinates] = entry.coordinates[0];
-        // const zoom = this._settings.zoom;
-        // const id = entry.id.split('-')[0];
-        //
-        // this._map.dispatchEvent(new CustomEvent('u-nav-search::set-view', {
-        //     detail: { coordinates, zoom, id },
-        //     composed: true,
-        //     bubbles: true
-        // }));
     }
 }
 

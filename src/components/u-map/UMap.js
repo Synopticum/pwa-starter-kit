@@ -460,7 +460,9 @@ class UMap extends connect(store)(LitElement) {
     this._map.on('zoomend', this._updateUrl.bind(this));
     this._map.on('click', this.getCoordinates.bind(this));
     this.addEventListener('click', this._handleOutsideClicks);
-    this.addEventListener('u-nav-search::set-view', e => this._goTo('object', e.detail));
+    this.addEventListener('u-nav-search::set-view-object', e => this._goTo('object', e.detail));
+    this.addEventListener('u-nav-search::set-view-dot', e => this._goTo('dot', e.detail));
+    this.addEventListener('u-nav-search::set-view-path', e => this._goTo('path', e.detail));
     this.addEventListener('u-tooltip::show-dot', e => this._goTo('dot', e.detail));
   }
 
@@ -688,7 +690,7 @@ class UMap extends connect(store)(LitElement) {
       })
       .on('mouseover', e => { this._toggleTooltip('path',true, e) })
       .on('mouseout', e => { this._toggleTooltip('path',false, e) })
-          .on('click', e => { this._togglePath(true, e) })
+          .on('click', e => { this._togglePath(true, e.target.options.id) })
           .addTo(this._map);
     });
   }
@@ -861,10 +863,10 @@ class UMap extends connect(store)(LitElement) {
     }
   }
 
-  _togglePath(isVisible, e) {
+  _togglePath(isVisible, id) {
     if (isVisible) {
       store.dispatch(setCurrentPathId(''));
-      requestAnimationFrame(() => store.dispatch(setCurrentPathId(e.target.options.id)));
+      requestAnimationFrame(() => store.dispatch(setCurrentPathId(id)));
     } else {
       store.dispatch(setCurrentPathId(''));
     }
@@ -896,6 +898,10 @@ class UMap extends connect(store)(LitElement) {
 
       case 'dot':
         this._toggleDot(true, id);
+        break;
+
+      case 'path':
+        this._togglePath(true, id);
         break;
     }
   }
