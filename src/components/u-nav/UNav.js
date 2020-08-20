@@ -35,6 +35,10 @@ export class UNav extends connect(store)(LitElement) {
                     ?active="${this.isSearchVisible}">
                         ${this.isSearchVisible ? html`<u-nav-search></u-nav-search>` : ''}
                 </u-nav-button>
+                
+                <u-nav-button 
+                    type="stats" 
+                    description="Статистика"></u-nav-button>
             </div>
           
             <u-nav-login ?is-anonymous="${isAnonymous(this._user)}" image-url="${this._user.avatar}"></u-nav-login>
