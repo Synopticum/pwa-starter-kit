@@ -44,25 +44,25 @@ export default css`
 }
 
 .results::-webkit-scrollbar-track {
-    background-color: #F5F5F5;
+    background-color: #fff;
 }
 
 .results::-webkit-scrollbar {
-    width: 6px;
-    background-color: #F5F5F5;
+    width: 5px;
+    background-color: #fff;
 }
 
 .results::-webkit-scrollbar-thumb {
-    background-color: #000000;
+    background-color: #111;
 }
 
 .results__entry {
     cursor: default;
     padding: 3px 0;
     cursor: pointer;
-    border-top: 1px solid #eee;
     display: flex;
     align-items: center;
+    transition: .3s;
 }
 
 .results__entry:first-child {
@@ -71,6 +71,7 @@ export default css`
 
 .results__entry:hover {
     background: #fafafa;
+    color: #111;
 }
 
 .results__entry-tag {
@@ -79,6 +80,12 @@ export default css`
     background: red;
     margin-right: 5px;
     font-size: 11px;
+    opacity: .2;
+    transition: opacity .3s;
+}
+
+.results__entry:hover .results__entry-tag {
+    opacity: 1;
 }
 
 .results__entry-tag--house {
@@ -102,5 +109,11 @@ export default css`
 }
 
 .results__entry-title {
+    color: #555;
+    transition: color .3s;
+}
+
+.results__entry:hover .results__entry-title {
+    color: #111;
 }
 `;
