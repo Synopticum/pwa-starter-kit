@@ -4,19 +4,27 @@ export default css`
 :host {
     cursor: default;
     position: relative;
-    top: -14px;
-    left: -4px;
+    top: -25px;
+    left: -5px;
+    box-sizing: border-box;
 }
 
 :host([hidden]) {
     display: none;
 }
 
+:host * { 
+    box-sizing: border-box; 
+}
+
 .u-nav-search {
     width: 350px;
+    height: calc(100vh - 30px);
     background: #fff;
-    padding: 15px;
+    padding: 27px 15px;
     border-radius: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .controls {
@@ -29,8 +37,7 @@ export default css`
 }
 
 .results {
-    margin-top: 10px;
-    max-height: 50vh;
+    margin-top: 20px;
     overflow-y: auto;
     padding-right: 20px;
 }
