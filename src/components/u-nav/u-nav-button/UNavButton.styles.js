@@ -11,7 +11,7 @@ export default css`
     background-repeat: no-repeat;
     background-position: 50% 50%;
     background-size: 100%;
-    border: 2px solid #000;
+    border: 2px solid rgba(0,0,0,.2);
     box-shadow: inset 7px 7px 7px rgba(255,255,255,.1);
     transition: box-shadow .2s, border-radius .2s;
     margin-bottom: 7px;
