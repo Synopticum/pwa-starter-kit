@@ -126,12 +126,15 @@ class UTooltip extends LitElement {
         switch (this.instanceType) {
             case 'object':
                 return html`
-                    <img 
-                        src="${this.thumbnail ? this.thumbnail : '/static/images/components/shared/u-tooltip/unknown.png'}" 
-                        width="90" 
-                        height="90" 
-                        alt="" 
-                        class="thumbnail">
+                    <div class="image">
+                        <img 
+                            src="${this.thumbnail ? this.thumbnail : '/static/images/components/shared/u-tooltip/no-image.svg'}" 
+                            width="90" 
+                            height="90" 
+                            alt="" 
+                            class="thumbnail"
+                            @load="${e => this.thumbnail ? e.target.src = this.thumbnail : false }">
+                    </div>
                         
                     <div class="content">
                         ${this.getObjectTitle()}
@@ -140,13 +143,16 @@ class UTooltip extends LitElement {
 
             case 'dot':
                 return html`
-                    <img 
-                        src="${this.thumbnail ? this.thumbnail : '/static/images/components/shared/u-tooltip/unknown.png'}" 
-                        width="90" 
-                        height="90" 
-                        alt="" 
-                        class="thumbnail"
-                        @click="${this.showDot}">
+                    <div class="image">
+                        <img 
+                            src="${this.thumbnail ? this.thumbnail : '/static/images/components/shared/u-tooltip/no-image.svg'}" 
+                            width="90" 
+                            height="90" 
+                            alt="" 
+                            class="thumbnail"
+                            @click="${this.showDot}"
+                            @load="${e => this.thumbnail ? e.target.src = this.thumbnail : false }">
+                    </div>
                         
                     <div class="content">
                         ${this.getTitle()}

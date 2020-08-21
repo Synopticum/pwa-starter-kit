@@ -162,4 +162,21 @@ export default css`
   text-shadow: 1px 1px 0 #000;
   font-size: 18px;
 }
+
+.image {
+    font-size: 0;
+    width: 90px;
+    height: 90px;
+    animation: bounce 1s linear infinite alternate;
+    border-radius: 3px;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    background-color: #eee;
+  }
+  50% {
+    background-color: #ccc;
+  }
+}
 `;
