@@ -904,6 +904,8 @@ class UMap extends connect(store)(LitElement) {
         this._togglePath(true, id);
         break;
     }
+
+    this._toggleTooltip(type,false);
   }
 
   _toggleContextMenu(isVisible, e) {
