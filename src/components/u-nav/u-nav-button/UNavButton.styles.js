@@ -97,6 +97,7 @@ export default css`
     text-transform: uppercase;
     transition: opacity .3s;
     white-space: nowrap;
+    pointer-events: none;
 }
 
 :host(:hover) .title {
