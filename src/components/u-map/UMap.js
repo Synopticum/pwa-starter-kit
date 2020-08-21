@@ -893,14 +893,20 @@ class UMap extends connect(store)(LitElement) {
 
     switch (type) {
       case 'object':
+        this._toggleDot(false);
+        this._togglePath(false);
         this._toggleObject(true, id);
         break;
 
       case 'dot':
+        this._toggleObject(false);
+        this._togglePath(false);
         this._toggleDot(true, id);
         break;
 
       case 'path':
+        this._toggleDot(false);
+        this._toggleObject(false);
         this._togglePath(true, id);
         break;
     }
