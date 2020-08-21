@@ -70,6 +70,7 @@ export class UNavSearch extends connect(store)(LitElement) {
         this._setStore();
         this._setReferences();
         this._setListeners();
+        this.$input.focus();
     }
 
     _setStore() {
