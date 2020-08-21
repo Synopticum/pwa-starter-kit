@@ -838,7 +838,7 @@ class UMap extends connect(store)(LitElement) {
         let coordinates = UMap._calculateTooltipPosition(type, { top, right, bottom, left });
 
         store.dispatch(toggleTooltip(type,true, id, coordinates));
-      }, 1000);
+      }, 100);
     } else {
       clearTimeout(this._tooltipHoverTimeOut);
 
