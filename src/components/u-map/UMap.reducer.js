@@ -8,13 +8,15 @@ import {DotConstants} from "../u-dot/UDot.actions";
 import {ObjectConstants} from "../u-object/UObject.actions";
 import {PathConstants} from "../u-path/UPath.actions";
 
+const tooltipDefaultPayload = {
+    isVisible: false,
+    isFetching: false,
+    item: {},
+    coordinates: { position: {}, origin: ''},
+};
+
 export const map = (state = {
-    tooltip: {
-        isVisible: false,
-        isFetching: false,
-        item: {},
-        coordinates: { position: {}, origin: ''},
-    },
+    tooltip: tooltipDefaultPayload,
 
     contextMenu: {
         isVisible: false,
@@ -84,10 +86,10 @@ export const map = (state = {
         case MapConstants.TOGGLE.TOOLTIP:
             return {
                 ...state,
-                tooltip: {
+                tooltip: action.payload ? {
                     ...state.tooltip,
                     isVisible: action.payload
-                }
+                } : tooltipDefaultPayload
             };
 
         case MapConstants.TOGGLE.CONTEXT_MENU:
