@@ -8,7 +8,7 @@ export default css`
     height: 48px;
     justify-content: center;
     align-items: center;
-    background: url('/static/images/components/shared/u-play.svg') no-repeat 50% 50%;
+    background: url('/static/images/components/shared/u-play/play.svg') no-repeat 50% 50%;
     background-size: 40px;
 }
 
