@@ -8,11 +8,11 @@ export default css`
     height: 48px;
     justify-content: center;
     align-items: center;
-    background: url('/static/images/play/play.svg') no-repeat 50% 50%;
+    background: url('/static/images/components/shared/u-play.svg') no-repeat 50% 50%;
     background-size: 40px;
 }
 
 :host([in-progress]) {
-    background-image: url('/static/images/play/pause.svg');
+    background-image: url('/static/images/components/shared/u-play/pause.svg');
 }
 `;

@@ -127,7 +127,7 @@ class UTooltip extends LitElement {
             case 'object':
                 return html`
                     <img 
-                        src="${this.thumbnail ? this.thumbnail : '/static/images/tooltip/unknown.png'}" 
+                        src="${this.thumbnail ? this.thumbnail : '/static/images/components/shared/u-tooltip/unknown.png'}" 
                         width="90" 
                         height="90" 
                         alt="" 
@@ -141,7 +141,7 @@ class UTooltip extends LitElement {
             case 'dot':
                 return html`
                     <img 
-                        src="${this.thumbnail ? this.thumbnail : '/static/images/tooltip/unknown.png'}" 
+                        src="${this.thumbnail ? this.thumbnail : '/static/images/components/shared/u-tooltip/unknown.png'}" 
                         width="90" 
                         height="90" 
                         alt="" 

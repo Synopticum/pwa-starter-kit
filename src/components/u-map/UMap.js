@@ -89,7 +89,7 @@ class UMap extends connect(store)(LitElement) {
           top: 0;
           width: 100vw;
           height: 100vh;
-          background: url('../../../static/images/clouds65.jpg') no-repeat 50% 50%;
+          background: url('../../../static/images/components/u-map/clouds65.jpg') no-repeat 50% 50%;
           transition: opacity ease .3s;
           will-change: opacity;
           z-index: 10;
@@ -540,7 +540,7 @@ class UMap extends connect(store)(LitElement) {
     );
     const tileExtension = UMap.doesBrowserSupportWebP() ? 'png.webp' : 'png';
 
-    L.tileLayer(`${ENV[window.ENV].static}/static/images/tiles/{z}/{x}/{y}.${tileExtension}`, {
+    L.tileLayer(`${ENV[window.ENV].static}/static/images/components/u-map/tiles/{z}/{x}/{y}.${tileExtension}`, {
       minZoom: this.minZoom,
       maxZoom: this.maxZoom,
       bounds,

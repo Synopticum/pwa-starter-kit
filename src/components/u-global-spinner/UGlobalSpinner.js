@@ -12,7 +12,7 @@ class UGlobalSpinner extends HTMLElement {
     template.innerHTML = `
         <canvas class="noise"></canvas>
         <div class="loader">
-            <img src="/static/images/loading.png" class="loading" alt="" />
+            <img src="/static/images/components/u-global-spinner/loading.png" class="loading" alt="" />
         </div>
     `;
 

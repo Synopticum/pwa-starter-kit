@@ -77,7 +77,7 @@ export default css`
 }
 
 .icon-button--save {
-    background-image: url('/static/images/shared/u-icon-button/save.svg');
+    background-image: url('/static/images/components/shared/u-icon-button/save.svg');
     background-size: 21px;
 }
 

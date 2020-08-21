@@ -55,7 +55,7 @@ export default css`
     box-shadow: inset 7px 7px 7px rgba(255,255,255,.1);
     transition: box-shadow .2s, border-radius .2s;
     margin-bottom: 7px;
-    background-image: url('/static/images/u-nav/u-nav-login/vk.svg');
+    background-image: url('/static/images/components/u-nav/u-nav-login/vk.svg');
     background-size: 30px;
 }
 

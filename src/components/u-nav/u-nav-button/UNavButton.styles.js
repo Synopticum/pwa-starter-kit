@@ -59,24 +59,24 @@ export default css`
 // search
 :host {}
 :host([type="search"]) {
-    background-image: url('/static/images/u-nav/u-nav-button/search.svg');
+    background-image: url('/static/images/components/u-nav/u-nav-button/search.svg');
     background-size: 24px;
 }
 
 :host([type="search"][active]) {
-    background-image: url('/static/images/u-nav/u-nav-button/close.svg');
+    background-image: url('/static/images/components/u-nav/u-nav-button/close.svg');
     background-size: 24px;
 }
 
 // search
 :host {}
 :host([type="stats"]) {
-    background-image: url('/static/images/u-nav/u-nav-button/stats.svg');
+    background-image: url('/static/images/components/u-nav/u-nav-button/stats.svg');
     background-size: 24px;
 }
 
 :host([type="stats"][active]) {
-    background-image: url('/static/images/u-nav/u-nav-button/close.svg');
+    background-image: url('/static/images/components/u-nav/u-nav-button/close.svg');
     background-size: 24px;
 }
 

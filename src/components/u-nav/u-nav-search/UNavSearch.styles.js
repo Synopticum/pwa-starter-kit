@@ -81,22 +81,22 @@ export default css`
 }
 
 .results__entry-tag--house {
-    background: url('/static/images/u-nav/u-nav-search/house.svg') no-repeat 50% 50%;
+    background: url('/static/images/components/u-nav/u-nav-search/house.svg') no-repeat 50% 50%;
     background-size: 20px;
 }
 
 .results__entry-tag--building {
-    background: url('/static/images/u-nav/u-nav-search/building.svg') no-repeat 50% 50%;
+    background: url('/static/images/components/u-nav/u-nav-search/building.svg') no-repeat 50% 50%;
     background-size: 20px;
 }
 
 .results__entry-tag--dot {
-    background: url('/static/images/u-nav/u-nav-search/dot.svg') no-repeat 50% 50%;
+    background: url('/static/images/components/u-nav/u-nav-search/dot.svg') no-repeat 50% 50%;
     background-size: 20px;
 }
 
 .results__entry-tag--street {
-    background: url('/static/images/u-nav/u-nav-search/street.svg') no-repeat 50% 50%;
+    background: url('/static/images/components/u-nav/u-nav-search/street.svg') no-repeat 50% 50%;
     background-size: 36px;
 }
 

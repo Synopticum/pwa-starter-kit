@@ -91,7 +91,7 @@ export default css`
     display: block;
     width: 20px;
     height: 20px;
-    background: url('/static/images/comment/delete.svg') no-repeat 50% 50%;
+    background: url('/static/images/components/u-comments/u-comment/delete.svg') no-repeat 50% 50%;
     background-size: 20px;
 }
 `;
