@@ -19,12 +19,13 @@ export default css`
 
 .u-nav-search {
     width: 350px;
-    height: calc(100vh - 30px);
+    max-height: calc(100vh - 30px);
     background: #fff;
     padding: 27px 15px;
-    border-radius: 0;
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
+    box-shadow: 10px 0 25px -2px rgba(0,0,0,.5);
 }
 
 .controls {
