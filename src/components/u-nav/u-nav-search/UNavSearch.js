@@ -1,7 +1,7 @@
 import {html, LitElement} from 'lit-element/lit-element';
 import {store} from '../../../store';
 import {connect} from 'pwa-helpers';
-import {search, toggle} from './UNavSearch.actions';
+import {search, clear} from './UNavSearch.actions';
 import {searchResults} from "./UNavSearch.reducer";
 import props from './UNavSearch.props';
 import styles from './UNavSearch.styles';
@@ -9,6 +9,7 @@ import '../../shared/u-textbox/UTextbox';
 import debounce from '../../../helpers/debounce';
 import isEmpty from "../../../helpers/isEmpty";
 import {map} from "../../u-map/UMap.reducer";
+import {classMap} from "lit-html/directives/class-map";
 
 store.addReducers({map, searchResults});
 
@@ -26,15 +27,20 @@ export class UNavSearch extends connect(store)(LitElement) {
     }
 
     render() {
+        const controlsClasses = {
+            'controls': true,
+            'controls--active': this._searchResults && !isEmpty(this._searchResults)
+        };
+
         return html`
           <div class="u-nav-search">
-            <div class="controls">
-                <u-textbox 
+            <div class="${classMap(controlsClasses)}">
+                <input 
                     type="text" 
                     value="" 
                     @keyup="${debounce(this.search.bind(this), 300)}" 
                     class="controls__textinput"
-                    placeholder="Введите слово для поиска..."></u-textbox>
+                    placeholder="Введите слово для поиска...">
             </div>
             
             ${this._searchResults && !isEmpty(this._searchResults) ? this.renderResults() : ''}
@@ -45,6 +51,10 @@ export class UNavSearch extends connect(store)(LitElement) {
     constructor() {
         super();
         this._setDefaults();
+    }
+
+    disconnectedCallback() {
+        store.dispatch(clear());
     }
 
     stateChanged(state) {
@@ -90,8 +100,10 @@ export class UNavSearch extends connect(store)(LitElement) {
 
     renderResults() {
         return html`
-            <div class="results">
-                ${this._searchResults.map(entry => this.renderEntry(entry))}
+            <div class="results-wrapper">
+                <div class="results">
+                    ${this._searchResults.map(entry => this.renderEntry(entry))}
+                </div>
             </div>
         `;
     }

@@ -4,7 +4,7 @@ import {getApiHeaders} from '../../../../environments/api';
 export const UNavSearchConstants = {
     SEARCH: 'NAV_SEARCH_SEARCH',
     UPDATE: 'NAV_SEARCH_UPDATE',
-    TOGGLE: 'NAV_SEARCH_TOGGLE'
+    CLEAR: 'NAV_SEARCH_CLEAR'
 };
 
 // -------
@@ -31,9 +31,9 @@ const _search = async (value, dispatch) => {
 };
 
 // -------
-export const toggle = (value) => {
+export const clear = (value) => {
     return {
-        type: UNavSearchConstants.TOGGLE,
+        type: UNavSearchConstants.CLEAR,
         payload: value
     }
 };

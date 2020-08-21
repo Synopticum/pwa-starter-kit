@@ -19,11 +19,8 @@ export const searchResults = (state = [], action) => {
             return state;
 
         // -------
-        case UNavSearchConstants.TOGGLE:
-            return {
-                ...state,
-                data: 123
-            };
+        case UNavSearchConstants.CLEAR:
+            return [];
 
         default:
             return state;

@@ -4,7 +4,7 @@ export default css`
 :host {
     cursor: default;
     position: relative;
-    top: -25px;
+    top: -35px;
     left: -5px;
     box-sizing: border-box;
 }
@@ -19,13 +19,11 @@ export default css`
 
 .u-nav-search {
     width: 350px;
-    max-height: calc(100vh - 30px);
-    background: #fff;
     padding: 27px 15px;
-    border-radius: 10px;
     display: flex;
     flex-direction: column;
-    box-shadow: 10px 0 25px -2px rgba(0,0,0,.5);
+    height: 100vh;
+    background: linear-gradient(to right, rgba(0,0,0,.5), rgba(0,0,0,0));
 }
 
 .controls {
@@ -34,13 +32,30 @@ export default css`
 
 .controls__textinput {
     display: block;
+    width: 100%;
     flex: 1;
+    font-family: inherit;
+    font-size: 18px;
+    outline: none;
+    border: 0;
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.controls--active .controls__textinput {
+    border-radius: 10px 10px 0 0;
+}
+
+.results-wrapper {
+    background: #fff;
+    border-radius: 0 0 10px 10px;
+    padding: 0 15px 15px 10px;
 }
 
 .results {
-    margin-top: 20px;
     overflow-y: auto;
-    padding-right: 20px;
+    max-height: calc(100vh - 170px);
 }
 
 .results::-webkit-scrollbar-track {
