@@ -4,7 +4,7 @@ export default css`
 :host {
     cursor: default;
     position: relative;
-    top: -35px;
+    top: -25px;
     left: -5px;
     box-sizing: border-box;
 }
@@ -19,22 +19,23 @@ export default css`
 
 .u-nav-search {
     width: 350px;
-    padding: 27px 15px;
+    padding: 16px 15px;
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: calc(100vh - 30px);
     background: linear-gradient(to right, rgba(0,0,0,.5), rgba(0,0,0,0));
 }
 
 .controls {
+    position: relative;
     display: flex;
 }
 
 .controls::before {
     content: '';
     position: absolute;
-    left: 5px;
-    top: 43px;
+    left: -10px;
+    top: 17px;
     width: 0; 
     height: 0; 
     border-top: 10px solid transparent;

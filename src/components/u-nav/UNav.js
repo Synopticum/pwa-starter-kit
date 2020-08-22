@@ -7,6 +7,7 @@ import styles from './UNav.styles';
 import {isAnonymous} from "../u-app/UApp.helpers";
 import './u-nav-button/UNavButton';
 import './u-nav-search/UNavSearch';
+import './u-nav-stats/UNavStats';
 import './u-nav-login/UNavLogin';
 
 store.addReducers({pieceOfState});
@@ -38,7 +39,11 @@ export class UNav extends connect(store)(LitElement) {
                 
                 <u-nav-button 
                     type="stats" 
-                    description="Статистика"></u-nav-button>
+                    description="Статистика"
+                    @click="${this.toggleStats}"
+                    ?active="${this.isStatsVisible}">
+                        ${this.isStatsVisible ? html`<u-nav-stats></u-nav-stats>` : ''}
+                </u-nav-button>
             </div>
           
             <u-nav-login ?is-anonymous="${isAnonymous(this._user)}" image-url="${this._user.avatar}"></u-nav-login>
@@ -86,7 +91,13 @@ export class UNav extends connect(store)(LitElement) {
         Any other methods
     */
     toggleSearch() {
+        this.isStatsVisible = false;
         this.isSearchVisible = !this.isSearchVisible;
+    }
+
+    toggleStats() {
+        this.isSearchVisible = false;
+        this.isStatsVisible = !this.isStatsVisible;
     }
 }
 

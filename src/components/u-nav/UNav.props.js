@@ -11,5 +11,10 @@ export default {
     isSearchVisible: {
         type: Boolean,
         attribute: false
+    },
+
+    isStatsVisible: {
+        type: Boolean,
+        attribute: false
     }
 };
