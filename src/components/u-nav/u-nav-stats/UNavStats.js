@@ -1,12 +1,12 @@
 import {html, LitElement} from 'lit-element/lit-element';
 import {store} from '../../../store';
 import {connect} from 'pwa-helpers';
-import {fetch, toggle} from './UNavStats.actions';
-import {pieceOfState} from "./UNavStats.reducer";
+import {fetchAddresses, toggle} from './UNavStats.actions';
+import {stats} from "./UNavStats.reducer";
 import props from './UNavStats.props';
 import styles from './UNavStats.styles';
 
-store.addReducers({pieceOfState});
+store.addReducers({stats});
 
 export class UNavStats extends connect(store)(LitElement) {
     /*
@@ -25,7 +25,7 @@ export class UNavStats extends connect(store)(LitElement) {
         return html`
           <div class="u-nav-stats">
             <div class="wrapper">
-            
+                ${this._addresses.map(d => html`${d.id}`)}
             </div>
           </div>
       `
@@ -37,7 +37,7 @@ export class UNavStats extends connect(store)(LitElement) {
     }
 
     stateChanged(state) {
-        this._pieceOfState = state.pieceOfState;
+        this._addresses = state.stats.addresses;
     }
 
     firstUpdated() {
@@ -48,10 +48,12 @@ export class UNavStats extends connect(store)(LitElement) {
         this._setStore();
         this._setReferences();
         this._setListeners();
+
+
     }
 
     _setStore() {
-        // store.dispatch(fetch());
+        store.dispatch(fetchAddresses());
     }
 
     _setReferences() {

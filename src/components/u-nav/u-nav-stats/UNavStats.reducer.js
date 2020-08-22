@@ -5,20 +5,20 @@ import {
     generateSuccessActionTypeName
 } from "../../../middleware/asyncActionsMiddleware";
 
-export const pieceOfState = (state = {}, action) => {
+export const stats = (state = { addresses: [] }, action) => {
     switch (action.type) {
 
         // -------
-        case generateInProgressActionTypeName(UNavStatsConstants.FETCH):
+        case generateInProgressActionTypeName(UNavStatsConstants.FETCH_ADDRESSES):
             return state;
 
-        case generateSuccessActionTypeName(UNavStatsConstants.FETCH):
+        case generateSuccessActionTypeName(UNavStatsConstants.FETCH_ADDRESSES):
             return {
                 ...state,
-                user: action.payload
+                addresses: action.payload
             };
 
-        case generateErrorActionTypeName(UNavStatsConstants.FETCH):
+        case generateErrorActionTypeName(UNavStatsConstants.FETCH_ADDRESSES):
             return state;
 
         // -------

@@ -1,6 +1,6 @@
 export default {
-    asd: {
-        type: Boolean,
+    _addresses: {
+        type: Array,
         attribute: false
     }
 };
