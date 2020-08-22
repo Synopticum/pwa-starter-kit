@@ -25,7 +25,6 @@ export class UNavStats extends connect(store)(LitElement) {
         return html`
           <div class="u-nav-stats">
             <div class="wrapper">
-                ${this._addresses.map(d => html`${d.id}`)}
             </div>
           </div>
       `
@@ -37,6 +36,7 @@ export class UNavStats extends connect(store)(LitElement) {
     }
 
     stateChanged(state) {
+        if (state.stats.addresses !== this._addresses) this.renderAddressesChart();
         this._addresses = state.stats.addresses;
     }
 
@@ -48,8 +48,6 @@ export class UNavStats extends connect(store)(LitElement) {
         this._setStore();
         this._setReferences();
         this._setListeners();
-
-
     }
 
     _setStore() {
@@ -57,7 +55,8 @@ export class UNavStats extends connect(store)(LitElement) {
     }
 
     _setReferences() {
-        this.$container = this.shadowRoot.querySelector('.u-smart-template');
+        this.$container = this.shadowRoot.querySelector('.u-nav-stats');
+        this.$wrapper = this.shadowRoot.querySelector('.wrapper');
     }
 
     _setListeners() {
@@ -72,6 +71,14 @@ export class UNavStats extends connect(store)(LitElement) {
         List of custom component's methods
         Any other methods
     */
+    renderAddressesChart() {
+        d3.select(this.$wrapper)
+            .html('')
+            .append('div')
+            .style('border', '1px solid red')
+            .style('padding', '15px')
+            .html('Test');
+    }
 }
 
 window.customElements.define('u-nav-stats', UNavStats);

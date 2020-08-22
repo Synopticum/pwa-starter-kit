@@ -18,7 +18,7 @@ export const fetchAddresses = () => async (dispatch) => {
 };
 
 const _fetchAddresses = async () => {
-    let response = await fetch(`${ENV[window.ENV].api}/api/stats/addresses`, {
+    let response = await fetch(`${ENV[window.ENV].api}/api/stats/addresses/count`, {
         headers: getApiHeaders(localStorage.token)
     });
 
