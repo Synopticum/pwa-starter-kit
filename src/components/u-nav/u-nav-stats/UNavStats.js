@@ -51,7 +51,7 @@ export class UNavStats extends connect(store)(LitElement) {
     }
 
     _setStore() {
-        store.dispatch(fetch());
+        // store.dispatch(fetch());
     }
 
     _setReferences() {

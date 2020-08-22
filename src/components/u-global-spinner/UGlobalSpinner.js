@@ -34,6 +34,10 @@ class UGlobalSpinner extends HTMLElement {
         bottom: 0;
         z-index: 999;
         background-color: #ffffff;
+        margin: 15px;
+        box-shadow: 0 0 0 10px #111;
+        outline: 15px solid #111;
+        border-radius: 10px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -58,6 +62,8 @@ class UGlobalSpinner extends HTMLElement {
       }
       
       :host([idle]) {
+        margin: 0;
+        border-radius: 0;
         background: transparent;
         pointer-events: none;
       }
