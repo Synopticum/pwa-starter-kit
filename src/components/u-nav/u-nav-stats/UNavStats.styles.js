@@ -28,7 +28,6 @@ export default css`
 
 .wrapper {
     position: relative;
-    display: flex;
     background: #fff;
     border-radius: 10px;
     padding: 15px;
@@ -45,5 +44,20 @@ export default css`
     border-top: 10px solid transparent;
     border-bottom: 10px solid transparent; 
     border-right: 10px solid #fff; 
+}
+
+.streets {
+    position: relative;
+}
+
+.streets__title {
+    font-size: 12px;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.streets__graphic {
+
 }
 `;

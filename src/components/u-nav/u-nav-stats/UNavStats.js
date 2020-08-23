@@ -25,6 +25,12 @@ export class UNavStats extends connect(store)(LitElement) {
         return html`
           <div class="u-nav-stats">
             <div class="wrapper">
+                <div class="streets">
+                    <div class="streets__title">Улицы по количеству домов:</div>
+                    <div class="streets__graphic">
+                        <svg width="100%"></svg>
+                    </div>
+                </div>
             </div>
           </div>
       `
@@ -36,7 +42,8 @@ export class UNavStats extends connect(store)(LitElement) {
     }
 
     stateChanged(state) {
-        if (state.stats.addresses !== this._addresses) this.renderAddressesChart();
+        const addresses = state.stats.addresses;
+        if (addresses !== this._addresses) this.renderAddressesChart(addresses);
         this._addresses = state.stats.addresses;
     }
 
@@ -57,6 +64,7 @@ export class UNavStats extends connect(store)(LitElement) {
     _setReferences() {
         this.$container = this.shadowRoot.querySelector('.u-nav-stats');
         this.$wrapper = this.shadowRoot.querySelector('.wrapper');
+        this.$streetsSVG = this.shadowRoot.querySelector('.streets svg');
     }
 
     _setListeners() {
@@ -71,13 +79,33 @@ export class UNavStats extends connect(store)(LitElement) {
         List of custom component's methods
         Any other methods
     */
-    renderAddressesChart() {
-        d3.select(this.$wrapper)
-            .html('')
-            .append('div')
-            .style('border', '1px solid red')
-            .style('padding', '15px')
-            .html('Test');
+    renderAddressesChart(addresses) {
+        if (addresses) {
+            const streets = d3.nest()
+                .key(address => address.street)
+                .entries(addresses);
+
+            streets.sort((a,b) => b.values.length - a.values.length);
+
+            const max = d3.max(streets, street => street.values.length);
+            const yScale = d3.scaleLinear().domain([0, max]).range([0,100]);
+
+            d3.select(this.$streetsSVG)
+                .html('')
+                .selectAll('rect')
+                .data(streets)
+                .enter()
+                .append('rect')
+                .attr('width', d => `${parseFloat(yScale(d.values.length)).toFixed(2)}%`)
+                .attr('height', 11)
+                .style('fill', '#111')
+                .style('stroke', '#fff')
+                .style('stroke-width', '2px')
+                .attr('y', (d, i) => i*11);
+
+            // auto resize svg height
+            if (this.$streetsSVG) this.$streetsSVG.style.height = `${this.$streetsSVG.getBBox().height}px`;
+        }
     }
 }
 
