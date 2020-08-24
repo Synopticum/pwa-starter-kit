@@ -85,7 +85,6 @@ export default css`
 }
 
 .results__entry {
-    cursor: default;
     padding: 3px 0;
     cursor: pointer;
     display: flex;

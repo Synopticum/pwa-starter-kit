@@ -90,17 +90,16 @@ export class UNavStats extends connect(store)(LitElement) {
             const max = d3.max(streets, street => street.values.length);
             const yScale = d3.scaleLinear().domain([0, max]).range([0,100]);
 
-            d3.select(this.$streetsSVG)
+            const streetsSVG = d3.select(this.$streetsSVG)
                 .html('')
-                .selectAll('rect')
-                .data(streets)
-                .enter()
+                .selectAll('rect.line')
+                .data(streets, d => d.id)
+                .enter();
+
+            streetsSVG
                 .append('rect')
+                .attr('class', 'line')
                 .attr('width', d => `${parseFloat(yScale(d.values.length)).toFixed(2)}%`)
-                .attr('height', 11)
-                .style('fill', '#111')
-                .style('stroke', '#fff')
-                .style('stroke-width', '2px')
                 .attr('y', (d, i) => i*11);
 
             // auto resize svg height

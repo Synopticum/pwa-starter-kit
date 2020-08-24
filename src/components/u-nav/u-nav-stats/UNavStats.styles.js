@@ -18,7 +18,7 @@ export default css`
 }
 
 .u-nav-stats {
-    width: 350px;
+    width: 450px;
     padding: 16px 15px;
     display: flex;
     flex-direction: column;
@@ -30,7 +30,7 @@ export default css`
     position: relative;
     background: #fff;
     border-radius: 10px;
-    padding: 15px;
+    padding: 15px 25px;
     min-height: 200px;
 }
 
@@ -59,5 +59,17 @@ export default css`
 
 .streets__graphic {
 
+}
+
+rect.line {
+    height: 11px;
+    fill: #111;
+    stroke: #fff;
+    stroke-width: 2px;
+    transition: fill .1s;
+}
+
+rect.line:hover {
+    fill: #666;
 }
 `;

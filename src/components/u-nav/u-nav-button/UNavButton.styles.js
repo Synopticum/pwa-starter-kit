@@ -15,7 +15,6 @@ export default css`
     box-shadow: inset 7px 7px 7px rgba(255,255,255,.1);
     transition: box-shadow .2s, border-radius .2s;
     margin-bottom: 7px;
-    // opacity: .5;
 }
 
 :host::after {
@@ -56,7 +55,7 @@ export default css`
     opacity: .5;
 }
 
-// search
+/* search */
 :host {}
 :host([type="search"]) {
     background-image: url('/static/images/components/u-nav/u-nav-button/search.svg');
@@ -68,7 +67,7 @@ export default css`
     background-size: 24px;
 }
 
-// search
+/* stats */
 :host {}
 :host([type="stats"]) {
     background-image: url('/static/images/components/u-nav/u-nav-button/stats.svg');

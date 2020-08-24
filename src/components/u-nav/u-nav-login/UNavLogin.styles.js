@@ -50,7 +50,6 @@ export default css`
     cursor: pointer;
     background-repeat: no-repeat;
     background-position: 50% 50%;
-    background-size: 100%;
     border: 2px solid #000;
     box-shadow: inset 7px 7px 7px rgba(255,255,255,.1);
     transition: box-shadow .2s, border-radius .2s;
