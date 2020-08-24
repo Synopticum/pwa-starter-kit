@@ -26,9 +26,11 @@ export class UNavStats extends connect(store)(LitElement) {
           <div class="u-nav-stats">
             <div class="wrapper">
                 <div class="streets">
-                    <div class="streets__title">Улицы по количеству домов:</div>
+                    <div class="streets__title">
+                        <div class="streets__title-text">Улицы по количеству домов на них</div>
+                    </div>
                     <div class="streets__graphic">
-                        <svg width="100%"></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%"></svg>
                     </div>
                 </div>
             </div>
@@ -89,18 +91,31 @@ export class UNavStats extends connect(store)(LitElement) {
 
             const max = d3.max(streets, street => street.values.length);
             const yScale = d3.scaleLinear().domain([0, max]).range([0,100]);
+            const ybRamp = d3.scaleLinear().interpolate(d3.interpolateHcl).domain([0, max]).range(['#315386', '#933735']);
 
-            const streetsSVG = d3.select(this.$streetsSVG)
+            const g = d3.select(this.$streetsSVG)
                 .html('')
-                .selectAll('rect.line')
+                .selectAll('g')
                 .data(streets, d => d.id)
-                .enter();
+                .enter()
+                .append('g');
 
-            streetsSVG
-                .append('rect')
+            g.append('rect')
+                // .transition()
+                // .delay((d,i) => i*50)
+                // .duration(500)
                 .attr('class', 'line')
-                .attr('width', d => `${parseFloat(yScale(d.values.length)).toFixed(2)}%`)
-                .attr('y', (d, i) => i*11);
+                .attr('width', d => `calc(${parseFloat(yScale(d.values.length)).toFixed(2)}%)`)
+                .attr('x', '0')
+                .attr('y', (d, i) => i*12)
+                .attr('fill', d => ybRamp(d.values.length))
+                .on('click', function (a,b,c) { debugger; });
+
+            g.append('text')
+                .attr('class', 'label')
+                .attr('x', '5')
+                .attr('y', (d, i) => i*12+9)
+                .text(d => d.values.length)
 
             // auto resize svg height
             if (this.$streetsSVG) this.$streetsSVG.style.height = `${this.$streetsSVG.getBBox().height}px`;

@@ -51,10 +51,21 @@ export default css`
 }
 
 .streets__title {
-    font-size: 12px;
-    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.streets__title-text {
+    display: inline-flex;
+    padding: 3px 17px;
+    font-size: 11px;
     text-align: center;
     margin-bottom: 15px;
+    text-transform: uppercase;
+    background-color: #ffffff;
+    color: #111;
+    border-radius: 5px;
 }
 
 .streets__graphic {
@@ -62,14 +73,19 @@ export default css`
 }
 
 rect.line {
-    height: 11px;
-    fill: #111;
+    position: relative;
+    height: 12px;
+    /*fill: #111;*/
     stroke: #fff;
     stroke-width: 2px;
-    transition: fill .1s;
 }
 
 rect.line:hover {
-    fill: #666;
+    opacity: .75;
+}
+
+text.label {
+    font-size: 10px;
+    fill: #ffffff;
 }
 `;
