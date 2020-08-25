@@ -26,8 +26,8 @@ export class UChartStreets extends connect(store)(LitElement) {
           <div class="u-chart-streets">
             <div class="chart">
                 <div class="chart__title">
-                    <div class="chart__title-text">Улицы по количеству домов на них</div>
-                    <div class="chart__title-close" @click="${this.close}"></div>
+                    <div class="chart__title-text">Улицы, по количеству домов на них</div>
+                    <div class="chart__title-back" @click="${this.back}"></div>
                 </div>
                 <div class="chart__graphic">
                     <svg xmlns="http://www.w3.org/2000/svg" width="100%"></svg>
@@ -120,7 +120,7 @@ export class UChartStreets extends connect(store)(LitElement) {
         }
     }
 
-    close() {
+    back() {
         this.dispatchEvent(new CustomEvent('u-nav-stats::clear', {
             composed: true,
             bubbles: true

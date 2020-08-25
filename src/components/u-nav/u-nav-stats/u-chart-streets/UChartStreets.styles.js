@@ -15,32 +15,28 @@ export default css`
 
 .chart__title {
     position: relative;
-    display: flex;
-    align-items: center;
+    padding: 10px 0;
+    text-align: center;
+    background-color: #eeeeee;
+    border-bottom: 2px solid #fff;
+    transition: background-color .3s;
+    margin-bottom: 10px;
 }
 
 .chart__title-text {
-    display: inline-flex;
-    font-size: 11px;
-    margin-bottom: 15px;
-    text-transform: uppercase;
-    background-color: #ffffff;
-    color: #111;
-    border-radius: 5px;
+    font-size: 18px;
 }
 
-.chart__title-text-value {
-    border-bottom: 1px dashed #ccc;
-}
-
-.chart__title-close {
+.chart__title-back {
     cursor: pointer;
     position: absolute;
     right: -10px;
-    top: -1px;
-    width: 15px;
-    height: 15px;
-    background: url('/static/images/components/u-nav/u-nav-stats/close.svg') no-repeat 50% 50% / 100%;
+    top: 10px;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    background: url('/static/images/components/u-nav/u-nav-stats/back.svg') no-repeat 50% 50% / 15px;
+    background-color: #fff;
 }
 
 .chart__graphic {

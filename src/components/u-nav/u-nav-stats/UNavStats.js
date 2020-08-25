@@ -79,7 +79,10 @@ export class UNavStats extends connect(store)(LitElement) {
         return html`
             <ul class="nav">
                 <li class="nav__button" @click="${this.showStreetsChart}">
-                    <span class="nav__button-title">Улицы по количеству домов на них</span>
+                    <span class="nav__button-title">Улицы, по количеству домов на них</span>
+                </li>
+                <li class="nav__button" @click="${this.showStreetsChart}">
+                    <span class="nav__button-title">Дома, по наличию фото</span>
                 </li>
             </ul>
         `;

@@ -30,7 +30,7 @@ export default css`
     position: relative;
     background: #fff;
     border-radius: 10px;
-    padding: 15px 25px;
+    padding: 15px;
     min-height: 200px;
 }
 
@@ -47,18 +47,25 @@ export default css`
 }
 
 .nav {
-    list-style: disc inside;
+    list-style: none inside;
     padding: 0;
     margin: 0;
 }
 
 .nav__button {
     cursor: pointer;
-    padding: 1px 5px;
+    padding: 10px 0;
+    text-align: center;
+    background-color: #eeeeee;
+    border-bottom: 2px solid #fff;
+    transition: background-color .3s;
+}
+
+.nav__button:hover {
+    background-color: #dddddd;
 }
 
 .nav__button-title {
-    border-bottom: 1px solid #ccc;
     font-size: 18px;
 }
 
