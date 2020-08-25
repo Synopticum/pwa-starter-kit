@@ -1,14 +1,14 @@
 import {html, LitElement} from 'lit-element/lit-element';
 import {store} from '../../../../store';
 import {connect} from 'pwa-helpers';
-import {fetchAddresses} from './UChartStreets.actions';
-import {chartStreets} from "./UChartStreets.reducer";
-import props from './UChartStreets.props';
-import styles from './UChartStreets.styles';
+import {fetchAddresses} from './UChartPhotos.actions';
+import {chartPhotos} from "./UChartPhotos.reducer";
+import props from './UChartPhotos.props';
+import styles from './UChartPhotos.styles';
 
-store.addReducers({chartStreets});
+store.addReducers({chartPhotos});
 
-export class UChartStreets extends connect(store)(LitElement) {
+export class UChartPhotos extends connect(store)(LitElement) {
     /*
         List of required methods
         Needed for initialization, rendering, fetching and setting default values
@@ -23,10 +23,10 @@ export class UChartStreets extends connect(store)(LitElement) {
 
     render() {
         return html`
-          <div class="u-chart-streets">
+          <div class="u-chart-photos">
             <div class="chart">
                 <div class="chart__title" @click="${this.back}">
-                    <div class="chart__title-text">Улицы, по количеству домов на них</div>
+                    <div class="chart__title-text">Дома, по наличию фото</div>
                     <div class="chart__title-back"></div>
                 </div>
                 <div class="chart__graphic">
@@ -43,9 +43,9 @@ export class UChartStreets extends connect(store)(LitElement) {
     }
 
     stateChanged(state) {
-        const addresses = state.chartStreets;
+        const addresses = state.chartPhotos;
         if (addresses !== this._addresses) this.renderAddressesChart(addresses);
-        this._addresses = state.chartStreets;
+        this._addresses = state.chartPhotos;
     }
 
     firstUpdated() {
@@ -128,4 +128,4 @@ export class UChartStreets extends connect(store)(LitElement) {
     }
 }
 
-window.customElements.define('u-chart-streets', UChartStreets);
+window.customElements.define('u-chart-photos', UChartPhotos);

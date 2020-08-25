@@ -5,6 +5,7 @@ import {stats} from "./UNavStats.reducer";
 import props from './UNavStats.props';
 import styles from './UNavStats.styles';
 import './u-chart-streets/UChartStreets';
+import './u-chart-photos/UChartPhotos';
 
 store.addReducers({stats});
 
@@ -78,20 +79,20 @@ export class UNavStats extends connect(store)(LitElement) {
     renderNav() {
         return html`
             <ul class="nav">
-                <li class="nav__button" @click="${this.showStreetsChart}">
+                <li class="nav__button" @click="${() => this.showChart('streets')}">
                     <span class="nav__button-title">Улицы, по количеству домов на них</span>
                 </li>
-                <li class="nav__button" @click="${this.showStreetsChart}">
+                <li class="nav__button" @click="${() => this.showChart('photos')}">
                     <span class="nav__button-title">Дома, по наличию фото</span>
                 </li>
             </ul>
         `;
     }
 
-    showStreetsChart() {
+    showChart(name) {
         this.isNavVisible = false;
         this.$chartArea.innerHTML = '';
-        this.$chartArea.appendChild(document.createElement('u-chart-streets'));
+        this.$chartArea.appendChild(document.createElement(`u-chart-${name}`));
     }
 
     clear() {
