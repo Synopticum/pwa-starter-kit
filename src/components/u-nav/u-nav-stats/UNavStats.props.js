@@ -1,6 +1,6 @@
 export default {
-    _addresses: {
-        type: Array,
+    isNavVisible: {
+        type: Boolean,
         attribute: false
     }
 };

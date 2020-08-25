@@ -46,46 +46,23 @@ export default css`
     border-right: 10px solid #fff; 
 }
 
-.streets {
-    position: relative;
+.nav {
+    list-style: disc inside;
+    padding: 0;
+    margin: 0;
 }
 
-.streets__title {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.nav__button {
+    cursor: pointer;
+    padding: 1px 5px;
 }
 
-.streets__title-text {
-    display: inline-flex;
-    padding: 3px 17px;
-    font-size: 11px;
-    text-align: center;
-    margin-bottom: 15px;
-    text-transform: uppercase;
-    background-color: #ffffff;
-    color: #111;
-    border-radius: 5px;
+.nav__button-title {
+    border-bottom: 1px solid #ccc;
+    font-size: 18px;
 }
 
-.streets__graphic {
+.nav__button-title:hover {
 
-}
-
-rect.line {
-    position: relative;
-    height: 12px;
-    /*fill: #111;*/
-    stroke: #fff;
-    stroke-width: 2px;
-}
-
-rect.line:hover {
-    opacity: .75;
-}
-
-text.label {
-    font-size: 10px;
-    fill: #ffffff;
 }
 `;
