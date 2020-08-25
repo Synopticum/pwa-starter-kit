@@ -25,12 +25,12 @@ export class UChartStreets extends connect(store)(LitElement) {
         return html`
           <div class="u-chart-streets">
             <div class="chart">
-                <div class="chart__title" @click="${this.back}">
-                    <div class="chart__title-text">Улицы, по количеству домов на них</div>
-                    <div class="chart__title-back"></div>
+                <div class="chart__title">
+                    <div class="chart__title-text">Количество домов на улицах:</div>
+                    <div class="chart__title-back" @click="${this.back}"></div>
                 </div>
                 <div class="chart__graphic">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="100%"></svg>
+                    <div class="streets"></div>
                 </div>
             </div>
           </div>
@@ -64,7 +64,7 @@ export class UChartStreets extends connect(store)(LitElement) {
 
     _setReferences() {
         this.$container = this.shadowRoot.querySelector('.u-smart-template');
-        this.$svg = this.shadowRoot.querySelector('.chart__graphic svg');
+        this.$chart = this.shadowRoot.querySelector('.chart__graphic .streets');
     }
 
     _setListeners() {
@@ -88,35 +88,26 @@ export class UChartStreets extends connect(store)(LitElement) {
             streets.sort((a,b) => b.values.length - a.values.length);
 
             const max = d3.max(streets, street => street.values.length);
-            const yScale = d3.scaleLinear().domain([0, max]).range([0,100]);
+            const yScale = d3.scaleLinear().domain([0, max]).range([3,100]);
             const ybRamp = d3.scaleLinear().interpolate(d3.interpolateHcl).domain([0, max]).range(['#315386', '#933735']);
 
-            const g = d3.select(this.$svg)
+            const g = d3.select(this.$chart)
                 .html('')
-                .selectAll('g')
+                .selectAll('.street')
                 .data(streets, d => d.id)
                 .enter()
-                .append('g');
+                .append('div')
+                .attr('class', 'street')
+                .style('width', d => `calc(${parseFloat(yScale(d.values.length)).toFixed(2)}%)`);
 
-            g.append('rect')
-                // .transition()
-                // .delay((d,i) => i*50)
-                // .duration(500)
-                .attr('class', 'line')
-                .attr('width', d => `calc(${parseFloat(yScale(d.values.length)).toFixed(2)}%)`)
-                .attr('x', '0')
-                .attr('y', (d, i) => i*12)
-                .attr('fill', d => ybRamp(d.values.length))
-                .on('click', function (a,b,c) { debugger; });
+            g.append('div')
+                .attr('class', 'street__label')
+                .style('background-color', d => ybRamp(d.values.length))
+                .text(d => d.values.length);
 
-            g.append('text')
-                .attr('class', 'label')
-                .attr('x', '5')
-                .attr('y', (d, i) => i*12+9)
-                .text(d => d.values.length)
-
-            // auto resize svg height
-            if (this.$svg) this.$svg.style.height = `${this.$svg.getBBox().height}px`;
+            g.append('div')
+                .attr('class', 'street__name')
+                .text(d => d.key);
         }
     }
 

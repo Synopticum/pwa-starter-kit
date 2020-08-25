@@ -9,59 +9,86 @@ export default css`
     display: none;
 }
 
+.u-chart-streets {
+    height: 100%;
+}
+
 .chart {
     position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .chart__title {
     position: relative;
     padding: 10px 0;
     text-align: center;
-    background-color: #eeeeee;
-    border-bottom: 2px solid #fff;
-    transition: background-color .3s;
+    background-color: #fff;
     margin-bottom: 10px;
 }
 
-.chart__title:hover {
-    cursor: pointer;
-    background-color: #dddddd;
-}
-
 .chart__title-text {
-    font-size: 18px;
+    font-size: 17px;
 }
 
 .chart__title-back {
     cursor: pointer;
     position: absolute;
-    right: -10px;
-    top: 10px;
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    background: url('/static/images/components/u-nav/u-nav-stats/back.svg') no-repeat 50% 50% / 15px;
+    border-radius: 10px;
+    right: -50px;
+    top: -15px;
+    width: 30px;
+    height: 30px;
+    background: url('/static/images/components/u-nav/u-nav-stats/close.svg') no-repeat 50% 50% / 15px;
     background-color: #fff;
 }
 
 .chart__graphic {
+    flex: 1;
+    overflow: hidden;
+}
+
+.streets {
 
 }
 
-rect.line {
+.street {
     position: relative;
-    height: 12px;
-    /*fill: #111;*/
-    stroke: #fff;
-    stroke-width: 2px;
+    margin: 2px 0;
 }
 
-rect.line:hover {
+.street__label {
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    padding: 0 0 1px 3px;
+    height: 9px;
+    font-size: 10px;
+    color: #ffffff;
+    width: 100%;
+}
+
+.street:hover .street__label {
     opacity: .75;
 }
 
-text.label {
-    font-size: 10px;
-    fill: #ffffff;
+.street__name {
+    display: none;
+    z-index: 10;
+    position: absolute;
+    left: calc(100% + 8px);
+    top: -8px;
+    white-space: nowrap;
+    background-color: #fafafa;
+    border-radius: 3px;
+    box-shadow: 1px 1px 3px rgba(0,0,0,.5);
+    color: #111111;
+    padding: 5px;
+    font-size: 12px;
+}
+
+.street:hover .street__name {
+    display: block;
 }
 `;

@@ -17,30 +17,24 @@ export default css`
     position: relative;
     padding: 10px 0;
     text-align: center;
-    background-color: #eeeeee;
-    border-bottom: 2px solid #fff;
+    background-color: #fff;
     transition: background-color .3s;
     margin-bottom: 10px;
 }
 
-.chart__title:hover {
-    cursor: pointer;
-    background-color: #dddddd;
-}
-
 .chart__title-text {
-    font-size: 18px;
+    font-size: 17px;
 }
 
 .chart__title-back {
     cursor: pointer;
     position: absolute;
-    right: -10px;
-    top: 10px;
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    background: url('/static/images/components/u-nav/u-nav-stats/back.svg') no-repeat 50% 50% / 15px;
+    border-radius: 10px;
+    right: -50px;
+    top: -15px;
+    width: 30px;
+    height: 30px;
+    background: url('/static/images/components/u-nav/u-nav-stats/close.svg') no-repeat 50% 50% / 15px;
     background-color: #fff;
 }
 

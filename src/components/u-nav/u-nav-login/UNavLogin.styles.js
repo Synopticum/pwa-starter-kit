@@ -96,6 +96,7 @@ export default css`
 }
 
 .login .title {
+    pointer-events: none;
     --color: #000;
     opacity: 0;
     position: absolute;

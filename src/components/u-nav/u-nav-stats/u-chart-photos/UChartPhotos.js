@@ -25,9 +25,9 @@ export class UChartPhotos extends connect(store)(LitElement) {
         return html`
           <div class="u-chart-photos">
             <div class="chart">
-                <div class="chart__title" @click="${this.back}">
-                    <div class="chart__title-text">Дома, по наличию фото</div>
-                    <div class="chart__title-back"></div>
+                <div class="chart__title">
+                    <div class="chart__title-text">Дома, для которых есть фотографии:</div>
+                    <div class="chart__title-back" @click="${this.back}"></div>
                 </div>
                 <div class="chart__graphic">
                     <svg xmlns="http://www.w3.org/2000/svg" width="100%"></svg>
@@ -44,7 +44,7 @@ export class UChartPhotos extends connect(store)(LitElement) {
 
     stateChanged(state) {
         const addresses = state.chartPhotos;
-        if (addresses !== this._addresses) this.renderAddressesChart(addresses);
+        if (addresses !== this._addresses) this.renderPhotosChart(addresses);
         this._addresses = state.chartPhotos;
     }
 
@@ -117,6 +117,12 @@ export class UChartPhotos extends connect(store)(LitElement) {
 
             // auto resize svg height
             if (this.$svg) this.$svg.style.height = `${this.$svg.getBBox().height}px`;
+        }
+    }
+
+    renderPhotosChart(addresses) {
+        if (addresses) {
+
         }
     }
 

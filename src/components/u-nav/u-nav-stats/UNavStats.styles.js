@@ -32,6 +32,7 @@ export default css`
     border-radius: 10px;
     padding: 15px;
     min-height: 200px;
+    height: 100%;
 }
 
 .wrapper::before {
@@ -44,6 +45,10 @@ export default css`
     border-top: 10px solid transparent;
     border-bottom: 10px solid transparent; 
     border-right: 10px solid #fff; 
+}
+
+.chart-area {
+    height: 100%;
 }
 
 .nav {
@@ -66,7 +71,7 @@ export default css`
 }
 
 .nav__button-title {
-    font-size: 18px;
+    font-size: 17px;
 }
 
 .nav__button-title:hover {
