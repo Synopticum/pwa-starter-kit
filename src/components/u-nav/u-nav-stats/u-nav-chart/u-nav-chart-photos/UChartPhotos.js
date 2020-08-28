@@ -1,5 +1,5 @@
 import {html, LitElement} from 'lit-element/lit-element';
-import {store} from '../../../../store';
+import {store} from '../../../../../store';
 import {connect} from 'pwa-helpers';
 import {fetchAddresses} from './UChartPhotos.actions';
 import {chartPhotos} from "./UChartPhotos.reducer";
@@ -23,18 +23,10 @@ export class UChartPhotos extends connect(store)(LitElement) {
 
     render() {
         return html`
-          <div class="u-chart-photos">
-            <div class="chart">
-                <div class="chart__title">
-                    <div class="chart__title-text">Дома, для которых есть фотографии:</div>
-                    <div class="chart__title-back" @click="${this.back}"></div>
-                </div>
-                <div class="chart__graphic">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="100%"></svg>
-                </div>
-            </div>
+          <div class="u-nav-chart-photos">
+            <svg xmlns="http://www.w3.org/2000/svg" width="100%" class="chart"></svg>
           </div>
-      `
+        `
     }
 
     constructor() {
@@ -64,7 +56,7 @@ export class UChartPhotos extends connect(store)(LitElement) {
 
     _setReferences() {
         this.$container = this.shadowRoot.querySelector('.u-smart-template');
-        this.$svg = this.shadowRoot.querySelector('.chart__graphic svg');
+        this.$svg = this.shadowRoot.querySelector('.chart');
     }
 
     _setListeners() {
@@ -125,13 +117,6 @@ export class UChartPhotos extends connect(store)(LitElement) {
 
         }
     }
-
-    back() {
-        this.dispatchEvent(new CustomEvent('u-nav-stats::clear', {
-            composed: true,
-            bubbles: true
-        }));
-    }
 }
 
-window.customElements.define('u-chart-photos', UChartPhotos);
+window.customElements.define('u-nav-chart-photos', UChartPhotos);

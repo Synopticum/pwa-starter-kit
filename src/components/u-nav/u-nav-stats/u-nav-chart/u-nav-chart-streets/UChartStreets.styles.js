@@ -13,42 +13,6 @@ export default css`
     height: 100%;
 }
 
-.chart {
-    position: relative;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-}
-
-.chart__title {
-    position: relative;
-    padding: 10px 0;
-    text-align: center;
-    background-color: #fff;
-    margin-bottom: 10px;
-}
-
-.chart__title-text {
-    font-size: 17px;
-}
-
-.chart__title-back {
-    cursor: pointer;
-    position: absolute;
-    border-radius: 10px;
-    right: -50px;
-    top: -15px;
-    width: 30px;
-    height: 30px;
-    background: url('/static/images/components/u-nav/u-nav-stats/close.svg') no-repeat 50% 50% / 15px;
-    background-color: #fff;
-}
-
-.chart__graphic {
-    flex: 1;
-    overflow: hidden;
-}
-
 .streets {
 
 }
@@ -67,6 +31,7 @@ export default css`
     font-size: 10px;
     color: #ffffff;
     width: 100%;
+    border-radius: 2px;
 }
 
 .street:hover .street__label {

@@ -1,15 +1,15 @@
-import {ENV} from '../../../../../environments/environments';
-import {getApiHeaders} from '../../../../../environments/api';
+import {ENV} from '../../../../../../environments/environments';
+import {getApiHeaders} from '../../../../../../environments/api';
 
-export const UChartPhotos = {
-    FETCH: 'CHART_PHOTOS_FETCH',
-    UPDATE: 'CHART_PHOTOS_FETCH_UPDATE'
+export const UChartStreets = {
+    FETCH: 'CHART_STREETS_FETCH',
+    UPDATE: 'CHART_STREETS_FETCH_UPDATE'
 };
 
 // -------
 export const fetchAddresses = () => async (dispatch) => {
     dispatch({
-        type: UChartPhotos.FETCH,
+        type: UChartStreets.FETCH,
         async: true,
         httpMethodToInvoke: _fetchAddresses,
         params: []
@@ -32,7 +32,7 @@ const _fetchAddresses = async () => {
 // -------
 export const toggle = (value) => {
     return {
-        type: UChartPhotos.TOGGLE,
+        type: UChartStreets.TOGGLE,
         payload: value
     }
 };

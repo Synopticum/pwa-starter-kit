@@ -29,33 +29,16 @@ export default css`
 .chart__title-back {
     cursor: pointer;
     position: absolute;
-    border-radius: 10px;
-    right: -50px;
+    border-radius: 0 10px 10px 0;
+    right: -40px;
     top: -15px;
-    width: 30px;
+    width: 40px;
     height: 30px;
-    background: url('/static/images/components/u-nav/u-nav-stats/close.svg') no-repeat 50% 50% / 15px;
+    background: url('/static/images/components/u-nav/u-nav-stats/close.svg') no-repeat calc(50% + 3px) 50% / 15px;
     background-color: #fff;
 }
 
 .chart__graphic {
 
-}
-
-rect.line {
-    position: relative;
-    height: 12px;
-    /*fill: #111;*/
-    stroke: #fff;
-    stroke-width: 2px;
-}
-
-rect.line:hover {
-    opacity: .75;
-}
-
-text.label {
-    font-size: 10px;
-    fill: #ffffff;
 }
 `;

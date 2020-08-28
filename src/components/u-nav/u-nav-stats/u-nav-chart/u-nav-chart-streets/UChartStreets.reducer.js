@@ -3,7 +3,7 @@ import {
     generateErrorActionTypeName,
     generateInProgressActionTypeName,
     generateSuccessActionTypeName
-} from "../../../../middleware/asyncActionsMiddleware";
+} from "../../../../../middleware/asyncActionsMiddleware";
 
 export const chartStreets = (state = [], action) => {
     switch (action.type) {

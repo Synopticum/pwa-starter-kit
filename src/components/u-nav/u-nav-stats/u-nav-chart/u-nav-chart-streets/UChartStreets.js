@@ -1,5 +1,5 @@
 import {html, LitElement} from 'lit-element/lit-element';
-import {store} from '../../../../store';
+import {store} from '../../../../../store';
 import {connect} from 'pwa-helpers';
 import {fetchAddresses} from './UChartStreets.actions';
 import {chartStreets} from "./UChartStreets.reducer";
@@ -23,16 +23,8 @@ export class UChartStreets extends connect(store)(LitElement) {
 
     render() {
         return html`
-          <div class="u-chart-streets">
-            <div class="chart">
-                <div class="chart__title">
-                    <div class="chart__title-text">Количество домов на улицах:</div>
-                    <div class="chart__title-back" @click="${this.back}"></div>
-                </div>
-                <div class="chart__graphic">
-                    <div class="streets"></div>
-                </div>
-            </div>
+          <div class="u-nav-chart-streets">
+            <div class="chart"></div>
           </div>
       `
     }
@@ -63,8 +55,7 @@ export class UChartStreets extends connect(store)(LitElement) {
     }
 
     _setReferences() {
-        this.$container = this.shadowRoot.querySelector('.u-smart-template');
-        this.$chart = this.shadowRoot.querySelector('.chart__graphic .streets');
+        this.$chart = this.shadowRoot.querySelector('.chart');
     }
 
     _setListeners() {
@@ -110,13 +101,6 @@ export class UChartStreets extends connect(store)(LitElement) {
                 .text(d => d.key);
         }
     }
-
-    back() {
-        this.dispatchEvent(new CustomEvent('u-nav-stats::clear', {
-            composed: true,
-            bubbles: true
-        }));
-    }
 }
 
-window.customElements.define('u-chart-streets', UChartStreets);
+window.customElements.define('u-nav-chart-streets', UChartStreets);

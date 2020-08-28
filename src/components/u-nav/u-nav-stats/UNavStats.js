@@ -4,8 +4,10 @@ import {connect} from 'pwa-helpers';
 import {stats} from "./UNavStats.reducer";
 import props from './UNavStats.props';
 import styles from './UNavStats.styles';
-import './u-chart-streets/UChartStreets';
-import './u-chart-photos/UChartPhotos';
+import { CHART_TITLES } from './constants';
+import './u-nav-chart/UNavChart';
+import './u-nav-chart/u-nav-chart-streets/UChartStreets';
+import './u-nav-chart/u-nav-chart-photos/UChartPhotos';
 
 store.addReducers({stats});
 
@@ -28,7 +30,7 @@ export class UNavStats extends connect(store)(LitElement) {
             <div class="wrapper">
                 ${this.isNavVisible ? this.renderNav() : ''}
                 
-                <div class="chart-area"></div>
+                <u-nav-chart ?hidden="${this.isNavVisible}"></u-nav-chart>
             </div>
           </div>
       `
@@ -59,8 +61,7 @@ export class UNavStats extends connect(store)(LitElement) {
 
     _setReferences() {
         this.$container = this.shadowRoot.querySelector('.u-nav-stats');
-        this.$wrapper = this.shadowRoot.querySelector('.wrapper');
-        this.$chartArea = this.shadowRoot.querySelector('.chart-area');
+        this.$chart = this.shadowRoot.querySelector('u-nav-chart');
     }
 
     _setListeners() {
@@ -91,13 +92,20 @@ export class UNavStats extends connect(store)(LitElement) {
 
     showChart(name) {
         this.isNavVisible = false;
-        this.$chartArea.innerHTML = '';
-        this.$chartArea.appendChild(document.createElement(`u-chart-${name}`));
+        this.$chart.innerHTML = '';
+
+        this.renderChart(name);
+    }
+
+    renderChart(name) {
+        const el = document.createElement(`u-nav-chart-${name}`);
+        this.$chart.appendChild(el);
+        this.$chart.setAttribute('title', CHART_TITLES[name]);
     }
 
     clear() {
         this.isNavVisible = true;
-        this.$chartArea.innerHTML = '';
+        this.$chart.innerHTML = '';
     }
 }
 
