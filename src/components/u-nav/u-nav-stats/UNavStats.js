@@ -7,7 +7,7 @@ import styles from './UNavStats.styles';
 import { CHART_TITLES } from './constants';
 import './u-nav-chart/UNavChart';
 import './u-nav-chart/u-nav-chart-streets/UChartStreets';
-import './u-nav-chart/u-nav-chart-photos/UChartPhotos';
+import './u-nav-chart/u-nav-chart-population/UNavChartPopulation';
 
 store.addReducers({stats});
 
@@ -83,8 +83,8 @@ export class UNavStats extends connect(store)(LitElement) {
                 <li class="nav__button" @click="${() => this.showChart('streets')}">
                     <span class="nav__button-title">${CHART_TITLES.streets}</span>
                 </li>
-                <li class="nav__button" @click="${() => this.showChart('photos')}">
-                    <span class="nav__button-title">${CHART_TITLES.photos}</span>
+                <li class="nav__button" @click="${() => this.showChart('population')}">
+                    <span class="nav__button-title">${CHART_TITLES.population}</span>
                 </li>
             </ul>
         `;
@@ -100,7 +100,7 @@ export class UNavStats extends connect(store)(LitElement) {
     renderChart(name) {
         const el = document.createElement(`u-nav-chart-${name}`);
         this.$chart.appendChild(el);
-        this.$chart.setAttribute('title', CHART_TITLES[name]);
+        this.$chart.setAttribute('heading', CHART_TITLES[name]);
     }
 
     clear() {

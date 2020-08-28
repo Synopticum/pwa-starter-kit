@@ -1,7 +1,7 @@
 import {ENV} from '../../../../../../environments/environments';
 import {getApiHeaders} from '../../../../../../environments/api';
 
-export const UChartPhotos = {
+export const UNavChartPopulation = {
     FETCH: 'CHART_PHOTOS_FETCH',
     UPDATE: 'CHART_PHOTOS_FETCH_UPDATE'
 };
@@ -9,7 +9,7 @@ export const UChartPhotos = {
 // -------
 export const fetchAddresses = () => async (dispatch) => {
     dispatch({
-        type: UChartPhotos.FETCH,
+        type: UNavChartPopulation.FETCH,
         async: true,
         httpMethodToInvoke: _fetchAddresses,
         params: []
@@ -17,7 +17,7 @@ export const fetchAddresses = () => async (dispatch) => {
 };
 
 const _fetchAddresses = async () => {
-    let response = await fetch(`${ENV[window.ENV].api}/api/stats/addresses`, {
+    let response = await fetch(`${ENV[window.ENV].api}/api/stats/population`, {
         headers: getApiHeaders(localStorage.token)
     });
 
@@ -32,7 +32,7 @@ const _fetchAddresses = async () => {
 // -------
 export const toggle = (value) => {
     return {
-        type: UChartPhotos.TOGGLE,
+        type: UNavChartPopulation.TOGGLE,
         payload: value
     }
 };

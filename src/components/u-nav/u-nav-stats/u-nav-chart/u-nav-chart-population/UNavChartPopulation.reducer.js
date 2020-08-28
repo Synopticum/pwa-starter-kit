@@ -1,21 +1,21 @@
-import {UChartPhotos} from "./UChartPhotos.actions";
+import {UNavChartPopulation} from "./UNavChartPopulation.actions";
 import {
     generateErrorActionTypeName,
     generateInProgressActionTypeName,
     generateSuccessActionTypeName
 } from "../../../../../middleware/asyncActionsMiddleware";
 
-export const chartPhotos = (state = [], action) => {
+export const chartPopulation = (state = [], action) => {
     switch (action.type) {
 
         // -------
-        case generateInProgressActionTypeName(UChartPhotos.FETCH):
+        case generateInProgressActionTypeName(UNavChartPopulation.FETCH):
             return state;
 
-        case generateSuccessActionTypeName(UChartPhotos.FETCH):
+        case generateSuccessActionTypeName(UNavChartPopulation.FETCH):
             return action.payload;
 
-        case generateErrorActionTypeName(UChartPhotos.FETCH):
+        case generateErrorActionTypeName(UNavChartPopulation.FETCH):
             return state;
 
         default:

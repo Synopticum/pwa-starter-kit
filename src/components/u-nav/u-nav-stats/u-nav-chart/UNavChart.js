@@ -26,7 +26,7 @@ export class UNavChart extends LitElement {
       <div class="u-nav-chart">
             <div class="chart">
                 <div class="chart__title">
-                    <div class="chart__title-text">${this.title}</div>
+                    <div class="chart__title-text">${this.heading}</div>
                     <div class="chart__title-back" @click="${this.back}"></div>
                 </div>
                 <div class="chart__graphic">

@@ -83,7 +83,7 @@ export class UNav extends connect(store)(LitElement) {
     }
 
     _setDefaults() {
-
+        this.isStatsVisible = true;
     }
 
     /*

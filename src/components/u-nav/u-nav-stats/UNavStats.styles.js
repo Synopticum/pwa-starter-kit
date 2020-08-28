@@ -55,6 +55,7 @@ export default css`
     bottom: 0;
     width: 100%;
     height: 100px;
+    border-radius: 0 0 10px 10px;
     background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1));
 }
 

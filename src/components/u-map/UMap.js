@@ -345,7 +345,7 @@ class UMap extends connect(store)(LitElement) {
             @update-range="${debounce(this.updateRange.bind(this), 300)}"></u-map-range>
         
         <div id="map"></div>
-        <u-noise id="noise"></u-noise>
+<!--        <u-noise id="noise"></u-noise>-->
       </div>
     `;
   }

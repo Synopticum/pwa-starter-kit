@@ -1,5 +1,5 @@
 export default {
-    title: {
+    heading: {
         type: String,
         attribute: true
     }

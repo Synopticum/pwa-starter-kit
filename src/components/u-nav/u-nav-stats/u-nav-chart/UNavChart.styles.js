@@ -30,10 +30,10 @@ export default css`
     cursor: pointer;
     position: absolute;
     border-radius: 0 10px 10px 0;
-    right: -40px;
     top: -15px;
-    width: 40px;
-    height: 30px;
+    right: -50px;
+    height: 40px;
+    width: 50px;
     background: url('/static/images/components/u-nav/u-nav-stats/close.svg') no-repeat calc(50% + 3px) 50% / 15px;
     background-color: #fff;
 }
