@@ -27,7 +27,7 @@ export default css`
     display: flex;
     align-items: center;
     padding: 0 0 1px 3px;
-    height: 9px;
+    height: 10px;
     font-size: 10px;
     color: #ffffff;
     width: 100%;

@@ -2,7 +2,7 @@ import {css} from 'lit-element/lit-element';
 
 export default css`
 :host {
-
+    height: 100%;
 }
 
 :host([hidden]) {
@@ -15,15 +15,15 @@ export default css`
 
 .chart__title {
     position: relative;
-    padding: 10px 0;
+    padding: 0px 0;
     text-align: center;
     background-color: #fff;
     transition: background-color .3s;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 .chart__title-text {
-    font-size: 17px;
+    font-size: 20px;
 }
 
 .chart__title-back {
@@ -39,6 +39,7 @@ export default css`
 }
 
 .chart__graphic {
-
+    height: calc(100vh - 140px);
+    overflow: hidden;
 }
 `;

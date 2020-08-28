@@ -47,8 +47,15 @@ export default css`
     border-right: 10px solid #fff; 
 }
 
-.chart-area {
-    height: 100%;
+.wrapper::after {
+    content: '';
+    pointer-events: none;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100px;
+    background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1));
 }
 
 .nav {

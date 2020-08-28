@@ -1,4 +1,4 @@
 export const CHART_TITLES = {
-    streets: 'xcvxcvxcv',
-    photos: 'kggkkgg'
+    streets: 'Количество домов на улицах',
+    photos: 'Дома, для которых есть фотографии'
 };
