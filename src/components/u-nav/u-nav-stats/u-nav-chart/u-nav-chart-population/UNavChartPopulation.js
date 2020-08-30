@@ -1,7 +1,7 @@
 import {html, LitElement} from 'lit-element/lit-element';
 import {store} from '../../../../../store';
 import {connect} from 'pwa-helpers';
-import {fetchAddresses} from './UNavChartPopulation.actions';
+import {fetchData} from './UNavChartPopulation.actions';
 import {chartPopulation} from "./UNavChartPopulation.reducer";
 import props from './UNavChartPopulation.props';
 import styles from './UNavChartPopulation.styles';
@@ -35,9 +35,9 @@ export class UNavChartPopulation extends connect(store)(LitElement) {
     }
 
     stateChanged(state) {
-        const population = state.chartPopulation;
-        if (population !== this._population) this.renderPopulationChart(population);
-        this._population = state.chartPopulation;
+        const data = state.chartPopulation;
+        if (data !== this._data) this.renderChart(data);
+        this._data = state.chartPopulation;
     }
 
     firstUpdated() {
@@ -51,7 +51,7 @@ export class UNavChartPopulation extends connect(store)(LitElement) {
     }
 
     _setStore() {
-        store.dispatch(fetchAddresses());
+        store.dispatch(fetchData());
     }
 
     _setReferences() {
@@ -71,7 +71,7 @@ export class UNavChartPopulation extends connect(store)(LitElement) {
         List of custom component's methods
         Any other methods
     */
-    renderPopulationChart(population) {
+    renderChart(population) {
         if (population) {
             const xMax = d3.max(population, item => item.year);
             const yMax = d3.max(population, item => item.value);

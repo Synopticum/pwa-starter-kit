@@ -1,7 +1,7 @@
 import {html, LitElement} from 'lit-element/lit-element';
 import {store} from '../../../../../store';
 import {connect} from 'pwa-helpers';
-import {fetchAddresses} from './UChartStreets.actions';
+import {fetchData} from './UChartStreets.actions';
 import {chartStreets} from "./UChartStreets.reducer";
 import props from './UChartStreets.props';
 import styles from './UChartStreets.styles';
@@ -35,9 +35,9 @@ export class UChartStreets extends connect(store)(LitElement) {
     }
 
     stateChanged(state) {
-        const addresses = state.chartStreets;
-        if (addresses !== this._addresses) this.renderAddressesChart(addresses);
-        this._addresses = state.chartStreets;
+        const data = state.chartStreets;
+        if (data !== this._data) this.renderChart(data);
+        this._data = state.chartStreets;
     }
 
     firstUpdated() {
@@ -51,7 +51,7 @@ export class UChartStreets extends connect(store)(LitElement) {
     }
 
     _setStore() {
-        store.dispatch(fetchAddresses());
+        store.dispatch(fetchData());
     }
 
     _setReferences() {
@@ -70,11 +70,11 @@ export class UChartStreets extends connect(store)(LitElement) {
         List of custom component's methods
         Any other methods
     */
-    renderAddressesChart(addresses) {
-        if (addresses) {
+    renderChart(data) {
+        if (data) {
             const streets = d3.nest()
                 .key(address => address.street)
-                .entries(addresses);
+                .entries(data);
 
             streets.sort((a,b) => b.values.length - a.values.length);
 

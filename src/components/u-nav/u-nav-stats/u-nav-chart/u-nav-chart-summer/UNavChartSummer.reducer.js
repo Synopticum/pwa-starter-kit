@@ -1,19 +1,19 @@
-import {UChartStreets} from "./UChartStreets.actions";
+import {UNavChartSummer} from "./UNavChartSummer.actions";
 import {
     generateErrorActionTypeName,
     generateInProgressActionTypeName,
     generateSuccessActionTypeName
 } from "../../../../../middleware/asyncActionsMiddleware";
 
-export const chartStreets = (state = [], action) => {
+export const chartSummer = (state = [], action) => {
     switch (action.type) {
-        case generateInProgressActionTypeName(UChartStreets.FETCH):
+        case generateInProgressActionTypeName(UNavChartSummer.FETCH):
             return state;
 
-        case generateSuccessActionTypeName(UChartStreets.FETCH):
+        case generateSuccessActionTypeName(UNavChartSummer.FETCH):
             return action.payload;
 
-        case generateErrorActionTypeName(UChartStreets.FETCH):
+        case generateErrorActionTypeName(UNavChartSummer.FETCH):
             return state;
 
         default:

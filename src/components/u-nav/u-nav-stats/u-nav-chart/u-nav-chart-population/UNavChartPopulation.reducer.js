@@ -7,8 +7,6 @@ import {
 
 export const chartPopulation = (state = [], action) => {
     switch (action.type) {
-
-        // -------
         case generateInProgressActionTypeName(UNavChartPopulation.FETCH):
             return state;
 

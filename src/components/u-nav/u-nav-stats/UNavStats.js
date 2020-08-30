@@ -8,6 +8,7 @@ import { CHART_TITLES } from './constants';
 import './u-nav-chart/UNavChart';
 import './u-nav-chart/u-nav-chart-streets/UChartStreets';
 import './u-nav-chart/u-nav-chart-population/UNavChartPopulation';
+import './u-nav-chart/u-nav-chart-summer/UNavChartSummer';
 
 store.addReducers({stats});
 
@@ -85,6 +86,9 @@ export class UNavStats extends connect(store)(LitElement) {
                 </li>
                 <li class="nav__button" @click="${() => this.showChart('population')}">
                     <span class="nav__button-title">${CHART_TITLES.population}</span>
+                </li>
+                <li class="nav__button" @click="${() => this.showChart('summer')}">
+                    <span class="nav__button-title">${CHART_TITLES.summer}</span>
                 </li>
             </ul>
         `;

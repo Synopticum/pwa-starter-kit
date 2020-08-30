@@ -1,14 +1,14 @@
 import {ENV} from '../../../../../../environments/environments';
 import {getApiHeaders} from '../../../../../../environments/api';
 
-export const UChartStreets = {
-    FETCH: 'CHART_STREETS_FETCH'
+export const UNavChartSummer = {
+    FETCH: 'CHART_PHOTOS_FETCH'
 };
 
 // -------
 export const fetchData = () => async (dispatch) => {
     dispatch({
-        type: UChartStreets.FETCH,
+        type: UNavChartSummer.FETCH,
         async: true,
         httpMethodToInvoke: _fetchData,
         params: []
@@ -16,7 +16,7 @@ export const fetchData = () => async (dispatch) => {
 };
 
 const _fetchData = async () => {
-    let response = await fetch(`${ENV[window.ENV].api}/api/stats/addresses`, {
+    let response = await fetch(`${ENV[window.ENV].api}/api/stats/weather/summer`, {
         headers: getApiHeaders(localStorage.token)
     });
 
