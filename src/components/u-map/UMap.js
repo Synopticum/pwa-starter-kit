@@ -113,7 +113,7 @@ class UMap extends connect(store)(LitElement) {
         }
 
         #map {
-            cursor: ${this._settings.isDrawingObject ? 'default' : 'grab'};
+            cursor: grab;
             position: fixed;
             left: 0;
             top: 0;
@@ -124,7 +124,7 @@ class UMap extends connect(store)(LitElement) {
         }
         
         #map:active {
-            cursor: ${this._settings.isDrawingObject ? 'default' : 'grabbing'};
+            cursor: grabbing;
         }
         
         #map::before,
@@ -458,7 +458,6 @@ class UMap extends connect(store)(LitElement) {
     this._map.on('dragstart', () => this._hideControls());
     this._map.on('drag', debounce(this._updateUrl.bind(this), 50));
     this._map.on('zoomend', this._updateUrl.bind(this));
-    this._map.on('click', this.getCoordinates.bind(this));
     this.addEventListener('click', this._handleOutsideClicks);
     this.addEventListener('u-nav-search::set-view-object', e => this._goTo('object', e.detail));
     this.addEventListener('u-nav-search::set-view-dot', e => this._goTo('dot', e.detail));
@@ -1059,19 +1058,6 @@ class UMap extends connect(store)(LitElement) {
     if (e.target === this._$clouds) {
       this._toggleDotCreator(false);
       this._toggleDot(false);
-    }
-  }
-
-  toggleIsDrawingObject() {
-    store.dispatch(setSettings('isDrawingObject', !this._settings.isDrawingPath));
-    this.__currentObject = [];
-  }
-
-  getCoordinates(e) {
-    if (this._settings.isDrawingObject) {
-      const [lat, lng] = [e.latlng.lat.toFixed(2), e.latlng.lng.toFixed(2)];
-      // alert(`[${lat}, ${lng}]`);
-      this.__currentObject.push([lat, lng]);
     }
   }
   // ----- end of listeners -----

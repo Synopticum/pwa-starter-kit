@@ -49,7 +49,6 @@ export const map = (state = {
     },
 
     settings: {
-        isDrawingObject: false
     }
 }, action) => {
     switch (action.type) {
