@@ -9,6 +9,7 @@ import './u-nav-chart/UNavChart';
 import './u-nav-chart/u-nav-chart-streets/UChartStreets';
 import './u-nav-chart/u-nav-chart-population/UNavChartPopulation';
 import './u-nav-chart/u-nav-chart-summer/UNavChartSummer';
+import './u-nav-chart/u-nav-chart-temperature/UNavChartTemperature';
 
 store.addReducers({stats});
 
@@ -81,30 +82,55 @@ export class UNavStats extends connect(store)(LitElement) {
     renderNav() {
         return html`
             <ul class="nav">
-                <li class="nav__button" @click="${() => this.showChart('streets')}">
-                    <span class="nav__button-title">${CHART_TITLES.streets}</span>
+                <li class="nav__group">
+                    <span class="nav__group-title">Люди</span>
+                    <ul class="values">
+                        <li class="values__button" @click="${() => this.showChart('population', { heading: CHART_TITLES.population })}">
+                            <span class="values__button-title">${CHART_TITLES.population}</span>
+                        </li>
+                    </ul>
                 </li>
-                <li class="nav__button" @click="${() => this.showChart('population')}">
-                    <span class="nav__button-title">${CHART_TITLES.population}</span>
+                <li class="nav__group">
+                    <span class="nav__group-title">Архитектура и дома</span>
+                    <ul class="values">
+                        <li class="values__button" @click="${() => this.showChart('streets', { heading: CHART_TITLES.streets })}">
+                            <span class="values__button-title">${CHART_TITLES.streets}</span>
+                        </li>
+                    </ul>
                 </li>
-                <li class="nav__button" @click="${() => this.showChart('summer')}">
-                    <span class="nav__button-title">${CHART_TITLES.summer}</span>
+                <li class="nav__group">
+                    <span class="nav__group-title">Погода</span>
+                    <ul class="values">
+                        <!-- <li class="nav__button" @click="${() => this.showChart('summer', { heading: CHART_TITLES.summer })}">
+                            <span class="nav__button-title">${CHART_TITLES.summer}</span>
+                        </li> -->
+                        <li class="values__button" @click="${() => this.showChart('temperature', { type: 'hottest', heading: CHART_TITLES.temperature.hottest })}">
+                            <span class="values__button-title">${CHART_TITLES.temperature.hottest}</span>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         `;
     }
 
-    showChart(name) {
+    showChart(name, options) {
         this.isNavVisible = false;
         this.$chart.innerHTML = '';
 
-        this.renderChart(name);
+        this.renderChart(name, options);
     }
 
-    renderChart(name) {
+    renderChart(name, options) {
         const el = document.createElement(`u-nav-chart-${name}`);
+
+        if (options) {
+            for (const key of Object.keys(options)) {
+                el.setAttribute(key, options[key]);
+            }
+        }
+
         this.$chart.appendChild(el);
-        this.$chart.setAttribute('heading', CHART_TITLES[name]);
+        this.$chart.setAttribute('heading', options.heading);
     }
 
     clear() {

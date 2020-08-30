@@ -13,6 +13,10 @@ export default css`
     height: 100%;
 }
 
+.chart {
+    width: 450px;
+}
+
 .streets {
 
 }

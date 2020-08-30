@@ -1,10 +1,6 @@
 import {css} from 'lit-element/lit-element';
 
 export default css`
-:host {
-    --fill-color: rgb(147, 55, 53);
-}
-
 .chart {
     width: 490px;
     height: 490px;
@@ -26,7 +22,7 @@ export default css`
 
 path.line {
     fill: none;
-    stroke: var(--fill-color);
+    stroke: rgb(147, 55, 53);
     stroke-width: 2;
 }
 
@@ -37,34 +33,21 @@ path.line {
 
 .group-circle__point {
     cursor: pointer;
-    transition: fill .2s;
-}
-
-.group-circle__point:hover {
-    fill: var(--fill-color);
+    transition: transform .3s, fill .3s;
 }
 
 .group-circle__value {
-    opacity: 0;
-    pointer-events: none;
+    visibility: hidden;
     font-size: 14px;
-    transition: opacity .2s;
-    fill: #fff;
 }
 
 .group-circle__background {
-    opacity: 0;
+    visibility: hidden;
     fill: #fff;
-    transition: opacity .2s;
 }
 
 .group-circle:hover .group-circle__value,
 .group-circle:hover .group-circle__background {
     visibility: visible;
-    opacity: 1;
-}
-
-.group-circle:hover .group-circle__background {
-    fill: var(--fill-color);
 }
 `;

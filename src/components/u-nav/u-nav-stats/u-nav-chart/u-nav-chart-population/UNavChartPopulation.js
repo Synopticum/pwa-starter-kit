@@ -76,8 +76,8 @@ export class UNavChartPopulation extends connect(store)(LitElement) {
             const xMax = d3.max(population, item => item.year);
             const yMax = d3.max(population, item => item.value);
 
-            const xScale = d3.scaleLinear().domain([1959,xMax+10]).range([20,380]);
-            const yScale = d3.scaleLinear().domain([yMax,0]).range([50,350]);
+            const xScale = d3.scaleLinear().domain([1959,xMax+10]).range([20,480]);
+            const yScale = d3.scaleLinear().domain([yMax,0]).range([50,450]);
 
             this._renderAxes(xScale, yScale);
             this._renderLine(xScale, yScale, population);
@@ -88,25 +88,42 @@ export class UNavChartPopulation extends connect(store)(LitElement) {
     _renderCircles(xScale, yScale, data) {
         d3.select(this.$svg)
             .selectAll('circle')
-            .data(data)
+            .data(data.reverse())
             .enter()
             .append('g')
+            .attr('class', 'group-circle')
             .attr('transform', d => `translate(${xScale(d.year)-1}, ${yScale(d.value)-1})`)
-            .each(function () {
+            .each(function (d) {
                 d3.select(this)
                     .append('circle')
-                    .attr('r', 2);
+                    .attr('class', 'group-circle__point')
+                    .attr('r', 3);
+
+                d3.select(this)
+                    .append('text')
+                    .attr('class', 'group-circle__value')
+                    .attr('transform', 'translate(-5,-16)')
+                    .text(`${d.value} чел. (${d.year})`);
+
+                const SVGRect = this.getBBox();
+                d3.select(this)
+                    .insert('rect', '.group-circle__value')
+                    .attr('class', 'group-circle__background')
+                    .attr('x', SVGRect.x-5)
+                    .attr('y', SVGRect.y-5)
+                    .attr('width', SVGRect.width+10)
+                    .attr('height', SVGRect.height-5);
             });
     }
 
     _renderAxes(xScale, yScale) {
-        const xAxis = d3.axisBottom(xScale).ticks(8).tickSize(380).tickFormat(d3.format('d'));
+        const xAxis = d3.axisBottom(xScale).ticks(8).tickSize(480).tickFormat(d3.format('d'));
         d3.select(this.$svg)
             .append('g')
             .attr('id', 'xAxisG')
             .call(xAxis);
 
-        const yAxis = d3.axisRight(yScale).ticks(12).tickSize(350);
+        const yAxis = d3.axisRight(yScale).ticks(12).tickSize(450);
         d3.select(this.$svg)
             .append('g')
             .attr('id', 'yAxisG')

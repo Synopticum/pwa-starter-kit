@@ -18,7 +18,7 @@ export default css`
 }
 
 .u-nav-stats {
-    width: 450px;
+    width: 550px;
     padding: 16px 15px;
     display: flex;
     flex-direction: column;
@@ -65,24 +65,33 @@ export default css`
     margin: 0;
 }
 
-.nav__button {
+.nav__group-title {
+    color: #666;
+    font-size: 18px;
+}
+
+.values {
+    list-style: disc inside;
+    padding: 0;
+    margin: 5px 0 10px 0;
+}
+
+.values__button {
+
+}
+
+.values__button:hover {
+
+}
+
+.values__button-title {
     cursor: pointer;
-    padding: 10px 0;
-    text-align: center;
-    background-color: #eeeeee;
-    border-bottom: 2px solid #fff;
-    transition: background-color .3s;
+    font-size: 16px;
+    text-decoration: underline;
+    transition: color .2s;
 }
 
-.nav__button:hover {
-    background-color: #dddddd;
-}
-
-.nav__button-title {
-    font-size: 17px;
-}
-
-.nav__button-title:hover {
-
+.values__button-title:hover {
+    color: rgb(147, 55, 53);
 }
 `;

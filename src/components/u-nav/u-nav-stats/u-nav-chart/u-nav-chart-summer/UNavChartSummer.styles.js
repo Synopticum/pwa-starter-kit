@@ -4,20 +4,13 @@ export default css`
 .chart {
     width: 390px;
     height: 390px;
+    background-color: #ffffff;
 }
 
-.domain {
-    fill: none;
-    stroke: transparent;
-}
-
-.tick:last-of-type {
-    display: none;
-}
-
-.tick line {
-    stroke: lightgray;
-    shape-rendering: crispEdges;
+path.area {
+    stroke: none;
+    stroke-width: 2;
+    opacity: .5;
 }
 
 path.line {
