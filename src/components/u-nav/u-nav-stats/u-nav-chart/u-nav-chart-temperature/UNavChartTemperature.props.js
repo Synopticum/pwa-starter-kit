@@ -1,6 +1,6 @@
 export default {
-    propertyToReflectInTemplate: {
+    type: {
         type: String,
-        attribute: false
+        attribute: true
     }
 };

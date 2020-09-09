@@ -51,7 +51,7 @@ export class UNavChartTemperature extends connect(store)(LitElement) {
     }
 
     _setStore() {
-        store.dispatch(fetchData());
+        store.dispatch(fetchData(this.type));
     }
 
     _setReferences() {
@@ -74,9 +74,12 @@ export class UNavChartTemperature extends connect(store)(LitElement) {
     renderChart(data) {
         if (data) {
             const xScale = d3.scaleTime()
-                .domain([new Date('1979-01-01 00:00:00 +0000 UTC'), new Date('2021-01-01 00:00:00 +0000 UTC')])
+                .domain([new Date('1978-01-01 00:00:00 +0000 UTC'), new Date('2021-01-01 00:00:00 +0000 UTC')])
                 .range([0,470]);
-            const yScale = d3.scaleLinear().domain([40,20]).range([0,490]);
+            const yScale = d3
+                .scaleLinear()
+                .domain(this.type === 'hottest' ? [40,20] : [0,-60])
+                .range([0,490]);
 
             this._renderAxes(xScale, yScale);
             this._renderLine(xScale, yScale, data);
@@ -102,7 +105,6 @@ export class UNavChartTemperature extends connect(store)(LitElement) {
 
     _renderLine(xScale, yScale, data) {
         const line = d3.line()
-            .curve(d3.curveCardinal)
             .x(d => xScale(new Date(d.dt_iso)))
             .y(d => yScale(d.main.temp_max));
 
@@ -130,7 +132,7 @@ export class UNavChartTemperature extends connect(store)(LitElement) {
                     .append('text')
                     .attr('class', 'group-circle__value')
                     .attr('transform', 'translate(-5,-16)')
-                    .text(`+${d.main.temp_max}° (${new Date(d.dt_iso).getFullYear()})`);
+                    .text(`${d.main.temp_max}° (${new Date(d.dt_iso).getFullYear()})`);
 
 
                 const SVGRect = this.getBBox();

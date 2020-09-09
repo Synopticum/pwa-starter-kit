@@ -77,7 +77,7 @@ export default css`
 }
 
 .values__button {
-
+    margin: 3px 0;
 }
 
 .values__button:hover {

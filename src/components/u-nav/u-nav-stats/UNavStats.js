@@ -107,6 +107,9 @@ export class UNavStats extends connect(store)(LitElement) {
                         <li class="values__button" @click="${() => this.showChart('temperature', { type: 'hottest', heading: CHART_TITLES.temperature.hottest })}">
                             <span class="values__button-title">${CHART_TITLES.temperature.hottest}</span>
                         </li>
+                        <li class="values__button" @click="${() => this.showChart('temperature', { type: 'lowest', heading: CHART_TITLES.temperature.lowest })}">
+                            <span class="values__button-title">${CHART_TITLES.temperature.lowest}</span>
+                        </li>
                     </ul>
                 </li>
             </ul>

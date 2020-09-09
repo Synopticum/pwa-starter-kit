@@ -6,17 +6,17 @@ export const UNavChartTemperature = {
 };
 
 // -------
-export const fetchData = () => async (dispatch) => {
+export const fetchData = type => async (dispatch) => {
     dispatch({
         type: UNavChartTemperature.FETCH,
         async: true,
         httpMethodToInvoke: _fetchData,
-        params: []
+        params: [type]
     });
 };
 
-const _fetchData = async () => {
-    let response = await fetch(`${ENV[window.ENV].api}/api/stats/weather/temperature/hottest`, {
+const _fetchData = async type => {
+    let response = await fetch(`${ENV[window.ENV].api}/api/stats/weather/temperature/${type}`, {
         headers: getApiHeaders(localStorage.token)
     });
 
