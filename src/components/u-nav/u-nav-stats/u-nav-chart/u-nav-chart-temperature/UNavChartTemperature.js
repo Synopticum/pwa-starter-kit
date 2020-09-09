@@ -115,7 +115,7 @@ export class UNavChartTemperature extends connect(store)(LitElement) {
     _renderCircles(xScale, yScale, data) {
         d3.select(this.$svg)
             .selectAll('circle')
-            .data(data)
+            .data(data.reverse())
             .enter()
             .append('g')
             .attr('class', 'group-circle')
@@ -129,7 +129,7 @@ export class UNavChartTemperature extends connect(store)(LitElement) {
                 d3.select(this)
                     .append('text')
                     .attr('class', 'group-circle__value')
-                    .attr('transform', 'translate(0,-5)')
+                    .attr('transform', 'translate(-5,-16)')
                     .text(`+${d.main.temp_max}° (${new Date(d.dt_iso).getFullYear()})`);
 
 
@@ -137,10 +137,10 @@ export class UNavChartTemperature extends connect(store)(LitElement) {
                 d3.select(this)
                     .insert('rect', '.group-circle__value')
                     .attr('class', 'group-circle__background')
-                    .attr('x', SVGRect.x)
-                    .attr('y', SVGRect.y)
-                    .attr('width', SVGRect.width)
-                    .attr('height', SVGRect.height);
+                    .attr('x', SVGRect.x-5)
+                    .attr('y', SVGRect.y-5)
+                    .attr('width', SVGRect.width+10)
+                    .attr('height', SVGRect.height-5);
             });
     }
 }

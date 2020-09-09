@@ -91,7 +91,7 @@ export class UNav extends connect(store)(LitElement) {
         Any other methods
     */
     toggleSearch() {
-        this.isStatsVisible = false;
+        this.isStatsVisible = true;
         this.isSearchVisible = !this.isSearchVisible;
     }
 

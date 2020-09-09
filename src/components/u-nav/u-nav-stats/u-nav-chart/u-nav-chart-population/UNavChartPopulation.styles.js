@@ -60,7 +60,6 @@ path.line {
 
 .group-circle:hover .group-circle__value,
 .group-circle:hover .group-circle__background {
-    visibility: visible;
     opacity: 1;
 }
 
